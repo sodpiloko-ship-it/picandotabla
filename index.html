@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Picando Tabla · Tablas de parota & maridaje · CDMX</title>
+<meta name="description" content="Tablas de queso de parota, hechas en México. El regalo perfecto para quien ama el vino. Personalizadas con grabado. Entregas en CDMX.">
+<link rel="canonical" href="https://picandotabla.com/">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#7d2436">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Picando Tabla · Tablas de parota & maridaje">
+<meta property="og:description" content="Tablas de queso de parota, hechas en México. El regalo perfecto para quien ama el vino. Entregas en CDMX.">
+<meta property="og:url" content="https://picandotabla.com/">
+<meta property="og:locale" content="es_MX">
+<style>
+:root{
+  --paper:#f7f1e6;--card:#fffdf8;--wood:#7a4a2b;--wood-d:#5c3720;--wood-l:#a06b3f;
+  --wine:#7d2436;--wine-d:#5f1a28;--gold:#c79a4a;--sage:#7c8a5a;
+  --ink:#2e2620;--ink-soft:#6a5e51;--ink-mute:#9b8d7c;--line:#e7dcc9;
+  --serif:Georgia,'Times New Roman',serif;--sans:-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
+  --r:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.15}
+a{color:inherit;text-decoration:none}
+img,svg{display:block;max-width:100%}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+:focus-visible{outline:2px solid var(--wine);outline-offset:2px;border-radius:4px}
+.wrap{max-width:1140px;margin:0 auto;padding:0 22px}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:20;background:rgba(247,241,230,.92);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);display:flex;align-items:center;gap:20px;padding:14px 22px}
+.logo{font-family:var(--serif);font-size:22px;font-weight:600;color:var(--wood-d);letter-spacing:.01em}
+.logo small{display:block;font-family:var(--sans);font-size:9px;letter-spacing:.32em;text-transform:uppercase;color:var(--ink-mute);font-weight:700;margin-top:-2px}
+.links{display:flex;gap:22px;margin-left:auto;font-size:14.5px}
+.links a{color:var(--ink-soft);font-weight:600;padding:4px 0;border-bottom:2px solid transparent}
+.links a:hover{color:var(--wine);border-color:var(--wine)}
+.cartbtn{position:relative;font-size:15px;background:var(--wine);color:#fff;border-radius:999px;padding:8px 16px;font-weight:700}
+.cartbtn .c{background:var(--gold);color:var(--wood-d);border-radius:999px;font-size:11px;padding:1px 7px;margin-left:4px;font-weight:800}
+
+/* buttons */
+.btn{display:inline-block;background:var(--wine);color:#fff;border-radius:999px;padding:12px 26px;font-weight:700;font-size:15px;transition:.15s}
+.btn:hover{background:var(--wine-d);transform:translateY(-1px)}
+.btn.ghost{background:transparent;color:var(--wine);border:1.5px solid var(--wine)}
+.btn.ghost:hover{background:var(--wine);color:#fff}
+.btn.gold{background:var(--gold);color:var(--wood-d)}.btn.block{display:block;width:100%;text-align:center}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+/* hero */
+.hero{background:linear-gradient(150deg,#efe2cd,#f7f1e6 55%);border-bottom:1px solid var(--line)}
+.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:36px;align-items:center;padding-top:46px;padding-bottom:46px}
+.eyebrow{font-size:11.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--wine);font-weight:800}
+.hero h1{font-size:clamp(30px,5vw,50px);margin:14px 0 14px;color:var(--wood-d)}
+.hero p{font-size:18px;color:var(--ink-soft);max-width:34ch}
+.hero .cta{margin-top:24px;display:flex;gap:12px;flex-wrap:wrap}
+.hero .ship{margin-top:16px;font-size:13px;color:var(--ink-mute)}
+.heroart{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:14px;box-shadow:0 18px 50px rgba(90,55,32,.14)}
+
+/* sections */
+section{padding:52px 0}
+.sec-head{text-align:center;max-width:60ch;margin:0 auto 30px}
+.sec-head h2{font-size:clamp(24px,3.4vw,34px);color:var(--wood-d)}
+.sec-head p{color:var(--ink-soft);margin-top:8px;font-size:16px}
+.kicker{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--wine);font-weight:800}
+
+/* value props */
+.props{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.prop{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px;text-align:center}
+.prop .ic{font-size:26px}.prop b{display:block;font-family:var(--serif);font-size:17px;margin:10px 0 4px;color:var(--wood-d)}
+.prop span{font-size:13.5px;color:var(--ink-soft)}
+
+/* product grid */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.pcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;transition:.15s;display:flex;flex-direction:column}
+.pcard:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(90,55,32,.13)}
+.pcard .ph{aspect-ratio:4/3;background:#efe6d4;position:relative}
+.pcard .ph .tier{position:absolute;top:10px;left:10px;background:rgba(255,253,248,.92);color:var(--wine);font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:999px}
+.pcard .body{padding:16px 18px 18px;display:flex;flex-direction:column;flex:1}
+.pcard h3{font-size:19px;color:var(--wood-d)}
+.pcard .serves{font-size:12.5px;color:var(--ink-mute);margin:3px 0 8px}
+.pcard .desc{font-size:13.5px;color:var(--ink-soft);flex:1}
+.pcard .row{display:flex;align-items:center;justify-content:space-between;margin-top:14px;gap:10px}
+.price{font-family:var(--serif);font-size:21px;color:var(--wine);font-weight:700}
+.price small{font-size:12px;color:var(--ink-mute);font-weight:400}
+
+/* gift band */
+.band{background:linear-gradient(120deg,var(--wood-d),var(--wood));color:#f7f1e6;border-radius:24px;padding:38px;text-align:center}
+.band h2{color:#fff;font-size:28px}.band p{max-width:46ch;margin:10px auto 20px;color:#f0e4d0}
+
+/* product detail */
+.detail{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+.detail .media{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px;position:sticky;top:80px}
+.detail h1{font-size:34px;color:var(--wood-d);margin:6px 0 6px}
+.detail .lead{font-size:16px;color:var(--ink-soft);margin:12px 0}
+.detail .price{font-size:28px;display:block;margin:6px 0 18px}
+.field{margin:14px 0}.field label{display:block;font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.field input,.field select{width:100%;background:#fff;border:1px solid var(--line);border-radius:10px;padding:11px 13px;font-size:15px;font-family:inherit;color:var(--ink)}
+.qty{display:flex;align-items:center;gap:0;width:max-content;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff}
+.qty button{width:40px;height:42px;font-size:18px;color:var(--wine)}.qty span{width:46px;text-align:center;font-weight:700}
+.marida{background:#f0ede1;border-left:3px solid var(--sage);border-radius:10px;padding:13px 15px;margin-top:18px;font-size:14px;color:var(--ink-soft)}
+.marida b{color:var(--sage)}
+.delivery{font-size:13px;color:var(--ink-mute);margin-top:14px}
+
+/* cart */
+.cart{max-width:780px;margin:0 auto}
+.citem{display:grid;grid-template-columns:88px 1fr auto;gap:16px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+.citem .thumb{width:88px;height:66px;border-radius:10px;overflow:hidden;background:#efe6d4}
+.citem .nm{font-family:var(--serif);font-size:17px;color:var(--wood-d)}
+.citem .eng{font-size:12.5px;color:var(--ink-mute)}
+.citem .pr{text-align:right;font-weight:700;color:var(--wine);white-space:nowrap}
+.citem .rm{font-size:12px;color:var(--ink-mute);text-decoration:underline;margin-top:4px}
+.summary{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;margin-top:8px}
+.summary .ln{display:flex;justify-content:space-between;padding:6px 0;font-size:15px;color:var(--ink-soft)}
+.summary .tot{border-top:1px solid var(--line);margin-top:8px;padding-top:12px;font-family:var(--serif);font-size:22px;color:var(--wood-d);font-weight:700}
+.empty{text-align:center;padding:60px 20px;color:var(--ink-mute)}
+.empty .big{font-size:48px}
+
+/* maridaje + nosotros */
+.prose{max-width:720px;margin:0 auto}.prose p{margin:12px 0;color:var(--ink-soft);font-size:16.5px}
+.pair{display:flex;gap:14px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin:10px 0}
+.pair .e{font-size:24px}.pair b{color:var(--wood-d)}
+.note{background:#f0ede1;border-radius:12px;padding:14px 16px;font-size:13.5px;color:var(--ink-mute);margin-top:18px}
+
+/* footer */
+footer{background:var(--wood-d);color:#e9dcc6;margin-top:40px;padding:40px 0 30px}
+footer .wrap{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:24px}
+footer b{font-family:var(--serif);font-size:16px;color:#fff;display:block;margin-bottom:6px}
+footer p,footer a{font-size:13.5px;color:#d8c8ad;line-height:1.7}
+footer a:hover{color:#fff}
+.copy{border-top:1px solid rgba(255,255,255,.12);margin-top:26px;padding-top:16px;font-size:12px;color:#b9a886}
+
+@media(max-width:900px){
+  .hero .wrap,.detail{grid-template-columns:1fr}
+  .props{grid-template-columns:1fr 1fr}.grid{grid-template-columns:1fr 1fr}
+  footer .wrap{grid-template-columns:1fr 1fr}
+  .detail .media{position:static}
+}
+@media(max-width:560px){.grid,.props{grid-template-columns:1fr}.links{display:none}}
+</style>
+</head>
+<body>
+<header class="nav">
+  <a class="logo" href="#/">Picando Tabla<small>parota & maridaje</small></a>
+  <nav class="links">
+    <a href="#/tienda">Tienda</a>
+    <a href="#/maridaje">Maridaje</a>
+    <a href="#/nosotros">Nosotros</a>
+  </nav>
+  <button class="cartbtn" id="cartBtn">Carrito<span class="c" id="cartCount">0</span></button>
+</header>
+
+<main id="app"></main>
+
+<footer>
+  <div class="wrap">
+    <div><b>Picando Tabla</b><p>Tablas de parota mexicana, hechas a mano. La mesa que se queda en la memoria — y el regalo perfecto para quien ama el vino.</p></div>
+    <div><b>Entregas</b><p>CDMX (etapa 1)<br>Pronto: Estado de México</p></div>
+    <div><b>Importante</b><p>No vendemos vino ni alcohol. Vendemos la tabla y sus accesorios; el maridaje es nuestra curaduría.</p></div>
+    <div><b>Contacto</b><p><a href="#/nosotros">Nosotros</a><br>WhatsApp · Instagram (pronto)</p></div>
+  </div>
+  <div class="wrap copy">© 2026 Picando Tabla · picandotabla.com · Hecho en México</div>
+</footer>
+
+<script>
+// ---------- catálogo v0 (de wine.md; precios de referencia, se fijan con costo real) ----------
+const PRODUCTS = [
+  {id:'diario', name:'La de Diario', tier:'Entrada', price:590, serves:'Rinde para 2', wood:'#a06b3f', cat:'tabla', engrave:true,
+   desc:'Tabla redonda de parota para dos. La que sacas un martes cualquiera porque sí. Grabado básico opcional.',
+   marida:'Queso fresco + uvas + un tinto joven y ligero.'},
+  {id:'anfitrion', name:'La del Anfitrión', tier:'Regalo', price:1090, serves:'Rinde para 4–6', wood:'#7a4a2b', cat:'tabla', engrave:true,
+   desc:'Tabla + set de cuchillos para queso + cava, en caja de regalo con grabado. El regalo que se ve bonito y además se usa.',
+   marida:'Tres quesos (fresco, semi y azul) + un tinto con cuerpo.'},
+  {id:'grandes', name:'La de las Grandes Mesas', tier:'Premium', price:1690, serves:'Rinde para 8+', wood:'#5c3720', cat:'tabla', engrave:true,
+   desc:'Tabla XL de parota, veta única e irrepetible, para reuniones que se alargan. Una pieza de por vida.',
+   marida:'Tabla generosa con varios quesos para ir comparando tintos.'},
+  {id:'bundle', name:'Tabla + Maridaje', tier:'Bundle', price:1290, serves:'Rinde para 4–6', wood:'#6b3f22', cat:'tabla', engrave:true,
+   desc:'Tabla grabada + accesorio de vino (sacacorchos o cava) + nuestro recetario de maridaje. Llega listo para regalar.',
+   marida:'Incluye la guía: qué queso con qué vino, paso a paso.'},
+  {id:'cuchillos', name:'Set de Cuchillos para Queso', tier:'Accesorio', price:390, serves:'4 piezas', wood:'#9b8d7c', cat:'accesorio', engrave:false,
+   desc:'Cuatro piezas para cortar, untar y servir como se debe. El complemento de cualquier tabla.', marida:''},
+  {id:'sacacorchos', name:'Sacacorchos de Palanca', tier:'Accesorio', price:290, serves:'', wood:'#7d2436', cat:'accesorio', engrave:false,
+   desc:'Abre la botella sin pelear. El detalle que completa la mesa.', marida:''},
+  {id:'recetario', name:'Recetario de Maridaje', tier:'Digital', price:120, serves:'Descargable', wood:'#7c8a5a', cat:'accesorio', engrave:false,
+   desc:'Nuestra guía de maridaje queso–vino para descargar. Curaduría, no venta de vino.', marida:''},
+];
+const byId = id => PRODUCTS.find(p=>p.id===id);
+const money = n => '$'+n.toLocaleString('es-MX');
+
+// ---------- carrito (localStorage) ----------
+const CKEY='picandotabla_cart_v1';
+let cart = load();
+function load(){ try{return JSON.parse(localStorage.getItem(CKEY))||[]}catch(e){return []} }
+function save(){ localStorage.setItem(CKEY, JSON.stringify(cart)); paintCount(); }
+function add(id, qty, eng){ const ex=cart.find(i=>i.id===id && (i.eng||'')===(eng||'')); if(ex)ex.qty+=qty; else cart.push({id,qty,eng:eng||''}); save(); }
+function setQty(i,q){ cart[i].qty=Math.max(1,q); save(); }
+function removeItem(i){ cart.splice(i,1); save(); }
+function count(){ return cart.reduce((s,i)=>s+i.qty,0); }
+function subtotal(){ return cart.reduce((s,i)=>s+byId(i.id).price*i.qty,0); }
+function paintCount(){ document.getElementById('cartCount').textContent = count(); }
+
+// ---------- ilustración de tabla (placeholder self-contained; foto real = Jessica) ----------
+function shade(hex,p){const n=parseInt(hex.slice(1),16);let r=(n>>16)+p,g=((n>>8)&255)+p,b=(n&255)+p;
+  r=Math.max(0,Math.min(255,r));g=Math.max(0,Math.min(255,g));b=Math.max(0,Math.min(255,b));
+  return '#'+((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1);}
+function board(p,big){const w=p.wood;return `<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" style="width:100%;height:100%" role="img" aria-label="Tabla ${p.name}">
+  <rect width="400" height="300" fill="#efe6d4"/>
+  <ellipse cx="200" cy="168" rx="178" ry="104" fill="${shade(w,-22)}"/>
+  <ellipse cx="200" cy="156" rx="170" ry="96" fill="${w}"/>
+  <ellipse cx="200" cy="150" rx="150" ry="80" fill="${shade(w,16)}" opacity=".45"/>
+  <g opacity=".55" stroke="${shade(w,-30)}" stroke-width="1.4" fill="none">
+    <path d="M70 150 q130 -28 260 0"/><path d="M74 168 q126 24 252 0"/><path d="M90 134 q110 -16 220 2"/></g>
+  <!-- quesos -->
+  <polygon points="150,120 196,138 150,156" fill="#f0d98a" stroke="#e2c469" stroke-width="2"/>
+  <circle cx="166" cy="138" r="2.2" fill="#d9b94e"/><circle cx="176" cy="134" r="1.8" fill="#d9b94e"/>
+  <rect x="205" y="120" width="44" height="30" rx="4" fill="#f6e6b8" stroke="#e2c469" stroke-width="2"/>
+  <!-- uvas -->
+  <g fill="#6d4a7c">${[0,1,2,3,4,5].map(i=>`<circle cx="${250+(i%3)*12}" cy="${158+Math.floor(i/3)*11}" r="6.5"/>`).join('')}</g>
+  <!-- crackers -->
+  <rect x="120" y="170" width="26" height="18" rx="4" fill="#d8b78a" stroke="#c39e6f" stroke-width="1.5"/>
+  <rect x="152" y="176" width="26" height="18" rx="4" fill="#d8b78a" stroke="#c39e6f" stroke-width="1.5"/>
+  <!-- sprig -->
+  <g stroke="#7c8a5a" stroke-width="2.4" fill="none" stroke-linecap="round"><path d="M300 132 l16 -14"/><path d="M306 130 l5 -9"/><path d="M312 126 l6 -8"/></g>
+</svg>`;}
+
+// ---------- vistas ----------
+function pcard(p){return `<a class="pcard" href="#/producto/${p.id}">
+  <div class="ph">${board(p)}<span class="tier">${p.tier}</span></div>
+  <div class="body"><h3>${p.name}</h3><div class="serves">${p.serves||'&nbsp;'}</div>
+  <div class="desc">${p.desc}</div>
+  <div class="row"><span class="price">${money(p.price)}</span><span class="btn ghost" style="padding:8px 16px;font-size:13.5px">Ver</span></div></div></a>`;}
+
+function home(){
+  const feat = PRODUCTS.filter(p=>p.cat==='tabla');
+  return `
+  <div class="hero"><div class="wrap">
+    <div>
+      <div class="eyebrow">Hecho en México · Entregas en CDMX</div>
+      <h1>La tabla que convierte una botella en una sobremesa.</h1>
+      <p>Tablas de <b>parota</b> mexicana, hechas a mano y personalizadas con grabado. El regalo perfecto para quien ama el vino.</p>
+      <div class="cta"><a class="btn" href="#/tienda">Ver las tablas</a><a class="btn ghost" href="#/maridaje">Guía de maridaje</a></div>
+      <div class="ship">🚚 Envíos en CDMX · personalización con grabado · empaque de regalo</div>
+    </div>
+    <div class="heroart">${board(PRODUCTS[1],true)}</div>
+  </div></div>
+
+  <section class="wrap"><div class="props">
+    <div class="prop"><div class="ic">🌳</div><b>Parota mexicana</b><span>Madera noble de veta única. Una pieza de por vida, no un desechable.</span></div>
+    <div class="prop"><div class="ic">✍️</div><b>Personalizada</b><span>Grabado con nombre o fecha. El regalo que se siente hecho para esa persona.</span></div>
+    <div class="prop"><div class="ic">🍷</div><b>Pensada para maridar</b><span>Te decimos qué queso con qué vino. La curaduría va incluida.</span></div>
+    <div class="prop"><div class="ic">🎁</div><b>Lista para regalar</b><span>Caja de regalo + tarjeta. No regalas una tabla, regalas una sobremesa.</span></div>
+  </div></section>
+
+  <section class="wrap"><div class="sec-head"><div class="kicker">Nuestras tablas</div><h2>Elige la tuya</h2>
+    <p>Cuatro formas de armar la mesa. Todas en parota, todas personalizables.</p></div>
+    <div class="grid">${feat.map(pcard).join('')}</div>
+  </section>
+
+  <section class="wrap"><div class="band">
+    <div class="kicker" style="color:var(--gold)">Para regalar</div>
+    <h2>¿Es para alguien especial?</h2>
+    <p>Le grabamos su nombre, lo armamos en caja de regalo y le ponemos tarjeta. Llega listo para sorprender.</p>
+    <a class="btn gold" href="#/tienda">Personalizar una tabla</a>
+  </div></section>
+
+  <section class="wrap"><div class="sec-head"><div class="kicker">Sin complicarte</div><h2>Maridar es más fácil de lo que crees</h2>
+    <p>Con cada tabla te mandamos cómo armarla y qué vino va con qué queso. Tú solo abres la botella.</p></div>
+    <div style="text-align:center"><a class="btn ghost" href="#/maridaje">Ver la guía de maridaje</a></div>
+  </section>`;
+}
+
+function shop(){
+  const tablas=PRODUCTS.filter(p=>p.cat==='tabla'), acc=PRODUCTS.filter(p=>p.cat==='accesorio');
+  return `<section class="wrap">
+    <div class="sec-head"><div class="kicker">Tienda</div><h2>Tablas & accesorios</h2>
+      <p>Parota mexicana, hecha a mano. Personalización con grabado en todas las tablas. Entregas en CDMX.</p></div>
+    <h3 style="color:var(--wood-d);margin:0 0 16px;font-size:20px">Tablas</h3>
+    <div class="grid">${tablas.map(pcard).join('')}</div>
+    <h3 style="color:var(--wood-d);margin:34px 0 16px;font-size:20px">Accesorios</h3>
+    <div class="grid">${acc.map(pcard).join('')}</div>
+    <div class="note wrap" style="max-width:none;margin-top:26px">Precios de referencia (v0). Las fotos reales de las tablas y los precios finales se confirman con la producción. <b>No vendemos vino ni alcohol</b>: el maridaje es nuestra curaduría.</div>
+  </section>`;
+}
+
+function product(id){
+  const p=byId(id); if(!p) return `<section class="wrap"><p>Producto no encontrado. <a href="#/tienda">Volver a la tienda</a></p></section>`;
+  return `<section class="wrap">
+    <a href="#/tienda" style="color:var(--ink-mute);font-size:13.5px">← Tienda</a>
+    <div class="detail" style="margin-top:14px">
+      <div class="media">${board(p,true)}</div>
+      <div>
+        <div class="eyebrow">${p.tier}</div>
+        <h1>${p.name}</h1>
+        <div class="serves" style="color:var(--ink-mute);font-size:14px">${p.serves||''}</div>
+        <span class="price">${money(p.price)} <small style="font-size:13px;color:var(--ink-mute)">MXN</small></span>
+        <p class="lead">${p.desc}</p>
+        ${p.engrave?`<div class="field"><label for="eng">Grabado (opcional) — nombre, fecha o frase corta</label>
+          <input id="eng" maxlength="28" placeholder="Ej. Para Ana · 2026"></div>`:''}
+        <div class="field"><label>Cantidad</label>
+          <div class="qty"><button onclick="stepQ(-1)">−</button><span id="q">1</span><button onclick="stepQ(1)">+</button></div></div>
+        <button class="btn block" style="margin-top:8px" onclick="addFromDetail('${p.id}')">Agregar al carrito · ${money(p.price)}</button>
+        ${p.marida?`<div class="marida"><b>Marida con:</b> ${p.marida}</div>`:''}
+        <div class="delivery">🚚 Entregas en CDMX (etapa 1). Producción artesanal: te confirmamos el tiempo al hacer el pedido.</div>
+      </div>
+    </div>
+  </section>`;
+}
+let _q=1; function stepQ(d){_q=Math.max(1,_q+d);document.getElementById('q').textContent=_q;}
+function addFromDetail(id){const e=document.getElementById('eng');add(id,_q,e?e.value.trim():'');toast('Agregado al carrito');location.hash='#/carrito';}
+
+function cartView(){
+  if(!cart.length) return `<section class="wrap"><div class="empty"><div class="big">🪵</div><h2 style="color:var(--wood-d);margin:10px 0 6px">Tu carrito está vacío</h2><p>Aún no agregas ninguna tabla.</p><a class="btn" style="margin-top:16px" href="#/tienda">Ir a la tienda</a></div></section>`;
+  const rows=cart.map((it,i)=>{const p=byId(it.id);return `<div class="citem">
+    <div class="thumb">${board(p)}</div>
+    <div><div class="nm">${p.name}</div>${it.eng?`<div class="eng">Grabado: “${it.eng}”</div>`:''}
+      <div class="qty" style="margin-top:6px;transform:scale(.86);transform-origin:left"><button onclick="cq(${i},-1)">−</button><span>${it.qty}</span><button onclick="cq(${i},1)">+</button></div></div>
+    <div><div class="pr">${money(p.price*it.qty)}</div><button class="rm" onclick="rm(${i})">quitar</button></div></div>`;}).join('');
+  return `<section class="wrap cart"><div class="sec-head" style="margin-bottom:18px"><h2>Tu carrito</h2></div>
+    ${rows}
+    <div class="summary">
+      <div class="ln"><span>Subtotal</span><span>${money(subtotal())}</span></div>
+      <div class="ln"><span>Envío (CDMX)</span><span>Se calcula al confirmar</span></div>
+      <div class="ln tot"><span>Total</span><span>${money(subtotal())}</span></div>
+      <a class="btn block" style="margin-top:16px" href="#/pagar">Finalizar compra</a>
+      <a class="btn ghost block" style="margin-top:10px" href="#/tienda">Seguir viendo</a>
+    </div></section>`;
+}
+function cq(i,d){setQty(i,cart[i].qty+d);render();}
+function rm(i){removeItem(i);render();}
+
+function checkout(){
+  if(!cart.length){location.hash='#/tienda';return '';}
+  return `<section class="wrap" style="max-width:640px">
+    <div class="sec-head"><div class="kicker">Casi listo</div><h2>Tus datos</h2></div>
+    <div class="summary" style="margin-bottom:18px">
+      ${cart.map(it=>{const p=byId(it.id);return `<div class="ln"><span>${it.qty}× ${p.name}${it.eng?' ✍️':''}</span><span>${money(p.price*it.qty)}</span></div>`}).join('')}
+      <div class="ln tot"><span>Total</span><span>${money(subtotal())}</span></div></div>
+    <div class="field"><label>Nombre</label><input id="f_n" placeholder="Tu nombre"></div>
+    <div class="field"><label>WhatsApp</label><input id="f_w" placeholder="55 0000 0000"></div>
+    <div class="field"><label>Correo</label><input id="f_e" placeholder="tu@correo.com"></div>
+    <div class="field"><label>Alcaldía / zona (CDMX)</label><input id="f_z" placeholder="Ej. Benito Juárez"></div>
+    <button class="btn block" onclick="placeOrder()">Confirmar pedido</button>
+    <div class="note">El pago en línea con <b>Stripe</b> está en configuración. Por ahora confirmamos tu pedido y cerramos el pago contigo por <b>WhatsApp</b> (transferencia o link de pago). Entregas en CDMX (etapa 1).</div>
+  </section>`;
+}
+function placeOrder(){
+  const n=(document.getElementById('f_n')||{}).value||'';
+  if(!n.trim()){toast('Pon tu nombre para continuar');return;}
+  location.hash='#/gracias';
+}
+function thanks(){const t=subtotal();cart=[];save();return `<section class="wrap" style="max-width:560px;text-align:center;padding-top:40px">
+  <div style="font-size:54px">🎉</div><h2 style="color:var(--wood-d);margin:10px 0">¡Gracias por tu pedido!</h2>
+  <p style="color:var(--ink-soft)">Lo recibimos. Te escribimos por WhatsApp para confirmar el grabado, el pago y la entrega en CDMX.</p>
+  <p style="color:var(--ink-mute);font-size:14px;margin-top:8px">Total del pedido: <b>${money(t)}</b></p>
+  <a class="btn" style="margin-top:20px" href="#/">Volver al inicio</a></section>`;}
+
+function maridaje(){
+  const pairs=[
+    ['🧀','Queso fresco / panela','Un blanco ligero o un rosado. Fresco con fresco.'],
+    ['🧀','Manchego / gouda','Un tinto joven (tempranillo). El clásico que nunca falla.'],
+    ['🫕','Brie / camembert','Un espumoso o un blanco con cuerpo. La cremosidad pide burbujas.'],
+    ['🔵','Queso azul','Un tinto dulce o un vino de postre. Lo intenso con lo dulce.'],
+    ['🍇','Uvas, nueces y miel','Acompañan casi cualquier tinto y le bajan el filo.'],
+  ];
+  return `<section class="wrap"><div class="sec-head"><div class="kicker">Curaduría</div><h2>Guía de maridaje</h2>
+    <p>Lo básico para armar una tabla que marida sola. Tú abres la botella; nosotros te decimos el resto.</p></div>
+    <div class="prose">
+      ${pairs.map(p=>`<div class="pair"><span class="e">${p[0]}</span><div><b>${p[1]}</b><br><span style="color:var(--ink-soft)">${p[2]}</span></div></div>`).join('')}
+      <div class="note">Esto es <b>contenido y curaduría</b>: te orientamos sobre qué vino combina. <b>No vendemos vino ni alcohol</b> — vendemos la tabla y sus accesorios.</div>
+      <div style="text-align:center;margin-top:24px"><a class="btn" href="#/tienda">Ver las tablas</a></div>
+    </div></section>`;
+}
+
+function nosotros(){
+  return `<section class="wrap"><div class="sec-head"><div class="kicker">Nosotros</div><h2>Una mesa que empezó con dos copas</h2></div>
+    <div class="prose">
+      <p>Picando Tabla nació del gusto por el vino y por las sobremesas que no se quieren acabar. Somos una sociedad familiar que quería que la mesa fuera tan bonita como el momento.</p>
+      <p>Buscábamos una tabla que valiera la pena regalar — de madera de verdad, mexicana, con historia — y no la encontramos. Así que la hicimos. Trabajamos la <b>parota</b>, una madera noble de veta única, y la convertimos en el objeto que reúne a la gente alrededor del queso y el vino.</p>
+      <p>Cada tabla se hace a mano y se puede grabar, porque un regalo se siente distinto cuando lleva un nombre. Y porque, al final, <b>no se regala una tabla: se regala una sobremesa.</b></p>
+      <div class="note">Empezamos en <b>CDMX</b> (pronto Estado de México). No vendemos vino ni alcohol: vendemos la tabla y sus accesorios, y el maridaje es nuestra curaduría.</div>
+      <div style="text-align:center;margin-top:24px"><a class="btn" href="#/tienda">Conoce las tablas</a></div>
+    </div></section>`;
+}
+
+// ---------- router ----------
+function render(){
+  const h=location.hash.replace('#','')||'/';
+  const parts=h.split('/').filter(Boolean);
+  let view;
+  if(parts[0]==='tienda') view=shop();
+  else if(parts[0]==='producto') view=product(parts[1]);
+  else if(parts[0]==='carrito') view=cartView();
+  else if(parts[0]==='pagar') view=checkout();
+  else if(parts[0]==='gracias') view=thanks();
+  else if(parts[0]==='maridaje') view=maridaje();
+  else if(parts[0]==='nosotros') view=nosotros();
+  else view=home();
+  _q=1;
+  document.getElementById('app').innerHTML=view;
+  paintCount();
+  window.scrollTo(0,0);
+}
+document.getElementById('cartBtn').onclick=()=>location.hash='#/carrito';
+function toast(m){const t=document.createElement('div');t.textContent=m;
+  t.style.cssText='position:fixed;left:50%;bottom:26px;transform:translateX(-50%);background:#2e2620;color:#fff;padding:11px 20px;border-radius:999px;font-size:14px;z-index:50;box-shadow:0 8px 24px rgba(0,0,0,.2)';
+  document.body.appendChild(t);setTimeout(()=>t.remove(),1600);}
+window.addEventListener('hashchange',render);
+render();
+</script>
+</body>
+</html>
