@@ -7,3 +7,6 @@ Thumbs.db
 # nada de secretos en el repo del sitio
 .env
 secrets/
+
+# pedidos (PII, se crean en el servidor)
+data/

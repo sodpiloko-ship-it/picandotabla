@@ -244,6 +244,8 @@ function ptPedidoMsg(n,w,z,d){return 'Hola Picando Tabla, quiero este pedido:\n'
 function placeOrder(){const n=(document.getElementById('f_n')||{}).value||'';if(!n.trim()){toast('Pon tu nombre para continuar');return;}
   const w=(document.getElementById('f_w')||{}).value||'',z=(document.getElementById('f_z')||{}).value||'',d=(document.getElementById('f_d')||{}).value||'';
   const msg=ptPedidoMsg(n,w,z,d);
+  try{var _pl=JSON.stringify({nombre:n,whatsapp:w,zona:z,fecha:d,total:subtotal(),items:cart.map(function(it){var p=byId(it.id);return{nombre:p.name,qty:it.qty,precio:p.price*it.qty};})});
+    if(navigator.sendBeacon){navigator.sendBeacon('order.php',new Blob([_pl],{type:'application/json'}));}else{fetch('order.php',{method:'POST',headers:{'Content-Type':'application/json'},body:_pl,keepalive:true});}}catch(e){}
   try{if(window.gtag)gtag('event','whatsapp_click',{value:subtotal(),currency:'MXN'});}catch(e){}
   try{sessionStorage.setItem('pt_pedido',msg);}catch(e){}
   if(WA_OWNER){window.open('https://wa.me/'+WA_OWNER+'?text='+encodeURIComponent(msg),'_blank');}
