@@ -4,9 +4,9 @@
 // PII: los pedidos viven en data/ (protegido por .htaccess + gitignored). Generado por PATO.
 header('Content-Type: application/json; charset=utf-8');
 
-// A QUIEN avisa PATO (agrega el correo de Jessica aqui cuando lo tengamos):
-$NOTIFY = ['sodpiloko@gmail.com'];
-$FROM   = 'Picando Tabla <pedidos@picandotabla.com>';
+// A QUIEN avisa PATO de cada pedido: Jessica (contacto@, buzon real del dominio = entrega local confiable) + David.
+$NOTIFY = ['contacto@picandotabla.com', 'sodpiloko@gmail.com'];
+$FROM   = 'Picando Tabla <contacto@picandotabla.com>';  // buzon REAL -> mejor entregabilidad (evita rechazo/spam)
 
 $raw = file_get_contents('php://input');
 $d = json_decode($raw, true);
