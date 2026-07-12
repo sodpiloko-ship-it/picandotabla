@@ -53,10 +53,14 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
   .ptbtn:hover{transform:translateY(-1px)}
   .revealable{opacity:0;transform:translateY(20px);transition:opacity .6s ease, transform .6s ease}
   .revealed{opacity:1;transform:translateY(0)}
+  .q-lbl{display:block;font-size:13px;font-weight:600;color:#26282a;margin-bottom:6px}
+  .q-in{width:100%;background:#fbfcfc;border:1px solid #d3d5d4;border-radius:10px;padding:11px 13px;font-size:15px;font-family:inherit;color:#26282a}
+  .q-in:focus{outline:2px solid #7c2d3e;outline-offset:1px;border-color:#7c2d3e}
   @media(max-width:820px){
     .pt-hero{grid-template-columns:1fr !important}
     .pt-grid3{grid-template-columns:1fr !important}
     .pt-2col{grid-template-columns:1fr !important}
+    .pt-qgrid{grid-template-columns:1fr !important}
     .pt-nav-links{display:none !important}
     .pt-hero-pad{padding:48px 22px !important}
     .pt-pad{padding:44px 22px !important}
@@ -74,12 +78,13 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
     <div style="max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 32px">
       <a href="#top" style="text-decoration:none">
         <div style="font-family:Lora,serif;font-weight:700;font-size:22px;color:#26282a">Picando Tabla</div>
-        <div style="font-size:10px;letter-spacing:2.5px;color:#75797a;text-transform:uppercase">Quesos · Carnes · Maridaje</div>
+        <div style="font-size:10px;letter-spacing:2.5px;color:#75797a;text-transform:uppercase">Quesos · Charcutería · CDMX</div>
       </a>
-      <div class="pt-nav-links" style="display:flex;align-items:center;gap:26px;font-size:14px;color:#55585a">
+      <div class="pt-nav-links" style="display:flex;align-items:center;gap:22px;font-size:14px;color:#55585a">
         <a href="#tablas" style="color:#55585a;text-decoration:none">Tablas</a>
-        <a href="#maridaje" style="color:#55585a;text-decoration:none">Maridaje</a>
+        <a href="#curaduria" style="color:#55585a;text-decoration:none">Curaduría</a>
         <a href="#nosotras" style="color:#55585a;text-decoration:none">Nosotras</a>
+        <a href="#cotizar" class="ptbtn" style="text-decoration:none;background:transparent;color:#7c2d3e;padding:9px 18px;border-radius:999px;font-weight:600;font-size:14px;border:1.5px solid #7c2d3e">Cotizar</a>
         <button class="ptbtn" onclick="waGeneral('header')" style="display:inline-flex;align-items:center;gap:8px;background:#26282a;color:#fff;padding:10px 20px;border-radius:999px;font-weight:600;font-size:14px;border:none;cursor:pointer">
           <span style="width:16px;height:16px;border-radius:50%;background:#25D366;display:inline-block"></span>Pedir por WhatsApp</button>
       </div>
@@ -92,14 +97,14 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
     <div class="pt-hero-pad" style="padding:72px 32px 64px;animation:pt-fade-up .7s ease both">
       <div style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#7c2d3e;font-weight:600;margin-bottom:16px">Entrega el mismo día en CDMX</div>
       <h1 style="font-family:Lora,serif;font-size:clamp(34px,5.4vw,48px);line-height:1.1;font-weight:600;margin:0 0 18px;color:#26282a">Tú pones la mesa.<br>Nosotras ponemos la tabla.</h1>
-      <p style="font-size:17px;line-height:1.6;color:#55585a;margin:0 0 28px;max-width:44ch">Quesos y carnes seleccionados, armados a mano y entregados listos para servir. De la Condesa a Coyoacán, tu reunión queda resuelta con un mensaje.</p>
-      <div style="display:flex;align-items:center;gap:14px;margin-bottom:22px;flex-wrap:wrap">
+      <p style="font-size:17px;line-height:1.6;color:#55585a;margin:0 0 28px;max-width:46ch">Escogemos personalmente cada queso, cada carne y cada sabor de temporada — nunca la misma tabla dos veces. Armada a mano y entregada lista para servir. De la Condesa a Coyoacán, tu reunión queda resuelta con un mensaje.</p>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:22px;flex-wrap:wrap">
         <button class="ptbtn" onclick="waGeneral('hero')" style="display:inline-flex;align-items:center;gap:10px;background:#26282a;color:#fff;padding:15px 28px;border-radius:999px;font-weight:600;font-size:16px;border:none;cursor:pointer;box-shadow:0 3px 12px rgba(38,40,42,.25)">
           <span style="width:18px;height:18px;border-radius:50%;background:#25D366;display:inline-block"></span>Pedir por WhatsApp</button>
-        <span style="font-size:14px;color:#75797a">Respondemos en menos de 10 min</span>
+        <a href="#cotizar" class="ptbtn" style="text-decoration:none;background:transparent;color:#7c2d3e;padding:14px 24px;border-radius:999px;font-weight:600;font-size:15px;border:1.5px solid #7c2d3e">Cotizar mi evento</a>
       </div>
       <div style="display:flex;gap:22px;font-size:13px;color:#75797a;flex-wrap:wrap">
-        <span>✓ Lista para servir</span><span>✓ Pago al recibir o transferencia</span><span>✓ Desde $490</span>
+        <span>✓ Lista para servir</span><span>✓ Entrega el mismo día</span><span>✓ Desde $490</span>
       </div>
     </div>
     <div style="background:#d3d5d4 url('img/hero.jpg') center/cover no-repeat;min-height:440px"></div>
@@ -125,7 +130,7 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
           <div style="padding:22px 24px">
             <div style="font-size:11px;letter-spacing:1.5px;color:#7c2d3e;font-weight:600;text-transform:uppercase;margin-bottom:6px">Para 2 · Noche tranquila</div>
             <div style="font-family:Lora,serif;font-size:21px;font-weight:600;margin-bottom:8px">Tabla para Dos</div>
-            <p style="font-size:14px;line-height:1.55;color:#55585a;margin:0 0 16px">Para la copa de vino del viernes sin salir de casa. Con fruta, frutos secos y crujientes.</p>
+            <p style="font-size:14px;line-height:1.55;color:#55585a;margin:0 0 16px">Para la noche tranquila del viernes sin salir de casa. Con fruta, frutos secos y crujientes.</p>
             <div style="display:flex;align-items:center;justify-content:space-between">
               <span style="font-family:Lora,serif;font-size:21px;color:#26282a">$490</span>
               <button class="ptbtn" onclick="waTabla('dos')" style="background:transparent;border:1.5px solid #7c2d3e;color:#7c2d3e;padding:9px 18px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer">La quiero</button>
@@ -177,30 +182,30 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
           <span style="font-family:Lora,serif;font-size:17px;color:#26282a;flex:none">$150</span>
         </div>
         <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;background:#fff;border:1px solid #d3d5d4;border-radius:12px;padding:16px 20px">
-          <div><div style="font-weight:600;font-size:15px;color:#26282a;margin-bottom:2px">Tabla dulce</div><div style="font-size:13px;color:#75797a">Fresas, uvas y chocolate para cerrar</div></div>
-          <span style="font-family:Lora,serif;font-size:17px;color:#26282a;flex:none">$180</span>
+          <div><div style="font-weight:600;font-size:15px;color:#26282a;margin-bottom:2px">Mermelada de la casa</div><div style="font-size:13px;color:#75797a">Nuestro dulce hecho en casa que amarra la tabla</div></div>
+          <span style="font-family:Lora,serif;font-size:17px;color:#26282a;flex:none">$120</span>
         </div>
       </div>
       <p style="text-align:center;font-size:13px;color:#75797a;margin:26px 0 0">¿Algo a tu medida — sin cerdo, más queso, un evento grande? <button onclick="waCustom()" style="background:none;border:none;padding:0;color:#7c2d3e;font-weight:600;font-size:13px;cursor:pointer;text-decoration:underline">Escríbenos y lo armamos</button></p>
     </div>
   </div>
 
-  <!-- Maridaje -->
-  <div id="maridaje" style="background:#26282a;color:#e9eaea">
+  <!-- Curaduría -->
+  <div id="curaduria" style="background:#26282a;color:#e9eaea">
     <div class="revealable pt-pad" style="max-width:1200px;margin:0 auto;padding:64px 32px">
       <div class="pt-2col" style="display:grid;grid-template-columns:1fr 1.4fr;gap:48px;align-items:start">
         <div>
-          <div style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#b06a78;font-weight:600;margin-bottom:14px">Maridaje</div>
-          <h2 style="font-family:Lora,serif;font-size:34px;line-height:1.15;font-weight:600;margin:0 0 16px;color:#e9eaea">El maridaje, sin pretensiones.</h2>
-          <p style="font-size:15px;line-height:1.65;color:#9a9ea0;margin:0 0 22px">Cada tabla llega con una tarjeta: qué queso probar primero, con qué copa acompañarlo y en qué orden. Como si una amiga sommelier te lo susurrara.</p>
-          <button class="ptbtn" onclick="waMaridaje()" style="display:inline-flex;align-items:center;gap:9px;background:#e9eaea;color:#26282a;padding:12px 22px;border-radius:999px;font-weight:600;font-size:14px;border:none;cursor:pointer">
-            <span style="width:15px;height:15px;border-radius:50%;background:#25D366;display:inline-block"></span>Pide tu tabla con maridaje</button>
+          <div style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#b06a78;font-weight:600;margin-bottom:14px">Curaduría</div>
+          <h2 style="font-family:Lora,serif;font-size:34px;line-height:1.15;font-weight:600;margin:0 0 16px;color:#e9eaea">Nunca la misma tabla dos veces.</h2>
+          <p style="font-size:15px;line-height:1.65;color:#9a9ea0;margin:0 0 22px">Escogemos personalmente cada producto según la temporada —sabores y marcas que probamos una por una— para armarte una experiencia, no algo repetitivo. Cada tabla llega con una tarjeta que te dice qué probar primero y en qué orden.</p>
+          <button class="ptbtn" onclick="waCuraduria()" style="display:inline-flex;align-items:center;gap:9px;background:#e9eaea;color:#26282a;padding:12px 22px;border-radius:999px;font-weight:600;font-size:14px;border:none;cursor:pointer">
+            <span style="width:15px;height:15px;border-radius:50%;background:#25D366;display:inline-block"></span>Pide tu tabla de temporada</button>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-          <div style="background:#2d3033;border:1px solid #3a3d40;border-radius:12px;padding:20px 22px"><div style="font-family:Lora,serif;font-size:18px;font-weight:600;color:#e9eaea;margin-bottom:4px">Brie</div><div style="font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#b06a78;font-weight:600;margin-bottom:8px">Espumoso o Chardonnay</div><div style="font-size:13.5px;line-height:1.55;color:#9a9ea0">La burbuja limpia la cremosidad. Empieza por aquí.</div></div>
-          <div style="background:#2d3033;border:1px solid #3a3d40;border-radius:12px;padding:20px 22px"><div style="font-family:Lora,serif;font-size:18px;font-weight:600;color:#e9eaea;margin-bottom:4px">Manchego curado</div><div style="font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#b06a78;font-weight:600;margin-bottom:8px">Tempranillo</div><div style="font-size:13.5px;line-height:1.55;color:#9a9ea0">Clásico que no falla en la mesa mexicana.</div></div>
-          <div style="background:#2d3033;border:1px solid #3a3d40;border-radius:12px;padding:20px 22px"><div style="font-family:Lora,serif;font-size:18px;font-weight:600;color:#e9eaea;margin-bottom:4px">Queso azul</div><div style="font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#b06a78;font-weight:600;margin-bottom:8px">Vino dulce u oporto</div><div style="font-size:13.5px;line-height:1.55;color:#9a9ea0">El contraste dulce-salado que sorprende a todas.</div></div>
-          <div style="background:#2d3033;border:1px solid #3a3d40;border-radius:12px;padding:20px 22px"><div style="font-family:Lora,serif;font-size:18px;font-weight:600;color:#e9eaea;margin-bottom:4px">De cabra</div><div style="font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#b06a78;font-weight:600;margin-bottom:8px">Sauvignon Blanc</div><div style="font-size:13.5px;line-height:1.55;color:#9a9ea0">Fresco con fresco. Ideal para la tarde.</div></div>
+          <div style="background:#2d3033;border:1px solid #3a3d40;border-radius:12px;padding:20px 22px"><div style="font-family:Lora,serif;font-size:18px;font-weight:600;color:#e9eaea;margin-bottom:4px">Quesos de temporada</div><div style="font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#b06a78;font-weight:600;margin-bottom:8px">Elegidos a mano</div><div style="font-size:13.5px;line-height:1.55;color:#9a9ea0">Frescos y curados según la época; texturas que se complementan.</div></div>
+          <div style="background:#2d3033;border:1px solid #3a3d40;border-radius:12px;padding:20px 22px"><div style="font-family:Lora,serif;font-size:18px;font-weight:600;color:#e9eaea;margin-bottom:4px">Charcutería seleccionada</div><div style="font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#b06a78;font-weight:600;margin-bottom:8px">Cortes y marcas que rotamos</div><div style="font-size:13.5px;line-height:1.55;color:#9a9ea0">Nada de lo mismo siempre: variamos según lo mejor de cada semana.</div></div>
+          <div style="background:#2d3033;border:1px solid #3a3d40;border-radius:12px;padding:20px 22px"><div style="font-family:Lora,serif;font-size:18px;font-weight:600;color:#e9eaea;margin-bottom:4px">Mermelada de la casa</div><div style="font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#b06a78;font-weight:600;margin-bottom:8px">Nuestro toque</div><div style="font-size:13.5px;line-height:1.55;color:#9a9ea0">Hecha en casa: el dulce que amarra el salado de la tabla.</div></div>
+          <div style="background:#2d3033;border:1px solid #3a3d40;border-radius:12px;padding:20px 22px"><div style="font-family:Lora,serif;font-size:18px;font-weight:600;color:#e9eaea;margin-bottom:4px">Fruta y crujientes del día</div><div style="font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#b06a78;font-weight:600;margin-bottom:8px">En su punto</div><div style="font-size:13.5px;line-height:1.55;color:#9a9ea0">Lo que está en su mejor momento, para que cada bocado sume.</div></div>
         </div>
       </div>
     </div>
@@ -213,15 +218,15 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
       <div style="display:flex;flex-direction:column;gap:16px">
         <div style="display:flex;gap:14px;align-items:flex-start;background:#fbfcfc;border:1px solid #d3d5d4;border-radius:12px;padding:18px 22px">
           <span style="font-family:Lora,serif;font-size:22px;color:#7c2d3e;font-weight:700;flex:none">1</span>
-          <div><div style="font-weight:600;font-size:15px;color:#26282a">Nos escribes por WhatsApp</div><div style="font-size:13.5px;color:#55585a;line-height:1.5">Eliges tu tabla o nos cuentas para cuántas personas. Te respondemos en minutos.</div></div>
+          <div><div style="font-weight:600;font-size:15px;color:#26282a">Nos escribes por WhatsApp</div><div style="font-size:13.5px;color:#55585a;line-height:1.5">Eliges tu tabla o nos cuentas de tu evento. Te cotizamos en minutos.</div></div>
         </div>
         <div style="display:flex;gap:14px;align-items:flex-start;background:#fbfcfc;border:1px solid #d3d5d4;border-radius:12px;padding:18px 22px">
           <span style="font-family:Lora,serif;font-size:22px;color:#7c2d3e;font-weight:700;flex:none">2</span>
-          <div><div style="font-weight:600;font-size:15px;color:#26282a">La armamos a mano el mismo día</div><div style="font-size:13.5px;color:#55585a;line-height:1.5">Quesos y carnes frescos, montados y presentados listos para servir.</div></div>
+          <div><div style="font-weight:600;font-size:15px;color:#26282a">Confirmas con tu pago</div><div style="font-size:13.5px;color:#55585a;line-height:1.5">Apartas tu tabla por transferencia — el pago completo por adelantado.</div></div>
         </div>
         <div style="display:flex;gap:14px;align-items:flex-start;background:#fbfcfc;border:1px solid #d3d5d4;border-radius:12px;padding:18px 22px">
           <span style="font-family:Lora,serif;font-size:22px;color:#7c2d3e;font-weight:700;flex:none">3</span>
-          <div><div style="font-weight:600;font-size:15px;color:#26282a">Llega a tu puerta</div><div style="font-size:13.5px;color:#55585a;line-height:1.5">Entrega en tu colonia; pagas al recibir o por transferencia.</div></div>
+          <div><div style="font-weight:600;font-size:15px;color:#26282a">La armamos y te llega</div><div style="font-size:13.5px;color:#55585a;line-height:1.5">Fresca, hecha a mano el mismo día y entregada en tu colonia.</div></div>
         </div>
       </div>
     </div>
@@ -238,7 +243,31 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
         <span style="background:#fbfcfc;border:1px solid #d3d5d4;border-radius:999px;padding:7px 16px;font-size:13px;color:#55585a">Lindavista</span>
         <button onclick="waZona()" style="background:#fbfcfc;border:1px solid #7c2d3e;border-radius:999px;padding:7px 16px;font-size:13px;color:#7c2d3e;font-weight:600;cursor:pointer">¿Tu colonia? Pregúntanos →</button>
       </div>
-      <p style="font-size:13px;color:#75797a;margin:16px 0 0">Pide antes de la 1 pm y llega el mismo día.</p>
+      <p style="font-size:13px;color:#75797a;margin:16px 0 0">Servicio de jueves a domingo (o bajo pedido). Pide antes de la 1 pm y llega el mismo día.</p>
+    </div>
+  </div>
+
+  <!-- Cotización -->
+  <div id="cotizar" style="background:#fbfcfc;border-top:1px solid #d3d5d4">
+    <div class="revealable pt-pad" style="max-width:760px;margin:0 auto;padding:60px 32px">
+      <div style="text-align:center;margin-bottom:26px">
+        <div style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#7c2d3e;font-weight:600;margin-bottom:12px">Cotiza tu evento</div>
+        <h2 style="font-family:Lora,serif;font-size:30px;font-weight:600;margin:0 0 10px;color:#26282a">Armamos tu tabla a tu medida</h2>
+        <p style="font-size:15px;color:#55585a;margin:0;line-height:1.6">Cuéntanos de tu reunión y te cotizamos por WhatsApp. Curaduría de temporada, para el número de personas y la ocasión que sea.</p>
+      </div>
+      <div style="background:#fff;border:1px solid #d3d5d4;border-radius:16px;padding:28px">
+        <div class="pt-qgrid" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div style="grid-column:1/-1"><label class="q-lbl" for="q_nombre">Nombre</label><input id="q_nombre" class="q-in" placeholder="Tu nombre"></div>
+          <div><label class="q-lbl" for="q_personas">¿Para cuántas personas?</label><input id="q_personas" class="q-in" placeholder="Ej. 10"></div>
+          <div><label class="q-lbl" for="q_fecha">Fecha del evento</label><input id="q_fecha" class="q-in" placeholder="Ej. sábado 19"></div>
+          <div><label class="q-lbl" for="q_zona">Colonia (CDMX)</label><input id="q_zona" class="q-in" placeholder="Ej. Del Valle"></div>
+          <div><label class="q-lbl" for="q_wa">Tu WhatsApp</label><input id="q_wa" class="q-in" placeholder="55 0000 0000"></div>
+          <div style="grid-column:1/-1"><label class="q-lbl" for="q_msg">Detalles (ocasión, sabores, sin cerdo...)</label><textarea id="q_msg" class="q-in" rows="3" style="resize:vertical" placeholder="Cuéntanos qué necesitas"></textarea></div>
+        </div>
+        <button onclick="enviarCotizacion()" class="ptbtn" style="margin-top:18px;width:100%;display:inline-flex;align-items:center;justify-content:center;gap:10px;background:#26282a;color:#fff;padding:15px;border-radius:999px;font-weight:600;font-size:16px;border:none;cursor:pointer">
+          <span style="width:18px;height:18px;border-radius:50%;background:#25D366;display:inline-block"></span>Enviar cotización por WhatsApp</button>
+        <p style="text-align:center;font-size:12.5px;color:#75797a;margin:14px 0 0">Te respondemos por WhatsApp con el precio y la disponibilidad. El pago es por adelantado (transferencia).</p>
+      </div>
     </div>
   </div>
 
@@ -263,7 +292,7 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
       <button class="ptbtn" onclick="waGeneral('footer')" style="display:inline-flex;align-items:center;gap:10px;background:#e9eaea;color:#26282a;padding:15px 28px;border-radius:999px;font-weight:600;font-size:16px;border:none;cursor:pointer">
         <span style="width:18px;height:18px;border-radius:50%;background:#25D366;display:inline-block"></span>Pedir por WhatsApp</button>
     </div>
-    <div style="border-top:1px solid #3a3d40;text-align:center;padding:18px;font-size:12.5px;color:#75797a">Picando Tabla · CDMX · Entregas de lunes a domingo, 12–8 pm · No vendemos alcohol; el maridaje es nuestra curaduría</div>
+    <div style="border-top:1px solid #3a3d40;text-align:center;padding:18px;font-size:12.5px;color:#75797a">Picando Tabla · CDMX · Servicio de jueves a domingo o bajo pedido · Entregas en toda la CDMX</div>
   </div>
 
   <!-- FAB WhatsApp -->
@@ -296,7 +325,26 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
   };
   window.waCustom=function(){ open('¡Hola! Quiero una tabla a la medida'); track('whatsapp_click',{source:'custom'}); try{if(window.fbq)fbq('track','Contact',{source:'custom'});}catch(e){} };
   window.waZona=function(){ open('¡Hola! ¿Entregan en mi colonia? Estoy en '); track('whatsapp_click',{source:'zona'}); try{if(window.fbq)fbq('track','Contact',{source:'zona'});}catch(e){} };
-  window.waMaridaje=function(){ open('¡Hola! Quiero una tabla con maridaje'); track('whatsapp_click',{source:'maridaje'}); try{if(window.fbq)fbq('track','Contact',{source:'maridaje'});}catch(e){} };
+  window.waCuraduria=function(){ open('¡Hola! Quiero una tabla de temporada'); track('whatsapp_click',{source:'curaduria'}); try{if(window.fbq)fbq('track','Contact',{source:'curaduria'});}catch(e){} };
+  window.enviarCotizacion=function(){
+    var g=function(id){var el=document.getElementById(id);return el?el.value.trim():'';};
+    var nombre=g('q_nombre'); if(!nombre){ alert('Escribe tu nombre para cotizar'); return; }
+    var personas=g('q_personas'), fecha=g('q_fecha'), zona=g('q_zona'), wa=g('q_wa'), detalles=g('q_msg');
+    var msg='Hola Picando Tabla, quiero cotizar una tabla:'+
+      '\nNombre: '+nombre+
+      (personas?'\nPersonas: '+personas:'')+
+      (fecha?'\nFecha: '+fecha:'')+
+      (zona?'\nColonia: '+zona:'')+
+      (detalles?'\nDetalles: '+detalles:'');
+    try{
+      var pl=JSON.stringify({nombre:nombre, whatsapp:wa, zona:zona, fecha:fecha, total:0,
+        items:[{qty:1, nombre:'COTIZACION'+(personas?' '+personas+' personas':'')+(detalles?' — '+detalles:''), precio:0}]});
+      if(navigator.sendBeacon){ navigator.sendBeacon('order.php', new Blob([pl],{type:'application/json'})); }
+    }catch(e){}
+    open(msg);
+    track('whatsapp_click',{source:'cotizacion'});
+    try{if(window.fbq)fbq('track','Lead',{source:'cotizacion'});}catch(e){}
+  };
 
   // --- Selector "¿Cuántos son?" ---
   window.pickPeople=function(p){
