@@ -10,12 +10,30 @@ $msg = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accion = (string) ($_POST['accion'] ?? '');
-    if ($accion === 'link') {
-        $email = (string) ($_POST['email'] ?? '');
-        $raw = cmd_request_login($email);
-        if ($raw !== null) cmd_send_magic(strtolower(trim($email)), $raw);
-        // Siempre el mismo mensaje: no revelamos quién está en la allowlist.
-        $msg = 'Si tu correo tiene acceso, te llegó un enlace para entrar (revisa spam). Vale 30 minutos.';
+    if ($accion === 'login') {
+        $email = strtolower(trim((string) ($_POST['email'] ?? '')));
+        $pass  = (string) ($_POST['pass'] ?? '');
+        if (cmd_throttled()) {
+            $msg = 'Demasiados intentos. Espera unos minutos e inténtalo de nuevo.';
+        } elseif (cmd_is_allowed($email) && cmd_pass_check($pass)) {
+            cmd_login($email);
+            header('Location: ./'); exit;
+        } else {
+            cmd_fail();
+            $msg = 'Correo o contraseña incorrectos.';
+        }
+    } elseif ($accion === 'setpass') {
+        // Bootstrap (solo mientras NO exista clave) o cambio de clave con sesión + clave actual.
+        $nueva = (string) ($_POST['nueva'] ?? '');
+        if (cmd_pass_hash() === null) {
+            $msg = cmd_pass_set($nueva) ? 'Contraseña creada. Ya puedes entrar.' : 'La contraseña debe tener al menos 8 caracteres.';
+        } elseif ($yo && cmd_csrf_ok($_POST['csrf'] ?? null) && cmd_pass_check((string) ($_POST['actual'] ?? ''))) {
+            $msg = cmd_pass_set($nueva) ? 'Contraseña actualizada.' : 'La nueva debe tener al menos 8 caracteres.';
+        } else {
+            cmd_fail();
+            http_response_code(403);
+            $msg = 'No autorizado.';
+        }
     } elseif ($accion === 'estado' && $yo && cmd_csrf_ok($_POST['csrf'] ?? null)) {
         $key = (string) ($_POST['key'] ?? '');
         $estado = (string) ($_POST['estado'] ?? '');
@@ -79,11 +97,12 @@ if (!$yo) {
     echo '<div style="text-align:center;margin:40px 0 26px"><div class="brand">' . cmd_esc($c['emoji'] . ' ' . $c['brand']) . '</div><div class="sub">Comanda de órdenes</div></div>';
     echo '<div class="card" style="max-width:420px;margin:0 auto">';
     if ($msg) echo '<p style="background:#fbfcfc;border:1px solid #d3d5d4;border-radius:10px;padding:12px;font-size:14px;margin-bottom:14px">' . cmd_esc($msg) . '</p>';
-    echo '<form method="post"><input type="hidden" name="accion" value="link">'
+    echo '<form method="post"><input type="hidden" name="accion" value="login">'
        . '<label style="display:block;font-size:13px;font-weight:600;margin-bottom:6px">Tu correo</label>'
-       . '<input class="in" type="email" name="email" required placeholder="tucorreo@ejemplo.com" style="margin-bottom:12px">'
-       . '<button class="btn" style="width:100%">Enviarme mi enlace de acceso</button></form>'
-       . '<p class="muted" style="margin-top:12px;text-align:center">Sin contraseña: te llega un enlace por correo.</p>'
+       . '<input class="in" type="email" name="email" required placeholder="tucorreo@ejemplo.com" style="margin-bottom:12px" autocomplete="username">'
+       . '<label style="display:block;font-size:13px;font-weight:600;margin-bottom:6px">Contraseña</label>'
+       . '<input class="in" type="password" name="pass" required placeholder="Tu contraseña" style="margin-bottom:12px" autocomplete="current-password">'
+       . '<button class="btn" style="width:100%">Entrar</button></form>'
        . '</div></div></body></html>';
     exit;
 }
@@ -207,5 +226,11 @@ foreach ($eventos as $ev) {
     echo '</div></div>';
 }
 
-echo '<p class="muted" style="margin-top:26px;text-align:center">Comanda de ' . cmd_esc($c['brand']) . ' · acceso solo con enlace por correo · los datos nunca salen de este servidor.</p>';
+echo '<details style="margin-top:26px"><summary class="muted" style="cursor:pointer;text-align:center">Cambiar contraseña</summary>'
+   . '<form method="post" class="card" style="max-width:420px;margin:12px auto 0">'
+   . '<input type="hidden" name="accion" value="setpass"><input type="hidden" name="csrf" value="' . cmd_esc($csrf) . '">'
+   . '<input class="in" type="password" name="actual" required placeholder="Contraseña actual" style="margin-bottom:10px" autocomplete="current-password">'
+   . '<input class="in" type="password" name="nueva" required minlength="8" placeholder="Nueva contraseña (mín. 8)" style="margin-bottom:10px" autocomplete="new-password">'
+   . '<button class="btn" style="width:100%">Actualizar (aplica a las dos cuentas)</button></form></details>';
+echo '<p class="muted" style="margin-top:14px;text-align:center">Comanda de ' . cmd_esc($c['brand']) . ' · los datos nunca salen de este servidor.</p>';
 echo '</div></body></html>';

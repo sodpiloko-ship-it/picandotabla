@@ -8,7 +8,6 @@ declare(strict_types=1);
 date_default_timezone_set('America/Mexico_City');
 
 const CMD_DATA   = __DIR__ . '/data';
-const CMD_ACC    = __DIR__ . '/data/cuentas.jsonl';
 const CMD_ESTADO = __DIR__ . '/data/estado.json';
 const CMD_ORDERS  = __DIR__ . '/../data/orders.jsonl';
 const CMD_EVENTOS = __DIR__ . '/../data/eventos.jsonl';
@@ -32,62 +31,58 @@ function cmd_session(): void {
     }
 }
 
-// ---------- cuentas + magic-link ----------
-function cmd_accounts(): array {
-    if (!is_file(CMD_ACC)) return [];
-    $out = [];
-    foreach (file(CMD_ACC, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
-        $r = json_decode($line, true);
-        if (is_array($r)) $out[] = $r;
-    }
-    return $out;
-}
-function cmd_write_all(array $rows): void {
-    cmd_boot();
-    $lines = array_map(fn($r) => json_encode($r, JSON_UNESCAPED_UNICODE), $rows);
-    @file_put_contents(CMD_ACC, implode("\n", $lines) . "\n", LOCK_EX);
-}
+// ---------- login con contraseña (una clave compartida por las cuentas de la allowlist) ----------
+// La clave NUNCA vive en el repo (es público): su hash se guarda en comanda/data/clave.txt (runtime,
+// denegado por web + gitignored). Si existe ../secrets/comanda-clave.txt en el server, ese hash MANDA
+// (vía de rotación manual). El bootstrap (primer set) solo funciona mientras no exista ningún hash.
+const CMD_CLAVE = __DIR__ . '/data/clave.txt';
+
 function cmd_is_allowed(string $email): bool {
     $email = strtolower(trim($email));
     return in_array($email, array_map('strtolower', cmd_cfg()['admins'] ?? []), true);
 }
-function cmd_request_login(string $email): ?string {
-    cmd_boot();
-    $email = strtolower(trim($email));
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL) || !cmd_is_allowed($email)) return null;
-    $raw = bin2hex(random_bytes(32));
-    $hash = hash('sha256', $raw);
-    $exp = time() + 1800; // 30 min
-    $rows = cmd_accounts();
-    $found = false;
-    foreach ($rows as &$r) {
-        if (($r['email'] ?? '') === $email) { $r['token_hash'] = $hash; $r['token_exp'] = $exp; $found = true; break; }
-    }
-    unset($r);
-    if (!$found) $rows[] = ['email' => $email, 'created' => date('c'), 'token_hash' => $hash, 'token_exp' => $exp];
-    cmd_write_all($rows);
-    return $raw;
-}
-function cmd_verify_token(string $email, string $raw): bool {
-    $email = strtolower(trim($email));
-    $rows = cmd_accounts();
-    $ok = false;
-    foreach ($rows as &$r) {
-        if (($r['email'] ?? '') === $email) {
-            if (($r['token_exp'] ?? 0) >= time() && hash_equals($r['token_hash'] ?? '', hash('sha256', $raw))) {
-                $r['token_hash'] = ''; $r['token_exp'] = 0; $r['last_login'] = date('c'); $ok = true;
-            }
-            break;
+function cmd_pass_hash(): ?string {
+    $ov = __DIR__ . '/../secrets/comanda-clave.txt';
+    foreach ([$ov, CMD_CLAVE] as $f) {
+        if (is_file($f)) {
+            $h = trim((string) @file_get_contents($f));
+            if ($h !== '') return $h;
         }
     }
-    unset($r);
-    if ($ok) cmd_write_all($rows);
-    return $ok;
+    return null;
 }
+function cmd_pass_set(string $raw): bool {
+    if (strlen($raw) < 8) return false;
+    cmd_boot();
+    return @file_put_contents(CMD_CLAVE, password_hash($raw, PASSWORD_BCRYPT) . "\n", LOCK_EX) !== false;
+}
+function cmd_pass_check(string $raw): bool {
+    $h = cmd_pass_hash();
+    return $h !== null && password_verify($raw, $h);
+}
+
+// Freno anti fuerza bruta: si hay >10 intentos fallidos en 10 min, se pausa el login para todos.
+function cmd_throttled(): bool {
+    $f = CMD_DATA . '/fallos.log';
+    if (!is_file($f)) return false;
+    $n = 0;
+    foreach (file($f, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $ln) {
+        if ((int) $ln > time() - 600) $n++;
+    }
+    return $n > 10;
+}
+function cmd_fail(): void {
+    cmd_boot();
+    @file_put_contents(CMD_DATA . '/fallos.log', time() . "\n", FILE_APPEND | LOCK_EX);
+    usleep(500000);
+}
+
 function cmd_login(string $email): void {
     cmd_session();
     @session_regenerate_id(true);
     $_SESSION['cmd_email'] = strtolower(trim($email));
+    cmd_boot();
+    @file_put_contents(CMD_DATA . '/accesos.log', date('c') . ' login ' . strtolower(trim($email)) . "\n", FILE_APPEND | LOCK_EX);
 }
 function cmd_current(): ?string {
     cmd_session();
@@ -95,28 +90,6 @@ function cmd_current(): ?string {
     return ($e && cmd_is_allowed($e)) ? $e : null;
 }
 function cmd_logout(): void { cmd_session(); $_SESSION = []; @session_destroy(); }
-
-function cmd_send_magic(string $email, string $raw): void {
-    $c = cmd_cfg();
-    $link = $c['base'] . '/entrar.php?e=' . urlencode($email) . '&t=' . urlencode($raw);
-    $body = "Tu acceso a la Comanda de {$c['brand']}\n\n"
-          . "Entra con este enlace (válido 30 minutos, un solo uso):\n$link\n\n"
-          . "Desde aquí ves todos los pedidos y solicitudes de eventos, y marcas cada orden como confirmada o entregada.\n\n"
-          . "Si no solicitaste esto, ignora el correo.\n";
-    // Correo con envelope sender del dominio (-f): sin él, Gmail suele mandar el mail() de Hostinger a spam.
-    $headers = "From: " . $c['from'] . "\r\n"
-             . "Reply-To: contacto@picandotabla.com\r\n"
-             . "Content-Type: text/plain; charset=UTF-8";
-    $mail_ok = @mail($email, "Comanda {$c['brand']} — tu enlace de acceso", $body, $headers, '-fcontacto@picandotabla.com');
-
-    // Respaldo por Telegram (mismo secrets/telegram.json que usa evento.php; si no está, se omite).
-    $tg_ok = cmd_send_telegram($email, "🧀 Comanda Picando Tabla — enlace de acceso para {$email} (vale 30 min):\n{$link}");
-
-    cmd_boot();
-    @file_put_contents(CMD_DATA . '/envios.log',
-        date('c') . " magic-link {$email} mail=" . ($mail_ok ? 'ok' : 'FALLO') . " tg=" . ($tg_ok ? 'ok' : 'no') . "\n",
-        FILE_APPEND | LOCK_EX);
-}
 
 // Manda un texto por Telegram al chat asociado al correo ('default' = chat_id de secrets/telegram.json).
 function cmd_send_telegram(string $email, string $text): bool {
