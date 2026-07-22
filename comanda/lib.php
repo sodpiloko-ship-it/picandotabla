@@ -5,6 +5,8 @@
 // las cuentas y el estado de cada orden viven en comanda/data/ (gitignored, negado por .htaccess).
 declare(strict_types=1);
 
+date_default_timezone_set('America/Mexico_City');
+
 const CMD_DATA   = __DIR__ . '/data';
 const CMD_ACC    = __DIR__ . '/data/cuentas.jsonl';
 const CMD_ESTADO = __DIR__ . '/data/estado.json';
@@ -99,9 +101,45 @@ function cmd_send_magic(string $email, string $raw): void {
     $link = $c['base'] . '/entrar.php?e=' . urlencode($email) . '&t=' . urlencode($raw);
     $body = "Tu acceso a la Comanda de {$c['brand']}\n\n"
           . "Entra con este enlace (válido 30 minutos, un solo uso):\n$link\n\n"
-          . "Desde aquí ves todos los pedidos y solicitudes de eventos, y marcas cada orden como atendida o entregada.\n\n"
+          . "Desde aquí ves todos los pedidos y solicitudes de eventos, y marcas cada orden como confirmada o entregada.\n\n"
           . "Si no solicitaste esto, ignora el correo.\n";
-    @mail($email, "Comanda {$c['brand']} — tu enlace de acceso", $body, "From: " . $c['from'] . "\r\n");
+    // Correo con envelope sender del dominio (-f): sin él, Gmail suele mandar el mail() de Hostinger a spam.
+    $headers = "From: " . $c['from'] . "\r\n"
+             . "Reply-To: contacto@picandotabla.com\r\n"
+             . "Content-Type: text/plain; charset=UTF-8";
+    $mail_ok = @mail($email, "Comanda {$c['brand']} — tu enlace de acceso", $body, $headers, '-fcontacto@picandotabla.com');
+
+    // Respaldo por Telegram (mismo secrets/telegram.json que usa evento.php; si no está, se omite).
+    $tg_ok = cmd_send_telegram($email, "🧀 Comanda Picando Tabla — enlace de acceso para {$email} (vale 30 min):\n{$link}");
+
+    cmd_boot();
+    @file_put_contents(CMD_DATA . '/envios.log',
+        date('c') . " magic-link {$email} mail=" . ($mail_ok ? 'ok' : 'FALLO') . " tg=" . ($tg_ok ? 'ok' : 'no') . "\n",
+        FILE_APPEND | LOCK_EX);
+}
+
+// Manda un texto por Telegram al chat asociado al correo ('default' = chat_id de secrets/telegram.json).
+function cmd_send_telegram(string $email, string $text): bool {
+    $f = __DIR__ . '/../secrets/telegram.json';
+    if (!is_file($f)) return false;
+    $s = json_decode((string) @file_get_contents($f), true);
+    if (!is_array($s) || empty($s['bot_token'])) return false;
+    $map = cmd_cfg()['telegram'] ?? [];
+    $chat = $map[strtolower(trim($email))] ?? null;
+    if ($chat === 'default') $chat = $s['chat_id'] ?? null;
+    if (!$chat) return false;
+    $url = 'https://api.telegram.org/bot' . $s['bot_token'] . '/sendMessage';
+    $post = http_build_query(['chat_id' => (string) $chat, 'text' => substr($text, 0, 4090), 'disable_web_page_preview' => 'true']);
+    if (function_exists('curl_init')) {
+        $ch = curl_init($url);
+        curl_setopt_array($ch, [CURLOPT_POST => true, CURLOPT_POSTFIELDS => $post, CURLOPT_RETURNTRANSFER => true, CURLOPT_TIMEOUT => 15]);
+        curl_exec($ch);
+        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return $code >= 200 && $code < 300;
+    }
+    $ctx = stream_context_create(['http' => ['method' => 'POST', 'header' => 'Content-Type: application/x-www-form-urlencoded', 'content' => $post, 'timeout' => 15]]);
+    return @file_get_contents($url, false, $ctx) !== false;
 }
 
 function cmd_csrf(): string {
@@ -141,3 +179,26 @@ function cmd_set_estado(string $key, string $estado, string $por): void {
 }
 
 function cmd_esc(?string $s): string { return htmlspecialchars((string) $s, ENT_QUOTES, 'UTF-8'); }
+
+// Estado efectivo de una orden ('atendida' legado = 'confirmada').
+function cmd_estado_de(array $estados, string $key): string {
+    $e = $estados[$key]['estado'] ?? 'nueva';
+    return $e === 'atendida' ? 'confirmada' : $e;
+}
+
+// Pedidos CONFIRMADOS y no entregados: la lista de compras de la semana.
+function cmd_confirmados(): array {
+    $estados = cmd_estados();
+    $out = [];
+    foreach (cmd_jsonl(CMD_ORDERS) as $o) {
+        if (cmd_estado_de($estados, cmd_key($o)) === 'confirmada') $out[] = $o;
+    }
+    return $out;
+}
+
+// Próximo jueves (día de compras: víspera de las entregas de viernes/sábado).
+function cmd_dia_compras(): DateTime {
+    $d = new DateTime('thursday this week');
+    if ($d < new DateTime('today')) $d->modify('+7 days');
+    return $d;
+}
