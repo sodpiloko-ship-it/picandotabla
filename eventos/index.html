@@ -220,7 +220,21 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
         </div>
       </div>
     </div>
-    <div style="margin-top:26px;background:#fbfcfc;border:1px solid #d3d5d4;border-radius:12px;padding:18px 22px;font-size:13.5px;color:#75797a;line-height:1.6">La cotización final depende del número de invitados, la zona, el formato de servicio, tus vinos y los ingredientes que elijamos. El mobiliario, la cristalería y el personal adicional se cotizan aparte cuando el evento lo necesita. <b style="color:#55585a">No vendemos vino ni bebidas: curamos los quesos y la charcutería que los acompañan.</b></div>
+    <div style="margin-top:26px;background:#fbfcfc;border:1px solid #d3d5d4;border-radius:12px;padding:18px 22px;font-size:13.5px;color:#75797a;line-height:1.6">La cotización final depende del número de invitados, la zona, el formato de servicio, tus vinos y los ingredientes que elijamos. El mobiliario, la cristalería y el personal adicional se cotizan aparte cuando el evento lo necesita. Mensajería no incluida. <b style="color:#55585a">Aparta tu fecha con el 50%; el resto se liquida 8 días antes del evento.</b></div>
+
+    <!-- Servicio de vinos -->
+    <div style="margin-top:26px;background:#7c2d3e;border-radius:14px;padding:30px 32px;color:#fff">
+      <div class="pt-2col" style="display:grid;grid-template-columns:1.4fr 1fr;gap:28px;align-items:center">
+        <div>
+          <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#e8c9d0;font-weight:600;margin-bottom:10px">Nuevo servicio</div>
+          <div style="font-family:Lora,serif;font-size:24px;font-weight:600;margin-bottom:8px">¿Quieres que lo resolvamos todo? Selección y coordinación de vinos.</div>
+          <p style="font-size:14px;line-height:1.6;color:#f0dfe3;margin:0">Si no tienes los vinos, nosotras los elegimos y coordinamos por ti, maridados con tu curaduría y <strong>adaptados a tu presupuesto</strong> — tú decides cuánto invertir y nosotras lo resolvemos. Desde $1,750 por 5 botellas.</p>
+        </div>
+        <div style="text-align:center">
+          <button class="ptbtn" onclick="waVinosEv()" style="display:inline-flex;align-items:center;gap:9px;background:#fff;color:#7c2d3e;padding:13px 24px;border-radius:999px;font-weight:600;font-size:14px;border:none;cursor:pointer"><span style="width:15px;height:15px;border-radius:50%;background:#25D366;display:inline-block"></span>Quiero mis vinos resueltos</button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Detalles / ediciones especiales -->
@@ -266,6 +280,7 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
             <div style="background:#fbfcfc;border:1px solid #d3d5d4;border-radius:12px;padding:16px">
               <div class="pt-qgrid" style="display:grid;grid-template-columns:1fr 1fr;gap:11px 18px">
                 <label class="pt-chk"><input type="checkbox" name="svc" value="Curaduría alrededor de tus vinos"> Curaduría alrededor de tus vinos</label>
+                <label class="pt-chk"><input type="checkbox" name="svc" value="Selección y coordinación de vinos"> Selección y coordinación de vinos</label>
                 <label class="pt-chk"><input type="checkbox" name="svc" value="Montaje en tu locación"> Montaje en tu locación</label>
                 <label class="pt-chk"><input type="checkbox" name="svc" value="Tablas o boxes individuales"> Tablas o boxes individuales</label>
                 <label class="pt-chk"><input type="checkbox" name="svc" value="Ingredientes premium"> Ingredientes premium</label>
@@ -278,7 +293,7 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
           <div style="grid-column:1/-1"><label class="q-lbl" for="e_detalles">Cuéntanos de tu evento</label><textarea id="e_detalles" class="q-in" rows="3" style="resize:vertical" placeholder="El objetivo, el horario, la dinámica, restricciones alimentarias y cualquier detalle que nos ayude."></textarea></div>
         </div>
         <button onclick="enviarEvento()" class="ptbtn" style="margin-top:18px;width:100%;display:inline-flex;align-items:center;justify-content:center;gap:10px;background:#26282a;color:#fff;padding:15px;border-radius:999px;font-weight:600;font-size:16px;border:none;cursor:pointer">Enviar mi solicitud</button>
-        <p style="text-align:center;font-size:12.5px;color:#75797a;margin:14px 0 0">Recibimos tu solicitud y te contactamos por WhatsApp o correo. El pago del evento es por adelantado (transferencia).</p>
+        <p style="text-align:center;font-size:12.5px;color:#75797a;margin:14px 0 0">Recibimos tu solicitud y te contactamos por WhatsApp o correo. Apartas tu fecha con el 50% (transferencia) y liquidas 8 días antes del evento.</p>
 
         <div id="okBox" style="display:none;margin-top:22px;background:#fbfcfc;border:1px solid #cdd8d1;border-left:4px solid #315c48;border-radius:14px;padding:22px">
           <div style="font-family:Lora,serif;font-size:19px;font-weight:600;color:#26282a;margin-bottom:6px">¡Recibimos tu solicitud! 🧀</div>
@@ -362,6 +377,7 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
     ok.scrollIntoView({behavior:'smooth',block:'center'});
   };
   window.compartirWA=function(){ open(document.getElementById('e_summary').value); track('whatsapp_click',{source:'eventos_form_share'}); };
+  window.waVinosEv=function(){ open('¡Hola! Me interesa el servicio de selección y coordinación de vinos para mi evento 🍷'); track('whatsapp_click',{source:'eventos_vinos'}); try{if(window.fbq)fbq('track','Lead',{content_name:'Servicio de vinos'});}catch(e){} };
   window.compartirCorreo=function(){ window.location.href='mailto:contacto@picandotabla.com?subject='+encodeURIComponent('Solicitud de propuesta para evento — Picando Tabla')+'&body='+encodeURIComponent(document.getElementById('e_summary').value); };
   window.copiarResumen=function(btn){ var t=document.getElementById('e_summary'); t.select();
     if(navigator.clipboard){ navigator.clipboard.writeText(t.value).then(function(){ btn.textContent='Resumen copiado'; setTimeout(function(){btn.textContent='Copiar resumen';},2000); }).catch(function(){ document.execCommand('copy'); }); }

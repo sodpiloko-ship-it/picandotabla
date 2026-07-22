@@ -40,7 +40,8 @@ $body = "Nuevo pedido en Picando Tabla\n\n".implode("\n", $lines)."\n\n".
         "WhatsApp del cliente: ".$wa."\n".
         "Zona (CDMX): ".$zona."\n".
         "Entrega deseada: ".$fecha."\n\n".
-        "(El cliente tambien te lo envia por WhatsApp al confirmar.)";
+        "(El cliente tambien te lo envia por WhatsApp al confirmar.)\n\n".
+        "Comanda completa: https://picandotabla.com/comanda/";
 $subj = "Nuevo pedido Picando Tabla: $".number_format($total, 0)." - ".$nombre;
 $headers = "From: ".$FROM."\r\nContent-Type: text/plain; charset=UTF-8";
 foreach ($NOTIFY as $to) { @mail($to, $subj, $body, $headers); }
