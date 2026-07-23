@@ -146,6 +146,7 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
             <div style="font-size:11px;letter-spacing:1.5px;color:#7c2d3e;font-weight:600;text-transform:uppercase;margin-bottom:6px">Para 2 · Noche tranquila</div>
             <div style="font-family:Lora,serif;font-size:20px;font-weight:600;margin-bottom:8px">Tabla para Dos</div>
             <p style="font-size:13.5px;line-height:1.55;color:#55585a;margin:0 0 14px;flex:1">El viernes en casa se vuelve cita. Porciones justas para dos, sin repetir bocado.</p>
+            <div style="font-size:12.5px;color:#7c2d3e;font-weight:600;margin:0 0 10px">2 quesos · 2 carnes</div>
             <div style="font-family:Lora,serif;font-size:21px;color:#26282a;margin-bottom:12px">$650</div>
             <div style="display:flex;gap:8px">
               <button class="ptbtn" onclick="verDetalles('dos')" style="flex:1;background:transparent;border:1.5px solid #7c2d3e;color:#7c2d3e;padding:9px 10px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer">Detalles</button>
@@ -161,6 +162,7 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
             <div style="font-size:11px;letter-spacing:1.5px;color:#7c2d3e;font-weight:600;text-transform:uppercase;margin-bottom:6px">4–6 personas · Reunión en casa</div>
             <div style="font-family:Lora,serif;font-size:20px;font-weight:600;margin-bottom:8px">Tabla de la Anfitriona</div>
             <p style="font-size:13.5px;line-height:1.55;color:#55585a;margin:0 0 14px;flex:1">Recibes sin estrés: la pieza central que resuelve la reunión de 4 a 6.</p>
+            <div style="font-size:12.5px;color:#7c2d3e;font-weight:600;margin:0 0 10px">4 quesos · 3 carnes</div>
             <div style="font-family:Lora,serif;font-size:21px;color:#26282a;margin-bottom:12px">$950</div>
             <div style="display:flex;gap:8px">
               <button class="ptbtn" onclick="verDetalles('anfitriona')" style="flex:1;background:transparent;border:1.5px solid #7c2d3e;color:#7c2d3e;padding:9px 10px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer">Detalles</button>
@@ -176,6 +178,7 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
             <div style="font-size:11px;letter-spacing:1.5px;color:#7c2d3e;font-weight:600;text-transform:uppercase;margin-bottom:6px">8 personas · Tabla de evento</div>
             <div style="font-family:Lora,serif;font-size:20px;font-weight:600;margin-bottom:8px">Tabla de Fiesta</div>
             <p style="font-size:13.5px;line-height:1.55;color:#55585a;margin:0 0 14px;flex:1">El festejo de 8, resuelto con una sola pieza. Pídela con una semana de anticipación.</p>
+            <div style="font-size:12.5px;color:#7c2d3e;font-weight:600;margin:0 0 10px">5 quesos · 4 carnes</div>
             <div style="font-family:Lora,serif;font-size:21px;color:#26282a;margin-bottom:12px">$1,600</div>
             <div style="display:flex;gap:8px">
               <button class="ptbtn" onclick="verDetalles('fiesta')" style="flex:1;background:transparent;border:1.5px solid #7c2d3e;color:#7c2d3e;padding:9px 10px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer">Detalles</button>
@@ -424,13 +427,13 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
   var TABLAS={
     dos:{n:'Tabla para Dos',v:650,prem:300,img:'img/1.jpg',tag:'Para 2 · Noche tranquila',ev:false,
       d:'Quesos y charcutería en porciones pensadas para dos, con el dulce, la fruta y el crujiente que hacen que cada bocado sea distinto al anterior. La armamos con lo mejor de la semana: nunca la misma tabla dos veces.',
-      inc:['Selección de quesos de temporada (suaves y madurados)','Charcutería seleccionada de la semana','Fruta fresca de temporada','Frutos secos y crujientes','Tarjeta de cata: qué probar primero y con qué']},
+      inc:['2 quesos de temporada (uno suave, uno madurado)','2 carnes de charcutería seleccionadas de la semana','Fruta fresca de temporada','Frutos secos y crujientes','Tarjeta de cata: qué probar primero y con qué']},
     anfitriona:{n:'Tabla de la Anfitriona',v:950,prem:400,img:'img/2.jpg',tag:'4–6 personas · Reunión en casa',ev:false,
       d:'Variedad para que cada invitado encuentre su favorito y abundancia para que nadie se quede picando el plato vacío. Llega armada y lista para poner en el centro — tú solo recibes.',
-      inc:['Mayor variedad de quesos de temporada','Charcutería seleccionada en más cortes','Higos, miel y fruta de temporada','Frutos secos y crujientes','Tarjeta de cata para compartir con tus invitados']},
+      inc:['4 quesos de temporada (frescos, semicurados y curados)','3 carnes de charcutería en distintos cortes','Higos, miel y fruta de temporada','Frutos secos y crujientes','Tarjeta de cata para compartir con tus invitados']},
     fiesta:{n:'Tabla de Fiesta',v:1600,prem:600,img:'img/3.jpg',tag:'8 personas · Tabla de evento',ev:true,
       d:'Curada para rendir toda la noche: intensidades que suben poco a poco, cortes generosos y una pieza central que además se ve espectacular en fotos. El cumpleaños, la posada o el brindis, resueltos.',
-      inc:['Selección amplia de quesos (frescos, semicurados y curados)','Charcutería seleccionada en cortes generosos','Fruta de temporada y toques dulces','Frutos secos, aceitunas y crujientes','Tarjeta de cata y sugerencia de orden']},
+      inc:['5 quesos de temporada (frescos, semicurados y curados)','4 carnes de charcutería en cortes generosos','Fruta de temporada y toques dulces','Frutos secos, aceitunas y crujientes','Tarjeta de cata y sugerencia de orden']},
     celebracion:{n:'Tabla de Celebración',v:2600,prem:900,img:'img/4.jpg',tag:'10–12 personas · Tabla de evento',ev:true,
       d:'La mesa que habla por ti: máxima variedad, curaduría pieza por pieza y un montaje pensado para la foto. Para la boda íntima, el aniversario o la celebración que merece una mesa central de verdad.',
       inc:['Nuestra máxima variedad de quesos de temporada','Charcutería seleccionada premium en varios cortes','Fruta fresca, higos y miel','Frutos secos, aceitunas y crujientes surtidos','Tarjeta de cata y montaje pensado para la foto']}
