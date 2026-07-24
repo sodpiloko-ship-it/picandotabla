@@ -7,8 +7,13 @@ declare(strict_types=1);
 
 date_default_timezone_set('America/Mexico_City');
 
-const CMD_DATA   = __DIR__ . '/data';
-const CMD_ESTADO = __DIR__ . '/data/estado.json';
+// IMPORTANTE (2026-07-24): el estado de la comanda vive junto a los pedidos, en ../data/comanda/.
+// El deploy por FTP SINCRONIZA la carpeta comanda/ y borra lo que no esta en el repo: cuando los
+// datos vivian en comanda/data/ cada publicacion tiraba la contrasena y los estados de los pedidos.
+// ../data/ sobrevive a los deploys (ahi ya vivian orders.jsonl y eventos.jsonl sin perderse).
+const CMD_DATA   = __DIR__ . '/../data/comanda';
+const CMD_ESTADO = __DIR__ . '/../data/comanda/estado.json';
+const CMD_VIEJO  = __DIR__ . '/data';   // ruta anterior: solo para migrar lo que quede
 const CMD_ORDERS  = __DIR__ . '/../data/orders.jsonl';
 const CMD_EVENTOS = __DIR__ . '/../data/eventos.jsonl';
 
@@ -19,7 +24,15 @@ function cmd_cfg(): array {
 }
 
 function cmd_boot(): void {
-    if (!is_dir(CMD_DATA)) @mkdir(CMD_DATA, 0750, true);
+    if (!is_dir(CMD_DATA)) {
+        @mkdir(CMD_DATA, 0750, true);
+        // Migracion de un solo paso desde la ruta vieja (si el deploy no la borro antes).
+        foreach (['clave.txt', 'estado.json', 'accesos.log'] as $f) {
+            if (is_file(CMD_VIEJO . '/' . $f) && !is_file(CMD_DATA . '/' . $f)) {
+                @copy(CMD_VIEJO . '/' . $f, CMD_DATA . '/' . $f);
+            }
+        }
+    }
     $h = CMD_DATA . '/.htaccess';
     if (!is_file($h)) @file_put_contents($h, "Require all denied\nDeny from all\n");
 }
@@ -35,7 +48,7 @@ function cmd_session(): void {
 // La clave NUNCA vive en el repo (es público): su hash se guarda en comanda/data/clave.txt (runtime,
 // denegado por web + gitignored). Si existe ../secrets/comanda-clave.txt en el server, ese hash MANDA
 // (vía de rotación manual). El bootstrap (primer set) solo funciona mientras no exista ningún hash.
-const CMD_CLAVE = __DIR__ . '/data/clave.txt';
+const CMD_CLAVE = __DIR__ . '/../data/comanda/clave.txt';
 
 function cmd_is_allowed(string $email): bool {
     $email = strtolower(trim($email));

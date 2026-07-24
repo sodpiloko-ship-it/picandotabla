@@ -36,3 +36,9 @@ jobs:
             **/.git*/**
             **/.github/**
             README.md
+            # DATOS DE PRODUCCION: los crea el servidor y NO viven en el repo.
+            # Sin estas exclusiones el sync borra pedidos, estados y la contrasena
+            # de la comanda en cada publicacion (paso el 2026-07-24).
+            data/**
+            comanda/data/**
+            secrets/**
