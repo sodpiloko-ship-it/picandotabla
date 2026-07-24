@@ -74,20 +74,39 @@ function cmd_pass_check(string $raw): bool {
     return $h !== null && password_verify($raw, $h);
 }
 
-// Freno anti fuerza bruta: si hay >10 intentos fallidos en 10 min, se pausa el login para todos.
-function cmd_throttled(): bool {
+// Freno anti fuerza bruta POR IP (antes era global: un solo cliente equivocandose dejaba fuera
+// a las dos duenas del negocio — paso el 2026-07-24 durante las pruebas). Se pausa esa IP tras
+// 8 fallos en 10 min; el tope global es un respaldo muy alto contra un ataque distribuido.
+function cmd_ip(): string {
+    $ip = (string) ($_SERVER['REMOTE_ADDR'] ?? '0.0.0.0');
+    return substr(hash('sha256', $ip), 0, 12);   // no guardamos la IP en claro
+}
+function cmd_fallos(): array {
     $f = CMD_DATA . '/fallos.log';
-    if (!is_file($f)) return false;
-    $n = 0;
+    if (!is_file($f)) return [];
+    $out = [];
+    $corte = time() - 600;
     foreach (file($f, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $ln) {
-        if ((int) $ln > time() - 600) $n++;
+        $p = explode(' ', $ln, 2);
+        if ((int) $p[0] > $corte) $out[] = ['t' => (int) $p[0], 'ip' => $p[1] ?? ''];
     }
-    return $n > 10;
+    return $out;
+}
+function cmd_throttled(): bool {
+    $f = cmd_fallos();
+    if (count($f) > 40) return true;                 // respaldo global
+    $yo = cmd_ip();
+    $n = 0;
+    foreach ($f as $x) if ($x['ip'] === $yo) $n++;
+    return $n > 8;
 }
 function cmd_fail(): void {
     cmd_boot();
-    @file_put_contents(CMD_DATA . '/fallos.log', time() . "\n", FILE_APPEND | LOCK_EX);
-    usleep(500000);
+    // Reescribimos solo lo vigente: el archivo no crece para siempre.
+    $lines = array_map(function ($x) { return $x['t'] . ' ' . $x['ip']; }, cmd_fallos());
+    $lines[] = time() . ' ' . cmd_ip();
+    @file_put_contents(CMD_DATA . '/fallos.log', implode("\n", $lines) . "\n", LOCK_EX);
+    usleep(400000);
 }
 
 function cmd_login(string $email): void {
