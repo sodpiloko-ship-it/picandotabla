@@ -70,6 +70,13 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"/></
   .hero .eyebrow{font:400 10px/1 'Source Serif 4',serif;letter-spacing:.26em;text-transform:uppercase;color:#98908f}
   .hero h1{font:300 clamp(30px,7.6vw,56px)/1.02 'Source Serif 4',serif;letter-spacing:-.02em;color:#1a1718;margin-top:12px}
   .hero .sub{font:italic 400 15px/1.5 'Source Serif 4',serif;color:#6b6463;margin-top:8px}
+  .hero .comp{font:400 10.5px/1 'Source Serif 4',serif;letter-spacing:.2em;text-transform:uppercase;color:#6f1d33;margin-top:12px}
+  .ficha{flex:0 0 auto;width:288px;padding:13px 16px;border-radius:12px;border:1px solid rgba(111,29,51,.16);background:rgba(111,29,51,.04)}
+  .ficha .t{font:400 9px/1 'Source Serif 4',serif;letter-spacing:.2em;text-transform:uppercase;color:#6f1d33;margin-bottom:7px}
+  .ficha .d{font:italic 400 13px/1.5 'Source Serif 4',serif;color:#5d5654;margin-bottom:9px}
+  .ficha ul{margin:0;padding-left:15px}
+  .ficha li{font:400 12.5px/1.5 'Source Serif 4',serif;color:#6b6463}
+  .ficha li::marker{color:#b08a95}
   .hint{position:absolute;left:22px;top:calc(env(safe-area-inset-top) + 196px);font:italic 400 12px/1.4 'Source Serif 4',serif;color:#b4aead;pointer-events:none;z-index:2;transition:opacity .6s}
   @media(min-width:900px){.hero{left:54px;top:96px}.mark{left:54px}.hint{left:54px;top:268px}}
 
@@ -166,6 +173,7 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"/></
     <div class="eyebrow">Nunca la misma tabla dos veces</div>
     <h1 id="hName">Tabla de la Anfitriona</h1>
     <div class="sub" id="hSub">4 a 6 personas · la favorita · $950</div>
+    <div class="comp" id="hComp">4 quesos · 3 carnes · 7 acompañamientos</div>
   </div>
 
   <div class="hint" id="hint">Arrastra para verla por todos lados</div>
@@ -274,11 +282,22 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"/></
 // Catálogo real de Picando Tabla (mismos precios y reglas que la home).
 // ─────────────────────────────────────────────────────────────────────────────
 var WA = '525623632404', ENVIO = 120;
+// q = variedades de QUESO · c = variedades de CARNE · a = acompañamientos.
+// Son las cantidades reales publicadas en la ficha de cada tabla: la escena 3D
+// coloca exactamente eso, no relleno decorativo.
 var TABLAS = {
-  dos:        {p:650,  prem:300, n:'Tabla para Dos',        s:'2 personas · noche tranquila',    items:9,  k:.74, q:2, cn:2},
-  anfitriona: {p:950,  prem:400, n:'Tabla de la Anfitriona', s:'4 a 6 personas · la favorita',   items:14, k:.9,  q:4, cn:3},
-  fiesta:     {p:1600, prem:600, n:'Tabla de Fiesta',        s:'8 personas · tabla de evento',   items:20, k:1.04,q:5, cn:4, evento:true},
-  celebracion:{p:2600, prem:900, n:'Tabla de Celebración',   s:'10 a 12 personas · tabla de evento', items:27, k:1.16, evento:true}
+  dos: {p:650, prem:300, n:'Tabla para Dos', s:'2 personas · noche tranquila', k:.74, q:2, c:2, a:5,
+    d:'Quesos y charcutería en porciones pensadas para dos, con el dulce, la fruta y el crujiente que hacen que cada bocado sea distinto al anterior.',
+    inc:['2 quesos de temporada (uno suave, uno madurado)','2 carnes de charcutería de la semana','Fruta fresca de temporada','Frutos secos y crujientes','Tarjeta de cata: qué probar primero']},
+  anfitriona: {p:950, prem:400, n:'Tabla de la Anfitriona', s:'4 a 6 personas · la favorita', k:.9, q:4, c:3, a:7,
+    d:'Variedad para que cada invitado encuentre su favorito y abundancia para que nadie se quede picando el plato vacío. Llega lista para poner en el centro.',
+    inc:['4 quesos de temporada (frescos, semicurados y curados)','3 carnes de charcutería en distintos cortes','Higos, miel y fruta de temporada','Frutos secos y crujientes','Tarjeta de cata para tus invitados']},
+  fiesta: {p:1600, prem:600, n:'Tabla de Fiesta', s:'8 personas · tabla de evento', k:1.04, q:5, c:4, a:11, evento:true,
+    d:'Curada para rendir toda la noche: intensidades que suben poco a poco, cortes generosos y una pieza central que se ve espectacular en fotos.',
+    inc:['5 quesos de temporada (frescos, semicurados y curados)','4 carnes de charcutería en cortes generosos','Fruta de temporada y toques dulces','Frutos secos, aceitunas y crujientes','Tarjeta de cata y sugerencia de orden']},
+  celebracion:{p:2600, prem:900, n:'Tabla de Celebración', s:'10 a 12 personas · tabla de evento', k:1.16, q:5, c:7, a:15, evento:true,
+    d:'La mesa que habla por ti: nuestra máxima variedad, curada pieza por pieza y montada para lucirse. Para la boda íntima, el aniversario, la celebración grande.',
+    inc:['Alrededor de 5 quesos de temporada','Alrededor de 7 carnes de charcutería, premium y en varios cortes','Fruta fresca, higos y miel','Frutos secos, aceitunas y crujientes surtidos','Tarjeta de cata y montaje pensado para la foto']}
 };
 var EXTRAS = {dip:{p:150,n:'Dip de la casa'}, mermelada:{p:120,n:'Mermelada de la casa'}, pan:{p:120,n:'Pan y crujientes extra'}};
 var PERFILES = {
@@ -333,8 +352,9 @@ function chip(q,v,label,multi,extra){
 function pintarEstaticos(){
   $('#secTamano').innerHTML = Object.keys(TABLAS).map(function(k){
     var t = TABLAS[k], per = k==='dos'?'2 personas':k==='anfitriona'?'4 a 6':k==='fiesta'?'8 personas':'10 a 12';
-    return '<button class="card" data-q="tabla" data-v="'+k+'">'+t.n+'<span class="m">'+per+' · '+money(t.p)+'</span></button>';
-  }).join('') + '<div class="note">Tablas de 8 a 12 son de evento: una semana de anticipación.</div>';
+    return '<button class="card" data-q="tabla" data-v="'+k+'">'+t.n+'<span class="m">'+per+' · '+t.q+' quesos · '+t.c+' carnes<br>'+money(t.p)+'</span></button>';
+  }).join('') + '<div class="ficha" id="ficha"></div>'
+    + '<div class="note">Tablas de 8 a 12 son de evento: una semana de anticipación.</div>';
   $('#rowPerfil').innerHTML = Object.keys(PERFILES).map(function(k){ return chip('perfil',k,PERFILES[k].n); }).join('');
   $('#rowGustos').innerHTML = Object.keys(GUSTOS).map(function(k){ return chip('gustos',k,GUSTOS[k],true); }).join('')
     + chip('dejalo','si','Ustedes eligen',false,' dash');
@@ -346,6 +366,19 @@ function pintarFechas(){
   if(S.fecha && !f.some(function(x){ return x.iso===S.fecha; })) S.fecha = null;
   $('#rowFechas').innerHTML = f.map(function(x){ return chip('fecha',x.iso,x.lbl); }).join('');
   marcar();
+}
+
+// ── Composición REAL de la tabla (la misma que se dibuja en 3D) ─────────────
+// Parte de las variedades publicadas y la mueve según la curaduría que eligió
+// la clienta: "más quesos" suma queso y quita carne, y al revés.
+function composicion(){
+  var t = TABLAS[S.tabla], q = t.q, c = t.c, a = t.a;
+  if(S.perfil === 'quesos'){ q += 2; c = Math.max(1, c - 1); }
+  else if(S.perfil === 'carnes'){ c += 2; q = Math.max(1, q - 1); }
+  else if(S.perfil === 'suave'){ q += 1; c = Math.max(1, c - 1); }
+  else if(S.perfil === 'intensa'){ c += 1; }
+  if(S.premium){ q += 1; c += 1; a += 1; }
+  return {q:q, c:c, a:a};
 }
 
 // ── Cálculo ──────────────────────────────────────────────────────────────────
@@ -366,7 +399,8 @@ function fechaLbl(){
   return f ? f.lbl : S.fecha;
 }
 function curaduriaTxt(){
-  var L = [];
+  var L = [], comp = composicion();
+  L.push('Composición: ' + comp.q + ' quesos, ' + comp.c + ' carnes, ' + comp.a + ' acompañamientos');
   L.push('Curaduría: ' + PERFILES[S.perfil].n);
   if(S.dejalo) L.push('Favoritos: ustedes eligen');
   else if(S.gustos.length) L.push('Favoritos: ' + S.gustos.map(function(k){ return GUSTOS[k]; }).join(', '));
@@ -404,6 +438,12 @@ function pintar(){
   var c = cuenta(), t = c.t;
   $('#hName').textContent = t.n;
   $('#hSub').textContent = t.s + ' · ' + money(t.p);
+  // Composicion REAL de la tabla (lo mismo que se ve en la escena 3D)
+  var comp = composicion();
+  $('#hComp').textContent = comp.q + (comp.q===1?' queso':' quesos') + ' · ' + comp.c + (comp.c===1?' carne':' carnes') + ' · ' + comp.a + ' acompañamientos';
+  var fi = $('#ficha');
+  if(fi) fi.innerHTML = '<div class="t">Qué lleva</div><div class="d">' + t.d + '</div><ul>'
+    + t.inc.map(function(i){ return '<li>' + i + '</li>'; }).join('') + '</ul>';
   $('#vTamano').textContent = t.n;
   $('#vCuraduria').textContent = PERFILES[S.perfil].n + (S.gustos.length ? ' · ' + S.gustos.length + ' favoritos' : '');
   var ex = [];
@@ -872,7 +912,11 @@ function sombraContacto(r){
   m.renderOrder = -1;
   return m;
 }
-function build(ing){
+var esQueso = function(i){ return i==='cremoso' || i==='semiduro' || i==='maduro'; };
+var esCarne = function(i){ return i==='serrano' || i==='salami' || i==='prosciutto' || i==='pavo'; };
+
+function build(ing, v){
+  v = v || 0;
   var g = new THREE.Group(), m = mat(ing);
   g.add(sombraContacto(ing === 'baguette' || ing === 'pan' ? .46 : (ing === 'secos' || ing === 'uvas' ? .40 : .44)));
   var add = function(gm, x, y, z, rx, ry, s, mm, rz){
@@ -882,27 +926,36 @@ function build(ing){
     mesh.castShadow = true; mesh.receiveShadow = true;
     g.add(mesh); return mesh;
   };
-  if(ing === 'cremoso'){
-    // cuña de brie: cuerpo + corteza
-    var cu = geo('cunaB', function(){ return new THREE.CylinderGeometry(.19, .19, .075, 26, 1, false, 0, Math.PI/2.2); });
-    var a = add(cu, 0, .038, 0, 0, .3); a.material = [mat('corteza'), mat('cremoso'), mat('cremoso')];
-    var b = add(cu, .05, .038, .13, 0, 2.5, .86); b.material = [mat('corteza'), mat('cremoso'), mat('cremoso')];
-  } else if(ing === 'semiduro'){
-    var c = geo('cubo', function(){ return cuboRedondo(.125, .2); });
-    add(c, 0, .062, 0, .1, .3); add(c, .105, .062, .085, 0, .9, .95); add(c, .025, .185, .03, .12, .6, .88);
-  } else if(ing === 'maduro'){
-    var w = geo('cunaA', function(){ return new THREE.CylinderGeometry(.21, .21, .095, 28, 1, false, 0, Math.PI/2.6); });
-    var m1 = add(w, 0, .047, 0, 0, .2); m1.material = [mat('corteza'), mat('maduro'), mat('maduro')];
-    var m2 = add(w, .055, .047, .125, 0, 2.4, .84); m2.material = [mat('corteza'), mat('maduro'), mat('maduro')];
-  } else if(ing === 'serrano' || ing === 'prosciutto' || ing === 'pavo'){
-    var lj = geo('lonja', function(){ return lonja(.21, .0115); });
-    for(var i = 0; i < 4; i++){
-      var me = add(lj, i*.04 - .062, .013 + i*.013, i*.028 - .04, -Math.PI/2, 0, 1 - i*.04, null, i*1.2);
-      me.scale.set(1 - i*.04, 1 - i*.06, 1);
+  if(esQueso(ing)){
+    // Tres presentaciones: si la tabla lleva 5 quesos, no se ven cinco piezas clonadas.
+    var pres = v % 3;
+    if(pres === 0){
+      var cu = geo('cuna', function(){ return new THREE.CylinderGeometry(.2, .2, .085, 28, 1, false, 0, Math.PI/2.4); });
+      var a = add(cu, 0, .043, 0, 0, .3); a.material = [mat('corteza'), m, m];
+      var b = add(cu, .05, .043, .13, 0, 2.5, .86); b.material = [mat('corteza'), m, m];
+    } else if(pres === 1){
+      var cb = geo('cubo', function(){ return cuboRedondo(.125, .2); });
+      add(cb, 0, .062, 0, .1, .3); add(cb, .105, .062, .085, 0, .9, .95); add(cb, .025, .185, .03, .12, .6, .88);
+    } else {
+      var rb = geo('rebQueso', function(){ return new THREE.BoxGeometry(.155, .019, .105, 2, 1, 2); });
+      for(var ri = 0; ri < 4; ri++) add(rb, ri*.028 - .04, .012 + ri*.02, ri*.022 - .03, rnd(-.05,.05), ri*.13 - .2);
     }
-  } else if(ing === 'salami'){
-    var s = geo('rodaja', function(){ return new THREE.CylinderGeometry(.105, .103, .012, 26); });
-    for(var j = 0; j < 4; j++) add(s, j*.042 - .058, .011 + j*.007, j*.024 - .03, rnd(-.09,.09), j*.8, 1 - j*.03);
+  } else if(esCarne(ing)){
+    var pc = v % 3;
+    if(pc === 0){                      // lonjas plegadas
+      var lj = geo('lonja', function(){ return lonja(.21, .0115); });
+      for(var i = 0; i < 4; i++){
+        var me = add(lj, i*.04 - .062, .013 + i*.013, i*.028 - .04, -Math.PI/2, 0, 1 - i*.04, null, i*1.2);
+        me.scale.set(1 - i*.04, 1 - i*.06, 1);
+      }
+    } else if(pc === 1){               // roseta enrollada
+      add(geo('rosa1', function(){ return new THREE.TorusGeometry(.082, .027, 12, 24); }), 0, .028, 0, Math.PI/2, .2);
+      add(geo('rosa2', function(){ return new THREE.TorusGeometry(.052, .025, 12, 22); }), 0, .052, 0, Math.PI/2, 1.2);
+      add(geo('rosa3', function(){ return new THREE.TorusGeometry(.024, .022, 10, 18); }), 0, .072, 0, Math.PI/2, 2.3);
+    } else {                           // rodajas en abanico
+      var s = geo('rodaja', function(){ return new THREE.CylinderGeometry(.098, .096, .013, 26); });
+      for(var j = 0; j < 4; j++) add(s, j*.042 - .058, .011 + j*.008, j*.024 - .03, rnd(-.09,.09), j*.8, 1 - j*.03);
+    }
   } else if(ing === 'uvas'){
     var b2 = geo('uva', function(){ return new THREE.SphereGeometry(.044, 18, 14); });
     [[0,0,0],[.076,.008,.02],[-.06,.004,.052],[.02,.006,-.07],[.032,.072,.012],[-.02,.068,-.03],[.088,.056,-.048],[-.07,.06,.01]]
@@ -977,21 +1030,16 @@ function pools(S, P){
   return {q:q, c:c, ac:ac, w:P.w};
 }
 function lista(S){
-  var T = window.TABLAS[S.tabla], P = window.PERFILES[S.perfil] || window.PERFILES.balanceada;
-  // Una tabla real va LLENA: se puebla ~45% mas de lo que dice la ficha para que
-  // no se vea el hueco de madera entre pieza y pieza.
-  var n = Math.round((T.items + (S.premium ? 3 : 0)) * 1.45);
-  if(movil) n = Math.min(n, 28);
-  var pool = pools(S, P), base = [];
-  [[pool.q, Math.max(1, Math.round(n*pool.w[0]))],
-   [pool.c, Math.max(1, Math.round(n*pool.w[1]))],
-   [pool.ac, Math.max(1, Math.round(n*pool.w[2]))]].forEach(function(pr){
-    for(var i = 0; i < pr[1]; i++) base.push(pr[0][i % pr[0].length]);
-  });
-  var mix = [];
-  for(var i = 0; i < base.length; i++) mix.push(base[(i*5+2) % base.length]);
-  var out = mix.slice(0, n);
-  // En una tabla real hay uno o dos ramekins, no cinco: el resto se reparte en
+  // La escena dibuja EXACTAMENTE las variedades que la tabla lleva: si son
+  // 5 quesos y 7 carnes, se ven 5 piezas de queso y 7 de charcuteria.
+  var P = window.PERFILES[S.perfil] || window.PERFILES.balanceada;
+  var comp = window.PTComp(), pool = pools(S, P), out = [];
+  var i;
+  for(i = 0; i < comp.q; i++) out.push(pool.q[i % pool.q.length]);
+  for(i = 0; i < comp.c; i++) out.push(pool.c[i % pool.c.length]);
+  for(i = 0; i < comp.a; i++) out.push(pool.ac[i % pool.ac.length]);
+
+  // En una tabla real hay uno o dos cuencos, no cinco: el resto se reparte en
   // acompanamientos sueltos. (Los que la clienta PAGA como extra se respetan.)
   var cuencos = 0, relleno = ['uvas','fruta','secos','pan','aceitunas'], r = 0;
   for(var j = 0; j < out.length; j++){
@@ -1001,7 +1049,18 @@ function lista(S){
     }
   }
   (S.extras||[]).forEach(function(e){ out.push(e==='pan' ? 'baguette' : (e==='dip' ? 'dip' : 'mermelada')); });
-  return out;
+
+  // Barajado reproducible: quesos, carnes y acompanamientos quedan repartidos
+  // por toda la tabla en vez de agrupados por bloques.
+  var orden = out.map(function(ing, k){ var s = Math.sin(k*97.31)*43758.5453; return {ing:ing, k:s - Math.floor(s)}; });
+  orden.sort(function(a, b){ return a.k - b.k; });
+
+  // Presentacion distinta para cada repeticion del mismo ingrediente.
+  var vistos = {};
+  return orden.map(function(x){
+    var n = vistos[x.ing] || 0; vistos[x.ing] = n + 1;
+    return {ing:x.ing, v:n};
+  });
 }
 
 // ── Escena ──────────────────────────────────────────────────────────────────
@@ -1107,24 +1166,24 @@ function sync(S){
   // Ruido reproducible por posicion: la colocacion parece hecha a mano, pero no
   // "baila" cuando la clienta cambia una opcion.
   var az = function(i, k){ var s = Math.sin(i*127.1 + k*311.7)*43758.5453; return s - Math.floor(s); };
-  var target = want.map(function(ing, i){
+  var target = want.map(function(it, i){
     var rr = Math.sqrt((i + .6)/n) * R * (.93 + az(i,1)*.13), ang = i*2.39996 + (az(i,2)-.5)*.34;
-    return {key:'s'+i, ing:ing, x:Math.cos(ang)*rr, z:Math.sin(ang)*rr,
+    return {key:'s'+i, ing:it.ing, v:it.v, x:Math.cos(ang)*rr, z:Math.sin(ang)*rr,
             s:.88 + az(i,3)*.26, y:.085 + az(i,4)*.012,
             tx:(az(i,5)-.5)*.20, tz:(az(i,6)-.5)*.20};
   });
   var now = performance.now(), byKey = {};
   target.forEach(function(w){ byKey[w.key] = w; });
-  items.forEach(function(it){ var w = byKey[it.key]; if((!w || w.ing !== it.ing) && !it.out) it.out = now; });
+  items.forEach(function(it){ var w = byKey[it.key]; if((!w || w.ing !== it.ing || w.v !== it.v) && !it.out) it.out = now; });
   target.forEach(function(w, i){
-    var found = items.filter(function(it){ return it.key===w.key && it.ing===w.ing && !it.out; })[0];
+    var found = items.filter(function(it){ return it.key===w.key && it.ing===w.ing && it.v===w.v && !it.out; })[0];
     if(found){ found.x = w.x; found.z = w.z; return; }
-    var g = build(w.ing);
+    var g = build(w.ing, w.v);
     g.position.set(w.x, w.y, w.z);
     g.rotation.set(w.tx, (i*53 % 360) * Math.PI/180, w.tz);
     g.scale.setScalar(.01);
     boardGroup.add(g);
-    items.push({key:w.key, ing:w.ing, g:g, x:w.x, z:w.z, y:w.y, s:w.s, t0:now + i*26});
+    items.push({key:w.key, ing:w.ing, v:w.v, g:g, x:w.x, z:w.z, y:w.y, s:w.s, t0:now + i*26});
   });
   var wantB = S.vinos ? 3 : 0;
   while(bottles.length < wantB){
@@ -1194,6 +1253,7 @@ else { try{ boot(); }catch(e){ fail(); } }
 // Puente entre el panel (script clásico) y la escena (módulo).
 window.TABLAS = TABLAS; window.PERFILES = PERFILES;
 window.PTState = function(){ return S; };
+window.PTComp = composicion;
 </script>
 </body>
 </html>
