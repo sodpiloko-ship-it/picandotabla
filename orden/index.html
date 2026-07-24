@@ -991,6 +991,15 @@ function lista(S){
   var mix = [];
   for(var i = 0; i < base.length; i++) mix.push(base[(i*5+2) % base.length]);
   var out = mix.slice(0, n);
+  // En una tabla real hay uno o dos ramekins, no cinco: el resto se reparte en
+  // acompanamientos sueltos. (Los que la clienta PAGA como extra se respetan.)
+  var cuencos = 0, relleno = ['uvas','fruta','secos','pan','aceitunas'], r = 0;
+  for(var j = 0; j < out.length; j++){
+    if(out[j] === 'mermelada' || out[j] === 'miel' || out[j] === 'dip'){
+      cuencos++;
+      if(cuencos > 2) out[j] = relleno[(r++) % relleno.length];
+    }
+  }
   (S.extras||[]).forEach(function(e){ out.push(e==='pan' ? 'baguette' : (e==='dip' ? 'dip' : 'mermelada')); });
   return out;
 }
