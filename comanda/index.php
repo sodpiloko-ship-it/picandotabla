@@ -190,12 +190,15 @@ foreach ($orders as $o) {
        . '<b>$' . number_format((float) ($o['total'] ?? 0), 0) . '</b> · ' . cmd_esc($o['nombre'] ?: 'Sin nombre') . '</div>'
        . '<span class="muted">' . cmd_esc($fecha) . '</span></div>'
        . '<div style="font-size:14px;line-height:1.6;margin-bottom:8px">' . implode('<br>', array_map('cmd_esc', (array) ($o['items'] ?? []))) . '</div>'
+       . (!empty($o['notas']) ? '<div style="font-size:13.5px;line-height:1.55;color:#55585a;border-left:2px solid #d3d5d4;padding-left:11px;margin-bottom:9px">' . cmd_esc($o['notas']) . '</div>' : '')
        . '<div class="muted" style="margin-bottom:10px">'
        . (!empty($o['whatsapp']) ? 'WhatsApp: ' . cmd_esc($o['whatsapp']) . ' · ' : '')
        . (!empty($o['zona']) ? 'Zona: ' . cmd_esc($o['zona']) . ' · ' : '')
        . (!empty($o['fecha']) ? 'Entrega: ' . cmd_esc($o['fecha']) . ' · ' : '')
        . (!empty($o['origen']) ? 'Origen: ' . cmd_esc($o['origen']) : 'Origen: sitio web') . '</div>'
-       . '<div style="display:flex;gap:8px;flex-wrap:wrap">';
+       . '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">';
+    $wa = cmd_wa_link($o);
+    if ($wa) echo '<a style="background:#25D366;color:#fff;border-radius:999px;padding:8px 16px;font-size:12.5px;font-weight:700;text-decoration:none;display:inline-block" target="_blank" rel="noopener" href="' . cmd_esc($wa) . '">💬 Responder por WhatsApp</a>';
     foreach (['nueva' => 'Nueva', 'confirmada' => 'Confirmada', 'entregada' => 'Entregada'] as $val => $lbl) {
         if ($val === $estado) continue;
         echo '<form method="post" style="display:inline"><input type="hidden" name="accion" value="estado">'

@@ -14,9 +14,12 @@ if (!is_array($d) || empty($d['items'])) { http_response_code(400); echo json_en
 
 $nombre = substr(strip_tags(trim($d['nombre']   ?? '')), 0, 120);
 $wa     = substr(strip_tags(trim($d['whatsapp'] ?? '')), 0, 40);
-$zona   = substr(strip_tags(trim($d['zona']     ?? '')), 0, 80);
+$zona   = substr(strip_tags(trim($d['zona']     ?? '')), 0, 160);
 $fecha  = substr(strip_tags(trim($d['fecha']    ?? '')), 0, 60);
 $total  = is_numeric($d['total'] ?? null) ? (float)$d['total'] : 0;
+// Detalle de curaduria (lo manda /orden: perfil, favoritos, restricciones, vinos, nota).
+$notas  = substr(strip_tags(trim($d['notas']    ?? '')), 0, 600);
+$origen = substr(strip_tags(trim($d['origen']   ?? '')), 0, 60);
 
 $lines = array();
 foreach ($d['items'] as $it) {
@@ -28,7 +31,8 @@ foreach ($d['items'] as $it) {
 if (!count($lines)) { http_response_code(400); echo json_encode(array('ok'=>false)); exit; }
 
 $rec = array('at'=>date('c'),'nombre'=>$nombre,'whatsapp'=>$wa,'zona'=>$zona,'fecha'=>$fecha,
-             'total'=>$total,'items'=>$lines,'ip'=>$_SERVER['REMOTE_ADDR'] ?? '');
+             'total'=>$total,'items'=>$lines,'notas'=>$notas,'ip'=>$_SERVER['REMOTE_ADDR'] ?? '');
+if ($origen !== '') $rec['origen'] = $origen;
 $dir = __DIR__.'/data';
 @mkdir($dir, 0755, true);
 @file_put_contents($dir.'/.htaccess', "Require all denied\nDeny from all\n");
@@ -39,7 +43,8 @@ $body = "Nuevo pedido en Picando Tabla\n\n".implode("\n", $lines)."\n\n".
         "Nombre: ".$nombre."\n".
         "WhatsApp del cliente: ".$wa."\n".
         "Zona (CDMX): ".$zona."\n".
-        "Entrega deseada: ".$fecha."\n\n".
+        "Entrega deseada: ".$fecha."\n".
+        ($notas !== '' ? "\nDetalle de la tabla:\n".$notas."\n" : "")."\n".
         "(El cliente tambien te lo envia por WhatsApp al confirmar.)\n\n".
         "Comanda completa: https://picandotabla.com/comanda/";
 $subj = "Nuevo pedido Picando Tabla: $".number_format($total, 0)." - ".$nombre;

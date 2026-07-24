@@ -169,6 +169,19 @@ function cmd_confirmados(): array {
     return $out;
 }
 
+// Botón directo al WhatsApp del cliente: normaliza a 52XXXXXXXXXX y arma el wa.me con el mensaje listo.
+function cmd_wa_link(array $o): ?string {
+    $tel = preg_replace('/\D+/', '', (string) ($o['whatsapp'] ?? ''));
+    if (strlen($tel) === 10) $tel = '52' . $tel;
+    if (strlen($tel) < 12) return null;
+    $nom = trim((string) ($o['nombre'] ?? ''));
+    $msg = '¡Hola' . ($nom !== '' ? ' ' . $nom : '') . '! Soy Jessica de Picando Tabla 🧀 Recibimos tu pedido por $'
+         . number_format((float) ($o['total'] ?? 0), 0)
+         . (($o['fecha'] ?? '') !== '' ? ' para el ' . $o['fecha'] : '')
+         . '. Te comparto los datos para la transferencia y con eso queda apartada tu fecha. ¡Gracias!';
+    return 'https://wa.me/' . $tel . '?text=' . rawurlencode($msg);
+}
+
 // Próximo jueves (día de compras: víspera de las entregas de viernes/sábado).
 function cmd_dia_compras(): DateTime {
     $d = new DateTime('thursday this week');

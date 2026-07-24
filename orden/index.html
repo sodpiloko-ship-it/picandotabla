@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4BMCS7P6DQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-4BMCS7P6DQ');
+</script>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1537185354529246');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"/></noscript>
+<!-- End Meta Pixel Code -->
+<title>Arma tu tabla en vivo · Picando Tabla · CDMX</title>
+<meta name="description" content="Arma tu tabla de quesos y charcutería y mírala tomar forma en vivo. Curaduría a tu medida, entrega viernes y sábado en CDMX. Desde $650.">
+<link rel="canonical" href="https://picandotabla.com/orden/">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#ffffff">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Arma tu tabla en vivo · Picando Tabla">
+<meta property="og:description" content="Elige y mira tu tabla armarse en vivo. Entrega viernes y sábado en CDMX.">
+<meta property="og:url" content="https://picandotabla.com/orden/">
+<meta property="og:image" content="https://picandotabla.com/img/hero.jpg">
+<meta property="og:locale" content="es_MX">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;overflow:hidden;background:#fff}
+  body{font-family:'Source Serif 4',Georgia,serif;color:#1a1718;-webkit-tap-highlight-color:transparent}
+  a{color:#6f1d33;text-decoration:none}
+  button{font-family:inherit;cursor:pointer}
+  input{font-family:inherit}
+  button:focus-visible,input:focus-visible,a:focus-visible{outline:1.5px solid #6f1d33;outline-offset:3px}
+  [data-scroll]{scrollbar-width:none}
+  [data-scroll]::-webkit-scrollbar{height:0;width:0}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+  #stage{position:fixed;inset:0;overflow:hidden;background:#fff}
+  #c{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y}
+  #lite{position:absolute;inset:0;background:#f4f0ea center/cover no-repeat;display:none}
+  #lite.on{display:block}
+  #lite::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.86),rgba(255,255,255,.35) 42%,rgba(255,255,255,.9))}
+
+  .mark{position:absolute;top:calc(env(safe-area-inset-top) + 20px);left:22px;font:400 10px/1 'Source Serif 4',serif;letter-spacing:.34em;text-transform:uppercase;color:#6f1d33;z-index:3}
+  .mark a{color:#6f1d33}
+  .hero{position:absolute;top:calc(env(safe-area-inset-top) + 54px);left:22px;right:22px;max-width:520px;pointer-events:none;z-index:2}
+  .hero .eyebrow{font:400 10px/1 'Source Serif 4',serif;letter-spacing:.26em;text-transform:uppercase;color:#98908f}
+  .hero h1{font:300 clamp(30px,7.6vw,56px)/1.02 'Source Serif 4',serif;letter-spacing:-.02em;color:#1a1718;margin-top:12px}
+  .hero .sub{font:italic 400 15px/1.5 'Source Serif 4',serif;color:#6b6463;margin-top:8px}
+  .hint{position:absolute;left:22px;top:calc(env(safe-area-inset-top) + 196px);font:italic 400 12px/1.4 'Source Serif 4',serif;color:#b4aead;pointer-events:none;z-index:2;transition:opacity .6s}
+  @media(min-width:900px){.hero{left:54px;top:96px}.mark{left:54px}.hint{left:54px;top:268px}}
+
+  #boot{position:absolute;left:0;right:0;top:38%;display:flex;flex-direction:column;align-items:center;gap:14px;z-index:4}
+  #boot .ring{width:34px;height:34px;border-radius:999px;border:1.5px solid rgba(111,29,51,.18);border-top-color:#6f1d33;animation:spin 1s linear infinite}
+  #boot .t{font:400 10px/1 'Source Serif 4',serif;letter-spacing:.2em;text-transform:uppercase;color:#98908f}
+
+  .dock{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:center;padding:0 12px calc(env(safe-area-inset-bottom) + 12px);z-index:5}
+  .panel{width:100%;max-width:960px;display:flex;flex-direction:column;background:rgba(255,255,255,.93);backdrop-filter:blur(20px);border:1px solid rgba(26,23,24,.08);border-radius:20px;box-shadow:0 18px 50px -18px rgba(26,23,24,.28),0 2px 8px -2px rgba(26,23,24,.1);overflow:hidden}
+
+  .track{height:2px;background:rgba(26,23,24,.07)}
+  .track i{display:block;height:100%;background:#6f1d33;transition:width .45s cubic-bezier(.4,0,.2,1)}
+  .steps{display:flex;gap:20px;overflow-x:auto;padding:12px 18px 11px;border-bottom:1px solid rgba(26,23,24,.07)}
+  .steps button{flex:0 0 auto;display:flex;flex-direction:column;gap:4px;align-items:flex-start;padding:0 0 5px;border:0;border-bottom:1.5px solid transparent;background:none;text-align:left}
+  .steps .k{font:400 9px/1 'Source Serif 4',serif;letter-spacing:.2em;text-transform:uppercase;color:#98908f}
+  .steps .v{font:400 14px/1.1 'Source Serif 4',serif;color:#1a1718;white-space:nowrap;max-width:190px;overflow:hidden;text-overflow:ellipsis}
+  .steps button.on{border-bottom-color:#6f1d33}
+  .steps button.on .k{color:#6f1d33}
+
+  .qrow{display:flex;align-items:baseline;justify-content:space-between;gap:14px;padding:13px 18px 11px}
+  .qrow .q{font:italic 400 16px/1.2 'Source Serif 4',serif;color:#6f1d33}
+  .qrow .n{flex:none;font:400 9px/1 'Source Serif 4',serif;letter-spacing:.2em;text-transform:uppercase;color:#b4aead}
+
+  .body{overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;padding:0 18px 15px}
+  .sec{display:none;gap:8px;align-items:stretch}
+  .sec.on{display:flex}
+  .grp{flex:0 0 auto;display:flex;flex-direction:column;gap:7px}
+  .grp .lbl{font:400 9px/1 'Source Serif 4',serif;letter-spacing:.2em;text-transform:uppercase;color:#98908f}
+  .grp .row{display:flex;gap:7px}
+  .rule{flex:0 0 auto;width:1px;align-self:stretch;background:rgba(26,23,24,.09);margin:0 6px}
+
+  .chip{flex:0 0 auto;min-height:44px;padding:11px 17px;border-radius:999px;border:1px solid rgba(26,23,24,.14);background:#fff;color:#1a1718;font:400 14px/1 'Source Serif 4',serif;white-space:nowrap;transition:border-color .2s,background .2s,color .2s}
+  .chip:hover{border-color:#6f1d33}
+  .chip.on{border-color:#6f1d33;background:rgba(111,29,51,.07);color:#4f1424}
+  .chip.dash{border-style:dashed;border-color:rgba(111,29,51,.45);color:#6f1d33;font-style:italic}
+
+  .card{flex:0 0 auto;width:172px;display:flex;flex-direction:column;justify-content:space-between;gap:12px;padding:13px 15px;border-radius:12px;border:1px solid rgba(26,23,24,.14);background:#fff;color:#1a1718;font:400 15px/1.25 'Source Serif 4',serif;text-align:left;transition:border-color .2s,background .2s}
+  .card:hover{border-color:#6f1d33}
+  .card.on{border-color:#6f1d33;background:rgba(111,29,51,.07);color:#4f1424}
+  .card .m{font:400 12px/1 'Source Serif 4',serif;letter-spacing:.06em;color:#98908f}
+  .card.on .m{color:#6f1d33}
+  .card.wide{width:214px}
+
+  .fld{flex:0 0 auto;min-height:44px;padding:12px 15px;border-radius:12px;border:1px solid rgba(26,23,24,.14);background:#fff;color:#1a1718;font:400 15px/1.2 'Source Serif 4',serif}
+  .fld::placeholder{color:#b4aead}
+  .fld:focus{border-color:#6f1d33;outline:none}
+  .note{flex:0 0 auto;width:200px;align-self:center;font:italic 400 12px/1.5 'Source Serif 4',serif;color:#98908f}
+
+  .foot{border-top:1px solid rgba(26,23,24,.07);padding:11px 18px 12px;display:flex;align-items:center;gap:12px}
+  .foot .tot{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:3px}
+  .foot .k{font:400 9px/1 'Source Serif 4',serif;letter-spacing:.2em;text-transform:uppercase;color:#98908f}
+  .foot .val{font:400 24px/1 'Source Serif 4',serif;letter-spacing:-.01em;color:#6f1d33}
+  .foot .brk{font:400 11px/1.35 'Source Serif 4',serif;color:#98908f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .cta{flex:0 0 auto;min-height:50px;padding:14px 26px;border-radius:999px;border:1px solid #6f1d33;background:#6f1d33;color:#fff;font:400 15px/1 'Source Serif 4',serif;letter-spacing:.02em;white-space:nowrap;transition:background .25s,transform .2s,opacity .2s}
+  .cta:hover{background:#4f1424;transform:translateY(-1px)}
+  .cta.busy{opacity:.55;pointer-events:none}
+  .wa{flex:0 0 auto;width:50px;height:50px;border-radius:999px;border:1px solid rgba(26,23,24,.14);display:flex;align-items:center;justify-content:center;background:#fff;transition:border-color .2s}
+  .wa:hover{border-color:#6f1d33}
+  .wa svg{width:21px;height:21px;fill:#25D366}
+  .err{padding:0 18px 12px;font:italic 400 13px/1.45 'Source Serif 4',serif;color:#6f1d33;display:none}
+  .err.on{display:block}
+
+  #done{position:absolute;inset:0;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);z-index:9}
+  #done.on{display:flex}
+  #done .box{max-width:460px;display:flex;flex-direction:column;gap:16px;align-items:flex-start;animation:fade .5s both}
+  #done h2{font:300 clamp(28px,7vw,44px)/1.04 'Source Serif 4',serif;letter-spacing:-.02em;color:#1a1718}
+  #done p{font:400 15px/1.6 'Source Serif 4',serif;color:#6b6463}
+  #done .res{font:400 13.5px/1.6 'Source Serif 4',serif;color:#6b6463;border-left:2px solid rgba(111,29,51,.3);padding-left:14px}
+  #done .go{min-height:52px;padding:16px 26px;border-radius:999px;background:#6f1d33;color:#fff;font:400 15px/1 'Source Serif 4',serif;display:inline-flex;align-items:center;gap:10px}
+  #done .go:hover{background:#4f1424}
+  #done .again{border:0;background:none;padding:0;color:#98908f;font:italic 400 13px/1 'Source Serif 4',serif;text-decoration:underline}
+
+  @media(max-width:560px){
+    .foot{padding:10px 14px 11px;gap:9px}
+    .foot .val{font-size:21px}
+    .cta{padding:13px 19px;font-size:14px}
+    .wa{width:46px;height:46px}
+    .steps{padding:11px 14px 10px;gap:16px}
+    .qrow{padding:11px 14px 9px}
+    .qrow .q{font-size:15px}
+    .body{padding:0 14px 13px}
+    .hint{display:none}
+  }
+</style>
+</head>
+<body>
+<div id="stage">
+  <canvas id="c"></canvas>
+  <div id="lite"></div>
+
+  <div class="mark"><a href="../">Picando Tabla</a></div>
+
+  <div class="hero">
+    <div class="eyebrow">Nunca la misma tabla dos veces</div>
+    <h1 id="hName">Tabla de la Anfitriona</h1>
+    <div class="sub" id="hSub">4 a 6 personas · la favorita · $950</div>
+  </div>
+
+  <div class="hint" id="hint">Arrastra para verla por todos lados</div>
+
+  <div id="boot"><div class="ring"></div><div class="t">Armando la tabla</div></div>
+
+  <div class="dock">
+    <div class="panel">
+      <div class="track"><i id="bar" style="width:20%"></i></div>
+
+      <div class="steps" data-scroll id="steps">
+        <button data-sec="tamano" class="on"><span class="k">Tamaño</span><span class="v" id="vTamano">Tabla de la Anfitriona</span></button>
+        <button data-sec="curaduria"><span class="k">Curaduría</span><span class="v" id="vCuraduria">Balanceada</span></button>
+        <button data-sec="extras"><span class="k">Extras</span><span class="v" id="vExtras">Sin extras</span></button>
+        <button data-sec="entrega"><span class="k">Entrega</span><span class="v" id="vEntrega">Por definir</span></button>
+        <button data-sec="datos"><span class="k">Tus datos</span><span class="v" id="vDatos">Por completar</span></button>
+      </div>
+
+      <div class="qrow"><div class="q" id="q">¿Para cuántas personas?</div><div class="n" id="stepN">Paso 1 de 5</div></div>
+
+      <div class="body" data-scroll>
+
+        <div class="sec on" data-sec="tamano" id="secTamano"></div>
+
+        <div class="sec" data-sec="curaduria">
+          <div class="grp">
+            <span class="lbl">El carácter</span>
+            <div class="row" id="rowPerfil"></div>
+          </div>
+          <div class="rule"></div>
+          <div class="grp">
+            <span class="lbl">Que no falte</span>
+            <div class="row" id="rowGustos"></div>
+          </div>
+          <div class="rule"></div>
+          <div class="grp">
+            <span class="lbl">Que evitemos</span>
+            <div class="row" id="rowEvitar"></div>
+          </div>
+          <div class="note">Omitimos ingredientes; no garantizamos ausencia de trazas.</div>
+        </div>
+
+        <div class="sec" data-sec="extras">
+          <button class="card wide" data-q="premium" data-v="si" id="cardPrem">Hazla Premium<span class="m" id="premM">+ $400</span></button>
+          <button class="card" data-q="extras" data-v="dip" data-multi="1">Dip de la casa<span class="m">+ $150</span></button>
+          <button class="card" data-q="extras" data-v="mermelada" data-multi="1">Mermelada de la casa<span class="m">+ $120</span></button>
+          <button class="card" data-q="extras" data-v="pan" data-multi="1">Pan y crujientes extra<span class="m">+ $120</span></button>
+          <div class="rule"></div>
+          <button class="card wide" data-q="vinos" data-v="si">Que resolvamos los vinos<span class="m">Se cotiza aparte</span></button>
+          <input class="fld" data-f="vinoNota" placeholder="Tu presupuesto de vino" style="width:190px;align-self:center">
+          <div class="note">Elegimos, compramos y coordinamos. Tu presupuesto manda; te cotizamos antes de comprar.</div>
+        </div>
+
+        <div class="sec" data-sec="entrega">
+          <div class="grp">
+            <span class="lbl">Día de entrega</span>
+            <div class="row" id="rowFechas"></div>
+          </div>
+          <div class="rule"></div>
+          <div class="grp">
+            <span class="lbl">Tu colonia</span>
+            <div class="row" id="rowColonia"></div>
+          </div>
+          <input class="fld" data-f="direccion" placeholder="Calle y referencias" style="width:240px;align-self:center">
+          <div class="note" id="noteEntrega">Entregamos viernes y sábado. Mensajería $120 en CDMX.</div>
+        </div>
+
+        <div class="sec" data-sec="datos">
+          <input class="fld" data-f="nombre" placeholder="Nombre" autocomplete="name" style="width:200px">
+          <input class="fld" data-f="whatsapp" placeholder="WhatsApp (10 dígitos)" inputmode="tel" autocomplete="tel" style="width:200px">
+          <input class="fld" data-f="notas" placeholder="Ocasión o detalle (opcional)" style="width:250px">
+          <div class="note" id="notePago">Tablas de 2 a 6: pagas por transferencia hasta 48 h antes de tu entrega.</div>
+        </div>
+      </div>
+
+      <div class="foot">
+        <div class="tot">
+          <span class="k">Total con envío</span>
+          <span class="val" id="total">$1,070</span>
+          <span class="brk" id="brk">Tabla $950 · mensajería $120</span>
+        </div>
+        <button class="cta" id="cta">Enviar mi pedido</button>
+        <a class="wa" id="waTop" href="#" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
+          <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3C9.4 3 4 8.4 4 15c0 2.1.6 4.1 1.6 5.9L4 29l8.3-1.6c1.7.9 3.6 1.4 5.7 1.4 6.6 0 12-5.4 12-12S22.6 3 16 3zm5.8 14.5c-.3-.2-1.9-.9-2.2-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1-.3-.2-1.3-.5-2.5-1.6-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.4.5-.6.1-.2.2-.3.3-.5.1-.2 0-.4 0-.6 0-.2-.7-1.7-1-2.3-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.1 3.3 5.2 4.6.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.9-.8 2.1-1.5.3-.7.3-1.4.2-1.5-.1-.2-.3-.2-.6-.4z"/></svg>
+        </a>
+      </div>
+      <div class="err" id="err"></div>
+    </div>
+  </div>
+
+  <div id="done">
+    <div class="box">
+      <h2>Recibimos tu pedido.</h2>
+      <p id="okText">Te escribimos por WhatsApp para confirmar disponibilidad y darte los datos de transferencia. Tu fecha queda apartada cuando se refleja el pago.</p>
+      <div class="res" id="okRes"></div>
+      <a class="go" id="okWa" href="#" target="_blank" rel="noopener">
+        <svg viewBox="0 0 32 32" style="width:19px;height:19px;fill:#fff" aria-hidden="true"><path d="M16 3C9.4 3 4 8.4 4 15c0 2.1.6 4.1 1.6 5.9L4 29l8.3-1.6c1.7.9 3.6 1.4 5.7 1.4 6.6 0 12-5.4 12-12S22.6 3 16 3zm5.8 14.5c-.3-.2-1.9-.9-2.2-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1-.3-.2-1.3-.5-2.5-1.6-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.4.5-.6.1-.2.2-.3.3-.5.1-.2 0-.4 0-.6 0-.2-.7-1.7-1-2.3-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.1 3.3 5.2 4.6.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.9-.8 2.1-1.5.3-.7.3-1.4.2-1.5-.1-.2-.3-.2-.6-.4z"/></svg>
+        Confirmar por WhatsApp</a>
+      <button class="again" id="again">Armar otra tabla</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─────────────────────────────────────────────────────────────────────────────
+// Catálogo real de Picando Tabla (mismos precios y reglas que la home).
+// ─────────────────────────────────────────────────────────────────────────────
+var WA = '525623632404', ENVIO = 120;
+var TABLAS = {
+  dos:        {p:650,  prem:300, n:'Tabla para Dos',        s:'2 personas · noche tranquila',    items:9,  k:.74, q:2, cn:2},
+  anfitriona: {p:950,  prem:400, n:'Tabla de la Anfitriona', s:'4 a 6 personas · la favorita',   items:14, k:.9,  q:4, cn:3},
+  fiesta:     {p:1600, prem:600, n:'Tabla de Fiesta',        s:'8 personas · tabla de evento',   items:20, k:1.04,q:5, cn:4, evento:true},
+  celebracion:{p:2600, prem:900, n:'Tabla de Celebración',   s:'10 a 12 personas · tabla de evento', items:27, k:1.16, evento:true}
+};
+var EXTRAS = {dip:{p:150,n:'Dip de la casa'}, mermelada:{p:120,n:'Mermelada de la casa'}, pan:{p:120,n:'Pan y crujientes extra'}};
+var PERFILES = {
+  balanceada:{n:'Balanceada', w:[.34,.33,.33]},
+  quesos:{n:'Más quesos', w:[.55,.15,.30]},
+  carnes:{n:'Más carnes', w:[.20,.52,.28]},
+  suave:{n:'Suave y fresca', w:[.44,.12,.44], q:['cremoso'], a:['fruta','uvas','miel','pan']},
+  intensa:{n:'Intensa', w:[.30,.44,.26], q:['maduro','semiduro'], c:['salami','serrano'], a:['secos','aceitunas','mermelada']},
+  sorpresa:{n:'Sorpréndeme', w:[.36,.32,.32]}
+};
+var GUSTOS = {cremoso:'Cremosos',maduro:'Maduros',semiduro:'Semiduros',serrano:'Serrano',salami:'Salami',prosciutto:'Prosciutto',uvas:'Uvas',fruta:'Fruta del día',secos:'Frutos secos',aceitunas:'Aceitunas'};
+var EVITAR = {sincerdo:'Sin cerdo',sinsecos:'Sin frutos secos',pocaazucar:'Poca azúcar',nada:'Sin restricciones'};
+var COLONIAS = {condesa:'Condesa',roma:'Roma',delvalle:'Del Valle',coyoacan:'Coyoacán',polanco:'Polanco',napoles:'Nápoles',otra:'Otra colonia'};
+var QUESOS = ['cremoso','semiduro','maduro'], CARNES = ['serrano','salami','prosciutto'], ACOMP = ['uvas','fruta','secos','aceitunas','mermelada','miel','pan'];
+var SECS = ['tamano','curaduria','extras','entrega','datos'];
+var PREG = {tamano:'¿Para cuántas personas?', curaduria:'¿Cómo la quieres?', extras:'¿Le añadimos algo de la casa?', entrega:'¿Cuándo y dónde la entregamos?', datos:'¿A nombre de quién?'};
+
+var money = function(n){ return '$' + Math.round(n).toLocaleString('en-US'); };
+var $ = function(s){ return document.querySelector(s); };
+var $$ = function(s){ return Array.prototype.slice.call(document.querySelectorAll(s)); };
+
+// ── Estado ───────────────────────────────────────────────────────────────────
+var S = {tabla:'anfitriona', perfil:'balanceada', gustos:[], evitar:[], dejalo:null, premium:null, extras:[], vinos:null, fecha:null, colonia:null};
+try{ var raw = localStorage.getItem('pt.orden');
+  if(raw){ var o = JSON.parse(raw); ['gustos','evitar','extras'].forEach(function(k){ o[k]=o[k]||[]; });
+    o.tabla = TABLAS[o.tabla] ? o.tabla : 'anfitriona'; S = Object.assign(S,o); }
+}catch(e){}
+var save = function(){ try{ localStorage.setItem('pt.orden', JSON.stringify(S)); }catch(e){} };
+var open_ = 'tamano', sending = false;
+
+// ── Fechas válidas: SOLO viernes y sábado, con la anticipación de cada tabla ──
+// 2 a 6 personas: 48 h · tablas de evento (8 a 12): una semana.
+var DIAS = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+var MESES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+function fechasValidas(){
+  var t = TABLAS[S.tabla], lead = t.evento ? 7 : 2, out = [], d = new Date();
+  d.setHours(0,0,0,0);
+  var min = new Date(d.getTime() + lead*86400000);
+  for(var i=0;i<60 && out.length<5;i++){
+    var x = new Date(d.getTime() + i*86400000);
+    if((x.getDay()===5 || x.getDay()===6) && x >= min){
+      out.push({iso:x.toISOString().slice(0,10), lbl:DIAS[x.getDay()]+' '+x.getDate()+' '+MESES[x.getMonth()]});
+    }
+  }
+  return out;
+}
+
+// ── Pintado de opciones ──────────────────────────────────────────────────────
+function chip(q,v,label,multi,extra){
+  return '<button class="chip'+(extra||'')+'" data-q="'+q+'" data-v="'+v+'"'+(multi?' data-multi="1"':'')+'>'+label+'</button>';
+}
+function pintarEstaticos(){
+  $('#secTamano').innerHTML = Object.keys(TABLAS).map(function(k){
+    var t = TABLAS[k], per = k==='dos'?'2 personas':k==='anfitriona'?'4 a 6':k==='fiesta'?'8 personas':'10 a 12';
+    return '<button class="card" data-q="tabla" data-v="'+k+'">'+t.n+'<span class="m">'+per+' · '+money(t.p)+'</span></button>';
+  }).join('') + '<div class="note">Tablas de 8 a 12 son de evento: una semana de anticipación.</div>';
+  $('#rowPerfil').innerHTML = Object.keys(PERFILES).map(function(k){ return chip('perfil',k,PERFILES[k].n); }).join('');
+  $('#rowGustos').innerHTML = Object.keys(GUSTOS).map(function(k){ return chip('gustos',k,GUSTOS[k],true); }).join('')
+    + chip('dejalo','si','Ustedes eligen',false,' dash');
+  $('#rowEvitar').innerHTML = Object.keys(EVITAR).map(function(k){ return chip('evitar',k,EVITAR[k],true); }).join('');
+  $('#rowColonia').innerHTML = Object.keys(COLONIAS).map(function(k){ return chip('colonia',k,COLONIAS[k]); }).join('');
+}
+function pintarFechas(){
+  var f = fechasValidas();
+  if(S.fecha && !f.some(function(x){ return x.iso===S.fecha; })) S.fecha = null;
+  $('#rowFechas').innerHTML = f.map(function(x){ return chip('fecha',x.iso,x.lbl); }).join('');
+  marcar();
+}
+
+// ── Cálculo ──────────────────────────────────────────────────────────────────
+function cuenta(){
+  var t = TABLAS[S.tabla], prem = S.premium ? t.prem : 0;
+  var ex = S.extras.reduce(function(s,k){ return s + (EXTRAS[k]?EXTRAS[k].p:0); }, 0);
+  return {t:t, prem:prem, ex:ex, total:t.p + prem + ex + ENVIO};
+}
+function items(){
+  var c = cuenta(), out = [{qty:1, nombre:c.t.n + (S.premium?' (Premium)':''), precio:c.t.p + c.prem}];
+  S.extras.forEach(function(k){ out.push({qty:1, nombre:EXTRAS[k].n, precio:EXTRAS[k].p}); });
+  out.push({qty:1, nombre:'Mensajería CDMX', precio:ENVIO});
+  return out;
+}
+function fechaLbl(){
+  if(!S.fecha) return '';
+  var f = fechasValidas().filter(function(x){ return x.iso===S.fecha; })[0];
+  return f ? f.lbl : S.fecha;
+}
+function curaduriaTxt(){
+  var L = [];
+  L.push('Curaduría: ' + PERFILES[S.perfil].n);
+  if(S.dejalo) L.push('Favoritos: ustedes eligen');
+  else if(S.gustos.length) L.push('Favoritos: ' + S.gustos.map(function(k){ return GUSTOS[k]; }).join(', '));
+  if(S.evitar.length) L.push('Evitar: ' + S.evitar.map(function(k){ return EVITAR[k]; }).join(', '));
+  if(S.vinos) L.push('Vinos: sí, que los resolvamos' + (S.vinoNota ? ' (presupuesto ' + S.vinoNota + ')' : '') + ' — por cotizar aparte');
+  if(S.notas) L.push('Nota: ' + S.notas);
+  return L.join(' · ');
+}
+function resumenTxt(){
+  var c = cuenta(), L = ['*' + c.t.n + (S.premium ? ' · Premium' : '') + '* — ' + money(c.t.p + c.prem)];
+  S.extras.forEach(function(k){ L.push('+ ' + EXTRAS[k].n + ' — ' + money(EXTRAS[k].p)); });
+  L.push('+ Mensajería CDMX — ' + money(ENVIO));
+  L.push('Total: ' + money(c.total));
+  L.push('');
+  L.push(curaduriaTxt());
+  if(S.fecha) L.push('Entrega: ' + fechaLbl() + (S.colonia ? ' · ' + COLONIAS[S.colonia] : '') + (S.direccion ? ' · ' + S.direccion : ''));
+  if(S.nombre) L.push('A nombre de: ' + S.nombre + (S.whatsapp ? ' · ' + S.whatsapp : ''));
+  return L.join('\n');
+}
+function waHref(){
+  return 'https://wa.me/' + WA + '?text=' + encodeURIComponent('¡Hola! Armé mi tabla en la página:\n\n' + resumenTxt());
+}
+
+// ── Render de la interfaz ────────────────────────────────────────────────────
+function marcar(){
+  $$('[data-q]').forEach(function(b){
+    var q = b.dataset.q, v = b.dataset.v, on;
+    if(q==='gustos'||q==='evitar'||q==='extras') on = S[q].indexOf(v) > -1;
+    else if(q==='premium'||q==='vinos'||q==='dejalo') on = !!S[q];
+    else on = S[q] === v;
+    b.classList.toggle('on', !!on);
+  });
+}
+function pintar(){
+  var c = cuenta(), t = c.t;
+  $('#hName').textContent = t.n;
+  $('#hSub').textContent = t.s + ' · ' + money(t.p);
+  $('#vTamano').textContent = t.n;
+  $('#vCuraduria').textContent = PERFILES[S.perfil].n + (S.gustos.length ? ' · ' + S.gustos.length + ' favoritos' : '');
+  var ex = [];
+  if(S.premium) ex.push('Premium');
+  S.extras.forEach(function(k){ ex.push(EXTRAS[k].n.replace(' de la casa','')); });
+  if(S.vinos) ex.push('Vinos');
+  $('#vExtras').textContent = ex.length ? ex.join(', ') : 'Sin extras';
+  $('#vEntrega').textContent = S.fecha ? (fechaLbl() + (S.colonia ? ' · ' + COLONIAS[S.colonia] : '')) : 'Por definir';
+  $('#vDatos').textContent = S.nombre || 'Por completar';
+  $('#premM').textContent = '+ ' + money(t.prem);
+
+  $('#total').textContent = money(c.total) + (S.vinos ? ' + vinos' : '');
+  var brk = ['Tabla ' + money(t.p)];
+  if(c.prem) brk.push('premium ' + money(c.prem));
+  if(c.ex) brk.push('extras ' + money(c.ex));
+  brk.push('mensajería ' + money(ENVIO));
+  if(S.vinos) brk.push('vinos por cotizar');
+  $('#brk').textContent = brk.join(' · ');
+
+  $('#noteEntrega').textContent = t.evento
+    ? 'Tablas de evento: una semana de anticipación. Entregamos viernes y sábado. Mensajería $120 en CDMX.'
+    : 'Entregamos viernes y sábado, hasta 48 h después de tu pedido. Mensajería $120 en CDMX.';
+  $('#notePago').textContent = t.evento
+    ? 'Tabla de evento: apartas tu fecha con el 50% (' + money(c.total/2) + ') y liquidas 8 días antes.'
+    : 'Tablas de 2 a 6: pago completo por transferencia, hasta 48 h antes de tu entrega.';
+
+  $('#q').textContent = PREG[open_];
+  var i = SECS.indexOf(open_);
+  $('#stepN').textContent = 'Paso ' + (i+1) + ' de ' + SECS.length;
+  $('#bar').style.width = ((i+1)/SECS.length*100) + '%';
+  $$('#steps button').forEach(function(b){ b.classList.toggle('on', b.dataset.sec===open_); });
+  $$('.sec').forEach(function(s){ s.classList.toggle('on', s.dataset.sec===open_); });
+  $('#waTop').href = waHref();
+  marcar();
+  if(window.PT3D) PT3D.sync(S);
+}
+function irA(sec){
+  open_ = sec; pintar();
+  var b = $('#steps button[data-sec="'+sec+'"]');
+  if(b && b.scrollIntoView) b.scrollIntoView({behavior:'smooth', block:'nearest', inline:'center'});
+}
+function error(msg, sec){
+  var e = $('#err'); e.textContent = msg; e.classList.add('on');
+  if(sec) irA(sec);
+}
+function limpiarError(){ $('#err').classList.remove('on'); }
+
+// ── Interacción ──────────────────────────────────────────────────────────────
+$('#steps').addEventListener('click', function(e){
+  var b = e.target.closest('[data-sec]'); if(!b) return;
+  limpiarError(); irA(b.dataset.sec);
+});
+$('.body').addEventListener('click', function(e){
+  var b = e.target.closest('[data-q]'); if(!b) return;
+  limpiarError();
+  var q = b.dataset.q, v = b.dataset.v, multi = b.dataset.multi === '1';
+  if(multi){
+    var cur = S[q].slice(), i = cur.indexOf(v);
+    if(i > -1) cur.splice(i,1); else cur.push(v);
+    if(q === 'evitar') cur = (v==='nada' && i===-1) ? ['nada'] : cur.filter(function(x){ return x!=='nada' || v==='nada'; });
+    S[q] = cur;
+    if(q === 'gustos' && cur.length) S.dejalo = null;
+  } else if(q === 'dejalo'){
+    S.dejalo = S.dejalo ? null : 'si';
+    if(S.dejalo) S.gustos = [];
+  } else if(q === 'premium' || q === 'vinos'){
+    S[q] = S[q] ? null : 'si';
+    if(q === 'vinos' && S.vinos) track('select_item', {item_name:'Servicio de vinos'});
+  } else if(q === 'tabla'){
+    S.tabla = v; pintarFechas();
+    track('select_item', {item_name:TABLAS[v].n, value:TABLAS[v].p, currency:'MXN'});
+    try{ if(window.fbq) fbq('track','ViewContent',{content_name:TABLAS[v].n, value:TABLAS[v].p, currency:'MXN'}); }catch(e){}
+  } else {
+    S[q] = S[q] === v ? null : v;
+  }
+  save(); pintar();
+});
+$('.body').addEventListener('input', function(e){
+  var f = e.target.dataset && e.target.dataset.f; if(!f) return;
+  S[f] = e.target.value; save();
+  if(f === 'nombre') $('#vDatos').textContent = S.nombre || 'Por completar';
+});
+$$('[data-f]').forEach(function(i){ if(S[i.dataset.f]) i.value = S[i.dataset.f]; });
+
+// ── Enviar el pedido: registro REAL en la comanda + WhatsApp ─────────────────
+$('#cta').addEventListener('click', function(){
+  if(sending) return;
+  limpiarError();
+  if(!S.fecha) return error('Elige el día de entrega (entregamos viernes y sábado).', 'entrega');
+  if(!S.nombre || !S.nombre.trim()) return error('Déjanos tu nombre para el pedido.', 'datos');
+  var tel = (S.whatsapp||'').replace(/\D/g,'');
+  if(tel.length < 10) return error('Escribe tu WhatsApp a 10 dígitos para poder confirmarte.', 'datos');
+
+  sending = true;
+  var cta = $('#cta'); cta.classList.add('busy'); cta.textContent = 'Enviando…';
+  var c = cuenta();
+  var payload = {
+    nombre: S.nombre, whatsapp: S.whatsapp, zona: (S.colonia ? COLONIAS[S.colonia] : '') + (S.direccion ? ' — ' + S.direccion : ''),
+    fecha: fechaLbl(), total: c.total, items: items(), notas: curaduriaTxt(), origen: 'orden 3D (web)'
+  };
+  var listo = function(ok){
+    sending = false; cta.classList.remove('busy'); cta.textContent = 'Enviar mi pedido';
+    if(!ok) return error('No pudimos registrar el pedido. Mándanoslo por WhatsApp con el botón verde y lo tomamos igual.');
+    track('purchase_request', {value:c.total, currency:'MXN', items:items().length});
+    track('whatsapp_click', {source:'orden3d', value:c.total, currency:'MXN'});
+    try{ if(window.fbq) fbq('track','Lead',{content_name:c.t.n, value:c.total, currency:'MXN'}); }catch(e){}
+    $('#okRes').textContent = resumenTxt().replace(/\*/g,'');
+    $('#okWa').href = waHref();
+    $('#done').classList.add('on');
+    var w = window.open(waHref(), '_blank');
+    if(!w) $('#okWa').focus();
+  };
+  fetch('../order.php', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload)})
+    .then(function(r){ return r.ok ? r.json() : null; })
+    .then(function(j){ listo(!!(j && j.ok)); })
+    .catch(function(){ listo(false); });
+});
+$('#again').addEventListener('click', function(){
+  S = {tabla:'anfitriona', perfil:'balanceada', gustos:[], evitar:[], dejalo:null, premium:null, extras:[], vinos:null, fecha:null, colonia:null};
+  save();
+  $$('[data-f]').forEach(function(i){ i.value = ''; });
+  $('#done').classList.remove('on');
+  pintarFechas(); irA('tamano');
+});
+function track(ev, params){ try{ if(window.gtag) gtag('event', ev, params||{}); }catch(e){} }
+
+pintarEstaticos(); pintarFechas(); pintar();
+track('view_item', {item_name:TABLAS[S.tabla].n, value:TABLAS[S.tabla].p, currency:'MXN'});
+</script>
+
+<script type="module">
+// ─────────────────────────────────────────────────────────────────────────────
+// Tabla 3D: TODA la geometría se genera aquí (no hay modelos descargados).
+// Por eso la tabla se re-arma en vivo con cada elección del cliente.
+// ─────────────────────────────────────────────────────────────────────────────
+import * as THREE from './three.module.min.js';
+
+var COL = {cremoso:0xf6efdd, semiduro:0xefd9a4, maduro:0xdfb862, serrano:0xa84a52, salami:0x8e3038,
+  prosciutto:0xd4938f, pavo:0xdcb69f, uvas:0x5c2b45, fruta:0xd08a4a, secos:0xb58a5c,
+  aceitunas:0x74804f, mermelada:0x6f1d33, miel:0xd09a45, pan:0xdcbe90, vidrio:0x33202a};
+var QUESOS = ['cremoso','semiduro','maduro'], CARNES = ['serrano','salami','prosciutto'],
+    ACOMP = ['uvas','fruta','secos','aceitunas','mermelada','miel','pan'];
+
+var canvas = document.getElementById('c'), renderer, scene, camera, boardGroup, sideGroup, stage;
+var mats = {}, geos = {}, items = [], bottles = [], look, tgtPos, tgtLook, tgtScale;
+var boardR = 1.05, tall = false, spin = 0, spinV = 0, dragging = false, lastX = 0, ST = null, raf;
+
+function fail(){
+  document.getElementById('boot').style.display = 'none';
+  var l = document.getElementById('lite');
+  l.style.backgroundImage = "url('../img/2.jpg')";
+  l.classList.add('on');
+  document.getElementById('hint').style.display = 'none';
+}
+function mat(n){
+  if(!mats[n]){
+    var glossy = n==='mermelada' || n==='miel' || n==='vidrio';
+    mats[n] = new THREE.MeshStandardMaterial({color:COL[n]||0xeeddbb, roughness:glossy?.24:.64, metalness:0});
+  }
+  return mats[n];
+}
+function geo(k, make){ if(!geos[k]) geos[k] = make(); return geos[k]; }
+
+function build(ing){
+  var g = new THREE.Group(), m = mat(ing);
+  var add = function(gm,x,y,z,rx,ry,s,mm){
+    var mesh = new THREE.Mesh(gm, mm||m);
+    mesh.position.set(x,y,z); mesh.rotation.set(rx||0, ry||0, 0);
+    if(s) mesh.scale.setScalar(s);
+    mesh.castShadow = true; g.add(mesh); return mesh;
+  };
+  if(ing==='cremoso'){
+    add(geo('disc', function(){ return new THREE.CylinderGeometry(.15,.15,.07,20); }), 0,.035,0);
+    add(geo('disc', function(){ return new THREE.CylinderGeometry(.15,.15,.07,20); }), .07,.1,.05,0,.4,.7);
+  } else if(ing==='semiduro'){
+    var c = geo('cube', function(){ return new THREE.BoxGeometry(.13,.13,.13); });
+    add(c,0,.065,0,0,.3); add(c,.1,.065,.08,0,.9); add(c,.02,.19,.03,0,.6,.9);
+  } else if(ing==='maduro'){
+    var w = geo('wedge', function(){ return new THREE.CylinderGeometry(.2,.2,.09,22,1,false,0,Math.PI/2.6); });
+    add(w,0,.045,0,0,.2); add(w,.05,.045,.12,0,2.4,.85);
+  } else if(ing==='serrano'||ing==='prosciutto'||ing==='pavo'){
+    var f = geo('lonja', function(){ return new THREE.CylinderGeometry(.105,.095,.016,18); });
+    for(var i=0;i<4;i++){
+      var me = add(f, i*.05-.075, .014+i*.014, i*.028-.04, .22-i*.12, i*.9);
+      me.rotation.z = i%2 ? .18 : -.16; me.scale.set(1,1,.78);
+    }
+  } else if(ing==='salami'){
+    var s = geo('slice', function(){ return new THREE.CylinderGeometry(.1,.1,.014,18); });
+    for(var j=0;j<4;j++) add(s, j*.045-.06, .012+j*.006, j*.02-.02, -.12, j*.4);
+  } else if(ing==='uvas'){
+    var b = geo('berry', function(){ return new THREE.SphereGeometry(.045,12,10); });
+    [[0,0,0],[.075,.01,.02],[-.06,.005,.05],[.02,.008,-.07],[.03,.075,.01],[-.02,.07,-.03],[.09,.06,-.05]]
+      .forEach(function(p){ add(b,p[0],p[1]+.045,p[2]); });
+  } else if(ing==='fruta'){
+    var h = geo('half', function(){ return new THREE.SphereGeometry(.085,14,10,0,Math.PI*2,0,Math.PI/2); });
+    add(h,0,.005,0); add(h,.11,.005,.06,0,.8,.8); add(h,-.05,.005,.11,0,1.6,.9);
+  } else if(ing==='secos'){
+    var n = geo('nut', function(){ return new THREE.IcosahedronGeometry(.042,0); });
+    for(var k=0;k<6;k++) add(n, Math.cos(k*1.9)*.07, .04, Math.sin(k*1.9)*.07, k*.5, k);
+  } else if(ing==='aceitunas'){
+    var o = geo('olive', function(){ return new THREE.SphereGeometry(.042,12,10); });
+    for(var l=0;l<5;l++){ var om = add(o, Math.cos(l*1.4)*.06, .045, Math.sin(l*1.4)*.06); om.scale.set(1,1.25,1); }
+  } else if(ing==='mermelada'||ing==='miel'||ing==='dip'){
+    add(geo('bowl', function(){ return new THREE.CylinderGeometry(.115,.088,.08,20); }), 0,.04,0,0,0,0, mat('cremoso'));
+    add(geo('jam', function(){ return new THREE.CylinderGeometry(.1,.1,.02,20); }), 0,.085,0,0,0,0, ing==='dip'?mat('cremoso'):m);
+    if(ing==='dip') add(geo('drizzle', function(){ return new THREE.TorusGeometry(.05,.006,6,14); }), 0,.098,0, Math.PI/2,0,0, mat('miel'));
+  } else if(ing==='pan'){
+    var cr = geo('cracker', function(){ return new THREE.BoxGeometry(.14,.014,.14); });
+    for(var q=0;q<4;q++) add(cr, q*.05-.06, .012+q*.012, q*.015, 0, q*.35);
+  } else if(ing==='baguette'){
+    var bg = geo('baguette', function(){ return new THREE.CylinderGeometry(.055,.055,.26,14); });
+    for(var r=0;r<3;r++) add(bg, r*.07-.07, .055+r*.02, r*.05, Math.PI/2, r*.5-.3);
+  } else {
+    add(geo('disc', function(){ return new THREE.CylinderGeometry(.15,.15,.07,20); }), 0,.035,0);
+  }
+  return g;
+}
+function buildBottle(i){
+  var g = new THREE.Group(), m = mat('vidrio');
+  var body = new THREE.Mesh(geo('bottle', function(){ return new THREE.CylinderGeometry(.11,.11,.44,20); }), m);
+  body.position.y = .22; body.castShadow = true;
+  var neck = new THREE.Mesh(geo('neck', function(){ return new THREE.CylinderGeometry(.036,.075,.3,16); }), m);
+  neck.position.y = .55; neck.castShadow = true;
+  var label = new THREE.Mesh(geo('label', function(){ return new THREE.CylinderGeometry(.113,.113,.16,20); }), mat('cremoso'));
+  label.position.y = .2;
+  g.add(body); g.add(neck); g.add(label);
+  g.position.set(-1.12 - i*.05, 0, .42 + i*.3);
+  g.rotation.y = i*.7;
+  return g;
+}
+function pools(S, P){
+  var q = (P.q||QUESOS).slice(), c = (P.c||CARNES).slice(), ac = (P.a||ACOMP).slice(), ev = S.evitar||[], g = S.gustos||[];
+  if(!S.dejalo && g.length){
+    var pq = g.filter(function(x){ return QUESOS.indexOf(x)>-1; }),
+        pc = g.filter(function(x){ return CARNES.indexOf(x)>-1; }),
+        pa = g.filter(function(x){ return ACOMP.indexOf(x)>-1; });
+    if(pq.length) q = pq; if(pc.length) c = pc; if(pa.length) ac = pa;
+  }
+  if(ev.indexOf('sincerdo')>-1) c = ['pavo'];
+  if(ev.indexOf('sinsecos')>-1) ac = ac.filter(function(x){ return x!=='secos'; });
+  if(ev.indexOf('pocaazucar')>-1) ac = ac.filter(function(x){ return x!=='miel' && x!=='mermelada'; });
+  if(!q.length) q = ['cremoso']; if(!c.length) c = ['prosciutto']; if(!ac.length) ac = ['fruta','pan'];
+  return {q:q, c:c, ac:ac, w:P.w};
+}
+function lista(S){
+  var T = window.TABLAS[S.tabla], P = window.PERFILES[S.perfil] || window.PERFILES.balanceada;
+  var n = T.items + (S.premium ? 3 : 0), pool = pools(S,P), base = [];
+  [[pool.q, Math.max(1, Math.round(n*pool.w[0]))],
+   [pool.c, Math.max(1, Math.round(n*pool.w[1]))],
+   [pool.ac, Math.max(1, Math.round(n*pool.w[2]))]].forEach(function(pr){
+    for(var i=0;i<pr[1];i++) base.push(pr[0][i % pr[0].length]);
+  });
+  var mix = [];
+  for(var i=0;i<base.length;i++) mix.push(base[(i*5+2) % base.length]);
+  var out = mix.slice(0, n);
+  (S.extras||[]).forEach(function(e){ out.push(e==='pan' ? 'baguette' : (e==='dip' ? 'dip' : 'mermelada')); });
+  return out;
+}
+
+function boot(){
+  try{ renderer = new THREE.WebGLRenderer({canvas:canvas, antialias:true, alpha:true, powerPreference:'high-performance'}); }
+  catch(e){ fail(); return; }
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, 2));
+  renderer.shadowMap.enabled = true;
+  scene = new THREE.Scene();
+  camera = new THREE.PerspectiveCamera(34, 1, .1, 60);
+  look = new THREE.Vector3(0,0,0);
+  tgtPos = new THREE.Vector3(0,2.4,4.2);
+  tgtLook = new THREE.Vector3(0,-.5,0);
+  camera.position.copy(tgtPos);
+
+  scene.add(new THREE.HemisphereLight(0xffffff, 0xd8d2cc, .9));
+  var key = new THREE.DirectionalLight(0xfffaf3, 1.9);
+  key.position.set(2.2,5.4,2.6); key.castShadow = true;
+  key.shadow.mapSize.set(1024,1024);
+  key.shadow.camera.left = -3.4; key.shadow.camera.right = 3.4;
+  key.shadow.camera.top = 3.4; key.shadow.camera.bottom = -3.4;
+  key.shadow.radius = 3; key.shadow.bias = -.0012;
+  scene.add(key);
+  var rim = new THREE.DirectionalLight(0xffffff, .45); rim.position.set(-3.2,2.2,-2.4); scene.add(rim);
+
+  var ground = new THREE.Mesh(new THREE.PlaneGeometry(30,30), new THREE.ShadowMaterial({opacity:.1}));
+  ground.rotation.x = -Math.PI/2; ground.receiveShadow = true; scene.add(ground);
+
+  stage = new THREE.Group(); stage.rotation.y = -.42; scene.add(stage);
+  boardGroup = new THREE.Group(); stage.add(boardGroup);
+  sideGroup = new THREE.Group(); stage.add(sideGroup);
+  tgtScale = new THREE.Vector3(1,1,1);
+
+  var wood = new THREE.MeshStandardMaterial({color:0xd8c3a5, roughness:.72, metalness:.02});
+  var woodDark = new THREE.MeshStandardMaterial({color:0xb69a78, roughness:.82});
+  var board = new THREE.Mesh(new THREE.CylinderGeometry(boardR, boardR*.97, .1, 64), wood);
+  board.castShadow = true; board.receiveShadow = true; board.position.y = .05;
+  var canto = new THREE.Mesh(new THREE.TorusGeometry(boardR-.008, .014, 6, 64), woodDark);
+  canto.rotation.x = Math.PI/2; canto.position.y = .098;
+  boardGroup.add(board); boardGroup.add(canto);
+
+  resize();
+  window.addEventListener('resize', resize);
+  document.getElementById('boot').style.display = 'none';
+  window.PT3D = {sync:sync};
+  sync(window.PTState());
+  tick();
+  setTimeout(function(){ var h = document.getElementById('hint'); if(h) h.style.opacity = '0'; }, 6000);
+}
+function resize(){
+  if(!renderer) return;
+  var w = canvas.clientWidth || window.innerWidth, h = canvas.clientHeight || window.innerHeight;
+  renderer.setSize(w, h, false);
+  camera.aspect = w/h; camera.updateProjectionMatrix();
+  tall = h/Math.max(1,w) > 1.3;
+  applyCam();
+}
+function applyCam(){
+  if(!ST) return;
+  // El panel de compra ocupa la mitad inferior: encuadramos la tabla ARRIBA,
+  // y en pantallas anchas la corremos a la derecha para no chocar con el titular.
+  var t = window.TABLAS[ST.tabla], k = t.k * (ST.vinos ? 1.12 : 1);
+  var wide = !tall && window.innerWidth >= 900;
+  var dist = (tall ? 4.3 : 3.8) * (.82 + .5*k);
+  var offX = wide ? 1.15 : 0;
+  stage.position.x = offX;
+  tgtPos.set(offX, 2.45*(.9 + .12*k), dist);
+  tgtLook.set(offX, tall ? -.92 : -.78, 0);
+}
+function sync(S){
+  ST = S;
+  if(!scene) return;
+  var t = window.TABLAS[S.tabla], want = lista(S), n = want.length, R = boardR*.82;
+  var target = want.map(function(ing,i){
+    var rr = Math.sqrt((i+.6)/n) * R, ang = i*2.39996;
+    return {key:'s'+i, ing:ing, x:Math.cos(ang)*rr, z:Math.sin(ang)*rr};
+  });
+  var now = performance.now(), byKey = {};
+  target.forEach(function(w){ byKey[w.key] = w; });
+  items.forEach(function(it){ var w = byKey[it.key]; if((!w || w.ing !== it.ing) && !it.out) it.out = now; });
+  target.forEach(function(w,i){
+    var found = items.filter(function(it){ return it.key===w.key && it.ing===w.ing && !it.out; })[0];
+    if(found){ found.x = w.x; found.z = w.z; return; }
+    var g = build(w.ing);
+    g.position.set(w.x, .1, w.z);
+    g.rotation.y = (i*53 % 360) * Math.PI/180;
+    g.scale.setScalar(.01);
+    boardGroup.add(g);
+    items.push({key:w.key, ing:w.ing, g:g, x:w.x, z:w.z, t0:now + i*26});
+  });
+  var wantB = S.vinos ? 3 : 0;
+  while(bottles.length < wantB){
+    var bg = buildBottle(bottles.length);
+    bg.scale.setScalar(.01);
+    sideGroup.add(bg);
+    bottles.push({g:bg, t0:now + bottles.length*110});
+  }
+  bottles.forEach(function(b,i){ if(i >= wantB && !b.out) b.out = now; });
+  tgtScale.setScalar(t.k);
+  applyCam();
+}
+function tick(){
+  raf = requestAnimationFrame(tick);
+  var now = performance.now();
+  if(!dragging){ spin += spinV; spinV *= .94; if(Math.abs(spinV) < .0002) spinV = 0; }
+  stage.rotation.y = -.42 + spin;
+  boardGroup.scale.lerp(tgtScale, .07);
+  camera.position.lerp(tgtPos, .05);
+  look.lerp(tgtLook, .05);
+  camera.lookAt(look);
+  for(var i=items.length-1;i>=0;i--){
+    var it = items[i];
+    if(it.out){
+      var po = Math.min(1, (now-it.out)/320);
+      it.g.scale.setScalar(Math.max(.001, 1-po));
+      it.g.position.y = .1 + po*.22;
+      if(po >= 1){ it.g.parent && it.g.parent.remove(it.g); items.splice(i,1); }
+      continue;
+    }
+    var p = Math.min(1, Math.max(0, (now-it.t0)/640));
+    if(p <= 0){ it.g.scale.setScalar(.01); continue; }
+    var e = p >= 1 ? 1 : 1 + 2.4*Math.pow(p-1,3) + 1.4*Math.pow(p-1,2);
+    it.g.scale.setScalar(Math.max(.01, e));
+    it.g.position.set(it.x, .1 + (1-p)*(1-p)*.55, it.z);
+  }
+  for(var j=bottles.length-1;j>=0;j--){
+    var b = bottles[j];
+    if(b.out){
+      var pb = Math.min(1, (now-b.out)/320);
+      b.g.scale.setScalar(Math.max(.001, 1-pb));
+      if(pb >= 1){ b.g.parent && b.g.parent.remove(b.g); bottles.splice(j,1); }
+      continue;
+    }
+    var pp = Math.min(1, Math.max(0, (now-b.t0)/700));
+    var eb = pp >= 1 ? 1 : 1 + 2.2*Math.pow(pp-1,3) + 1.2*Math.pow(pp-1,2);
+    b.g.scale.setScalar(Math.max(.01, eb));
+  }
+  renderer.render(scene, camera);
+}
+
+// Arrastrar para girar la tabla — el cliente la inspecta como en la mesa.
+function down(x){ dragging = true; lastX = x; spinV = 0; }
+function move(x){ if(!dragging) return; var d = (x-lastX)*.006; spin += d; spinV = d; lastX = x; }
+function up(){ dragging = false; }
+canvas.addEventListener('pointerdown', function(e){ down(e.clientX); canvas.setPointerCapture(e.pointerId); });
+canvas.addEventListener('pointermove', function(e){ move(e.clientX); });
+canvas.addEventListener('pointerup', up);
+canvas.addEventListener('pointercancel', up);
+
+if(!window.WebGLRenderingContext) fail();
+else { try{ boot(); }catch(e){ fail(); } }
+</script>
+<script>
+// Puente entre el panel (script clásico) y la escena (módulo).
+window.TABLAS = TABLAS; window.PERFILES = PERFILES;
+window.PTState = function(){ return S; };
+</script>
+</body>
+</html>
