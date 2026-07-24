@@ -43,7 +43,7 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"/></
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
-  html,body{height:100%;overflow:hidden;background:#fff}
+  html,body{height:100%;overflow:hidden;background:#faf7f2}
   body{font-family:'Source Serif 4',Georgia,serif;color:#1a1718;-webkit-tap-highlight-color:transparent}
   a{color:#6f1d33;text-decoration:none}
   button{font-family:inherit;cursor:pointer}
@@ -54,7 +54,11 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"/></
   @keyframes spin{to{transform:rotate(360deg)}}
   @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 
-  #stage{position:fixed;inset:0;overflow:hidden;background:#fff}
+  /* Ciclorama de estudio: barrido cálido sin costura, como fondo de foto de producto. */
+  #stage{position:fixed;inset:0;overflow:hidden;
+    background:radial-gradient(125% 95% at 62% 26%, #fffdfa 0%, #f7f2ea 38%, #ece4d8 72%, #ded3c4 100%)}
+  #stage::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:1;
+    background:radial-gradient(115% 85% at 50% 40%, rgba(0,0,0,0) 55%, rgba(72,58,44,.10) 100%)}
   #c{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y}
   #lite{position:absolute;inset:0;background:#f4f0ea center/cover no-repeat;display:none}
   #lite.on{display:block}
@@ -532,104 +536,432 @@ track('view_item', {item_name:TABLAS[S.tabla].n, value:TABLAS[S.tabla].p, curren
 
 <script type="module">
 // ─────────────────────────────────────────────────────────────────────────────
-// Tabla 3D: TODA la geometría se genera aquí (no hay modelos descargados).
-// Por eso la tabla se re-arma en vivo con cada elección del cliente.
+// Tabla 3D — render de producto. TODA la geometria y TODAS las texturas se
+// generan aqui (ni un archivo descargado): por eso la tabla se re-arma en vivo.
+// Realismo: iluminacion de estudio con mapa de entorno (IBL) generado por
+// software, materiales fisicos, texturas procedurales y sombras suaves.
 // ─────────────────────────────────────────────────────────────────────────────
 import * as THREE from './three.module.min.js';
 
-var COL = {cremoso:0xf6efdd, semiduro:0xefd9a4, maduro:0xdfb862, serrano:0xa84a52, salami:0x8e3038,
-  prosciutto:0xd4938f, pavo:0xdcb69f, uvas:0x5c2b45, fruta:0xd08a4a, secos:0xb58a5c,
-  aceitunas:0x74804f, mermelada:0x6f1d33, miel:0xd09a45, pan:0xdcbe90, vidrio:0x33202a};
-var QUESOS = ['cremoso','semiduro','maduro'], CARNES = ['serrano','salami','prosciutto'],
-    ACOMP = ['uvas','fruta','secos','aceitunas','mermelada','miel','pan'];
-
-var canvas = document.getElementById('c'), renderer, scene, camera, boardGroup, sideGroup, stage;
-var mats = {}, geos = {}, items = [], bottles = [], look, tgtPos, tgtLook, tgtScale;
-var boardR = 1.05, tall = false, spin = 0, spinV = 0, dragging = false, lastX = 0, ST = null, raf;
+var canvas = document.getElementById('c'), renderer, scene, camera, boardGroup, sideGroup, stage, envMap;
+var mats = {}, geos = {}, texs = {}, items = [], bottles = [], look, tgtPos, tgtLook, tgtScale;
+var boardR = 1.05, tall = false, spin = 0, spinV = 0, dragging = false, lastX = 0, ST = null;
+var movil = Math.min(window.innerWidth, window.innerHeight) < 700 || /Android|iPhone|iPad/i.test(navigator.userAgent);
 
 function fail(){
-  document.getElementById('boot').style.display = 'none';
+  var b = document.getElementById('boot'); if(b) b.style.display = 'none';
   var l = document.getElementById('lite');
   l.style.backgroundImage = "url('../img/2.jpg')";
   l.classList.add('on');
-  document.getElementById('hint').style.display = 'none';
+  var h = document.getElementById('hint'); if(h) h.style.display = 'none';
 }
+
+// ── Utilidades de textura procedural ────────────────────────────────────────
+function lienzo(w, h, dibuja){
+  var c = document.createElement('canvas'); c.width = w; c.height = h;
+  dibuja(c.getContext('2d'), w, h);
+  return c;
+}
+function tex(id, w, h, dibuja, color){
+  if(texs[id]) return texs[id];
+  var t = new THREE.CanvasTexture(lienzo(w, h, dibuja));
+  if(color !== false) t.colorSpace = THREE.SRGBColorSpace;
+  t.anisotropy = movil ? 4 : 8;
+  t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  texs[id] = t;
+  return t;
+}
+var rnd = function(a, b){ return a + Math.random() * (b - a); };
+function manchas(x, w, h, n, hacer){ for(var i = 0; i < n; i++) hacer(x, Math.random()*w, Math.random()*h, i); }
+
+// ── Estudio virtual: gradiente + softboxes -> equirect -> PMREM (IBL) ───────
+// Es lo que da el aspecto "fotografiado": reflejos y luz ambiental creibles.
+function entornoEstudio(){
+  var eq = lienzo(1024, 512, function(x, w, h){
+    var g = x.createLinearGradient(0, 0, 0, h);
+    g.addColorStop(0, '#ffffff'); g.addColorStop(.42, '#efe9e1');
+    g.addColorStop(.55, '#cdc5ba'); g.addColorStop(1, '#7e766d');
+    x.fillStyle = g; x.fillRect(0, 0, w, h);
+    var box = function(cx, cy, rx, ry, a){
+      x.save(); x.translate(cx, cy); x.scale(1, ry/rx); x.translate(-cx, -cy);
+      var rg = x.createRadialGradient(cx, cy, 0, cx, cy, rx);
+      rg.addColorStop(0, 'rgba(255,255,255,' + a + ')');
+      rg.addColorStop(.55, 'rgba(255,252,246,' + (a*.45) + ')');
+      rg.addColorStop(1, 'rgba(255,255,255,0)');
+      x.fillStyle = rg; x.beginPath(); x.arc(cx, cy, rx, 0, 7); x.fill(); x.restore();
+    };
+    box(300, 120, 250, 165, 1);     // key, arriba a la izquierda
+    box(775, 165, 205, 135, .72);   // relleno
+    box(520, 44,  340, 80,  .55);   // cenital
+    box(60,  300, 190, 150, .28);   // rebote lateral
+  });
+  var t = new THREE.CanvasTexture(eq);
+  t.mapping = THREE.EquirectangularReflectionMapping;
+  t.colorSpace = THREE.SRGBColorSpace;
+  var pm = new THREE.PMREMGenerator(renderer);
+  pm.compileEquirectangularShader();
+  var env = pm.fromEquirectangular(t).texture;
+  pm.dispose(); t.dispose();
+  return env;
+}
+
+// ── Texturas por ingrediente ────────────────────────────────────────────────
+function texMadera(){
+  return tex('madera', 1024, 1024, function(x, w, h){
+    x.fillStyle = '#b08a58'; x.fillRect(0, 0, w, h);
+    for(var i = 0; i < 190; i++){
+      var y = Math.random()*h, on = rnd(.08, .24);
+      x.strokeStyle = 'rgba(' + (98+rnd(0,40)|0) + ',' + (66+rnd(0,30)|0) + ',' + (34+rnd(0,24)|0) + ',' + on + ')';
+      x.lineWidth = rnd(1, 7);
+      x.beginPath();
+      for(var px = 0; px <= w; px += 14){
+        var yy = y + Math.sin(px*.0075 + i)*11 + Math.sin(px*.022 + i*2.1)*4.5;
+        px === 0 ? x.moveTo(px, yy) : x.lineTo(px, yy);
+      }
+      x.stroke();
+    }
+    manchas(x, w, h, 5200, function(x, px, py){
+      x.fillStyle = 'rgba(92,66,38,' + rnd(.02, .1) + ')';
+      x.fillRect(px, py, rnd(1,3), 1);
+    });
+    // dos nudos suaves
+    [[240, 700], [790, 300]].forEach(function(k){
+      for(var r = 4; r < 60; r += 3){
+        x.strokeStyle = 'rgba(96,68,40,' + (.05 + .05*Math.random()) + ')';
+        x.lineWidth = 1.6;
+        x.beginPath(); x.ellipse(k[0], k[1], r, r*.55, .5, 0, 7); x.stroke();
+      }
+    });
+  });
+}
+function texMaderaRug(){
+  return tex('maderaRug', 512, 512, function(x, w, h){
+    x.fillStyle = '#8a8a8a'; x.fillRect(0, 0, w, h);
+    for(var i = 0; i < 120; i++){
+      x.strokeStyle = 'rgba(' + (150+rnd(0,80)|0) + ',0,0,.5)';
+      x.lineWidth = rnd(1, 5);
+      var y = Math.random()*h;
+      x.beginPath();
+      for(var px = 0; px <= w; px += 12){ var yy = y + Math.sin(px*.015+i)*6; px===0?x.moveTo(px,yy):x.lineTo(px,yy); }
+      x.stroke();
+    }
+  }, false);
+}
+function texQuesoBlando(){   // brie/cremoso: corteza aterciopelada
+  return tex('qb', 512, 512, function(x, w, h){
+    x.fillStyle = '#f7f1e0'; x.fillRect(0, 0, w, h);
+    manchas(x, w, h, 9000, function(x, px, py){
+      x.fillStyle = 'rgba(' + (222+rnd(0,30)|0) + ',' + (210+rnd(0,28)|0) + ',' + (180+rnd(0,30)|0) + ',' + rnd(.1,.5) + ')';
+      x.beginPath(); x.arc(px, py, rnd(.6, 2.4), 0, 7); x.fill();
+    });
+  });
+}
+function texQuesoSemi(){     // manchego: pasta pálida con ojos pequeños
+  return tex('qs', 512, 512, function(x, w, h){
+    var g = x.createLinearGradient(0, 0, 0, h);
+    g.addColorStop(0, '#f4e3b0'); g.addColorStop(1, '#eed79b');
+    x.fillStyle = g; x.fillRect(0, 0, w, h);
+    manchas(x, w, h, 260, function(x, px, py){
+      var r = rnd(2, 7);
+      x.fillStyle = 'rgba(196,168,110,.55)'; x.beginPath(); x.arc(px, py, r, 0, 7); x.fill();
+      x.fillStyle = 'rgba(255,250,232,.5)'; x.beginPath(); x.arc(px-r*.3, py-r*.3, r*.5, 0, 7); x.fill();
+    });
+    manchas(x, w, h, 4000, function(x, px, py){
+      x.fillStyle = 'rgba(214,186,126,' + rnd(.05,.25) + ')'; x.fillRect(px, py, 2, 2);
+    });
+  });
+}
+function texQuesoAnejo(){    // curado: cristalizado, más intenso
+  return tex('qa', 512, 512, function(x, w, h){
+    var g = x.createLinearGradient(0, 0, 0, h);
+    g.addColorStop(0, '#e8bf6a'); g.addColorStop(1, '#dcae52');
+    x.fillStyle = g; x.fillRect(0, 0, w, h);
+    manchas(x, w, h, 5200, function(x, px, py){
+      x.fillStyle = 'rgba(255,246,214,' + rnd(.15,.6) + ')';
+      x.fillRect(px, py, rnd(1,2.6), rnd(1,2.6));
+    });
+    manchas(x, w, h, 1800, function(x, px, py){
+      x.fillStyle = 'rgba(178,132,58,' + rnd(.05,.28) + ')'; x.beginPath(); x.arc(px, py, rnd(1,3), 0, 7); x.fill();
+    });
+  });
+}
+function texCorteza(){
+  return tex('corteza', 256, 256, function(x, w, h){
+    x.fillStyle = '#b98c4e'; x.fillRect(0, 0, w, h);
+    manchas(x, w, h, 3000, function(x, px, py){
+      x.fillStyle = 'rgba(' + (140+rnd(0,60)|0) + ',' + (100+rnd(0,50)|0) + ',' + (54+rnd(0,40)|0) + ',' + rnd(.15,.6) + ')';
+      x.fillRect(px, py, rnd(1,4), rnd(1,3));
+    });
+  });
+}
+function texSalami(){        // el patrón más reconocible: grasa blanca sobre rojo
+  return tex('salami', 512, 512, function(x, w, h){
+    x.fillStyle = '#8d2a30'; x.fillRect(0, 0, w, h);
+    manchas(x, w, h, 900, function(x, px, py){
+      x.fillStyle = 'rgba(' + (110+rnd(0,40)|0) + ',30,36,.5)';
+      x.beginPath(); x.arc(px, py, rnd(3, 12), 0, 7); x.fill();
+    });
+    manchas(x, w, h, 620, function(x, px, py){
+      x.fillStyle = 'rgba(' + (246+rnd(0,9)|0) + ',' + (238+rnd(0,12)|0) + ',' + (222+rnd(0,14)|0) + ',' + rnd(.7,1) + ')';
+      x.save(); x.translate(px, py); x.rotate(Math.random()*6.3);
+      x.beginPath(); x.ellipse(0, 0, rnd(3, 11), rnd(2, 7), 0, 0, 7); x.fill(); x.restore();
+    });
+  });
+}
+function texJamon(){         // serrano/prosciutto: vetas de grasa sobre rosa
+  return tex('jamon', 512, 512, function(x, w, h){
+    var g = x.createLinearGradient(0, 0, w, h);
+    g.addColorStop(0, '#9e3540'); g.addColorStop(.5, '#8d2a35'); g.addColorStop(1, '#a94450');
+    x.fillStyle = g; x.fillRect(0, 0, w, h);
+    for(var i = 0; i < 90; i++){
+      x.strokeStyle = 'rgba(246,232,218,' + rnd(.14, .5) + ')';
+      x.lineWidth = rnd(1.5, 5);
+      x.beginPath();
+      var y = Math.random()*h, amp = rnd(6, 26);
+      for(var px = 0; px <= w; px += 18){
+        var yy = y + Math.sin(px*.012 + i)*amp;
+        px === 0 ? x.moveTo(px, yy) : x.lineTo(px, yy);
+      }
+      x.stroke();
+    }
+    manchas(x, w, h, 2600, function(x, px, py){
+      x.fillStyle = 'rgba(150,58,66,' + rnd(.05,.3) + ')'; x.fillRect(px, py, 2, 2);
+    });
+  });
+}
+function texPavo(){
+  return tex('pavo', 512, 512, function(x, w, h){
+    x.fillStyle = '#e3c1a6'; x.fillRect(0, 0, w, h);
+    for(var i = 0; i < 90; i++){
+      x.strokeStyle = 'rgba(255,246,238,' + rnd(.2,.6) + ')'; x.lineWidth = rnd(2, 8);
+      var y = Math.random()*h;
+      x.beginPath();
+      for(var px = 0; px <= w; px += 20){ var yy = y + Math.sin(px*.01+i)*16; px===0?x.moveTo(px,yy):x.lineTo(px,yy); }
+      x.stroke();
+    }
+  });
+}
+function texPan(){
+  return tex('pan', 512, 512, function(x, w, h){
+    x.fillStyle = '#dcbb87'; x.fillRect(0, 0, w, h);
+    manchas(x, w, h, 5000, function(x, px, py){
+      x.fillStyle = 'rgba(' + (180+rnd(0,60)|0) + ',' + (140+rnd(0,50)|0) + ',' + (90+rnd(0,40)|0) + ',' + rnd(.1,.5) + ')';
+      x.beginPath(); x.arc(px, py, rnd(1, 4), 0, 7); x.fill();
+    });
+    manchas(x, w, h, 700, function(x, px, py){    // burbujas de miga
+      x.fillStyle = 'rgba(120,86,48,' + rnd(.1,.35) + ')';
+      x.beginPath(); x.arc(px, py, rnd(2, 6), 0, 7); x.fill();
+    });
+  });
+}
+function texNuez(){
+  return tex('nuez', 256, 256, function(x, w, h){
+    x.fillStyle = '#a8763f'; x.fillRect(0, 0, w, h);
+    for(var i = 0; i < 60; i++){
+      x.strokeStyle = 'rgba(' + (80+rnd(0,50)|0) + ',' + (50+rnd(0,40)|0) + ',20,' + rnd(.2,.6) + ')';
+      x.lineWidth = rnd(1, 4);
+      x.beginPath(); x.moveTo(Math.random()*w, Math.random()*h);
+      x.quadraticCurveTo(Math.random()*w, Math.random()*h, Math.random()*w, Math.random()*h);
+      x.stroke();
+    }
+  });
+}
+function texEtiqueta(){
+  return tex('etiqueta', 512, 256, function(x, w, h){
+    x.fillStyle = '#f4ecdd'; x.fillRect(0, 0, w, h);
+    x.fillStyle = '#6f1d33'; x.fillRect(0, h*.36, w, 3);
+    x.fillRect(0, h*.62, w, 2);
+    manchas(x, w, h, 1400, function(x, px, py){
+      x.fillStyle = 'rgba(120,110,96,' + rnd(.03,.14) + ')'; x.fillRect(px, py, 2, 2);
+    });
+  });
+}
+function texAO(){            // sombra de contacto bajo la tabla
+  return tex('ao', 256, 256, function(x, w, h){
+    var g = x.createRadialGradient(w/2, h/2, 0, w/2, h/2, w/2);
+    g.addColorStop(0, 'rgba(60,46,34,.55)');
+    g.addColorStop(.55, 'rgba(60,46,34,.28)');
+    g.addColorStop(1, 'rgba(60,46,34,0)');
+    x.fillStyle = g; x.fillRect(0, 0, w, h);
+  });
+}
+
+// ── Materiales ──────────────────────────────────────────────────────────────
+function fisico(o){ var m = new THREE.MeshPhysicalMaterial(o); m.envMapIntensity = o.envMapIntensity || 1; return m; }
+function estandar(o){ var m = new THREE.MeshStandardMaterial(o); m.envMapIntensity = o.envMapIntensity || 1; return m; }
 function mat(n){
-  if(!mats[n]){
-    var glossy = n==='mermelada' || n==='miel' || n==='vidrio';
-    mats[n] = new THREE.MeshStandardMaterial({color:COL[n]||0xeeddbb, roughness:glossy?.24:.64, metalness:0});
+  if(mats[n]) return mats[n];
+  var m;
+  switch(n){
+    case 'madera':
+      var mm = texMadera(); mm.repeat.set(1.6, 1.6);
+      var mr = texMaderaRug(); mr.repeat.set(1.6, 1.6);
+      m = fisico({map:mm, roughnessMap:mr, roughness:.62, metalness:0, clearcoat:.22, clearcoatRoughness:.55, envMapIntensity:.9});
+      break;
+    case 'maderaCanto': m = estandar({color:0x9c7d55, roughness:.7}); break;
+    case 'cremoso':  m = fisico({map:texQuesoBlando(), roughness:.72, metalness:0, sheen:.4, sheenRoughness:.7, sheenColor:new THREE.Color(0xfff6e2), envMapIntensity:.85}); break;
+    case 'semiduro': m = estandar({map:texQuesoSemi(), roughness:.52, metalness:0, envMapIntensity:.9}); break;
+    case 'maduro':   m = estandar({map:texQuesoAnejo(), roughness:.46, metalness:0, envMapIntensity:1}); break;
+    case 'corteza':  m = estandar({map:texCorteza(), roughness:.86, metalness:0}); break;
+    case 'salami':   m = fisico({map:texSalami(), roughness:.4, metalness:0, clearcoat:.5, clearcoatRoughness:.35, envMapIntensity:1.1}); break;
+    case 'serrano':
+    case 'prosciutto': m = fisico({map:texJamon(), roughness:.36, metalness:0, clearcoat:.6, clearcoatRoughness:.3, side:THREE.DoubleSide, envMapIntensity:1.15}); break;
+    case 'pavo':     m = fisico({map:texPavo(), roughness:.44, metalness:0, clearcoat:.45, clearcoatRoughness:.35, side:THREE.DoubleSide}); break;
+    case 'uvas':     m = fisico({color:0x4a2340, roughness:.34, metalness:0, clearcoat:.7, clearcoatRoughness:.22, sheen:.55, sheenColor:new THREE.Color(0xc9b6d8), envMapIntensity:1.2}); break;
+    case 'fruta':    m = fisico({color:0xd98a3d, roughness:.3, metalness:0, clearcoat:.55, clearcoatRoughness:.25, envMapIntensity:1.1}); break;
+    case 'secos':    m = estandar({map:texNuez(), roughness:.62, metalness:0}); break;
+    case 'aceitunas':m = fisico({color:0x5f6b3a, roughness:.18, metalness:0, clearcoat:1, clearcoatRoughness:.12, envMapIntensity:1.35}); break;
+    case 'mermelada':m = fisico({color:0x7c1f34, roughness:.06, metalness:0, clearcoat:1, clearcoatRoughness:.05, envMapIntensity:1.6}); break;
+    case 'miel':     m = fisico({color:0xd79a35, roughness:.05, metalness:0, clearcoat:1, clearcoatRoughness:.04, envMapIntensity:1.7}); break;
+    case 'dip':      m = fisico({color:0xf4ead2, roughness:.24, metalness:0, clearcoat:.8, clearcoatRoughness:.2, envMapIntensity:1.2}); break;
+    case 'ceramica': m = fisico({color:0xfbf7f0, roughness:.14, metalness:0, clearcoat:1, clearcoatRoughness:.08, envMapIntensity:1.3}); break;
+    case 'pan':      m = estandar({map:texPan(), roughness:.78, metalness:0}); break;
+    case 'vidrio':   m = fisico({color:0x16321f, roughness:.06, metalness:0, clearcoat:1, clearcoatRoughness:.04, envMapIntensity:2.1}); break;
+    case 'etiqueta': m = estandar({map:texEtiqueta(), roughness:.66, metalness:0}); break;
+    default:         m = estandar({color:0xeeddbb, roughness:.6});
   }
-  return mats[n];
+  mats[n] = m;
+  return m;
 }
 function geo(k, make){ if(!geos[k]) geos[k] = make(); return geos[k]; }
 
+// ── Geometrias con volumen real ─────────────────────────────────────────────
+function cuboRedondo(s, r){          // queso en cubos, con aristas suaves
+  var g = new THREE.BoxGeometry(s, s, s, 6, 6, 6), p = g.attributes.position, v = new THREE.Vector3();
+  for(var i = 0; i < p.count; i++){
+    v.fromBufferAttribute(p, i);
+    var e = v.clone().normalize().multiplyScalar(s * .62);
+    v.lerp(e, r);
+    p.setXYZ(i, v.x, v.y, v.z);
+  }
+  g.computeVertexNormals();
+  return g;
+}
+function lonja(size, amp){           // lonja de charcuteria: plegada, no un disco plano
+  var g = new THREE.PlaneGeometry(size, size, 18, 18), p = g.attributes.position;
+  for(var i = 0; i < p.count; i++){
+    var x = p.getX(i), y = p.getY(i);
+    var d = Math.sqrt(x*x + y*y) / size;
+    var z = Math.sin(x*26)*amp + Math.cos(y*19)*amp*.8 + Math.sin((x+y)*34)*amp*.45;
+    p.setZ(i, z * (1 - d*.35));
+    p.setX(i, x * (1 - d*.12));      // borde ligeramente irregular
+  }
+  g.computeVertexNormals();
+  return g;
+}
+function bolaIrregular(r, dents){
+  var g = new THREE.IcosahedronGeometry(r, 2), p = g.attributes.position, v = new THREE.Vector3();
+  for(var i = 0; i < p.count; i++){
+    v.fromBufferAttribute(p, i);
+    var f = 1 + Math.sin(v.x*38)*dents + Math.cos(v.y*31)*dents + Math.sin(v.z*44)*dents*.7;
+    v.multiplyScalar(f);
+    p.setXYZ(i, v.x, v.y, v.z);
+  }
+  g.computeVertexNormals();
+  return g;
+}
+
+// Sombra de contacto propia: sin esto las piezas parecen pegadas encima de la madera.
+function sombraContacto(r){
+  var m = new THREE.Mesh(
+    geo('sombraPza', function(){ return new THREE.PlaneGeometry(1, 1); }),
+    mats.sombraPza || (mats.sombraPza = new THREE.MeshBasicMaterial({
+      map:texAO(), transparent:true, depthWrite:false, opacity:.62, color:0x3a2c1e
+    })));
+  m.rotation.x = -Math.PI/2; m.position.y = .004; m.scale.setScalar(r);
+  m.renderOrder = -1;
+  return m;
+}
 function build(ing){
   var g = new THREE.Group(), m = mat(ing);
-  var add = function(gm,x,y,z,rx,ry,s,mm){
-    var mesh = new THREE.Mesh(gm, mm||m);
-    mesh.position.set(x,y,z); mesh.rotation.set(rx||0, ry||0, 0);
+  g.add(sombraContacto(ing === 'baguette' || ing === 'pan' ? .46 : (ing === 'secos' || ing === 'uvas' ? .40 : .44)));
+  var add = function(gm, x, y, z, rx, ry, s, mm, rz){
+    var mesh = new THREE.Mesh(gm, mm || m);
+    mesh.position.set(x, y, z); mesh.rotation.set(rx || 0, ry || 0, rz || 0);
     if(s) mesh.scale.setScalar(s);
-    mesh.castShadow = true; g.add(mesh); return mesh;
+    mesh.castShadow = true; mesh.receiveShadow = true;
+    g.add(mesh); return mesh;
   };
-  if(ing==='cremoso'){
-    add(geo('disc', function(){ return new THREE.CylinderGeometry(.15,.15,.07,20); }), 0,.035,0);
-    add(geo('disc', function(){ return new THREE.CylinderGeometry(.15,.15,.07,20); }), .07,.1,.05,0,.4,.7);
-  } else if(ing==='semiduro'){
-    var c = geo('cube', function(){ return new THREE.BoxGeometry(.13,.13,.13); });
-    add(c,0,.065,0,0,.3); add(c,.1,.065,.08,0,.9); add(c,.02,.19,.03,0,.6,.9);
-  } else if(ing==='maduro'){
-    var w = geo('wedge', function(){ return new THREE.CylinderGeometry(.2,.2,.09,22,1,false,0,Math.PI/2.6); });
-    add(w,0,.045,0,0,.2); add(w,.05,.045,.12,0,2.4,.85);
-  } else if(ing==='serrano'||ing==='prosciutto'||ing==='pavo'){
-    var f = geo('lonja', function(){ return new THREE.CylinderGeometry(.105,.095,.016,18); });
-    for(var i=0;i<4;i++){
-      var me = add(f, i*.05-.075, .014+i*.014, i*.028-.04, .22-i*.12, i*.9);
-      me.rotation.z = i%2 ? .18 : -.16; me.scale.set(1,1,.78);
+  if(ing === 'cremoso'){
+    // cuña de brie: cuerpo + corteza
+    var cu = geo('cunaB', function(){ return new THREE.CylinderGeometry(.19, .19, .075, 26, 1, false, 0, Math.PI/2.2); });
+    var a = add(cu, 0, .038, 0, 0, .3); a.material = [mat('corteza'), mat('cremoso'), mat('cremoso')];
+    var b = add(cu, .05, .038, .13, 0, 2.5, .86); b.material = [mat('corteza'), mat('cremoso'), mat('cremoso')];
+  } else if(ing === 'semiduro'){
+    var c = geo('cubo', function(){ return cuboRedondo(.125, .2); });
+    add(c, 0, .062, 0, .1, .3); add(c, .105, .062, .085, 0, .9, .95); add(c, .025, .185, .03, .12, .6, .88);
+  } else if(ing === 'maduro'){
+    var w = geo('cunaA', function(){ return new THREE.CylinderGeometry(.21, .21, .095, 28, 1, false, 0, Math.PI/2.6); });
+    var m1 = add(w, 0, .047, 0, 0, .2); m1.material = [mat('corteza'), mat('maduro'), mat('maduro')];
+    var m2 = add(w, .055, .047, .125, 0, 2.4, .84); m2.material = [mat('corteza'), mat('maduro'), mat('maduro')];
+  } else if(ing === 'serrano' || ing === 'prosciutto' || ing === 'pavo'){
+    var lj = geo('lonja', function(){ return lonja(.21, .0115); });
+    for(var i = 0; i < 4; i++){
+      var me = add(lj, i*.04 - .062, .013 + i*.013, i*.028 - .04, -Math.PI/2, 0, 1 - i*.04, null, i*1.2);
+      me.scale.set(1 - i*.04, 1 - i*.06, 1);
     }
-  } else if(ing==='salami'){
-    var s = geo('slice', function(){ return new THREE.CylinderGeometry(.1,.1,.014,18); });
-    for(var j=0;j<4;j++) add(s, j*.045-.06, .012+j*.006, j*.02-.02, -.12, j*.4);
-  } else if(ing==='uvas'){
-    var b = geo('berry', function(){ return new THREE.SphereGeometry(.045,12,10); });
-    [[0,0,0],[.075,.01,.02],[-.06,.005,.05],[.02,.008,-.07],[.03,.075,.01],[-.02,.07,-.03],[.09,.06,-.05]]
-      .forEach(function(p){ add(b,p[0],p[1]+.045,p[2]); });
-  } else if(ing==='fruta'){
-    var h = geo('half', function(){ return new THREE.SphereGeometry(.085,14,10,0,Math.PI*2,0,Math.PI/2); });
-    add(h,0,.005,0); add(h,.11,.005,.06,0,.8,.8); add(h,-.05,.005,.11,0,1.6,.9);
-  } else if(ing==='secos'){
-    var n = geo('nut', function(){ return new THREE.IcosahedronGeometry(.042,0); });
-    for(var k=0;k<6;k++) add(n, Math.cos(k*1.9)*.07, .04, Math.sin(k*1.9)*.07, k*.5, k);
-  } else if(ing==='aceitunas'){
-    var o = geo('olive', function(){ return new THREE.SphereGeometry(.042,12,10); });
-    for(var l=0;l<5;l++){ var om = add(o, Math.cos(l*1.4)*.06, .045, Math.sin(l*1.4)*.06); om.scale.set(1,1.25,1); }
-  } else if(ing==='mermelada'||ing==='miel'||ing==='dip'){
-    add(geo('bowl', function(){ return new THREE.CylinderGeometry(.115,.088,.08,20); }), 0,.04,0,0,0,0, mat('cremoso'));
-    add(geo('jam', function(){ return new THREE.CylinderGeometry(.1,.1,.02,20); }), 0,.085,0,0,0,0, ing==='dip'?mat('cremoso'):m);
-    if(ing==='dip') add(geo('drizzle', function(){ return new THREE.TorusGeometry(.05,.006,6,14); }), 0,.098,0, Math.PI/2,0,0, mat('miel'));
-  } else if(ing==='pan'){
-    var cr = geo('cracker', function(){ return new THREE.BoxGeometry(.14,.014,.14); });
-    for(var q=0;q<4;q++) add(cr, q*.05-.06, .012+q*.012, q*.015, 0, q*.35);
-  } else if(ing==='baguette'){
-    var bg = geo('baguette', function(){ return new THREE.CylinderGeometry(.055,.055,.26,14); });
-    for(var r=0;r<3;r++) add(bg, r*.07-.07, .055+r*.02, r*.05, Math.PI/2, r*.5-.3);
+  } else if(ing === 'salami'){
+    var s = geo('rodaja', function(){ return new THREE.CylinderGeometry(.105, .103, .012, 26); });
+    for(var j = 0; j < 4; j++) add(s, j*.042 - .058, .011 + j*.007, j*.024 - .03, rnd(-.09,.09), j*.8, 1 - j*.03);
+  } else if(ing === 'uvas'){
+    var b2 = geo('uva', function(){ return new THREE.SphereGeometry(.044, 18, 14); });
+    [[0,0,0],[.076,.008,.02],[-.06,.004,.052],[.02,.006,-.07],[.032,.072,.012],[-.02,.068,-.03],[.088,.056,-.048],[-.07,.06,.01]]
+      .forEach(function(p, i){
+        var u = add(b2, p[0], p[1] + .044, p[2], i*.4, i);
+        u.scale.set(1, rnd(1.02, 1.16), 1);
+      });
+  } else if(ing === 'fruta'){
+    var h = geo('gajo', function(){ return new THREE.SphereGeometry(.085, 20, 14, 0, Math.PI*2, 0, Math.PI/2); });
+    add(h, 0, .004, 0, 0, .2); add(h, .112, .004, .062, 0, .9, .82); add(h, -.052, .004, .112, 0, 1.7, .9);
+  } else if(ing === 'secos'){
+    var n = geo('nuez', function(){ return bolaIrregular(.042, .12); });
+    for(var k = 0; k < 7; k++) add(n, Math.cos(k*1.9)*rnd(.05,.085), .038, Math.sin(k*1.9)*rnd(.05,.085), k*.5, k, rnd(.85,1.1));
+  } else if(ing === 'aceitunas'){
+    var o = geo('aceituna', function(){ return new THREE.SphereGeometry(.04, 18, 14); });
+    for(var l = 0; l < 5; l++){
+      var om = add(o, Math.cos(l*1.4)*.06, .043, Math.sin(l*1.4)*.06, 0, l);
+      om.scale.set(1, 1.3, 1);
+    }
+  } else if(ing === 'mermelada' || ing === 'miel' || ing === 'dip'){
+    // ramekin de cerámica + superficie glaseada que atrapa el reflejo
+    add(geo('ramekin', function(){ return new THREE.CylinderGeometry(.115, .085, .085, 28); }), 0, .042, 0, 0, 0, 0, mat('ceramica'));
+    add(geo('borde', function(){ return new THREE.TorusGeometry(.114, .009, 8, 28); }), 0, .084, 0, Math.PI/2, 0, 0, mat('ceramica'));
+    add(geo('domo', function(){ return new THREE.SphereGeometry(.104, 24, 12, 0, Math.PI*2, 0, Math.PI/2.6); }), 0, .062, 0, 0, 0, 0, m);
+  } else if(ing === 'pan'){
+    var cr = geo('galleta', function(){
+      var gg = new THREE.BoxGeometry(.135, .012, .135, 4, 1, 4), p = gg.attributes.position;
+      for(var i = 0; i < p.count; i++) p.setY(i, p.getY(i) + Math.sin(p.getX(i)*40)*.003);
+      gg.computeVertexNormals(); return gg;
+    });
+    for(var q = 0; q < 4; q++) add(cr, q*.048 - .06, .011 + q*.013, q*.018, rnd(-.05,.05), q*.4);
+  } else if(ing === 'baguette'){
+    var bg = geo('rebanada', function(){ return new THREE.CylinderGeometry(.062, .062, .022, 22); });
+    for(var r = 0; r < 4; r++) add(bg, r*.055 - .08, .013 + r*.012, r*.038 - .05, Math.PI/2 - .1, r*.6 - .3, 1);
   } else {
-    add(geo('disc', function(){ return new THREE.CylinderGeometry(.15,.15,.07,20); }), 0,.035,0);
+    add(geo('disco', function(){ return new THREE.CylinderGeometry(.15, .15, .07, 24); }), 0, .035, 0);
   }
   return g;
 }
 function buildBottle(i){
-  var g = new THREE.Group(), m = mat('vidrio');
-  var body = new THREE.Mesh(geo('bottle', function(){ return new THREE.CylinderGeometry(.11,.11,.44,20); }), m);
-  body.position.y = .22; body.castShadow = true;
-  var neck = new THREE.Mesh(geo('neck', function(){ return new THREE.CylinderGeometry(.036,.075,.3,16); }), m);
-  neck.position.y = .55; neck.castShadow = true;
-  var label = new THREE.Mesh(geo('label', function(){ return new THREE.CylinderGeometry(.113,.113,.16,20); }), mat('cremoso'));
-  label.position.y = .2;
-  g.add(body); g.add(neck); g.add(label);
-  g.position.set(-1.12 - i*.05, 0, .42 + i*.3);
+  var g = new THREE.Group(), v = mat('vidrio');
+  var perfil = [];   // silueta de botella revolucionada: hombro y cuello reales
+  [[.000,0],[.108,0],[.112,.03],[.112,.36],[.108,.42],[.075,.50],[.044,.58],[.038,.60],[.038,.74],[.042,.75]]
+    .forEach(function(p){ perfil.push(new THREE.Vector2(p[0], p[1])); });
+  var body = new THREE.Mesh(geo('botella', function(){ return new THREE.LatheGeometry(perfil, 30); }), v);
+  body.castShadow = true; body.receiveShadow = true;
+  var cap = new THREE.Mesh(geo('capsula', function(){ return new THREE.CylinderGeometry(.043, .043, .1, 22); }), mat('etiqueta'));
+  cap.position.y = .70; cap.castShadow = true;
+  var label = new THREE.Mesh(geo('label', function(){ return new THREE.CylinderGeometry(.1145, .1145, .17, 30, 1, true); }), mat('etiqueta'));
+  label.position.y = .2; label.castShadow = true;
+  g.add(body); g.add(cap); g.add(label);
+  g.position.set(-1.16 - i*.05, 0, .44 + i*.31);
   g.rotation.y = i*.7;
   return g;
 }
+
+// ── Composicion de la tabla (lo que la clientа eligio) ──────────────────────
+var QUESOS = ['cremoso','semiduro','maduro'], CARNES = ['serrano','salami','prosciutto'],
+    ACOMP = ['uvas','fruta','secos','aceitunas','mermelada','miel','pan'];
 function pools(S, P){
   var q = (P.q||QUESOS).slice(), c = (P.c||CARNES).slice(), ac = (P.a||ACOMP).slice(), ev = S.evitar||[], g = S.gustos||[];
   if(!S.dejalo && g.length){
@@ -646,80 +978,114 @@ function pools(S, P){
 }
 function lista(S){
   var T = window.TABLAS[S.tabla], P = window.PERFILES[S.perfil] || window.PERFILES.balanceada;
-  var n = T.items + (S.premium ? 3 : 0), pool = pools(S,P), base = [];
+  // Una tabla real va LLENA: se puebla ~45% mas de lo que dice la ficha para que
+  // no se vea el hueco de madera entre pieza y pieza.
+  var n = Math.round((T.items + (S.premium ? 3 : 0)) * 1.45);
+  if(movil) n = Math.min(n, 28);
+  var pool = pools(S, P), base = [];
   [[pool.q, Math.max(1, Math.round(n*pool.w[0]))],
    [pool.c, Math.max(1, Math.round(n*pool.w[1]))],
    [pool.ac, Math.max(1, Math.round(n*pool.w[2]))]].forEach(function(pr){
-    for(var i=0;i<pr[1];i++) base.push(pr[0][i % pr[0].length]);
+    for(var i = 0; i < pr[1]; i++) base.push(pr[0][i % pr[0].length]);
   });
   var mix = [];
-  for(var i=0;i<base.length;i++) mix.push(base[(i*5+2) % base.length]);
+  for(var i = 0; i < base.length; i++) mix.push(base[(i*5+2) % base.length]);
   var out = mix.slice(0, n);
   (S.extras||[]).forEach(function(e){ out.push(e==='pan' ? 'baguette' : (e==='dip' ? 'dip' : 'mermelada')); });
   return out;
 }
 
+// ── Escena ──────────────────────────────────────────────────────────────────
 function boot(){
-  try{ renderer = new THREE.WebGLRenderer({canvas:canvas, antialias:true, alpha:true, powerPreference:'high-performance'}); }
-  catch(e){ fail(); return; }
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, 2));
+  try{
+    renderer = new THREE.WebGLRenderer({canvas:canvas, antialias:true, alpha:true, powerPreference:'high-performance'});
+  }catch(e){ fail(); return; }
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
   renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;   // respuesta de pelicula
+  renderer.toneMappingExposure = .92;                   // sin quemar: densidad de foto, no de ilustracion
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+
   scene = new THREE.Scene();
-  camera = new THREE.PerspectiveCamera(34, 1, .1, 60);
+  camera = new THREE.PerspectiveCamera(32, 1, .1, 60);
   look = new THREE.Vector3(0,0,0);
-  tgtPos = new THREE.Vector3(0,2.4,4.2);
-  tgtLook = new THREE.Vector3(0,-.5,0);
+  tgtPos = new THREE.Vector3(0, 2.4, 4.2);
+  tgtLook = new THREE.Vector3(0, -.5, 0);
   camera.position.copy(tgtPos);
 
-  scene.add(new THREE.HemisphereLight(0xffffff, 0xd8d2cc, .9));
-  var key = new THREE.DirectionalLight(0xfffaf3, 1.9);
-  key.position.set(2.2,5.4,2.6); key.castShadow = true;
-  key.shadow.mapSize.set(1024,1024);
-  key.shadow.camera.left = -3.4; key.shadow.camera.right = 3.4;
-  key.shadow.camera.top = 3.4; key.shadow.camera.bottom = -3.4;
-  key.shadow.radius = 3; key.shadow.bias = -.0012;
-  scene.add(key);
-  var rim = new THREE.DirectionalLight(0xffffff, .45); rim.position.set(-3.2,2.2,-2.4); scene.add(rim);
+  envMap = entornoEstudio();
+  scene.environment = envMap;
 
-  var ground = new THREE.Mesh(new THREE.PlaneGeometry(30,30), new THREE.ShadowMaterial({opacity:.1}));
-  ground.rotation.x = -Math.PI/2; ground.receiveShadow = true; scene.add(ground);
+  // Tres puntos: key calida con sombra suave, relleno frio, contraluz de recorte.
+  var key = new THREE.DirectionalLight(0xfff2de, 2.9);
+  key.position.set(2.6, 4.6, 2.4); key.castShadow = true;   // mas rasante = mas relieve
+  var sm = movil ? 1024 : 2048;
+  key.shadow.mapSize.set(sm, sm);
+  key.shadow.camera.left = -2.6; key.shadow.camera.right = 2.6;
+  key.shadow.camera.top = 2.6; key.shadow.camera.bottom = -2.6;
+  key.shadow.camera.near = .5; key.shadow.camera.far = 12;
+  key.shadow.radius = movil ? 2.5 : 4.5;
+  key.shadow.bias = -.0006; key.shadow.normalBias = .022;
+  scene.add(key);
+  var fill = new THREE.DirectionalLight(0xd8e6ff, .34); fill.position.set(-3.4, 2.0, 2.2); scene.add(fill);
+  var rim  = new THREE.DirectionalLight(0xfffaf0, 1.05); rim.position.set(-1.6, 2.6, -3.4); scene.add(rim);
+
+  var ground = new THREE.Mesh(new THREE.PlaneGeometry(30, 30), new THREE.ShadowMaterial({opacity:.34}));
+  ground.rotation.x = -Math.PI/2; ground.receiveShadow = true; ground.position.y = -.002; scene.add(ground);
 
   stage = new THREE.Group(); stage.rotation.y = -.42; scene.add(stage);
+
+  // Oclusion de contacto: la tabla deja de "flotar".
+  var ao = new THREE.Mesh(new THREE.PlaneGeometry(3.4, 3.4),
+    new THREE.MeshBasicMaterial({map:texAO(), transparent:true, depthWrite:false, opacity:.85}));
+  ao.rotation.x = -Math.PI/2; ao.position.y = .004; ao.renderOrder = -1; stage.add(ao);
+
   boardGroup = new THREE.Group(); stage.add(boardGroup);
   sideGroup = new THREE.Group(); stage.add(sideGroup);
   tgtScale = new THREE.Vector3(1,1,1);
 
-  var wood = new THREE.MeshStandardMaterial({color:0xd8c3a5, roughness:.72, metalness:.02});
-  var woodDark = new THREE.MeshStandardMaterial({color:0xb69a78, roughness:.82});
-  var board = new THREE.Mesh(new THREE.CylinderGeometry(boardR, boardR*.97, .1, 64), wood);
-  board.castShadow = true; board.receiveShadow = true; board.position.y = .05;
-  var canto = new THREE.Mesh(new THREE.TorusGeometry(boardR-.008, .014, 6, 64), woodDark);
-  canto.rotation.x = Math.PI/2; canto.position.y = .098;
+  var board = new THREE.Mesh(new THREE.CylinderGeometry(boardR, boardR*.985, .085, 96), mat('madera'));
+  board.castShadow = true; board.receiveShadow = true; board.position.y = .043;
+  var canto = new THREE.Mesh(new THREE.TorusGeometry(boardR - .006, .016, 10, 96), mat('maderaCanto'));
+  canto.rotation.x = Math.PI/2; canto.position.y = .082; canto.castShadow = true; canto.receiveShadow = true;
   boardGroup.add(board); boardGroup.add(canto);
 
   resize();
   window.addEventListener('resize', resize);
-  document.getElementById('boot').style.display = 'none';
-  window.PT3D = {sync:sync};
+  var b = document.getElementById('boot'); if(b) b.style.display = 'none';
+  // `pinta` fuerza un cuadro sincrono: lo usan las pruebas automatizadas, donde el
+  // navegador no compone y requestAnimationFrame no corre.
+  window.PT3D = {sync:sync, pinta:function(){
+    camera.position.copy(tgtPos); look.copy(tgtLook); camera.lookAt(look);
+    boardGroup.scale.copy(tgtScale);
+    for(var i = items.length-1; i >= 0; i--){          // las piezas que salen se retiran ya
+      var it = items[i];
+      if(it.out){ it.g.parent && it.g.parent.remove(it.g); items.splice(i, 1); continue; }
+      it.g.scale.setScalar(it.s || 1); it.g.position.set(it.x, it.y || .085, it.z);
+    }
+    for(var j = bottles.length-1; j >= 0; j--){
+      if(bottles[j].out){ bottles[j].g.parent && bottles[j].g.parent.remove(bottles[j].g); bottles.splice(j, 1); }
+      else bottles[j].g.scale.setScalar(1);
+    }
+    renderer.render(scene, camera); return items.length; }};
   sync(window.PTState());
   tick();
-  setTimeout(function(){ var h = document.getElementById('hint'); if(h) h.style.opacity = '0'; }, 6000);
+  setTimeout(function(){ var h = document.getElementById('hint'); if(h) h.style.opacity = '0'; }, 6500);
 }
 function resize(){
   if(!renderer) return;
   var w = canvas.clientWidth || window.innerWidth, h = canvas.clientHeight || window.innerHeight;
   renderer.setSize(w, h, false);
   camera.aspect = w/h; camera.updateProjectionMatrix();
-  tall = h/Math.max(1,w) > 1.3;
+  tall = h/Math.max(1, w) > 1.3;
   applyCam();
 }
 function applyCam(){
-  if(!ST) return;
-  // El panel de compra ocupa la mitad inferior: encuadramos la tabla ARRIBA,
-  // y en pantallas anchas la corremos a la derecha para no chocar con el titular.
+  if(!ST || !stage) return;
   var t = window.TABLAS[ST.tabla], k = t.k * (ST.vinos ? 1.12 : 1);
   var wide = !tall && window.innerWidth >= 900;
-  var dist = (tall ? 4.3 : 3.8) * (.82 + .5*k);
+  var dist = (tall ? 4.05 : 3.5) * (.82 + .5*k);
   var offX = wide ? 1.15 : 0;
   stage.position.x = offX;
   tgtPos.set(offX, 2.45*(.9 + .12*k), dist);
@@ -728,23 +1094,28 @@ function applyCam(){
 function sync(S){
   ST = S;
   if(!scene) return;
-  var t = window.TABLAS[S.tabla], want = lista(S), n = want.length, R = boardR*.82;
-  var target = want.map(function(ing,i){
-    var rr = Math.sqrt((i+.6)/n) * R, ang = i*2.39996;
-    return {key:'s'+i, ing:ing, x:Math.cos(ang)*rr, z:Math.sin(ang)*rr};
+  var t = window.TABLAS[S.tabla], want = lista(S), n = want.length, R = boardR*.8;
+  // Ruido reproducible por posicion: la colocacion parece hecha a mano, pero no
+  // "baila" cuando la clienta cambia una opcion.
+  var az = function(i, k){ var s = Math.sin(i*127.1 + k*311.7)*43758.5453; return s - Math.floor(s); };
+  var target = want.map(function(ing, i){
+    var rr = Math.sqrt((i + .6)/n) * R * (.93 + az(i,1)*.13), ang = i*2.39996 + (az(i,2)-.5)*.34;
+    return {key:'s'+i, ing:ing, x:Math.cos(ang)*rr, z:Math.sin(ang)*rr,
+            s:.88 + az(i,3)*.26, y:.085 + az(i,4)*.012,
+            tx:(az(i,5)-.5)*.20, tz:(az(i,6)-.5)*.20};
   });
   var now = performance.now(), byKey = {};
   target.forEach(function(w){ byKey[w.key] = w; });
   items.forEach(function(it){ var w = byKey[it.key]; if((!w || w.ing !== it.ing) && !it.out) it.out = now; });
-  target.forEach(function(w,i){
+  target.forEach(function(w, i){
     var found = items.filter(function(it){ return it.key===w.key && it.ing===w.ing && !it.out; })[0];
     if(found){ found.x = w.x; found.z = w.z; return; }
     var g = build(w.ing);
-    g.position.set(w.x, .1, w.z);
-    g.rotation.y = (i*53 % 360) * Math.PI/180;
+    g.position.set(w.x, w.y, w.z);
+    g.rotation.set(w.tx, (i*53 % 360) * Math.PI/180, w.tz);
     g.scale.setScalar(.01);
     boardGroup.add(g);
-    items.push({key:w.key, ing:w.ing, g:g, x:w.x, z:w.z, t0:now + i*26});
+    items.push({key:w.key, ing:w.ing, g:g, x:w.x, z:w.z, y:w.y, s:w.s, t0:now + i*26});
   });
   var wantB = S.vinos ? 3 : 0;
   while(bottles.length < wantB){
@@ -753,12 +1124,12 @@ function sync(S){
     sideGroup.add(bg);
     bottles.push({g:bg, t0:now + bottles.length*110});
   }
-  bottles.forEach(function(b,i){ if(i >= wantB && !b.out) b.out = now; });
+  bottles.forEach(function(b, i){ if(i >= wantB && !b.out) b.out = now; });
   tgtScale.setScalar(t.k);
   applyCam();
 }
 function tick(){
-  raf = requestAnimationFrame(tick);
+  requestAnimationFrame(tick);
   var now = performance.now();
   if(!dragging){ spin += spinV; spinV *= .94; if(Math.abs(spinV) < .0002) spinV = 0; }
   stage.rotation.y = -.42 + spin;
@@ -766,39 +1137,40 @@ function tick(){
   camera.position.lerp(tgtPos, .05);
   look.lerp(tgtLook, .05);
   camera.lookAt(look);
-  for(var i=items.length-1;i>=0;i--){
+  for(var i = items.length-1; i >= 0; i--){
     var it = items[i];
+    var sc = it.s || 1;
     if(it.out){
-      var po = Math.min(1, (now-it.out)/320);
-      it.g.scale.setScalar(Math.max(.001, 1-po));
-      it.g.position.y = .1 + po*.22;
-      if(po >= 1){ it.g.parent && it.g.parent.remove(it.g); items.splice(i,1); }
+      var po = Math.min(1, (now - it.out)/320);
+      it.g.scale.setScalar(Math.max(.001, (1 - po)*sc));
+      it.g.position.y = (it.y || .085) + po*.22;
+      if(po >= 1){ it.g.parent && it.g.parent.remove(it.g); items.splice(i, 1); }
       continue;
     }
-    var p = Math.min(1, Math.max(0, (now-it.t0)/640));
+    var p = Math.min(1, Math.max(0, (now - it.t0)/640));
     if(p <= 0){ it.g.scale.setScalar(.01); continue; }
     var e = p >= 1 ? 1 : 1 + 2.4*Math.pow(p-1,3) + 1.4*Math.pow(p-1,2);
-    it.g.scale.setScalar(Math.max(.01, e));
-    it.g.position.set(it.x, .1 + (1-p)*(1-p)*.55, it.z);
+    it.g.scale.setScalar(Math.max(.01, e*sc));
+    it.g.position.set(it.x, (it.y || .085) + (1-p)*(1-p)*.55, it.z);
   }
-  for(var j=bottles.length-1;j>=0;j--){
+  for(var j = bottles.length-1; j >= 0; j--){
     var b = bottles[j];
     if(b.out){
-      var pb = Math.min(1, (now-b.out)/320);
-      b.g.scale.setScalar(Math.max(.001, 1-pb));
-      if(pb >= 1){ b.g.parent && b.g.parent.remove(b.g); bottles.splice(j,1); }
+      var pb = Math.min(1, (now - b.out)/320);
+      b.g.scale.setScalar(Math.max(.001, 1 - pb));
+      if(pb >= 1){ b.g.parent && b.g.parent.remove(b.g); bottles.splice(j, 1); }
       continue;
     }
-    var pp = Math.min(1, Math.max(0, (now-b.t0)/700));
+    var pp = Math.min(1, Math.max(0, (now - b.t0)/700));
     var eb = pp >= 1 ? 1 : 1 + 2.2*Math.pow(pp-1,3) + 1.2*Math.pow(pp-1,2);
     b.g.scale.setScalar(Math.max(.01, eb));
   }
   renderer.render(scene, camera);
 }
 
-// Arrastrar para girar la tabla — el cliente la inspecta como en la mesa.
+// Arrastrar para girar: el cliente la inspecta como en la mesa.
 function down(x){ dragging = true; lastX = x; spinV = 0; }
-function move(x){ if(!dragging) return; var d = (x-lastX)*.006; spin += d; spinV = d; lastX = x; }
+function move(x){ if(!dragging) return; var d = (x - lastX)*.006; spin += d; spinV = d; lastX = x; }
 function up(){ dragging = false; }
 canvas.addEventListener('pointerdown', function(e){ down(e.clientX); canvas.setPointerCapture(e.pointerId); });
 canvas.addEventListener('pointermove', function(e){ move(e.clientX); });
@@ -808,6 +1180,7 @@ canvas.addEventListener('pointercancel', up);
 if(!window.WebGLRenderingContext) fail();
 else { try{ boot(); }catch(e){ fail(); } }
 </script>
+
 <script>
 // Puente entre el panel (script clásico) y la escena (módulo).
 window.TABLAS = TABLAS; window.PERFILES = PERFILES;
