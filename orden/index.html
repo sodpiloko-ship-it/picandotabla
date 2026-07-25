@@ -149,16 +149,39 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"/></
   #done .go:hover{background:#4f1424}
   #done .again{border:0;background:none;padding:0;color:#98908f;font:italic 400 13px/1 'Source Serif 4',serif;text-decoration:underline}
 
-  @media(max-width:560px){
+  /* Tirador: solo en movil. Pliega el menu para dejar la tabla a la vista. */
+  .grip{display:none}
+  @media(max-width:680px){
+    .hint{display:none}
+    .dock{padding:0 8px calc(env(safe-area-inset-bottom) + 8px)}
     .foot{padding:10px 14px 11px;gap:9px}
     .foot .val{font-size:21px}
-    .cta{padding:13px 19px;font-size:14px}
+    .cta{padding:13px 18px;font-size:14px}
     .wa{width:46px;height:46px}
-    .steps{padding:11px 14px 10px;gap:16px}
-    .qrow{padding:11px 14px 9px}
+    .steps{padding:10px 14px 9px;gap:15px}
+    .steps .v{max-width:118px;font-size:13px}
+    .qrow{padding:10px 14px 8px}
     .qrow .q{font-size:15px}
-    .body{padding:0 14px 13px}
-    .hint{display:none}
+
+    /* El menu se lee EN VERTICAL: cada opcion es un renglon de ancho completo,
+       y el area de opciones se desplaza hacia abajo, no hacia los lados. */
+    .body{padding:0 14px 12px;overflow-x:hidden;overflow-y:auto;max-height:26vh;-webkit-overflow-scrolling:touch}
+    .sec.on{flex-direction:column;align-items:stretch;gap:10px}
+    .grp{width:100%}
+    .grp .row{flex-wrap:wrap;gap:7px}
+    .chip{flex:1 1 auto;min-width:calc(50% - 4px);text-align:center;justify-content:center}
+    .card{width:100% !important;flex-direction:row;align-items:center;justify-content:space-between;gap:10px}
+    .card .m{text-align:right;white-space:nowrap}
+    .rule{display:none}
+    .ficha,.note{width:100%;align-self:stretch}
+    .fld{width:100% !important}
+
+    .grip{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;
+      padding:9px 0 6px;border:0;background:none}
+    .grip i{display:block;width:40px;height:4px;border-radius:99px;background:rgba(26,23,24,.18)}
+    .grip span{font:400 9.5px/1 'Source Serif 4',serif;letter-spacing:.18em;text-transform:uppercase;color:#98908f}
+    .panel.col .steps,.panel.col .qrow,.panel.col .body,.panel.col .track{display:none}
+    .panel.col .grip{padding:11px 0 7px}
   }
 </style>
 </head>
@@ -181,7 +204,8 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"/></
   <div id="boot"><div class="ring"></div><div class="t">Armando la tabla</div></div>
 
   <div class="dock">
-    <div class="panel">
+    <div class="panel" id="panel">
+      <button class="grip" id="grip" aria-label="Mostrar u ocultar las opciones"><i></i><span id="gripT">Ocultar opciones</span></button>
       <div class="track"><i id="bar" style="width:20%"></i></div>
 
       <div class="steps" data-scroll id="steps">
@@ -570,6 +594,18 @@ $('#again').addEventListener('click', function(){
 });
 function track(ev, params){ try{ if(window.gtag) gtag('event', ev, params||{}); }catch(e){} }
 
+// Plegar el menu en movil: la tabla se ve completa y la camara la reencuadra.
+$('#grip').addEventListener('click', function(){
+  var p = $('#panel'), col = p.classList.toggle('col');
+  $('#gripT').textContent = col ? 'Ver opciones' : 'Ocultar opciones';
+  window.dispatchEvent(new Event('resize'));
+});
+// Al elegir un paso, si estaba plegado se abre solo.
+$('#steps').addEventListener('click', function(){
+  var p = $('#panel');
+  if(p.classList.contains('col')){ p.classList.remove('col'); $('#gripT').textContent = 'Ocultar opciones'; window.dispatchEvent(new Event('resize')); }
+});
+
 pintarEstaticos(); pintarFechas(); pintar();
 track('view_item', {item_name:TABLAS[S.tabla].n, value:TABLAS[S.tabla].p, currency:'MXN'});
 </script>
@@ -584,8 +620,8 @@ track('view_item', {item_name:TABLAS[S.tabla].n, value:TABLAS[S.tabla].p, curren
 import * as THREE from './three.module.min.js';
 
 var canvas = document.getElementById('c'), renderer, scene, camera, boardGroup, sideGroup, stage, envMap;
-var mats = {}, geos = {}, texs = {}, items = [], bottles = [], look, tgtPos, tgtLook, tgtScale;
-var boardR = 1.05, tall = false, spin = 0, spinV = 0, dragging = false, lastX = 0, ST = null;
+var mats = {}, geos = {}, texs = {}, items = [], bottles = [], jars = [], aoPlano, look, tgtPos, tgtLook, tgtScale;
+var boardR = 1.05, tall = false, spin = 0, spinV = 0, dragging = false, lastX = 0, ST = null, hayLaterales = false;
 var movil = Math.min(window.innerWidth, window.innerHeight) < 700 || /Android|iPhone|iPad/i.test(navigator.userAgent);
 
 function fail(){
@@ -963,6 +999,10 @@ function build(ing, v){
         var u = add(b2, p[0], p[1] + .044, p[2], i*.4, i);
         u.scale.set(1, rnd(1.02, 1.16), 1);
       });
+    // rabillo: el detalle que convierte "esferas moradas" en un racimo
+    var tallo = geo('tallo', function(){ return new THREE.CylinderGeometry(.006, .009, .13, 8); });
+    add(tallo, .01, .15, -.01, .34, .6, 1, mats.tallo || (mats.tallo = estandar({color:0x6a6b3c, roughness:.85})));
+    add(tallo, .05, .125, .02, -.5, 1.2, .62, mats.tallo);
   } else if(ing === 'fruta'){
     var h = geo('gajo', function(){ return new THREE.SphereGeometry(.085, 20, 14, 0, Math.PI*2, 0, Math.PI/2); });
     add(h, 0, .004, 0, 0, .2); add(h, .112, .004, .062, 0, .9, .82); add(h, -.052, .004, .112, 0, 1.7, .9);
@@ -986,7 +1026,14 @@ function build(ing, v){
       for(var i = 0; i < p.count; i++) p.setY(i, p.getY(i) + Math.sin(p.getX(i)*40)*.003);
       gg.computeVertexNormals(); return gg;
     });
-    for(var q = 0; q < 4; q++) add(cr, q*.048 - .06, .011 + q*.013, q*.018, rnd(-.05,.05), q*.4);
+    var hoyo = geo('hoyo', function(){ return new THREE.CylinderGeometry(.006, .006, .016, 6); });
+    for(var q = 0; q < 4; q++){
+      var gl = add(cr, q*.048 - .06, .011 + q*.013, q*.018, rnd(-.05,.05), q*.4);
+      // los hoyitos del cracker: se leen en el reflejo aunque sean minimos
+      if(q > 1) for(var hh = 0; hh < 4; hh++)
+        add(hoyo, gl.position.x + (hh%2?.03:-.03), gl.position.y + .003, gl.position.z + (hh<2?.03:-.03), 0, 0, 1,
+            mats.hoyo || (mats.hoyo = estandar({color:0x8a6134, roughness:.9})));
+    }
   } else if(ing === 'baguette'){
     var bg = geo('rebanada', function(){ return new THREE.CylinderGeometry(.062, .062, .022, 22); });
     for(var r = 0; r < 4; r++) add(bg, r*.055 - .08, .013 + r*.012, r*.038 - .05, Math.PI/2 - .1, r*.6 - .3, 1);
@@ -994,6 +1041,39 @@ function build(ing, v){
     add(geo('disco', function(){ return new THREE.CylinderGeometry(.15, .15, .07, 24); }), 0, .035, 0);
   }
   return g;
+}
+// Frasco "de la casa": lo que la clienta AGREGA va aparte de la tabla, en su
+// tarro de vidrio con tapa de tela — no revuelto entre los quesos.
+function buildFrasco(tipo){
+  var wrap = new THREE.Group(), g = new THREE.Group();
+  g.scale.setScalar(1.34);            // proporcion real de un tarro junto a la tabla
+  wrap.add(g);
+  var relleno = mat(tipo === 'dip' ? 'dip' : 'mermelada');
+  // contenido: casi llena el tarro, por eso el vidrio se lee sin necesidad de refraccion
+  var cont = new THREE.Mesh(geo('frContenido', function(){ return new THREE.CylinderGeometry(.083, .078, .155, 26); }), relleno);
+  cont.position.y = .082; cont.castShadow = true; cont.receiveShadow = true;
+  var perfil = [[0,0],[.086,0],[.09,.012],[.09,.17],[.083,.192],[.064,.208],[.062,.224],[.066,.232]]
+    .map(function(p){ return new THREE.Vector2(p[0], p[1]); });
+  var vidrio = new THREE.Mesh(geo('frVidrio', function(){ return new THREE.LatheGeometry(perfil, 34); }),
+    mats.vidrioClaro || (mats.vidrioClaro = fisico({color:0xeaf2ec, roughness:.04, metalness:0, clearcoat:1,
+      clearcoatRoughness:.03, transparent:true, opacity:.36, envMapIntensity:2.4})));
+  vidrio.castShadow = true; vidrio.renderOrder = 2;
+  var tapa = new THREE.Mesh(geo('frTapa', function(){ return new THREE.CylinderGeometry(.072, .068, .028, 26); }),
+    mats.tapa || (mats.tapa = estandar({color:0x8e7a5e, roughness:.42, metalness:.55})));
+  tapa.position.y = .244; tapa.castShadow = true;
+  // tela sobre la tapa + cordel: el detalle que dice "hecho en casa"
+  var tela = new THREE.Mesh(geo('frTela', function(){ return new THREE.SphereGeometry(.082, 22, 10, 0, Math.PI*2, 0, Math.PI/2.6); }),
+    mats.tela || (mats.tela = estandar({map:texEtiqueta(), roughness:.92})));
+  tela.position.y = .246; tela.castShadow = true;
+  var cordel = new THREE.Mesh(geo('frCordel', function(){ return new THREE.TorusGeometry(.071, .006, 8, 24); }),
+    mats.cordel || (mats.cordel = estandar({color:0xb08a95, roughness:.85})));
+  cordel.position.y = .238; cordel.rotation.x = Math.PI/2;
+  var etiq = new THREE.Mesh(geo('frEtiq', function(){ return new THREE.CylinderGeometry(.0915, .0915, .072, 30, 1, true); }),
+    mat('etiqueta'));
+  etiq.position.y = .085;
+  g.add(cont); g.add(vidrio); g.add(tapa); g.add(tela); g.add(cordel); g.add(etiq);
+  g.add(sombraContacto(.5));
+  return wrap;
 }
 function buildBottle(i){
   var g = new THREE.Group(), v = mat('vidrio');
@@ -1007,9 +1087,15 @@ function buildBottle(i){
   var label = new THREE.Mesh(geo('label', function(){ return new THREE.CylinderGeometry(.1145, .1145, .17, 30, 1, true); }), mat('etiqueta'));
   label.position.y = .2; label.castShadow = true;
   g.add(body); g.add(cap); g.add(label);
-  g.position.set(-1.16 - i*.05, 0, .44 + i*.31);
+  g.add(sombraContacto(.52));
   g.rotation.y = i*.7;
   return g;
+}
+// Todo lo que va JUNTO a la tabla se coloca respecto al borde real, para que
+// nunca se encime aunque la tabla crezca de tamano.
+function alLado(g, dir, sep, k){
+  var r = boardR*k + sep;
+  g.position.set(dir[0]*r, 0, dir[1]*r);
 }
 
 // ── Composicion de la tabla (lo que la clientа eligio) ──────────────────────
@@ -1048,7 +1134,9 @@ function lista(S){
       if(cuencos > 2) out[j] = relleno[(r++) % relleno.length];
     }
   }
-  (S.extras||[]).forEach(function(e){ out.push(e==='pan' ? 'baguette' : (e==='dip' ? 'dip' : 'mermelada')); });
+  // Los agregados de la casa (dip, mermelada) NO van dentro de la tabla:
+  // se sirven en su frasco, al lado. Solo el pan extra se suma a la tabla.
+  if((S.extras||[]).indexOf('pan') > -1) out.push('baguette');
 
   // Barajado reproducible: quesos, carnes y acompanamientos quedan repartidos
   // por toda la tabla en vez de agrupados por bloques.
@@ -1107,7 +1195,7 @@ function boot(){
   // Oclusion de contacto: la tabla deja de "flotar".
   var ao = new THREE.Mesh(new THREE.PlaneGeometry(3.4, 3.4),
     new THREE.MeshBasicMaterial({map:texAO(), transparent:true, depthWrite:false, opacity:.85}));
-  ao.rotation.x = -Math.PI/2; ao.position.y = .004; ao.renderOrder = -1; stage.add(ao);
+  ao.rotation.x = -Math.PI/2; ao.position.y = .004; ao.renderOrder = -1; stage.add(ao); aoPlano = ao;
 
   boardGroup = new THREE.Group(); stage.add(boardGroup);
   sideGroup = new THREE.Group(); stage.add(sideGroup);
@@ -1117,10 +1205,16 @@ function boot(){
   board.castShadow = true; board.receiveShadow = true; board.position.y = .043;
   var canto = new THREE.Mesh(new THREE.TorusGeometry(boardR - .006, .016, 10, 96), mat('maderaCanto'));
   canto.rotation.x = Math.PI/2; canto.position.y = .082; canto.castShadow = true; canto.receiveShadow = true;
-  boardGroup.add(board); boardGroup.add(canto);
+  // Canal para jugos: el surco que llevan las tablas de servicio de verdad.
+  var canal = new THREE.Mesh(new THREE.TorusGeometry(boardR - .085, .011, 8, 96), mat('maderaCanto'));
+  canal.rotation.x = Math.PI/2; canal.position.y = .083; canal.receiveShadow = true;
+  boardGroup.add(board); boardGroup.add(canto); boardGroup.add(canal);
 
   resize();
   window.addEventListener('resize', resize);
+  // Si el lienzo nace sin medidas (pestana en segundo plano, pantalla girando),
+  // el evento resize puede no llegar nunca: observamos el elemento directamente.
+  if(window.ResizeObserver){ try{ new ResizeObserver(resize).observe(canvas); }catch(e){} }
   var b = document.getElementById('boot'); if(b) b.style.display = 'none';
   // `pinta` fuerza un cuadro sincrono: lo usan las pruebas automatizadas, donde el
   // navegador no compone y requestAnimationFrame no corre.
@@ -1132,11 +1226,27 @@ function boot(){
       if(it.out){ it.g.parent && it.g.parent.remove(it.g); items.splice(i, 1); continue; }
       it.g.scale.setScalar(it.s || 1); it.g.position.set(it.x, it.y || .085, it.z);
     }
-    for(var j = bottles.length-1; j >= 0; j--){
-      if(bottles[j].out){ bottles[j].g.parent && bottles[j].g.parent.remove(bottles[j].g); bottles.splice(j, 1); }
-      else bottles[j].g.scale.setScalar(1);
-    }
-    renderer.render(scene, camera); return items.length; }};
+    [bottles, jars].forEach(function(L){
+      for(var j = L.length-1; j >= 0; j--){
+        if(L[j].out){ L[j].g.parent && L[j].g.parent.remove(L[j].g); L.splice(j, 1); }
+        else L[j].g.scale.setScalar(1);
+      }
+    });
+    renderer.render(scene, camera); return {piezas:items.length, botellas:bottles.length, frascos:jars.length}; },
+  // Posiciones en pantalla (%): sirve para comprobar encuadre y que nada se encime.
+  diag:function(){
+    var w = canvas.clientWidth, h = canvas.clientHeight, v = new THREE.Vector3(), out = {};
+    var proy = function(obj){
+      var c = new THREE.Box3().setFromObject(obj).getCenter(v.set(0,0,0)).clone();
+      c.project(camera);
+      return [Math.round((c.x*.5+.5)*100), Math.round((-c.y*.5+.5)*100)];
+    };
+    out.tabla = proy(boardGroup);
+    out.frascos = jars.map(function(j){ return {tipo:j.tipo, xy:proy(j.g)}; });
+    out.botellas = bottles.map(function(b){ return proy(b.g); });
+    out.panelTop = Math.round(document.querySelector('.panel').getBoundingClientRect().top / h * 100);
+    return out;
+  }};
   sync(window.PTState());
   tick();
   setTimeout(function(){ var h = document.getElementById('hint'); if(h) h.style.opacity = '0'; }, 6500);
@@ -1153,11 +1263,16 @@ function applyCam(){
   if(!ST || !stage) return;
   var t = window.TABLAS[ST.tabla], k = t.k * (ST.vinos ? 1.12 : 1);
   var wide = !tall && window.innerWidth >= 900;
-  var dist = (tall ? 4.05 : 3.5) * (.82 + .5*k);
-  var offX = wide ? 1.15 : 0;
-  stage.position.x = offX;
-  tgtPos.set(offX, 2.45*(.9 + .12*k), dist);
-  tgtLook.set(offX, tall ? -.92 : -.78, 0);
+  var pan = document.getElementById('panel');
+  var plegado = pan && pan.classList.contains('col');
+  // Si hay vinos o frascos, la camara abre para que quepan (en vertical es critico).
+  var dist = (tall ? 4.05 : 3.5) * (.82 + .5*k) * (hayLaterales ? (tall ? 1.26 : 1.08) : 1);
+  // En pantalla ancha la tabla se corre a la DERECHA para no pelear con el titular.
+  // Se mueve el escenario, no la camara: si se movieran los dos, quedaria centrada igual.
+  stage.position.x = wide ? .5 : 0;   // deja aire a la derecha para los frascos
+  tgtPos.set(0, 2.45*(.9 + .12*k), dist * (plegado ? .92 : 1));
+  // Con el menu plegado la tabla se centra; con el menu abierto sube para no quedar tapada.
+  tgtLook.set(0, plegado ? -.34 : (tall ? -1.24 : -.78), 0);
 }
 function sync(S){
   ST = S;
@@ -1185,14 +1300,37 @@ function sync(S){
     boardGroup.add(g);
     items.push({key:w.key, ing:w.ing, v:w.v, g:g, x:w.x, z:w.z, y:w.y, s:w.s, t0:now + i*26});
   });
+  // ── Lo que va AL LADO de la tabla: botellas de vino y frascos de la casa ──
+  // En pantalla vertical no hay ancho a los lados: lo que acompana se acomoda
+  // DETRAS y AL FRENTE de la tabla, que es donde queda espacio en el encuadre.
+  var DIRB = tall ? [[-.50,-.66],[-.12,-.82],[-.76,-.40]] : [[-.93,.37],[-.99,.06],[-.86,.62]];
+  var DIRF = tall ? [[.42,.68],[.74,.42]] : [[.97,.22],[.89,-.34]];
+  var sepB = tall ? .17 : .30, sepF = tall ? .15 : .26;
   var wantB = S.vinos ? 3 : 0;
   while(bottles.length < wantB){
     var bg = buildBottle(bottles.length);
     bg.scale.setScalar(.01);
     sideGroup.add(bg);
-    bottles.push({g:bg, t0:now + bottles.length*110});
+    bottles.push({g:bg, t0:now + bottles.length*110, dir:DIRB[bottles.length % 3], sep:sepB});
   }
   bottles.forEach(function(b, i){ if(i >= wantB && !b.out) b.out = now; });
+
+  var wantF = (S.extras||[]).filter(function(e){ return e === 'dip' || e === 'mermelada'; });
+  jars.forEach(function(j){ if(wantF.indexOf(j.tipo) === -1 && !j.out) j.out = now; });
+  wantF.forEach(function(tipo, i){
+    if(jars.filter(function(j){ return j.tipo === tipo && !j.out; }).length) return;
+    var fg = buildFrasco(tipo);
+    fg.scale.setScalar(.01);
+    fg.rotation.y = i*.9 - .3;
+    sideGroup.add(fg);
+    jars.push({g:fg, tipo:tipo, t0:now + i*120, dir:DIRF[i % 2], sep:sepF});
+  });
+  jars.forEach(function(j, i){ j.dir = DIRF[i % 2]; j.sep = sepF; });
+  bottles.forEach(function(b, i){ b.dir = DIRB[i % 3]; b.sep = sepB; });
+
+  bottles.concat(jars).forEach(function(o){ alLado(o.g, o.dir, o.sep, t.k); });
+  hayLaterales = (bottles.length + jars.length) > 0;
+  if(aoPlano) aoPlano.scale.setScalar(t.k);
   tgtScale.setScalar(t.k);
   applyCam();
 }
@@ -1221,18 +1359,20 @@ function tick(){
     it.g.scale.setScalar(Math.max(.01, e*sc));
     it.g.position.set(it.x, (it.y || .085) + (1-p)*(1-p)*.55, it.z);
   }
-  for(var j = bottles.length-1; j >= 0; j--){
-    var b = bottles[j];
-    if(b.out){
-      var pb = Math.min(1, (now - b.out)/320);
-      b.g.scale.setScalar(Math.max(.001, 1 - pb));
-      if(pb >= 1){ b.g.parent && b.g.parent.remove(b.g); bottles.splice(j, 1); }
-      continue;
+  [bottles, jars].forEach(function(lista){
+    for(var j = lista.length-1; j >= 0; j--){
+      var b = lista[j];
+      if(b.out){
+        var pb = Math.min(1, (now - b.out)/320);
+        b.g.scale.setScalar(Math.max(.001, 1 - pb));
+        if(pb >= 1){ b.g.parent && b.g.parent.remove(b.g); lista.splice(j, 1); }
+        continue;
+      }
+      var pp = Math.min(1, Math.max(0, (now - b.t0)/700));
+      var eb = pp >= 1 ? 1 : 1 + 2.2*Math.pow(pp-1,3) + 1.2*Math.pow(pp-1,2);
+      b.g.scale.setScalar(Math.max(.01, eb));
     }
-    var pp = Math.min(1, Math.max(0, (now - b.t0)/700));
-    var eb = pp >= 1 ? 1 : 1 + 2.2*Math.pow(pp-1,3) + 1.2*Math.pow(pp-1,2);
-    b.g.scale.setScalar(Math.max(.01, eb));
-  }
+  });
   renderer.render(scene, camera);
 }
 
