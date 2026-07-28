@@ -87,7 +87,7 @@ python tools/build_catalog.py
 python tools/build_catalog.py --check
 ```
 
-No edites `data/catalogo.js` ni el contenido entre marcadores
+No edites `catalogo.js` ni el contenido entre marcadores
 `POND_CATALOG:*`: son archivos y bloques generados. `--check` falla si cualquiera
 de ellos deja de coincidir con el JSON. También audita el contenido público y
 rechaza precios del catálogo copiados fuera de esos bloques; artículos y ejemplos

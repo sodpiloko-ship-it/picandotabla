@@ -13,7 +13,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "data" / "catalogo.json"
-TARGET = ROOT / "data" / "catalogo.js"
+TARGET = ROOT / "catalogo.js"
 HOME = ROOT / "index.html"
 ORDER = ROOT / "orden" / "index.html"
 EXPECTED_PRODUCT_KEYS = {"dos", "anfitriona", "fiesta", "celebracion"}
@@ -464,7 +464,7 @@ def main() -> int:
     validate_no_unmanaged_catalog_prices(catalog, blocks_by_path)
     if args.check:
         if not TARGET.exists() or TARGET.read_text(encoding="utf-8") != generated:
-            fail("data/catalogo.js está desactualizado; ejecuta tools/build_catalog.py")
+            fail("catalogo.js está desactualizado; ejecuta tools/build_catalog.py")
         for path, blocks in blocks_by_path.items():
             current = path.read_text(encoding="utf-8")
             if current != expected_html(catalog, path, blocks):
