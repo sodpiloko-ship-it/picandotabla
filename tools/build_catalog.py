@@ -148,6 +148,8 @@ def render_js(catalog: dict) -> str:
         "(function(root){\n"
         f"  var catalog={payload};\n"
         "  root.PICANDO_CATALOGO_V1=catalog;\n"
+        "  document.documentElement.dataset.pondCatalog='picandotabla:'"
+        "+catalog.schema_version;\n"
         "})(window);\n"
     )
 
