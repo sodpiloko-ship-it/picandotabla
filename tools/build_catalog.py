@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import html
 import json
 import os
@@ -391,11 +392,28 @@ def replace_generated_block(text: str, name: str, body: str, path: Path) -> str:
     return text[:start] + replacement + text[end + len(end_marker) :]
 
 
-def expected_html(catalog: dict, path: Path, blocks: dict[str, str]) -> str:
+def expected_html(
+    catalog: dict,
+    path: Path,
+    blocks: dict[str, str],
+    catalog_version: str,
+) -> str:
     text = path.read_text(encoding="utf-8")
     for name, body in blocks.items():
         text = replace_generated_block(text, name, body, path)
-    return text
+    return version_catalog_script(text, path, catalog_version)
+
+
+def version_catalog_script(text: str, path: Path, version: str) -> str:
+    pattern = re.compile(
+        r'(<script\s+src="(?:\.\./)?catalogo\.js)(?:\?v=[a-f0-9]+)?("></script>)'
+    )
+    updated, count = pattern.subn(rf"\1?v={version}\2", text)
+    if count != 1:
+        fail(
+            f"{path.relative_to(ROOT)} necesita exactamente un script catalogo.js"
+        )
+    return updated
 
 
 def public_source_files() -> list[Path]:
@@ -460,6 +478,9 @@ def main() -> int:
     args = parser.parse_args()
     catalog = load_and_validate()
     generated = render_js(catalog)
+    catalog_version = hashlib.sha256(
+        generated.encode("utf-8")
+    ).hexdigest()[:12]
     blocks_by_path = render_html_blocks(catalog)
     validate_no_unmanaged_catalog_prices(catalog, blocks_by_path)
     if args.check:
@@ -467,14 +488,24 @@ def main() -> int:
             fail("catalogo.js está desactualizado; ejecuta tools/build_catalog.py")
         for path, blocks in blocks_by_path.items():
             current = path.read_text(encoding="utf-8")
-            if current != expected_html(catalog, path, blocks):
+            if current != expected_html(
+                catalog,
+                path,
+                blocks,
+                catalog_version,
+            ):
                 fail(f"{path.relative_to(ROOT)} contiene un fallback comercial desactualizado")
         print("Catálogo válido; proyección JS y fallbacks HTML actualizados.")
         return 0
     TARGET.write_text(generated, encoding="utf-8", newline="\n")
     updated = [str(TARGET.relative_to(ROOT))]
     for path, blocks in blocks_by_path.items():
-        rendered = expected_html(catalog, path, blocks)
+        rendered = expected_html(
+            catalog,
+            path,
+            blocks,
+            catalog_version,
+        )
         if path.read_text(encoding="utf-8") != rendered:
             path.write_text(rendered, encoding="utf-8", newline="\n")
         updated.append(str(path.relative_to(ROOT)))
