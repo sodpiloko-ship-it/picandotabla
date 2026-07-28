@@ -8,5 +8,7 @@ Thumbs.db
 .env
 secrets/
 
-# pedidos (PII, se crean en el servidor)
-data/
+# pedidos (PII, se crean en el servidor); solo el catálogo público se versiona
+data/*
+!data/catalogo.json
+!data/catalogo.js

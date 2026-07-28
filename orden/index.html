@@ -28,7 +28,9 @@ fbq('track', 'PageView');
 src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"/></noscript>
 <!-- End Meta Pixel Code -->
 <title>Arma tu tabla en vivo · Picando Tabla · CDMX</title>
+<!-- POND_CATALOG:ORDER_META:START -->
 <meta name="description" content="Arma tu tabla de quesos y charcutería y mírala tomar forma en vivo. Curaduría a tu medida, entrega viernes y sábado en CDMX. Desde $650.">
+<!-- POND_CATALOG:ORDER_META:END -->
 <link rel="canonical" href="https://picandotabla.com/orden/">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <meta name="theme-color" content="#ffffff">
@@ -194,9 +196,11 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"/></
 
   <div class="hero">
     <div class="eyebrow">Nunca la misma tabla dos veces</div>
+    <!-- POND_CATALOG:ORDER_HERO:START -->
     <h1 id="hName">Tabla de la Anfitriona</h1>
     <div class="sub" id="hSub">4 a 6 personas · la favorita · $950</div>
     <div class="comp" id="hComp">4 quesos · 3 carnes · 7 acompañamientos</div>
+    <!-- POND_CATALOG:ORDER_HERO:END -->
   </div>
 
   <div class="hint" id="hint">Arrastra para verla por todos lados</div>
@@ -209,7 +213,9 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"/></
       <div class="track"><i id="bar" style="width:20%"></i></div>
 
       <div class="steps" data-scroll id="steps">
+        <!-- POND_CATALOG:ORDER_STEP_DEFAULT:START -->
         <button data-sec="tamano" class="on"><span class="k">Tamaño</span><span class="v" id="vTamano">Tabla de la Anfitriona</span></button>
+        <!-- POND_CATALOG:ORDER_STEP_DEFAULT:END -->
         <button data-sec="curaduria"><span class="k">Curaduría</span><span class="v" id="vCuraduria">Balanceada</span></button>
         <button data-sec="extras"><span class="k">Extras</span><span class="v" id="vExtras">Sin extras</span></button>
         <button data-sec="entrega"><span class="k">Entrega</span><span class="v" id="vEntrega">Por definir</span></button>
@@ -241,10 +247,12 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"/></
         </div>
 
         <div class="sec" data-sec="extras">
+          <!-- POND_CATALOG:ORDER_EXTRAS:START -->
           <button class="card wide" data-q="premium" data-v="si" id="cardPrem">Hazla Premium<span class="m" id="premM">+ $400</span></button>
-          <button class="card" data-q="extras" data-v="dip" data-multi="1">Dip de la casa<span class="m">+ $150</span></button>
-          <button class="card" data-q="extras" data-v="mermelada" data-multi="1">Mermelada de la casa<span class="m">+ $120</span></button>
-          <button class="card" data-q="extras" data-v="pan" data-multi="1">Pan y crujientes extra<span class="m">+ $120</span></button>
+          <button class="card" data-q="extras" data-v="dip" data-multi="1">Dip de la casa<span class="m" data-extra-price="dip">+ $150</span></button>
+          <button class="card" data-q="extras" data-v="mermelada" data-multi="1">Mermelada de la casa<span class="m" data-extra-price="mermelada">+ $120</span></button>
+          <button class="card" data-q="extras" data-v="pan" data-multi="1">Pan y crujientes extra<span class="m" data-extra-price="pan">+ $120</span></button>
+          <!-- POND_CATALOG:ORDER_EXTRAS:END -->
           <div class="rule"></div>
           <button class="card wide" data-q="vinos" data-v="si">Que resolvamos los vinos<span class="m">Se cotiza aparte</span></button>
           <input class="fld" data-f="vinoNota" placeholder="Tu presupuesto de vino" style="width:190px;align-self:center">
@@ -262,7 +270,9 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"/></
             <div class="row" id="rowColonia"></div>
           </div>
           <input class="fld" data-f="direccion" placeholder="Calle y referencias" style="width:240px;align-self:center">
+          <!-- POND_CATALOG:ORDER_DELIVERY_NOTE:START -->
           <div class="note" id="noteEntrega">Entregamos viernes y sábado. Mensajería $120 en CDMX.</div>
+          <!-- POND_CATALOG:ORDER_DELIVERY_NOTE:END -->
         </div>
 
         <div class="sec" data-sec="datos">
@@ -275,9 +285,11 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"/></
 
       <div class="foot">
         <div class="tot">
+          <!-- POND_CATALOG:ORDER_TOTAL:START -->
           <span class="k">Total con envío</span>
           <span class="val" id="total">$1,070</span>
           <span class="brk" id="brk">Tabla $950 · mensajería $120</span>
+          <!-- POND_CATALOG:ORDER_TOTAL:END -->
         </div>
         <button class="cta" id="cta">Enviar mi pedido</button>
         <a class="wa" id="waTop" href="#" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
@@ -301,29 +313,40 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"/></
   </div>
 </div>
 
+<script src="../data/catalogo.js"></script>
 <script>
 // ─────────────────────────────────────────────────────────────────────────────
-// Catálogo real de Picando Tabla (mismos precios y reglas que la home).
+// Proyección del catálogo canónico de Picando Tabla para la experiencia 3D.
 // ─────────────────────────────────────────────────────────────────────────────
-var WA = '525623632404', ENVIO = 120;
+var CATALOGO = window.PICANDO_CATALOGO_V1;
+var PREMIUM = CATALOGO.modifiers.filter(function(m){ return m.key === 'premium'; })[0];
+var LOGISTICA = CATALOGO.logistics;
+var WA = '525623632404', ENVIO = CATALOGO.delivery.price_mxn;
 // q = variedades de QUESO · c = variedades de CARNE · a = acompañamientos.
 // Son las cantidades reales publicadas en la ficha de cada tabla: la escena 3D
 // coloca exactamente eso, no relleno decorativo.
-var TABLAS = {
-  dos: {p:650, prem:300, n:'Tabla para Dos', s:'2 personas · noche tranquila', k:.74, q:2, c:2, a:5,
-    d:'Quesos y charcutería en porciones pensadas para dos, con el dulce, la fruta y el crujiente que hacen que cada bocado sea distinto al anterior.',
-    inc:['2 quesos de temporada (uno suave, uno madurado)','2 carnes de charcutería de la semana','Fruta fresca de temporada','Frutos secos y crujientes','Tarjeta de cata: qué probar primero']},
-  anfitriona: {p:950, prem:400, n:'Tabla de la Anfitriona', s:'4 a 6 personas · la favorita', k:.9, q:4, c:3, a:7,
-    d:'Variedad para que cada invitado encuentre su favorito y abundancia para que nadie se quede picando el plato vacío. Llega lista para poner en el centro.',
-    inc:['4 quesos de temporada (frescos, semicurados y curados)','3 carnes de charcutería en distintos cortes','Higos, miel y fruta de temporada','Frutos secos y crujientes','Tarjeta de cata para tus invitados']},
-  fiesta: {p:1600, prem:600, n:'Tabla de Fiesta', s:'8 personas · tabla de evento', k:1.04, q:5, c:4, a:11, evento:true,
-    d:'Curada para rendir toda la noche: intensidades que suben poco a poco, cortes generosos y una pieza central que se ve espectacular en fotos.',
-    inc:['5 quesos de temporada (frescos, semicurados y curados)','4 carnes de charcutería en cortes generosos','Fruta de temporada y toques dulces','Frutos secos, aceitunas y crujientes','Tarjeta de cata y sugerencia de orden']},
-  celebracion:{p:2600, prem:900, n:'Tabla de Celebración', s:'10 a 12 personas · tabla de evento', k:1.16, q:5, c:7, a:15, evento:true,
-    d:'La mesa que habla por ti: nuestra máxima variedad, curada pieza por pieza y montada para lucirse. Para la boda íntima, el aniversario, la celebración grande.',
-    inc:['Alrededor de 5 quesos de temporada','Alrededor de 7 carnes de charcutería, premium y en varios cortes','Fruta fresca, higos y miel','Frutos secos, aceitunas y crujientes surtidos','Tarjeta de cata y montaje pensado para la foto']}
-};
-var EXTRAS = {dip:{p:150,n:'Dip de la casa'}, mermelada:{p:120,n:'Mermelada de la casa'}, pan:{p:120,n:'Pan y crujientes extra'}};
+var TABLAS = {};
+CATALOGO.products.forEach(function(product){
+  TABLAS[product.key] = {
+    id:product.id,
+    p:product.price_mxn,
+    prem:PREMIUM.prices_mxn_by_product_key[product.key],
+    n:product.title,
+    s:product.presentation.order_subtitle,
+    k:product.presentation.scale_3d,
+    q:product.composition.cheeses,
+    c:product.composition.meats,
+    a:product.composition.accompaniments,
+    evento:product.is_event,
+    people:product.people,
+    d:product.description,
+    inc:product.included
+  };
+});
+var EXTRAS = {};
+CATALOGO.extras.forEach(function(extra){
+  EXTRAS[extra.key] = {id:extra.id,p:extra.price_mxn,n:extra.title};
+});
 var PERFILES = {
   balanceada:{n:'Balanceada', w:[.34,.33,.33]},
   quesos:{n:'Más quesos', w:[.55,.15,.30]},
@@ -357,12 +380,14 @@ var open_ = 'tamano', sending = false;
 var DIAS = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
 var MESES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
 function fechasValidas(){
-  var t = TABLAS[S.tabla], lead = t.evento ? 7 : 2, out = [], d = new Date();
+  var t = TABLAS[S.tabla];
+  var lead = t.evento ? LOGISTICA.event_lead_time_days : Math.ceil(LOGISTICA.standard_lead_time_hours/24);
+  var out = [], d = new Date();
   d.setHours(0,0,0,0);
   var min = new Date(d.getTime() + lead*86400000);
   for(var i=0;i<60 && out.length<5;i++){
     var x = new Date(d.getTime() + i*86400000);
-    if((x.getDay()===5 || x.getDay()===6) && x >= min){
+    if(LOGISTICA.delivery_days_iso.indexOf(x.getDay()) > -1 && x >= min){
       out.push({iso:x.toISOString().slice(0,10), lbl:DIAS[x.getDay()]+' '+x.getDate()+' '+MESES[x.getMonth()]});
     }
   }
@@ -375,15 +400,20 @@ function chip(q,v,label,multi,extra){
 }
 function pintarEstaticos(){
   $('#secTamano').innerHTML = Object.keys(TABLAS).map(function(k){
-    var t = TABLAS[k], per = k==='dos'?'2 personas':k==='anfitriona'?'4 a 6':k==='fiesta'?'8 personas':'10 a 12';
+    var t = TABLAS[k];
+    var per = t.people.min === t.people.max ? t.people.min+' personas' : t.people.min+' a '+t.people.max;
     return '<button class="card" data-q="tabla" data-v="'+k+'">'+t.n+'<span class="m">'+per+' · '+t.q+' quesos · '+t.c+' carnes<br>'+money(t.p)+'</span></button>';
   }).join('') + '<div class="ficha" id="ficha"></div>'
-    + '<div class="note">Tablas de 8 a 12 son de evento: una semana de anticipación.</div>';
+    + '<div class="note">Las tablas de evento requieren '+LOGISTICA.event_lead_time_days+' días de anticipación.</div>';
   $('#rowPerfil').innerHTML = Object.keys(PERFILES).map(function(k){ return chip('perfil',k,PERFILES[k].n); }).join('');
   $('#rowGustos').innerHTML = Object.keys(GUSTOS).map(function(k){ return chip('gustos',k,GUSTOS[k],true); }).join('')
     + chip('dejalo','si','Ustedes eligen',false,' dash');
   $('#rowEvitar').innerHTML = Object.keys(EVITAR).map(function(k){ return chip('evitar',k,EVITAR[k],true); }).join('');
   $('#rowColonia').innerHTML = Object.keys(COLONIAS).map(function(k){ return chip('colonia',k,COLONIAS[k]); }).join('');
+  $$('[data-extra-price]').forEach(function(label){
+    var extra = EXTRAS[label.dataset.extraPrice];
+    if(extra) label.textContent = '+ ' + money(extra.p);
+  });
 }
 function pintarFechas(){
   var f = fechasValidas();
@@ -488,8 +518,8 @@ function pintar(){
   $('#brk').textContent = brk.join(' · ');
 
   $('#noteEntrega').textContent = t.evento
-    ? 'Tablas de evento: una semana de anticipación. Entregamos viernes y sábado. Mensajería $120 en CDMX.'
-    : 'Entregamos viernes y sábado, hasta 48 h después de tu pedido. Mensajería $120 en CDMX.';
+    ? 'Tablas de evento: '+LOGISTICA.event_lead_time_days+' días de anticipación. Entregamos '+LOGISTICA.delivery_days_labels.join(' y ')+'. Mensajería '+money(ENVIO)+' en CDMX.'
+    : 'Entregamos '+LOGISTICA.delivery_days_labels.join(' y ')+'. Pide con al menos '+LOGISTICA.standard_lead_time_hours+' h de anticipación. Mensajería '+money(ENVIO)+' en CDMX.';
   $('#notePago').textContent = t.evento
     ? 'Tabla de evento: apartas tu fecha con el 50% (' + money(c.total/2) + ') y liquidas 8 días antes.'
     : 'Tablas de 2 a 6: pago completo por transferencia, hasta 48 h antes de tu entrega.';

@@ -171,7 +171,7 @@ echo '<details class="card" style="margin-top:6px"><summary style="cursor:pointe
    . '<input class="in" name="zona" placeholder="Zona / colonia">'
    . '<input class="in" name="fecha" placeholder="Día de entrega (ej. viernes 31)">'
    . '</div>'
-   . '<textarea class="in" name="items" rows="3" style="margin-top:10px" placeholder="Un item por línea, ej.&#10;1x Tabla de Fiesta ($1,600)&#10;1x Mensajería CDMX ($120)" required></textarea>'
+   . '<textarea class="in" name="items" rows="3" style="margin-top:10px" placeholder="Un item por línea, ej.&#10;1x Tabla elegida&#10;1x Mensajería CDMX" required></textarea>'
    . '<div style="display:flex;gap:10px;margin-top:10px;align-items:center">'
    . '<input class="in" name="total" type="number" step="1" min="0" placeholder="Total $" style="max-width:140px">'
    . '<button class="btn">Registrar (queda confirmado)</button></div>'

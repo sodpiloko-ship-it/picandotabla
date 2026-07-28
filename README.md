@@ -70,4 +70,25 @@ Hostinger o crea un registro A a la IP del hosting). Luego activa **SSL** (hPane
   PHP en Hostinger. Tus llaves de Stripe son secretas — tú las pones; el cableado se deja listo aparte.
 - **Fotos reales + precios finales** (de Jessica). Hoy hay ilustraciones SVG y precios v0 de referencia.
 
-— Hecho por Patológicos · `web/picandotabla/` es la fuente; este repo es su copia desplegable.
+— Hecho por Patológicos · este repositorio es la fuente de deploy. `C:\Patologicos\web\picandotabla`
+es un espejo DEV divergido y no debe usarse para publicar.
+
+## Catálogo canónico para POND
+
+`data/catalogo.json` es la única fuente editable de productos, precios, extras y
+logística que consumen la home y `/orden/`. Los importes `*_mxn` son pesos
+mexicanos enteros (unidad mayor, no centavos).
+
+Después de editar el JSON, regenera la proyección JS y los fallbacks HTML usados
+por SEO y navegadores sin JavaScript; después valida que no exista divergencia:
+
+```bash
+python tools/build_catalog.py
+python tools/build_catalog.py --check
+```
+
+No edites `data/catalogo.js` ni el contenido entre marcadores
+`POND_CATALOG:*`: son archivos y bloques generados. `--check` falla si cualquiera
+de ellos deja de coincidir con el JSON. También audita el contenido público y
+rechaza precios del catálogo copiados fuera de esos bloques; artículos y ejemplos
+deben enlazar al precio vigente.
