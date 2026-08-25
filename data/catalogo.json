@@ -11,7 +11,12 @@
       "availability": "confirmation_required",
       "title": "Tabla para Dos",
       "description": "Quesos y charcutería en porciones pensadas para dos, con el dulce, la fruta y el crujiente que hacen que cada bocado sea distinto al anterior. La armamos con lo mejor de la semana: nunca la misma tabla dos veces.",
-      "price_mxn": 650,
+      "price_mxn": 485,
+      "regular_price_mxn": 650,
+      "promotion": {
+        "valid_for_paid_orders_before": "2026-09-20",
+        "display_deadline": "20 de septiembre de 2026"
+      },
       "people": {
         "min": 2,
         "max": 2
@@ -37,7 +42,7 @@
       },
       "presentation": {
         "tag": "Para 2 · Noche tranquila",
-        "card_description": "El viernes en casa se vuelve cita. Porciones justas para dos, sin repetir bocado.",
+        "card_description": "Una noche en casa se vuelve cita. Porciones justas para dos, sin repetir bocado.",
         "featured": false,
         "order_subtitle": "2 personas · noche tranquila",
         "scale_3d": 0.74
@@ -162,24 +167,6 @@
     }
   ],
   "extras": [
-    {
-      "id": "picandotabla:addon:dip-casa",
-      "key": "dip",
-      "status": "active",
-      "availability": "confirmation_required",
-      "title": "Dip de la casa",
-      "description": "Queso de cabra batido con miel y pimienta — el que abre la tabla.",
-      "price_mxn": 150
-    },
-    {
-      "id": "picandotabla:addon:mermelada-casa",
-      "key": "mermelada",
-      "status": "active",
-      "availability": "confirmation_required",
-      "title": "Mermelada de la casa",
-      "description": "Nuestro dulce hecho en casa que amarra el salado de la tabla.",
-      "price_mxn": 120
-    },
     {
       "id": "picandotabla:addon:pan-crujientes",
       "key": "pan",

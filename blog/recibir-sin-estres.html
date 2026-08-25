@@ -1,84 +1,437 @@
-<!DOCTYPE html><html lang="es"><head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-4BMCS7P6DQ"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-4BMCS7P6DQ');</script>
-<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','1537185354529246');fbq('track','PageView');</script>
-<title>Cómo recibir en casa sin pasar el día en la cocina · Picando Tabla</title>
-<meta name="description" content="Cinco cosas que sí funcionan para recibir en casa sin estrés: la reunión sale bien sin que tú corras toda la tarde. Consejos de Picando Tabla, CDMX.">
-<link rel="canonical" href="https://picandotabla.com/blog/recibir-sin-estres.html">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<meta name="theme-color" content="#26282a">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,400&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:#e9eaea;color:#26282a;font-family:'Work Sans',system-ui,sans-serif;line-height:1.7}
-h1,h2,h3{font-family:'Lora',Georgia,serif;font-weight:600;line-height:1.2;color:#26282a}
-a{color:#7c2d3e;text-decoration:none}a:hover{text-decoration:underline}
-.hdr{position:sticky;top:0;z-index:50;background:#e9eaeaf2;backdrop-filter:blur(8px);border-bottom:1px solid #d3d5d4}
-.hdr .w{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 22px;gap:16px}
-.logo{font-family:'Lora',serif;font-weight:700;font-size:21px;color:#26282a;line-height:1.1}
-.logo small{display:block;font-family:'Work Sans',sans-serif;font-size:10px;letter-spacing:2.5px;color:#75797a;text-transform:uppercase;font-weight:600}
-.right{display:flex;align-items:center;gap:16px}
-.mid{display:flex;align-items:center;gap:20px;font-size:14px}
-.mid a{color:#55585a}.mid a.on{color:#7c2d3e;font-weight:600}
-.btn-o{background:transparent;color:#7c2d3e !important;padding:9px 16px;border-radius:999px;font-weight:600;border:1.5px solid #7c2d3e}
-.btn-wa{display:inline-flex;align-items:center;gap:8px;background:#26282a;color:#fff !important;padding:10px 18px;border-radius:999px;font-weight:600}
-.btn-wa .dot{width:15px;height:15px;border-radius:50%;background:#25D366;display:inline-block}
-.wrap{max-width:760px;margin:0 auto;padding:0 22px}
-article{padding:34px 0}
-.back{font-size:13px;color:#75797a}
-.kick{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#7c2d3e;font-weight:600;margin-top:14px}
-article h1{font-size:clamp(28px,5vw,40px);margin:12px 0 10px}
-.meta{font-size:13px;color:#75797a;margin-bottom:24px}
-article h2{font-size:23px;margin:28px 0 8px}
-article p{font-size:16.5px;color:#55585a;margin:12px 0}
-.cta-box{background:#fbfcfc;border:1px solid #d3d5d4;border-left:3px solid #7c2d3e;border-radius:14px;padding:22px;margin:34px 0}
-.cta-box b{font-family:'Lora',serif;font-size:19px;color:#26282a}
-.btn{display:inline-block;margin-top:12px;background:#26282a;color:#fff !important;border-radius:999px;padding:12px 24px;font-weight:600;font-size:15px}
-footer{border-top:1px solid #d3d5d4;padding:26px 0;color:#75797a;font-size:13px;text-align:center}
-@media(max-width:720px){.mid{display:none}}
-</style></head><body>
-<header class="hdr"><div class="w">
-  <a href="/" style="text-decoration:none"><div class="logo">Picando Tabla<small>Quesos · Charcutería · CDMX</small></div></a>
-  <div class="right">
-    <div class="mid">
-      <a href="/#tablas">Tablas</a>
-      <a href="/#curaduria">Curaduría</a>
-      <a href="/blog/" class="on">Blog</a>
-      <a href="/#nosotros">Nosotros</a>
-      <a href="/#cotizar" class="btn-o">Cotizar</a>
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-4BMCS7P6DQ"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-4BMCS7P6DQ");
+    </script>
+    <script>
+      !(function (f, b, e, v, n, t, s) {
+        if (f.fbq) return;
+        n = f.fbq = function () {
+          n.callMethod
+            ? n.callMethod.apply(n, arguments)
+            : n.queue.push(arguments);
+        };
+        if (!f._fbq) f._fbq = n;
+        n.push = n;
+        n.loaded = !0;
+        n.version = "2.0";
+        n.queue = [];
+        t = b.createElement(e);
+        t.async = !0;
+        t.src = v;
+        s = b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t, s);
+      })(
+        window,
+        document,
+        "script",
+        "https://connect.facebook.net/en_US/fbevents.js",
+      );
+      fbq("init", "1537185354529246");
+      fbq("track", "PageView");
+    </script>
+    <title>
+      Cómo recibir en casa sin pasar el día en la cocina · Picando Tabla
+    </title>
+    <meta
+      name="description"
+      content="Cinco cosas que sí funcionan para recibir en casa sin estrés: la reunión sale bien sin que tú corras toda la tarde. Consejos de Picando Tabla, CDMX."
+    />
+    <link
+      rel="canonical"
+      href="https://picandotabla.com/blog/recibir-sin-estres.html"
+    />
+    <meta property="og:type" content="article" />
+    <meta
+      property="og:title"
+      content="Cómo recibir en casa sin pasar el día en la cocina · Picando Tabla"
+    />
+    <meta
+      property="og:description"
+      content="Cinco decisiones que funcionan para recibir en casa sin estrés y disfrutar con tus invitados."
+    />
+    <meta
+      property="og:url"
+      content="https://picandotabla.com/blog/recibir-sin-estres.html"
+    />
+    <meta property="og:image" content="https://picandotabla.com/img/2.jpg" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#26282a" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,400&family=Work+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background: #e9eaea;
+        color: #26282a;
+        font-family: "Work Sans", system-ui, sans-serif;
+        line-height: 1.7;
+      }
+      h1,
+      h2,
+      h3 {
+        font-family: "Lora", Georgia, serif;
+        font-weight: 600;
+        line-height: 1.2;
+        color: #26282a;
+      }
+      a {
+        color: #7c2d3e;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      .promo {
+        position: sticky;
+        top: 0;
+        z-index: 51;
+        height: 60px;
+        background: #6f1d33;
+        color: #fff;
+        text-align: center;
+        padding: 8px 14px;
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 1.3;
+        letter-spacing: 0.3px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 3px 12px #26282a2b;
+      }
+      .hdr {
+        position: sticky;
+        top: 60px;
+        z-index: 50;
+        background: #e9eaeaf2;
+        backdrop-filter: blur(8px);
+        border-bottom: 1px solid #d3d5d4;
+      }
+      .hdr .w {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 22px;
+        gap: 16px;
+      }
+      .logo {
+        font-family: "Lora", serif;
+        font-weight: 700;
+        font-size: 21px;
+        color: #26282a;
+        line-height: 1.1;
+      }
+      .logo small {
+        display: block;
+        font-family: "Work Sans", sans-serif;
+        font-size: 10px;
+        letter-spacing: 2.5px;
+        color: #75797a;
+        text-transform: uppercase;
+        font-weight: 600;
+      }
+      .right {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      .mid {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        font-size: 14px;
+      }
+      .mid a {
+        color: #55585a;
+      }
+      .mid a.on {
+        color: #7c2d3e;
+        font-weight: 600;
+      }
+      .btn-o {
+        background: transparent;
+        color: #7c2d3e !important;
+        padding: 9px 16px;
+        border-radius: 999px;
+        font-weight: 600;
+        border: 1.5px solid #7c2d3e;
+      }
+      .btn-wa {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: #26282a;
+        color: #fff !important;
+        padding: 10px 18px;
+        border-radius: 999px;
+        font-weight: 600;
+      }
+      .btn-wa .dot {
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        background: #25d366;
+        display: inline-block;
+      }
+      .wrap {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 0 22px;
+      }
+      article {
+        padding: 34px 0;
+      }
+      .back {
+        font-size: 13px;
+        color: #75797a;
+      }
+      .kick {
+        font-size: 11px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #7c2d3e;
+        font-weight: 600;
+        margin-top: 14px;
+      }
+      article h1 {
+        font-size: clamp(28px, 5vw, 40px);
+        margin: 12px 0 10px;
+      }
+      .meta {
+        font-size: 13px;
+        color: #75797a;
+        margin-bottom: 24px;
+      }
+      article h2 {
+        font-size: 23px;
+        margin: 28px 0 8px;
+      }
+      article p {
+        font-size: 16.5px;
+        color: #55585a;
+        margin: 12px 0;
+      }
+      .cta-box {
+        background: #fbfcfc;
+        border: 1px solid #d3d5d4;
+        border-left: 3px solid #7c2d3e;
+        border-radius: 14px;
+        padding: 22px;
+        margin: 34px 0;
+      }
+      .cta-box b {
+        font-family: "Lora", serif;
+        font-size: 19px;
+        color: #26282a;
+      }
+      .btn {
+        display: inline-block;
+        margin-top: 12px;
+        background: #26282a;
+        color: #fff !important;
+        border-radius: 999px;
+        padding: 12px 24px;
+        font-weight: 600;
+        font-size: 15px;
+      }
+      footer {
+        border-top: 1px solid #d3d5d4;
+        padding: 26px 0;
+        color: #75797a;
+        font-size: 13px;
+        text-align: center;
+      }
+      @media (max-width: 720px) {
+        .mid {
+          display: none;
+        }
+      }
+    </style>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Cómo recibir en casa sin pasar el día en la cocina",
+        "description": "Cinco cosas que sí funcionan para recibir en casa sin estrés: la reunión sale bien sin que tú corras toda la tarde. Consejos de Picando Tabla, CDMX.",
+        "mainEntityOfPage": "https://picandotabla.com/blog/recibir-sin-estres.html",
+        "author": { "@type": "Organization", "name": "Picando Tabla" },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Picando Tabla",
+          "url": "https://picandotabla.com/"
+        }
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Inicio",
+            "item": "https://picandotabla.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Blog",
+            "item": "https://picandotabla.com/blog/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Reuniones",
+            "item": "https://picandotabla.com/blog/reuniones/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Cómo recibir en casa sin pasar el día en la cocina",
+            "item": "https://picandotabla.com/blog/recibir-sin-estres.html"
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <div class="promo">
+      PROMOCIÓN ESPECIAL · Tabla para Dos $485 (antes $650) · pedidos pagados
+      antes del 20 de septiembre de 2026
     </div>
-    <a href="https://wa.me/525623632404?text=%C2%A1Hola!%20Quiero%20pedir%20una%20tabla%20%F0%9F%A7%80" target="_blank" rel="noopener" class="btn-wa" onclick="waTrack()"><span class="dot"></span>Pedir por WhatsApp</a>
-  </div>
-</div></header>
+    <header class="hdr">
+      <div class="w">
+        <a href="/" style="text-decoration: none"
+          ><div class="logo">
+            Picando Tabla<small>Quesos · Charcutería · CDMX</small>
+          </div></a
+        >
+        <div class="right">
+          <div class="mid">
+            <a href="/tablas/">Tablas</a>
+            <a href="/reuniones/">Reuniones</a>
+            <a href="/regalos/">Regalos</a>
+            <a href="/blog/" class="on">Blog</a>
+            <a href="/eventos/" class="btn-o">Eventos</a>
+          </div>
+          <a
+            href="https://wa.me/525623632404?text=%C2%A1Hola!%20Quiero%20pedir%20una%20tabla%20%F0%9F%A7%80"
+            target="_blank"
+            rel="noopener"
+            class="btn-wa"
+            onclick="waTrack()"
+            ><span class="dot"></span>Pedir por WhatsApp</a
+          >
+        </div>
+      </div>
+    </header>
 
-<article><div class="wrap">
-  <a class="back" href="/blog/">← Ideas para recibir</a>
-  <div class="kick">Anfitriones</div>
-  <h1>Cómo recibir en casa sin pasar el día en la cocina</h1>
-  <div class="meta">Recibir · 3 min de lectura</div>
-  <p>Ya sea la comida del domingo con la familia, la tarde en que se juntan las amigas o la posada de diciembre, recibir en casa debería dar gusto, no ansiedad. El problema casi nunca son las ganas: es la carga de comprar, montar y estar pendiente de todo mientras deberías estar disfrutando con tus invitados. Estas cinco cosas hacen que la reunión salga bien sin que tú corras toda la tarde.</p>
+    <article>
+      <div class="wrap">
+        <nav class="back" aria-label="Migas de pan">
+          <a href="/">Inicio</a> › <a href="/blog/">Blog</a> ›
+          <a href="/blog/reuniones/">Reuniones</a>
+        </nav>
+        <div class="kick">Anfitriones</div>
+        <h1>Cómo recibir en casa sin pasar el día en la cocina</h1>
+        <div class="meta">Recibir · 3 min de lectura</div>
+        <p>
+          Ya sea la comida del domingo con la familia, la tarde en que se juntan
+          las amigas o la posada de diciembre, recibir en casa debería dar
+          gusto, no ansiedad. El problema casi nunca son las ganas: es la carga
+          de comprar, montar y estar pendiente de todo mientras deberías estar
+          disfrutando con tus invitados. Estas cinco cosas hacen que la reunión
+          salga bien sin que tú corras toda la tarde.
+        </p>
 
-  <h2>1. Resuelve el centro de la mesa primero</h2>
-  <p>Ten una sola cosa que ancle la reunión y a la que todos lleguen: una tabla abundante en medio de la mesa hace justo eso. Si el centro está resuelto y se ve generoso, lo demás pesa mucho menos.</p>
+        <h2>1. Resuelve el centro de la mesa primero</h2>
+        <p>
+          Ten una sola cosa que ancle la reunión y a la que todos lleguen: una
+          tabla abundante en medio de la mesa hace justo eso. Si el centro está
+          resuelto y se ve generoso, lo demás pesa mucho menos.
+        </p>
 
-  <h2>2. Adelanta lo que puedas la noche anterior</h2>
-  <p>Todo lo que no tenga que estar fresco al momento, déjalo listo desde antes: la mesa puesta, los platos afuera, el hielo hecho. La tarde del evento se te va en detalles, no en empezar de cero.</p>
+        <h2>2. Adelanta lo que puedas la noche anterior</h2>
+        <p>
+          Todo lo que no tenga que estar fresco al momento, déjalo listo desde
+          antes: la mesa puesta, los platos afuera, el hielo hecho. La tarde del
+          evento se te va en detalles, no en empezar de cero.
+        </p>
 
-  <h2>3. Menos platos, mejor elegidos</h2>
-  <p>No necesitas seis preparaciones: necesitas tres cosas buenas y suficientes. Una tabla para picar, algo caliente sencillo y un postre fácil bastan. La variedad se siente, el exceso solo cansa.</p>
+        <h2>3. Menos platos, mejor elegidos</h2>
+        <p>
+          No necesitas seis preparaciones: necesitas tres cosas buenas y
+          suficientes. Una tabla para picar, algo caliente sencillo y un postre
+          fácil bastan. La variedad se siente, el exceso solo cansa.
+        </p>
 
-  <h2>4. Que la bebida no te complique</h2>
-  <p>Deja una jarra de agua fresca y café listo para la sobremesa, en un rincón donde cada quien se sirva. Que la gente sea autónoma te libera de estar de pie toda la reunión.</p>
+        <h2>4. Que la bebida no te complique</h2>
+        <p>
+          Deja una jarra de agua fresca y café listo para la sobremesa, en un
+          rincón donde cada quien se sirva. Que la gente sea autónoma te libera
+          de estar de pie toda la reunión.
+        </p>
 
-  <h2>5. Siéntate con tus invitados</h2>
-  <p>El mejor anfitrión no es el que más corre: es el que está presente. Si preparaste el centro de la mesa con anticipación, puedes sentarte y disfrutar — que es de lo que se trata recibir.</p>
+        <h2>5. Siéntate con tus invitados</h2>
+        <p>
+          El mejor anfitrión no es el que más corre: es el que está presente. Si
+          preparaste el centro de la mesa con anticipación, puedes sentarte y
+          disfrutar — que es de lo que se trata recibir.
+        </p>
 
-  <div class="cta-box"><b>Nosotros ponemos el centro de la mesa.</b><br>Te armamos la tabla a mano y te la entregamos lista en CDMX. Tú solo recibes.<br><a class="btn" href="https://wa.me/525623632404?text=%C2%A1Hola!%20Quiero%20pedir%20una%20tabla%20%F0%9F%A7%80" target="_blank" rel="noopener" onclick="waTrack()">Pídela por WhatsApp</a></div>
-</div></article>
+        <div class="cta-box">
+          <b>Nosotros ponemos el centro de la mesa.</b><br />Te armamos la tabla
+          a mano y te la entregamos lista en CDMX. Tú solo recibes.<br /><a
+            class="btn"
+            href="https://wa.me/525623632404?text=%C2%A1Hola!%20Quiero%20pedir%20una%20tabla%20%F0%9F%A7%80"
+            target="_blank"
+            rel="noopener"
+            onclick="waTrack()"
+            >Pídela por WhatsApp</a
+          >
+        </div>
+      </div>
+    </article>
 
-<footer><div class="wrap">Picando Tabla · CDMX · Servicio de jueves a domingo o bajo pedido · <a href="/#cotizar">Cotiza tu evento</a></div></footer>
-<script>function waTrack(){try{if(window.gtag)gtag('event','whatsapp_click',{source:'blog'});}catch(e){}try{if(window.fbq)fbq('track','Contact',{source:'blog'});}catch(e){}}</script>
-</body></html>
+    <footer>
+      <div class="wrap">
+        Picando Tabla · Entregas en CDMX ·
+        <a href="/eventos/">Cotiza tu evento</a>
+      </div>
+    </footer>
+    <script>
+      function waTrack() {
+        try {
+          if (window.gtag) gtag("event", "whatsapp_click", { source: "blog" });
+        } catch (e) {}
+        try {
+          if (window.fbq) fbq("track", "Contact", { source: "blog" });
+        } catch (e) {}
+      }
+    </script>
+  </body>
+</html>

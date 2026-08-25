@@ -29,14 +29,14 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"/></
 <!-- End Meta Pixel Code -->
 <title>Arma tu tabla en vivo · Picando Tabla · CDMX</title>
 <!-- POND_CATALOG:ORDER_META:START -->
-<meta name="description" content="Arma tu tabla de quesos y charcutería y mírala tomar forma en vivo. Curaduría a tu medida, entrega viernes y sábado en CDMX. Desde $650.">
+<meta name="description" content="Arma tu tabla de quesos y charcutería y mírala tomar forma en vivo. Tabla para Dos en promoción por $485 para pedidos pagados antes del 20 de septiembre de 2026.">
 <!-- POND_CATALOG:ORDER_META:END -->
 <link rel="canonical" href="https://picandotabla.com/orden/">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <meta name="theme-color" content="#ffffff">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Arma tu tabla en vivo · Picando Tabla">
-<meta property="og:description" content="Elige y mira tu tabla armarse en vivo. Entrega viernes y sábado en CDMX.">
+<meta property="og:description" content="Elige y mira tu tabla armarse en vivo. Tabla para Dos en promoción por $485 por tiempo limitado.">
 <meta property="og:url" content="https://picandotabla.com/orden/">
 <meta property="og:image" content="https://picandotabla.com/img/hero.jpg">
 <meta property="og:locale" content="es_MX">
@@ -66,9 +66,10 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"/></
   #lite.on{display:block}
   #lite::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.86),rgba(255,255,255,.35) 42%,rgba(255,255,255,.9))}
 
-  .mark{position:absolute;top:calc(env(safe-area-inset-top) + 20px);left:22px;font:400 10px/1 'Source Serif 4',serif;letter-spacing:.34em;text-transform:uppercase;color:#6f1d33;z-index:3}
+  .giftbar{position:absolute;top:0;left:0;right:0;z-index:7;min-height:58px;padding:10px 16px;background:#6f1d33;color:#fff;text-align:center;font:700 13.5px/1.3 'Source Serif 4',serif;letter-spacing:.04em;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 14px rgba(38,40,42,.22)}
+  .mark{position:absolute;top:calc(env(safe-area-inset-top) + 72px);left:22px;font:400 10px/1 'Source Serif 4',serif;letter-spacing:.34em;text-transform:uppercase;color:#6f1d33;z-index:3}
   .mark a{color:#6f1d33}
-  .hero{position:absolute;top:calc(env(safe-area-inset-top) + 54px);left:22px;right:22px;max-width:520px;pointer-events:none;z-index:2}
+  .hero{position:absolute;top:calc(env(safe-area-inset-top) + 106px);left:22px;right:22px;max-width:520px;pointer-events:none;z-index:2}
   .hero .eyebrow{font:400 10px/1 'Source Serif 4',serif;letter-spacing:.26em;text-transform:uppercase;color:#98908f}
   .hero h1{font:300 clamp(30px,7.6vw,56px)/1.02 'Source Serif 4',serif;letter-spacing:-.02em;color:#1a1718;margin-top:12px}
   .hero .sub{font:italic 400 15px/1.5 'Source Serif 4',serif;color:#6b6463;margin-top:8px}
@@ -79,8 +80,8 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"/></
   .ficha ul{margin:0;padding-left:15px}
   .ficha li{font:400 12.5px/1.5 'Source Serif 4',serif;color:#6b6463}
   .ficha li::marker{color:#b08a95}
-  .hint{position:absolute;left:22px;top:calc(env(safe-area-inset-top) + 196px);font:italic 400 12px/1.4 'Source Serif 4',serif;color:#b4aead;pointer-events:none;z-index:2;transition:opacity .6s}
-  @media(min-width:900px){.hero{left:54px;top:96px}.mark{left:54px}.hint{left:54px;top:268px}}
+  .hint{position:absolute;left:22px;top:calc(env(safe-area-inset-top) + 235px);font:italic 400 12px/1.4 'Source Serif 4',serif;color:#b4aead;pointer-events:none;z-index:2;transition:opacity .6s}
+  @media(min-width:900px){.hero{left:54px;top:148px}.mark{left:54px;top:72px}.hint{left:54px;top:320px}}
 
   #boot{position:absolute;left:0;right:0;top:38%;display:flex;flex-direction:column;align-items:center;gap:14px;z-index:4}
   #boot .ring{width:34px;height:34px;border-radius:999px;border:1.5px solid rgba(111,29,51,.18);border-top-color:#6f1d33;animation:spin 1s linear infinite}
@@ -189,6 +190,7 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"/></
 </head>
 <body>
 <div id="stage">
+  <div class="giftbar">PROMOCIÓN ESPECIAL · Tabla para Dos $485 (antes $650) · pedidos pagados antes del 20 de septiembre de 2026</div>
   <canvas id="c"></canvas>
   <div id="lite"></div>
 
@@ -217,7 +219,7 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"/></
         <button data-sec="tamano" class="on"><span class="k">Tamaño</span><span class="v" id="vTamano">Tabla de la Anfitriona</span></button>
         <!-- POND_CATALOG:ORDER_STEP_DEFAULT:END -->
         <button data-sec="curaduria"><span class="k">Curaduría</span><span class="v" id="vCuraduria">Balanceada</span></button>
-        <button data-sec="extras"><span class="k">Extras</span><span class="v" id="vExtras">Sin extras</span></button>
+        <button data-sec="extras"><span class="k">Extras opcionales</span><span class="v" id="vExtras">Personaliza tu tabla</span></button>
         <button data-sec="entrega"><span class="k">Entrega</span><span class="v" id="vEntrega">Por definir</span></button>
         <button data-sec="datos"><span class="k">Tus datos</span><span class="v" id="vDatos">Por completar</span></button>
       </div>
@@ -248,9 +250,8 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"/></
 
         <div class="sec" data-sec="extras">
           <!-- POND_CATALOG:ORDER_EXTRAS:START -->
+          <div class="ficha"><div class="t">Promoción Tabla para Dos</div><div class="d">$485 en lugar de $650</div><ul><li>Aplica a pedidos pagados antes del 20 de septiembre de 2026.</li></ul></div>
           <button class="card wide" data-q="premium" data-v="si" id="cardPrem">Hazla Premium<span class="m" id="premM">+ $400</span></button>
-          <button class="card" data-q="extras" data-v="dip" data-multi="1">Dip de la casa<span class="m" data-extra-price="dip">+ $150</span></button>
-          <button class="card" data-q="extras" data-v="mermelada" data-multi="1">Mermelada de la casa<span class="m" data-extra-price="mermelada">+ $120</span></button>
           <button class="card" data-q="extras" data-v="pan" data-multi="1">Pan y crujientes extra<span class="m" data-extra-price="pan">+ $120</span></button>
           <!-- POND_CATALOG:ORDER_EXTRAS:END -->
           <div class="rule"></div>
@@ -271,7 +272,7 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"/></
           </div>
           <input class="fld" data-f="direccion" placeholder="Calle y referencias" style="width:240px;align-self:center">
           <!-- POND_CATALOG:ORDER_DELIVERY_NOTE:START -->
-          <div class="note" id="noteEntrega">Entregamos viernes y sábado. Mensajería $120 en CDMX.</div>
+          <div class="note" id="noteEntrega">Confirma disponibilidad. Mensajería $120 en CDMX.</div>
           <!-- POND_CATALOG:ORDER_DELIVERY_NOTE:END -->
         </div>
 
@@ -313,7 +314,7 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"/></
   </div>
 </div>
 
-<script src="../catalogo.js?v=c5a7cb2ad0e2"></script>
+<script src="../catalogo.js?v=981679e5d0f7"></script>
 <script>
 // ─────────────────────────────────────────────────────────────────────────────
 // Proyección del catálogo canónico de Picando Tabla para la experiencia 3D.
@@ -352,15 +353,15 @@ var PERFILES = {
   quesos:{n:'Más quesos', w:[.55,.15,.30]},
   carnes:{n:'Más carnes', w:[.20,.52,.28]},
   suave:{n:'Suave y fresca', w:[.44,.12,.44], q:['cremoso'], a:['fruta','uvas','miel','pan']},
-  intensa:{n:'Intensa', w:[.30,.44,.26], q:['maduro','semiduro'], c:['salami','serrano'], a:['secos','aceitunas','mermelada']},
+  intensa:{n:'Intensa', w:[.30,.44,.26], q:['maduro','semiduro'], c:['salami','serrano'], a:['secos','aceitunas','miel']},
   sorpresa:{n:'Sorpréndeme', w:[.36,.32,.32]}
 };
 var GUSTOS = {cremoso:'Cremosos',maduro:'Maduros',semiduro:'Semiduros',serrano:'Serrano',salami:'Salami',prosciutto:'Prosciutto',uvas:'Uvas',fruta:'Fruta del día',secos:'Frutos secos',aceitunas:'Aceitunas'};
 var EVITAR = {sincerdo:'Sin cerdo',sinsecos:'Sin frutos secos',pocaazucar:'Poca azúcar',nada:'Sin restricciones'};
 var COLONIAS = {condesa:'Condesa',roma:'Roma',delvalle:'Del Valle',coyoacan:'Coyoacán',polanco:'Polanco',napoles:'Nápoles',otra:'Otra colonia'};
-var QUESOS = ['cremoso','semiduro','maduro'], CARNES = ['serrano','salami','prosciutto'], ACOMP = ['uvas','fruta','secos','aceitunas','mermelada','miel','pan'];
+var QUESOS = ['cremoso','semiduro','maduro'], CARNES = ['serrano','salami','prosciutto'], ACOMP = ['uvas','fruta','secos','aceitunas','miel','pan'];
 var SECS = ['tamano','curaduria','extras','entrega','datos'];
-var PREG = {tamano:'¿Para cuántas personas?', curaduria:'¿Cómo la quieres?', extras:'¿Le añadimos algo de la casa?', entrega:'¿Cuándo y dónde la entregamos?', datos:'¿A nombre de quién?'};
+var PREG = {tamano:'¿Para cuántas personas?', curaduria:'¿Cómo la quieres?', extras:'¿Quieres agregar algo más?', entrega:'¿Cuándo y dónde la entregamos?', datos:'¿A nombre de quién?'};
 
 var money = function(n){ return '$' + Math.round(n).toLocaleString('en-US'); };
 var $ = function(s){ return document.querySelector(s); };
@@ -372,6 +373,8 @@ try{ var raw = localStorage.getItem('pt.orden');
   if(raw){ var o = JSON.parse(raw); ['gustos','evitar','extras'].forEach(function(k){ o[k]=o[k]||[]; });
     o.tabla = TABLAS[o.tabla] ? o.tabla : 'anfitriona'; S = Object.assign(S,o); }
 }catch(e){}
+S.extras = S.extras.filter(function(k){ return k === 'pan'; });
+try{ var tablaUrl = new URLSearchParams(window.location.search).get('tabla'); if(TABLAS[tablaUrl]) S.tabla = tablaUrl; }catch(e){}
 var save = function(){ try{ localStorage.setItem('pt.orden', JSON.stringify(S)); }catch(e){} };
 var open_ = 'tamano', sending = false;
 
@@ -442,7 +445,9 @@ function cuenta(){
   return {t:t, prem:prem, ex:ex, total:t.p + prem + ex + ENVIO};
 }
 function items(){
-  var c = cuenta(), out = [{qty:1, nombre:c.t.n + (S.premium?' (Premium)':''), precio:c.t.p + c.prem}];
+  var c = cuenta(), out = [
+    {qty:1, nombre:c.t.n + (S.premium?' (Premium)':''), precio:c.t.p + c.prem}
+  ];
   S.extras.forEach(function(k){ out.push({qty:1, nombre:EXTRAS[k].n, precio:EXTRAS[k].p}); });
   out.push({qty:1, nombre:'Mensajería CDMX', precio:ENVIO});
   return out;
@@ -518,8 +523,8 @@ function pintar(){
   $('#brk').textContent = brk.join(' · ');
 
   $('#noteEntrega').textContent = t.evento
-    ? 'Tablas de evento: '+LOGISTICA.event_lead_time_days+' días de anticipación. Entregamos '+LOGISTICA.delivery_days_labels.join(' y ')+'. Mensajería '+money(ENVIO)+' en CDMX.'
-    : 'Entregamos '+LOGISTICA.delivery_days_labels.join(' y ')+'. Pide con al menos '+LOGISTICA.standard_lead_time_hours+' h de anticipación. Mensajería '+money(ENVIO)+' en CDMX.';
+    ? 'Tablas de evento: '+LOGISTICA.event_lead_time_days+' días de anticipación. Mensajería '+money(ENVIO)+' en CDMX.'
+    : 'Pide con al menos '+LOGISTICA.standard_lead_time_hours+' h de anticipación. Mensajería '+money(ENVIO)+' en CDMX.';
   $('#notePago').textContent = t.evento
     ? 'Tabla de evento: apartas tu fecha con el 50% (' + money(c.total/2) + ') y liquidas 8 días antes.'
     : 'Tablas de 2 a 6: pago completo por transferencia, hasta 48 h antes de tu entrega.';
@@ -568,6 +573,7 @@ $('.body').addEventListener('click', function(e){
     if(q === 'vinos' && S.vinos) track('select_item', {item_name:'Servicio de vinos'});
   } else if(q === 'tabla'){
     S.tabla = v; pintarFechas();
+    track('select_product', {item_name:TABLAS[v].n, value:TABLAS[v].p, currency:'MXN'});
     track('select_item', {item_name:TABLAS[v].n, value:TABLAS[v].p, currency:'MXN'});
     try{ if(window.fbq) fbq('track','ViewContent',{content_name:TABLAS[v].n, value:TABLAS[v].p, currency:'MXN'}); }catch(e){}
   } else {
@@ -586,7 +592,7 @@ $$('[data-f]').forEach(function(i){ if(S[i.dataset.f]) i.value = S[i.dataset.f];
 $('#cta').addEventListener('click', function(){
   if(sending) return;
   limpiarError();
-  if(!S.fecha) return error('Elige el día de entrega (entregamos viernes y sábado).', 'entrega');
+  if(!S.fecha) return error('Elige el día de entrega.', 'entrega');
   if(!S.nombre || !S.nombre.trim()) return error('Déjanos tu nombre para el pedido.', 'datos');
   var tel = (S.whatsapp||'').replace(/\D/g,'');
   if(tel.length < 10) return error('Escribe tu WhatsApp a 10 dígitos para poder confirmarte.', 'datos');
@@ -598,10 +604,12 @@ $('#cta').addEventListener('click', function(){
     nombre: S.nombre, whatsapp: S.whatsapp, zona: (S.colonia ? COLONIAS[S.colonia] : '') + (S.direccion ? ' — ' + S.direccion : ''),
     fecha: fechaLbl(), total: c.total, items: items(), notas: curaduriaTxt(), origen: 'orden 3D (web)'
   };
+  track('begin_checkout', {value:c.total, currency:'MXN', item_name:c.t.n});
   var listo = function(ok){
     sending = false; cta.classList.remove('busy'); cta.textContent = 'Enviar mi pedido';
     if(!ok) return error('No pudimos registrar el pedido. Mándanoslo por WhatsApp con el botón verde y lo tomamos igual.');
     track('purchase_request', {value:c.total, currency:'MXN', items:items().length});
+    track('click_whatsapp', {source:'orden3d', value:c.total, currency:'MXN'});
     track('whatsapp_click', {source:'orden3d', value:c.total, currency:'MXN'});
     try{ if(window.fbq) fbq('track','Lead',{content_name:c.t.n, value:c.total, currency:'MXN'}); }catch(e){}
     $('#okRes').textContent = resumenTxt().replace(/\*/g,'');
@@ -637,6 +645,7 @@ $('#steps').addEventListener('click', function(){
 });
 
 pintarEstaticos(); pintarFechas(); pintar();
+track('view_product', {item_name:TABLAS[S.tabla].n, value:TABLAS[S.tabla].p, currency:'MXN'});
 track('view_item', {item_name:TABLAS[S.tabla].n, value:TABLAS[S.tabla].p, currency:'MXN'});
 </script>
 
@@ -1130,7 +1139,7 @@ function alLado(g, dir, sep, k){
 
 // ── Composicion de la tabla (lo que la clientа eligio) ──────────────────────
 var QUESOS = ['cremoso','semiduro','maduro'], CARNES = ['serrano','salami','prosciutto'],
-    ACOMP = ['uvas','fruta','secos','aceitunas','mermelada','miel','pan'];
+    ACOMP = ['uvas','fruta','secos','aceitunas','miel','pan'];
 function pools(S, P){
   var q = (P.q||QUESOS).slice(), c = (P.c||CARNES).slice(), ac = (P.a||ACOMP).slice(), ev = S.evitar||[], g = S.gustos||[];
   if(!S.dejalo && g.length){
@@ -1141,7 +1150,7 @@ function pools(S, P){
   }
   if(ev.indexOf('sincerdo')>-1) c = ['pavo'];
   if(ev.indexOf('sinsecos')>-1) ac = ac.filter(function(x){ return x!=='secos'; });
-  if(ev.indexOf('pocaazucar')>-1) ac = ac.filter(function(x){ return x!=='miel' && x!=='mermelada'; });
+  if(ev.indexOf('pocaazucar')>-1) ac = ac.filter(function(x){ return x!=='miel'; });
   if(!q.length) q = ['cremoso']; if(!c.length) c = ['prosciutto']; if(!ac.length) ac = ['fruta','pan'];
   return {q:q, c:c, ac:ac, w:P.w};
 }
@@ -1164,8 +1173,8 @@ function lista(S){
       if(cuencos > 2) out[j] = relleno[(r++) % relleno.length];
     }
   }
-  // Los agregados de la casa (dip, mermelada) NO van dentro de la tabla:
-  // se sirven en su frasco, al lado. Solo el pan extra se suma a la tabla.
+  // Los regalos de la casa se sirven en su frasco, al lado. Solo el pan extra
+  // se suma dentro de la tabla.
   if((S.extras||[]).indexOf('pan') > -1) out.push('baguette');
 
   // Barajado reproducible: quesos, carnes y acompanamientos quedan repartidos
@@ -1345,7 +1354,7 @@ function sync(S){
   }
   bottles.forEach(function(b, i){ if(i >= wantB && !b.out) b.out = now; });
 
-  var wantF = (S.extras||[]).filter(function(e){ return e === 'dip' || e === 'mermelada'; });
+  var wantF = [];
   jars.forEach(function(j){ if(wantF.indexOf(j.tipo) === -1 && !j.out) j.out = now; });
   wantF.forEach(function(tipo, i){
     if(jars.filter(function(j){ return j.tipo === tipo && !j.out; }).length) return;

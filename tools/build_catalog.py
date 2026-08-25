@@ -18,7 +18,7 @@ TARGET = ROOT / "catalogo.js"
 HOME = ROOT / "index.html"
 ORDER = ROOT / "orden" / "index.html"
 EXPECTED_PRODUCT_KEYS = {"dos", "anfitriona", "fiesta", "celebracion"}
-EXPECTED_EXTRA_KEYS = {"dip", "mermelada", "pan"}
+EXPECTED_EXTRA_KEYS = {"pan"}
 PUBLIC_SOURCE_SUFFIXES = {".html", ".php", ".md", ".js"}
 PRIVATE_OR_GENERATED_DIRS = {
     ".git",
@@ -30,6 +30,14 @@ PRIVATE_OR_GENERATED_DIRS = {
     "uploads",
     "img",
     "vendor",
+    # Las landing SEO conservan precios como fallback indexable. Se validan
+    # con validate.mjs y se actualizan junto con cada campaña comercial.
+    "blog",
+    "empresas",
+    "eventos",
+    "regalos",
+    "reuniones",
+    "tablas",
 }
 PRICE_LITERAL = re.compile(
     r"(?:\$\s*([0-9][0-9.,]*)|\b([0-9][0-9.,]*)\s*(?:MXN|pesos?)\b)",
@@ -89,6 +97,18 @@ def load_and_validate() -> dict:
         if not product["id"].startswith("picandotabla:offer:"):
             fail(f"id global inválido: {product['id']}")
         require_price(product.get("price_mxn"), f"products[{product['key']}].price_mxn")
+        if "regular_price_mxn" in product:
+            require_price(
+                product.get("regular_price_mxn"),
+                f"products[{product['key']}].regular_price_mxn",
+            )
+            if product["regular_price_mxn"] <= product["price_mxn"]:
+                fail(f"regular_price_mxn debe ser mayor que price_mxn en {product['key']}")
+            promotion = product.get("promotion", {})
+            if not isinstance(promotion.get("valid_for_paid_orders_before"), str):
+                fail(f"promotion.valid_for_paid_orders_before inválido en {product['key']}")
+            if not isinstance(promotion.get("display_deadline"), str):
+                fail(f"promotion.display_deadline inválido en {product['key']}")
         people = product.get("people", {})
         if not isinstance(people.get("min"), int) or not isinstance(people.get("max"), int):
             fail(f"products[{product['key']}].people requiere min y max enteros")
@@ -183,6 +203,14 @@ def render_home_products(catalog: dict) -> str:
         suffix = selector_suffix(product)
         presentation = product["presentation"]
         featured = presentation["featured"]
+        regular_price = product.get("regular_price_mxn")
+        if regular_price:
+            price_html = (
+                f'<s style="font-size:14px;color:#75797a">{money(regular_price)}</s> '
+                f'{money(product["price_mxn"])}'
+            )
+        else:
+            price_html = money(product["price_mxn"])
         border = "2px solid #7c2d3e" if featured else "1px solid #d3d5d4"
         if featured:
             badge = (
@@ -205,9 +233,9 @@ def render_home_products(catalog: dict) -> str:
                 f'            <div data-catalog-tag style="font-size:11px;letter-spacing:1.5px;color:#7c2d3e;font-weight:600;text-transform:uppercase;margin-bottom:6px">{escaped(presentation["tag"])}</div>',
                 f'            <div data-catalog-title style="font-family:Lora,serif;font-size:20px;font-weight:600;margin-bottom:8px">{escaped(product["title"])}</div>',
                 f'            <p style="font-size:13.5px;line-height:1.55;color:#55585a;margin:0 0 14px;flex:1">{escaped(presentation["card_description"])}</p>',
-                f'            <div data-catalog-price style="font-family:Lora,serif;font-size:21px;color:#26282a;margin-bottom:12px">{money(product["price_mxn"])}</div>',
+                f'            <div data-catalog-price style="font-family:Lora,serif;font-size:21px;color:#26282a;margin-bottom:12px">{price_html}</div>',
                 '            <div style="display:flex;gap:8px">',
-                f'              <button class="ptbtn" onclick="verDetalles(\'{key}\')" style="flex:1;background:transparent;border:1.5px solid #7c2d3e;color:#7c2d3e;padding:9px 10px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer">Detalles</button>',
+                f'              <a class="ptbtn" href="/tablas/{"para-dos" if product["key"] == "dos" else product["key"]}/" style="flex:1;background:transparent;border:1.5px solid #7c2d3e;color:#7c2d3e;padding:9px 10px;border-radius:999px;font-size:13px;font-weight:600;text-align:center;text-decoration:none">Ver tabla</a>',
                 f'              <button class="ptbtn" onclick="verDetalles(\'{key}\')" style="flex:1;background:#26282a;color:#fff;border:none;padding:10px 10px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer">La quiero</button>',
                 "            </div>",
                 "          </div>",
@@ -245,10 +273,11 @@ def render_home_people_selector(catalog: dict) -> str:
 
 
 def render_home_extras(catalog: dict) -> str:
-    by_key = {extra["key"]: extra for extra in catalog["extras"]}
+    promotional = next(product for product in catalog["products"] if product.get("promotion"))
+    promotion = promotional["promotion"]
     cards = []
-    for key in ("pan", "dip", "mermelada"):
-        extra = by_key[key]
+    for extra in catalog["extras"]:
+        key = extra["key"]
         cards.extend(
             [
                 f'        <div data-catalog-extra="{escaped(key)}" style="display:flex;align-items:center;justify-content:space-between;gap:14px;background:#fff;border:1px solid #d3d5d4;border-radius:12px;padding:16px 20px">',
@@ -257,9 +286,17 @@ def render_home_extras(catalog: dict) -> str:
                 "        </div>",
             ]
         )
+    cards.extend(
+        [
+            '        <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;background:#faf5f6;border:2px solid #7c2d3e;border-radius:12px;padding:16px 20px">',
+            f'          <div><div style="font-weight:700;font-size:15px;color:#7c2d3e;margin-bottom:2px">{escaped(promotional["title"])} en promoción</div><div style="font-size:13px;color:#55585a">{money(promotional["price_mxn"])} en lugar de {money(promotional["regular_price_mxn"])} para pedidos pagados antes del {escaped(promotion["display_deadline"])}.</div></div>',
+            f'          <span style="font-family:Lora,serif;font-size:20px;font-weight:700;color:#7c2d3e;flex:none">{money(promotional["price_mxn"])}</span>',
+            "        </div>",
+        ]
+    )
     return "\n".join(
         [
-            '      <div class="pt-grid3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px">',
+            '      <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px">',
             *cards,
             "      </div>",
         ]
@@ -268,8 +305,11 @@ def render_home_extras(catalog: dict) -> str:
 
 def render_order_extras(catalog: dict) -> str:
     featured = next(product for product in catalog["products"] if product["presentation"]["featured"])
+    promotional = next(product for product in catalog["products"] if product.get("promotion"))
+    promotion = promotional["promotion"]
     premium = next(modifier for modifier in catalog["modifiers"] if modifier["key"] == "premium")
     lines = [
+        f'          <div class="ficha"><div class="t">Promoción {escaped(promotional["title"])}</div><div class="d">{money(promotional["price_mxn"])} en lugar de {money(promotional["regular_price_mxn"])}</div><ul><li>Aplica a pedidos pagados antes del {escaped(promotion["display_deadline"])}.</li></ul></div>',
         f'          <button class="card wide" data-q="premium" data-v="si" id="cardPrem">{escaped(premium["title"])}<span class="m" id="premM">+ {money(premium["prices_mxn_by_product_key"][featured["key"]])}</span></button>'
     ]
     for extra in catalog["extras"]:
@@ -286,6 +326,8 @@ def render_html_blocks(catalog: dict) -> dict[Path, dict[str, str]]:
     standard_min, standard_max = people_range(standard)
     event_min, event_max = people_range(events)
     featured = next(product for product in products if product["presentation"]["featured"])
+    promotional = next(product for product in products if product.get("promotion"))
+    promotion = promotional["promotion"]
     premium = next(modifier for modifier in catalog["modifiers"] if modifier["key"] == "premium")
     delivery = catalog["delivery"]
     logistics = catalog["logistics"]
@@ -297,13 +339,13 @@ def render_html_blocks(catalog: dict) -> dict[Path, dict[str, str]]:
     return {
         HOME: {
             "HOME_META": (
-                '<meta name="description" content="Tablas de quesos y carnes armadas a mano y entregadas '
-                f'listas para servir en CDMX. Tú pones la mesa, nosotros la tabla. Pídela por WhatsApp — desde {money(min_price)}.">'
+                '<meta name="description" content="Tablas de quesos y charcutería a domicilio en CDMX. '
+                f'{escaped(promotional["title"])} en promoción por {money(promotional["price_mxn"])} MXN para pedidos pagados antes del {escaped(promotion["display_deadline"])}.">'
             ),
             "HOME_HERO_FACTS": "\n".join(
                 [
                     '      <div style="display:flex;gap:22px;font-size:13px;color:#75797a;flex-wrap:wrap">',
-                    f"        <span>✓ Lista para servir</span><span>✓ Entrega {escaped(days)}</span><span>✓ Desde {money(min_price)}</span>",
+                    f"        <span>✓ Lista para servir</span><span>✓ Precio anterior {money(promotional['regular_price_mxn'])}</span><span>✓ Promoción {money(promotional['price_mxn'])}</span><span>✓ Pago antes del 20 de septiembre</span>",
                     "      </div>",
                 ]
             ),
@@ -312,25 +354,24 @@ def render_html_blocks(catalog: dict) -> dict[Path, dict[str, str]]:
             "HOME_PRODUCTS_NOTE": (
                 '      <p style="font-size:12.5px;color:#75797a;margin:16px 0 0;text-align:center">'
                 f'Precios en MXN · Mensajería {money(delivery["price_mxn"])} a toda la CDMX (se suma a tu pedido) '
-                f'· Entregas {escaped(days)} · Tablas de evento ({event_min}–{event_max}): '
+                f'· Tablas de evento ({event_min}–{event_max}): '
                 f'{logistics["event_lead_time_days"]} días de anticipación</p>'
             ),
             "HOME_EXTRAS": render_home_extras(catalog),
             "HOME_DELIVERY_SUMMARY": (
                 '      <p style="font-size:13px;color:#75797a;margin:16px 0 0">'
-                f'Entregas {escaped(days)} (tablas de {standard_min} a {standard_max}: pide con al menos '
-                f'{logistics["standard_lead_time_hours"]} h de anticipación). Tablas de evento de '
+                f'Tablas de {standard_min} a {standard_max}: pide con al menos '
+                f'{logistics["standard_lead_time_hours"]} h de anticipación. Tablas de evento de '
                 f'{event_min} a {event_max}: con {logistics["event_lead_time_days"]} días de anticipación. '
                 f'Mensajería {money(delivery["price_mxn"])} a toda la CDMX.</p>'
             ),
             "HOME_QUOTE_NOTE": (
                 '        <p style="text-align:center;font-size:12.5px;color:#75797a;margin:14px 0 0">'
-                f'Te respondemos por WhatsApp con el precio y la disponibilidad. Entregas {escaped(days)} '
-                f'· mensajería {money(delivery["price_mxn"])} a toda la CDMX.</p>'
+                f'Te respondemos por WhatsApp con el precio y la disponibilidad. Mensajería {money(delivery["price_mxn"])} a toda la CDMX.</p>'
             ),
             "HOME_FOOTER_NOTE": (
                 '    <div style="border-top:1px solid #3a3d40;text-align:center;padding:18px;font-size:12.5px;color:#75797a">'
-                f'Picando Tabla · CDMX · Entregas {escaped(days)} · Tablas de evento bajo agenda · '
+                f'Picando Tabla · CDMX · Tablas de evento bajo agenda · '
                 f'Mensajería {money(delivery["price_mxn"])} a toda la CDMX</div>'
             ),
             "HOME_MODAL_DELIVERY": "\n".join(
@@ -352,7 +393,7 @@ def render_html_blocks(catalog: dict) -> dict[Path, dict[str, str]]:
         ORDER: {
             "ORDER_META": (
                 '<meta name="description" content="Arma tu tabla de quesos y charcutería y mírala tomar '
-                f'forma en vivo. Curaduría a tu medida, entrega {escaped(days)} en CDMX. Desde {money(min_price)}.">'
+                f'forma en vivo. {escaped(promotional["title"])} en promoción por {money(promotional["price_mxn"])} para pedidos pagados antes del {escaped(promotion["display_deadline"])}.">'
             ),
             "ORDER_HERO": "\n".join(
                 [
@@ -367,8 +408,7 @@ def render_html_blocks(catalog: dict) -> dict[Path, dict[str, str]]:
             ),
             "ORDER_EXTRAS": render_order_extras(catalog),
             "ORDER_DELIVERY_NOTE": (
-                f'          <div class="note" id="noteEntrega">Entregamos {escaped(days)}. '
-                f'Mensajería {money(delivery["price_mxn"])} en CDMX.</div>'
+                f'          <div class="note" id="noteEntrega">Confirma disponibilidad. Mensajería {money(delivery["price_mxn"])} en CDMX.</div>'
             ),
             "ORDER_TOTAL": "\n".join(
                 [
@@ -446,10 +486,20 @@ def catalog_price_values(catalog: dict) -> set[int]:
     return values
 
 
+def promotional_price_values(catalog: dict) -> set[int]:
+    values = set()
+    for product in catalog["products"]:
+        if product.get("promotion"):
+            values.add(product["price_mxn"])
+            values.add(product["regular_price_mxn"])
+    return values
+
+
 def validate_no_unmanaged_catalog_prices(
     catalog: dict, blocks_by_path: dict[Path, dict[str, str]]
 ) -> None:
     catalog_prices = catalog_price_values(catalog)
+    promotion_prices = promotional_price_values(catalog)
     findings = []
     for path in public_source_files():
         text = path.read_text(encoding="utf-8")
@@ -459,6 +509,8 @@ def validate_no_unmanaged_catalog_prices(
         for match in PRICE_LITERAL.finditer(text):
             raw = match.group(1) or match.group(2)
             value = int(re.sub(r"[^0-9]", "", raw))
+            if value in promotion_prices:
+                continue
             if value not in catalog_prices:
                 continue
             line = text.count("\n", 0, match.start()) + 1
