@@ -20,7 +20,7 @@ const htmlFiles = walk(root)
   .sort();
 const titles = new Map();
 const canonicals = new Map();
-const promotion = "PROMOCIÓN ESPECIAL · Tabla para Dos $485 (antes $650) · pedidos pagados antes del 20 de septiembre de 2026";
+const promotion = "PROMOCIONES · Tabla para Dos $485 hasta 20 sep · Caja de tapas GRATIS en tablas para más de 4 personas";
 
 function attribute(html, name, value, attributeName = "content") {
   const tag = html.match(new RegExp(`<meta[^>]+${name}=["']${value}["'][^>]*>`, "i"))?.[0];
@@ -108,6 +108,7 @@ assert.match(home, /extra\.key==='pan'/);
 assert.doesNotMatch(home, /data-catalog-extra="dip"/);
 assert.doesNotMatch(home, /data-catalog-extra="mermelada"/);
 assert.match(home, /pedidos pagados antes del 20 de septiembre de 2026/);
+assert.equal((home.match(/Caja de tapas de regalo incluida/g) || []).length, 3, "home: regalo visible en tres tablas elegibles");
 
 const order = read("orden/index.html");
 assert.doesNotMatch(order, /data-v="dip"/);
@@ -116,13 +117,23 @@ assert.match(order, /var wantF = \[\]/);
 assert.doesNotMatch(order, /Dip de la casa \(incluido\)/);
 assert.doesNotMatch(order, /Mermelada de la casa \(incluida\)/);
 assert.match(order, /S\.extras = S\.extras\.filter\(function\(k\)\{ return k === 'pan'; \}\)/);
+assert.match(order, /if\(c\.t\.regalo\) out\.push\(\{qty:1, nombre:REGALO\.title\+' \(incluida\)'/);
+assert.match(order, /eligible_product_keys\.indexOf\(product\.key\) > -1/);
 
 const catalog = read("catalogo.js");
 assert.match(catalog, /["']?price_mxn["']?\s*:\s*485/);
 assert.match(catalog, /["']?regular_price_mxn["']?\s*:\s*650/);
+assert.match(catalog, /["']eligible_product_keys["']:\["anfitriona","fiesta","celebracion"\]/);
 assert.doesNotMatch(catalog, /["']?key["']?\s*:\s*["'](?:dip|mermelada)["']/);
 assert.match(read("seo.css"), /\.promo\{position:sticky;top:0/);
 assert.match(read("seo.css"), /\.site-header\{position:sticky;top:60px/);
 assert.match(read("tablas/para-dos/index.html"), /"priceValidUntil": "2026-09-19"/);
+assert.doesNotMatch(read("tablas/para-dos/index.html"), /Regalo incluido:/);
+for (const file of ["tablas/anfitriona/index.html", "tablas/fiesta/index.html", "tablas/celebracion/index.html"]) {
+  assert.match(read(file), /Regalo incluido:[\s\S]*caja de[\s\n]+tapas sin costo/i, `${file}: regalo comunicado`);
+}
+assert.ok(fs.existsSync(path.join(root, "img/caja-tapas-regalo.jpg")), "imagen de tapas incluida");
+assert.match(read("blog/index.html"), /caja-de-tapas-regalo-tablas-cdmx\.html/);
+assert.match(read("blog/caja-de-tapas-regalo-tablas-cdmx.html"), /"@type": "FAQPage"/);
 
 console.log(`OK: ${htmlFiles.length} páginas, metadatos, schema, enlaces, sitemap y pedidos validados.`);

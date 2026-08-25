@@ -190,7 +190,7 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"/></
 </head>
 <body>
 <div id="stage">
-  <div class="giftbar">PROMOCIÓN ESPECIAL · Tabla para Dos $485 (antes $650) · pedidos pagados antes del 20 de septiembre de 2026</div>
+  <div class="giftbar">PROMOCIONES · Tabla para Dos $485 hasta 20 sep · Caja de tapas GRATIS en tablas para más de 4 personas</div>
   <canvas id="c"></canvas>
   <div id="lite"></div>
 
@@ -251,6 +251,7 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"/></
         <div class="sec" data-sec="extras">
           <!-- POND_CATALOG:ORDER_EXTRAS:START -->
           <div class="ficha"><div class="t">Promoción Tabla para Dos</div><div class="d">$485 en lugar de $650</div><ul><li>Aplica a pedidos pagados antes del 20 de septiembre de 2026.</li></ul></div>
+          <div class="ficha"><div class="t">Caja de tapas de regalo</div><div class="d">Incluida sin costo</div><ul><li>Aplica a tablas para más de 4 personas: Anfitriona, Fiesta y Celebración.</li></ul></div>
           <button class="card wide" data-q="premium" data-v="si" id="cardPrem">Hazla Premium<span class="m" id="premM">+ $400</span></button>
           <button class="card" data-q="extras" data-v="pan" data-multi="1">Pan y crujientes extra<span class="m" data-extra-price="pan">+ $120</span></button>
           <!-- POND_CATALOG:ORDER_EXTRAS:END -->
@@ -314,7 +315,7 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"/></
   </div>
 </div>
 
-<script src="../catalogo.js?v=981679e5d0f7"></script>
+<script src="../catalogo.js?v=e4723a8be7de"></script>
 <script>
 // ─────────────────────────────────────────────────────────────────────────────
 // Proyección del catálogo canónico de Picando Tabla para la experiencia 3D.
@@ -322,6 +323,7 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"/></
 var CATALOGO = window.PICANDO_CATALOGO_V1;
 var PREMIUM = CATALOGO.modifiers.filter(function(m){ return m.key === 'premium'; })[0];
 var LOGISTICA = CATALOGO.logistics;
+var REGALO = CATALOGO.promotions.filter(function(p){ return p.id === 'picandotabla:promotion:caja-tapas-regalo'; })[0];
 var WA = '525623632404', ENVIO = CATALOGO.delivery.price_mxn;
 // q = variedades de QUESO · c = variedades de CARNE · a = acompañamientos.
 // Son las cantidades reales publicadas en la ficha de cada tabla: la escena 3D
@@ -341,7 +343,8 @@ CATALOGO.products.forEach(function(product){
     evento:product.is_event,
     people:product.people,
     d:product.description,
-    inc:product.included
+    inc:product.included,
+    regalo:REGALO && REGALO.eligible_product_keys.indexOf(product.key) > -1
   };
 });
 var EXTRAS = {};
@@ -405,7 +408,7 @@ function pintarEstaticos(){
   $('#secTamano').innerHTML = Object.keys(TABLAS).map(function(k){
     var t = TABLAS[k];
     var per = t.people.min === t.people.max ? t.people.min+' personas' : t.people.min+' a '+t.people.max;
-    return '<button class="card" data-q="tabla" data-v="'+k+'">'+t.n+'<span class="m">'+per+' · '+t.q+' quesos · '+t.c+' carnes<br>'+money(t.p)+'</span></button>';
+    return '<button class="card" data-q="tabla" data-v="'+k+'">'+t.n+'<span class="m">'+per+' · '+t.q+' quesos · '+t.c+' carnes<br>'+money(t.p)+(t.regalo?' · caja de tapas de regalo':'')+'</span></button>';
   }).join('') + '<div class="ficha" id="ficha"></div>'
     + '<div class="note">Las tablas de evento requieren '+LOGISTICA.event_lead_time_days+' días de anticipación.</div>';
   $('#rowPerfil').innerHTML = Object.keys(PERFILES).map(function(k){ return chip('perfil',k,PERFILES[k].n); }).join('');
@@ -448,6 +451,7 @@ function items(){
   var c = cuenta(), out = [
     {qty:1, nombre:c.t.n + (S.premium?' (Premium)':''), precio:c.t.p + c.prem}
   ];
+  if(c.t.regalo) out.push({qty:1, nombre:REGALO.title+' (incluida)', precio:0});
   S.extras.forEach(function(k){ out.push({qty:1, nombre:EXTRAS[k].n, precio:EXTRAS[k].p}); });
   out.push({qty:1, nombre:'Mensajería CDMX', precio:ENVIO});
   return out;
@@ -470,6 +474,7 @@ function curaduriaTxt(){
 }
 function resumenTxt(){
   var c = cuenta(), L = ['*' + c.t.n + (S.premium ? ' · Premium' : '') + '* — ' + money(c.t.p + c.prem)];
+  if(c.t.regalo) L.push('+ '+REGALO.title+' — REGALO');
   S.extras.forEach(function(k){ L.push('+ ' + EXTRAS[k].n + ' — ' + money(EXTRAS[k].p)); });
   L.push('+ Mensajería CDMX — ' + money(ENVIO));
   L.push('Total: ' + money(c.total));
@@ -502,11 +507,13 @@ function pintar(){
   $('#hComp').textContent = comp.q + (comp.q===1?' queso':' quesos') + ' · ' + comp.c + (comp.c===1?' carne':' carnes') + ' · ' + comp.a + ' acompañamientos';
   var fi = $('#ficha');
   if(fi) fi.innerHTML = '<div class="t">Qué lleva</div><div class="d">' + t.d + '</div><ul>'
-    + t.inc.map(function(i){ return '<li>' + i + '</li>'; }).join('') + '</ul>';
+    + t.inc.map(function(i){ return '<li>' + i + '</li>'; }).join('')
+    + (t.regalo ? '<li><strong>'+REGALO.title+' incluida sin costo</strong></li>' : '') + '</ul>';
   $('#vTamano').textContent = t.n;
   $('#vCuraduria').textContent = PERFILES[S.perfil].n + (S.gustos.length ? ' · ' + S.gustos.length + ' favoritos' : '');
   var ex = [];
   if(S.premium) ex.push('Premium');
+  if(t.regalo) ex.push('Caja de tapas de regalo');
   S.extras.forEach(function(k){ ex.push(EXTRAS[k].n.replace(' de la casa','')); });
   if(S.vinos) ex.push('Vinos');
   $('#vExtras').textContent = ex.length ? ex.join(', ') : 'Sin extras';
@@ -518,6 +525,7 @@ function pintar(){
   var brk = ['Tabla ' + money(t.p)];
   if(c.prem) brk.push('premium ' + money(c.prem));
   if(c.ex) brk.push('extras ' + money(c.ex));
+  if(t.regalo) brk.push('caja de tapas regalo');
   brk.push('mensajería ' + money(ENVIO));
   if(S.vinos) brk.push('vinos por cotizar');
   $('#brk').textContent = brk.join(' · ');

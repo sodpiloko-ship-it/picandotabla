@@ -93,6 +93,21 @@ def load_and_validate() -> dict:
     if extra_keys != EXPECTED_EXTRA_KEYS:
         fail(f"extras esperados: {sorted(EXPECTED_EXTRA_KEYS)}")
 
+    promotions = catalog.get("promotions")
+    if not isinstance(promotions, list) or len(promotions) != 1:
+        fail("se requiere una promoción de regalo activa")
+    gift = promotions[0]
+    if gift.get("id") != "picandotabla:promotion:caja-tapas-regalo":
+        fail("promotions[0].id debe identificar la caja de tapas")
+    if gift.get("type") != "gift" or gift.get("price_mxn") != 0:
+        fail("la caja de tapas debe declararse como regalo sin costo")
+    if set(gift.get("eligible_product_keys", [])) != {
+        "anfitriona",
+        "fiesta",
+        "celebracion",
+    }:
+        fail("la caja de tapas debe aplicar a Anfitriona, Fiesta y Celebración")
+
     for product in products:
         if not product["id"].startswith("picandotabla:offer:"):
             fail(f"id global inválido: {product['id']}")
@@ -198,6 +213,8 @@ def people_range(products: list[dict]) -> tuple[int, int]:
 
 def render_home_products(catalog: dict) -> str:
     lines = ['      <div class="pt-grid4">', ""]
+    gift = catalog["promotions"][0]
+    gift_keys = set(gift["eligible_product_keys"])
     for index, product in enumerate(catalog["products"]):
         key = escaped(product["key"])
         suffix = selector_suffix(product)
@@ -211,6 +228,11 @@ def render_home_products(catalog: dict) -> str:
             )
         else:
             price_html = money(product["price_mxn"])
+        gift_html = (
+            f'            <div style="margin:-2px 0 13px;padding:8px 10px;border-radius:9px;background:#faf5f6;color:#7c2d3e;font-size:12px;font-weight:700">🎁 {escaped(gift["title"])} incluida</div>'
+            if product["key"] in gift_keys
+            else ""
+        )
         border = "2px solid #7c2d3e" if featured else "1px solid #d3d5d4"
         if featured:
             badge = (
@@ -234,6 +256,7 @@ def render_home_products(catalog: dict) -> str:
                 f'            <div data-catalog-title style="font-family:Lora,serif;font-size:20px;font-weight:600;margin-bottom:8px">{escaped(product["title"])}</div>',
                 f'            <p style="font-size:13.5px;line-height:1.55;color:#55585a;margin:0 0 14px;flex:1">{escaped(presentation["card_description"])}</p>',
                 f'            <div data-catalog-price style="font-family:Lora,serif;font-size:21px;color:#26282a;margin-bottom:12px">{price_html}</div>',
+                gift_html,
                 '            <div style="display:flex;gap:8px">',
                 f'              <a class="ptbtn" href="/tablas/{"para-dos" if product["key"] == "dos" else product["key"]}/" style="flex:1;background:transparent;border:1.5px solid #7c2d3e;color:#7c2d3e;padding:9px 10px;border-radius:999px;font-size:13px;font-weight:600;text-align:center;text-decoration:none">Ver tabla</a>',
                 f'              <button class="ptbtn" onclick="verDetalles(\'{key}\')" style="flex:1;background:#26282a;color:#fff;border:none;padding:10px 10px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer">La quiero</button>',
@@ -308,8 +331,10 @@ def render_order_extras(catalog: dict) -> str:
     promotional = next(product for product in catalog["products"] if product.get("promotion"))
     promotion = promotional["promotion"]
     premium = next(modifier for modifier in catalog["modifiers"] if modifier["key"] == "premium")
+    gift = catalog["promotions"][0]
     lines = [
         f'          <div class="ficha"><div class="t">Promoción {escaped(promotional["title"])}</div><div class="d">{money(promotional["price_mxn"])} en lugar de {money(promotional["regular_price_mxn"])}</div><ul><li>Aplica a pedidos pagados antes del {escaped(promotion["display_deadline"])}.</li></ul></div>',
+        f'          <div class="ficha"><div class="t">{escaped(gift["title"])}</div><div class="d">Incluida sin costo</div><ul><li>Aplica a tablas para más de 4 personas: Anfitriona, Fiesta y Celebración.</li></ul></div>',
         f'          <button class="card wide" data-q="premium" data-v="si" id="cardPrem">{escaped(premium["title"])}<span class="m" id="premM">+ {money(premium["prices_mxn_by_product_key"][featured["key"]])}</span></button>'
     ]
     for extra in catalog["extras"]:

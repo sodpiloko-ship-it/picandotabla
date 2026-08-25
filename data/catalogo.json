@@ -3,6 +3,20 @@
   "business_id": "picandotabla",
   "currency": "MXN",
   "price_unit": "major",
+  "promotions": [
+    {
+      "id": "picandotabla:promotion:caja-tapas-regalo",
+      "type": "gift",
+      "title": "Caja de tapas de regalo",
+      "description": "Una caja de tapas incluida sin costo para acompañar la reunión.",
+      "eligible_product_keys": [
+        "anfitriona",
+        "fiesta",
+        "celebracion"
+      ],
+      "price_mxn": 0
+    }
+  ],
   "products": [
     {
       "id": "picandotabla:offer:tabla-dos",
