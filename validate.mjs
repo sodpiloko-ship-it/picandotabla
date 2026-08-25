@@ -109,6 +109,8 @@ assert.doesNotMatch(home, /data-catalog-extra="dip"/);
 assert.doesNotMatch(home, /data-catalog-extra="mermelada"/);
 assert.match(home, /pedidos pagados antes del 20 de septiembre de 2026/);
 assert.equal((home.match(/Caja de tapas de regalo incluida/g) || []).length, 3, "home: regalo visible en tres tablas elegibles");
+assert.match(home, /id="promo-tapas"[\s\S]*caja-tapas-regalo\.jpg[\s\S]*Ver tablas con regalo/);
+assert.match(read("tablas/index.html"), /id="promo-tapas"[\s\S]*Se agrega automáticamente:/);
 
 const order = read("orden/index.html");
 assert.doesNotMatch(order, /data-v="dip"/);
