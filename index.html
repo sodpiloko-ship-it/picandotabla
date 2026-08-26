@@ -71,6 +71,7 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
     .pt-nav-links{display:none !important}
     .pt-hero-pad{padding:48px 22px !important}
     .pt-pad{padding:44px 22px !important}
+    .ptm-intake-grid{grid-template-columns:1fr !important}
   }
   /* Modal de detalles */
   #ptModalBg{position:fixed;inset:0;background:rgba(38,40,42,.55);z-index:90;display:none;align-items:center;justify-content:center;padding:18px;backdrop-filter:blur(3px)}
@@ -433,9 +434,33 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
         <div style="font-size:12px;letter-spacing:1.5px;color:#75797a;font-weight:600;text-transform:uppercase;margin-bottom:8px">Complétala <span style="letter-spacing:0;text-transform:none;font-weight:500">· si quieres algo extra</span></div>
         <div id="ptmUps" style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px"></div>
 
+        <div style="font-size:12px;letter-spacing:1.5px;color:#75797a;font-weight:600;text-transform:uppercase;margin:2px 0 10px">Datos para preparar tu pedido</div>
+        <p style="font-size:13px;line-height:1.5;color:#75797a;margin:0 0 14px">Déjanos tus datos y abriremos WhatsApp con la tabla y el total listos para confirmar.</p>
+        <div class="ptm-intake-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+          <div>
+            <label class="q-lbl" for="ptmCliente">Nombre</label>
+            <input id="ptmCliente" class="q-in" autocomplete="name" placeholder="Tu nombre">
+          </div>
+          <div>
+            <label class="q-lbl" for="ptmWhatsapp">Tu WhatsApp</label>
+            <input id="ptmWhatsapp" class="q-in" type="tel" inputmode="tel" autocomplete="tel" placeholder="55 0000 0000">
+          </div>
+        </div>
+        <div class="ptm-intake-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+          <div>
+            <label class="q-lbl" for="ptmZona">Colonia (CDMX)</label>
+            <input id="ptmZona" class="q-in" autocomplete="address-level3" placeholder="Ej. Del Valle">
+          </div>
+          <div>
+            <label class="q-lbl" for="ptmFecha">¿Para qué día la quieres?</label>
+            <input id="ptmFecha" class="q-in" placeholder="Ej. 19 de septiembre">
+          </div>
+        </div>
         <div style="margin-bottom:14px">
-          <label class="q-lbl" for="ptmFecha">¿Para qué día la quieres?</label>
-          <input id="ptmFecha" class="q-in" placeholder="Ej. 19 de septiembre">
+          <label class="q-lbl" for="ptmNotas">Notas <span style="font-weight:400;color:#9a9ea0">(opcional)</span></label>
+          <textarea id="ptmNotas" class="q-in" rows="2" placeholder="Ocasión, restricciones o sabores que prefieres" style="resize:vertical"></textarea>
+        </div>
+        <div style="margin-bottom:14px">
           <div id="ptmRegla" style="font-size:12px;color:#75797a;margin-top:6px;line-height:1.5"></div>
         </div>
         <!-- POND_CATALOG:HOME_MODAL_DELIVERY:START -->
@@ -450,6 +475,7 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
         </div>
         <button class="ptbtn" onclick="pedirDetalles()" style="width:100%;display:inline-flex;align-items:center;justify-content:center;gap:10px;background:#26282a;color:#fff;padding:15px;border-radius:999px;font-weight:600;font-size:16px;border:none;cursor:pointer">
           <span style="width:18px;height:18px;border-radius:50%;background:#25D366;display:inline-block"></span>Pedirla por WhatsApp</button>
+        <p id="ptmError" role="alert" aria-live="polite" style="display:none;text-align:center;font-size:12.5px;color:#7c2d3e;font-weight:600;margin:10px 0 0"></p>
         <p id="ptmNota" style="text-align:center;font-size:12px;color:#75797a;margin:12px 0 0;line-height:1.5"></p>
       </div>
     </div>
@@ -535,7 +561,8 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
         '<div><div style="font-weight:600;font-size:14.5px;color:#26282a">'+u.n+' <span style="color:#7c2d3e">+'+fmt(u.v)+'</span></div>'+
         '<div style="font-size:13px;color:#75797a;line-height:1.5">'+u.d+'</div></div></label>';
     }).join('');
-    document.getElementById('ptmFecha').value='';
+    ['ptmCliente','ptmWhatsapp','ptmZona','ptmFecha','ptmNotas'].forEach(function(field){ document.getElementById(field).value=''; });
+    document.getElementById('ptmError').style.display='none';
     document.getElementById('ptmRegla').textContent = t.ev
       ? 'Tabla de evento: pídela con '+LOGISTICA.event_lead_time_days+' días de anticipación.'
       : 'Pide con al menos '+LOGISTICA.standard_lead_time_hours+' h de anticipación.';
@@ -570,7 +597,26 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
   window.pedirDetalles=function(){
     var t=TABLAS[modalId]; if(!t) return;
     var prem=document.getElementById('ptmPrem').checked;
+    var nombre=document.getElementById('ptmCliente').value.trim();
+    var whatsapp=document.getElementById('ptmWhatsapp').value.trim();
+    var zona=document.getElementById('ptmZona').value.trim();
     var fecha=document.getElementById('ptmFecha').value.trim();
+    var notas=document.getElementById('ptmNotas').value.trim();
+    var required=[
+      {value:nombre,id:'ptmCliente',message:'Escribe tu nombre para continuar.'},
+      {value:whatsapp,id:'ptmWhatsapp',message:'Escribe tu WhatsApp para continuar.'},
+      {value:zona,id:'ptmZona',message:'Escribe tu colonia para confirmar la entrega.'},
+      {value:fecha,id:'ptmFecha',message:'Indica la fecha en que quieres recibirla.'}
+    ];
+    var missing=required.filter(function(field){return !field.value;})[0];
+    var error=document.getElementById('ptmError');
+    if(missing){
+      error.textContent=missing.message;
+      error.style.display='block';
+      document.getElementById(missing.id).focus();
+      return;
+    }
+    error.style.display='none';
     var total=t.v+(prem?t.prem:0);
     var items=[
       {qty:1,nombre:t.n+(prem?' (Premium)':''),precio:t.v+(prem?t.prem:0)}
@@ -584,10 +630,14 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
     total+=MENSAJERIA;
     items.push({qty:1,nombre:'Mensajería CDMX',precio:MENSAJERIA});
     lines.push('+ Mensajería CDMX ('+fmt(MENSAJERIA)+')');
-    if(fecha) lines.push('Entrega: '+fecha);
+    lines.push('Nombre: '+nombre);
+    lines.push('Mi WhatsApp: '+whatsapp);
+    lines.push('Colonia: '+zona);
+    lines.push('Entrega: '+fecha);
+    if(notas) lines.push('Notas: '+notas);
     lines.push('Total: '+fmt(total));
     try{
-      var pl=JSON.stringify({nombre:'', whatsapp:'', zona:'', fecha:fecha, total:total, items:items});
+      var pl=JSON.stringify({nombre:nombre, whatsapp:whatsapp, zona:zona, fecha:fecha, notas:notas, origen:'landing_popup_producto', total:total, items:items});
       if(navigator.sendBeacon){ navigator.sendBeacon('order.php', new Blob([pl],{type:'application/json'})); }
     }catch(e){}
     track('begin_checkout',{source:'detalles', tabla:modalId, value:total, currency:'MXN'});

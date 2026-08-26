@@ -1,0 +1,34 @@
+# Picando Tabla
+
+> Picando Tabla prepara tablas de quesos y charcutería por encargo y las entrega listas para servir en Ciudad de México. Este archivo resume las páginas comerciales y editoriales oficiales del sitio.
+
+La disponibilidad siempre se confirma antes del pago. Los precios están expresados en pesos mexicanos (MXN). La mensajería en CDMX cuesta $120. Los productos y promociones vigentes deben verificarse en las páginas enlazadas.
+
+## Información principal
+
+- [Información completa para asistentes](https://picandotabla.com/llms-full.txt): Productos, precios, promociones, cobertura, proceso de pedido y políticas operativas.
+- [Inicio y pedidos](https://picandotabla.com/): Landing oficial para elegir una tabla y comenzar el pedido por WhatsApp.
+- [Catálogo de tablas](https://picandotabla.com/tablas/): Comparación de tamaños, precios y opciones.
+- [Reuniones en casa](https://picandotabla.com/reuniones/): Opciones para recibir invitados en CDMX.
+- [Regalos gourmet](https://picandotabla.com/regalos/): Tablas para regalar.
+- [Eventos privados](https://picandotabla.com/eventos/): Propuestas para celebraciones y eventos.
+- [Empresas](https://picandotabla.com/empresas/): Tablas para reuniones corporativas y regalos de empresa.
+
+## Productos
+
+- [Tabla para Dos](https://picandotabla.com/tablas/para-dos/): Para 2 personas; precio promocional vigente de $485, antes $650, para pedidos pagados antes del 20 de septiembre de 2026.
+- [Tabla de la Anfitriona](https://picandotabla.com/tablas/anfitriona/): Para 4 a 6 personas; $950.
+- [Tabla de Fiesta](https://picandotabla.com/tablas/fiesta/): Para 8 personas; $1,600.
+- [Tabla de Celebración](https://picandotabla.com/tablas/celebracion/): Para 10 a 12 personas; $2,600.
+
+## Contenido editorial
+
+- [Blog de Picando Tabla](https://picandotabla.com/blog/): Guías para elegir, servir y regalar tablas.
+- [Caja de tapas de regalo](https://picandotabla.com/blog/caja-de-tapas-regalo-tablas-cdmx.html): Promoción incluida sin costo en tablas para más de 4 personas.
+- [Cuánto rinde cada tabla](https://picandotabla.com/blog/rinde-por-tabla.html): Guía de porciones y tamaños.
+- [Cómo armar una tabla de quesos](https://picandotabla.com/blog/como-armar-tabla-de-quesos.html): Guía práctica de composición.
+
+## Optional
+
+- [Sitemap XML](https://picandotabla.com/sitemap.xml): Inventario de URLs indexables.
+- [Robots.txt](https://picandotabla.com/robots.txt): Directivas de rastreo y ubicación del sitemap.

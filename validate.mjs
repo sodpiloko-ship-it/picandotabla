@@ -104,6 +104,9 @@ const sitemap = read("sitemap.xml");
 for (const canonical of canonicals.keys()) assert.ok(sitemap.includes(`<loc>${canonical}</loc>`), `sitemap incluye ${canonical}`);
 assert.doesNotMatch(sitemap, /https:\/\/picandotabla\.com\/orden\//);
 assert.match(read("robots.txt"), /Sitemap: https:\/\/picandotabla\.com\/sitemap\.xml/);
+assert.match(read("llms.txt"), /^# Picando Tabla/m);
+assert.match(read("llms.txt"), /https:\/\/picandotabla\.com\/llms-full\.txt/);
+assert.match(read("llms-full.txt"), /La ruta antigua `\/orden\/` no debe usarse/);
 
 const home = read("index.html");
 assert.match(home, /extra\.key==='pan'/);
@@ -114,6 +117,10 @@ assert.equal((home.match(/Caja de tapas de regalo incluida/g) || []).length, 3, 
 assert.match(home, /id="promo-tapas"[\s\S]*caja-tapas-regalo\.jpg[\s\S]*Ver tablas con regalo/);
 assert.match(read("tablas/index.html"), /id="promo-tapas"[\s\S]*Se agrega automáticamente:/);
 assert.match(home, /new URLSearchParams\(window\.location\.search\)\.get\('tabla'\)/);
+for (const field of ["ptmCliente", "ptmWhatsapp", "ptmZona", "ptmFecha", "ptmNotas"]) {
+  assert.match(home, new RegExp(`id=["']${field}["']`), `popup incluye ${field}`);
+}
+assert.match(home, /origen:'landing_popup_producto'/);
 
 const order = read("orden/index.html");
 assert.doesNotMatch(order, /data-v="dip"/);
@@ -125,7 +132,8 @@ assert.match(order, /S\.extras = S\.extras\.filter\(function\(k\)\{ return k ===
 assert.match(order, /if\(c\.t\.regalo\) out\.push\(\{qty:1, nombre:REGALO\.title\+' \(incluida\)'/);
 assert.match(order, /eligible_product_keys\.indexOf\(product\.key\) > -1/);
 assert.match(order, /name="robots" content="noindex,follow"/);
-assert.match(read(".htaccess"), /RewriteRule \^orden\/\?\$ \/ \[R=302,L\]/);
+assert.match(read(".htaccess"), /RewriteRule \^orden\/\?\$ \/ \[R=301,L\]/);
+assert.match(read(".htaccess"), /<\/llms\.txt>; rel=\\"describedby\\"/);
 
 const catalog = read("catalogo.js");
 assert.match(catalog, /["']?price_mxn["']?\s*:\s*485/);

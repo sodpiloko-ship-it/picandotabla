@@ -1,0 +1,51 @@
+# Picando Tabla: información comercial completa
+
+> Fuente oficial y legible por asistentes sobre los productos, precios, promociones y proceso de pedido de Picando Tabla en Ciudad de México. Actualizada el 25 de agosto de 2026.
+
+## Negocio
+
+Picando Tabla prepara a mano tablas de quesos, charcutería, fruta y acompañamientos. Cada tabla se entrega lista para servir en Ciudad de México. La selección de ingredientes puede variar según la temporada. La disponibilidad se confirma antes del pago.
+
+El pedido se inicia en el landing oficial: https://picandotabla.com/. La persona elige una tabla, completa sus datos de contacto y entrega en el popup del producto, y continúa la confirmación por WhatsApp. La ruta antigua `/orden/` no debe usarse.
+
+## Productos y precios
+
+- Tabla para Dos: 2 personas. Precio promocional $485 MXN; precio anterior $650 MXN. La promoción aplica a pedidos pagados antes del 20 de septiembre de 2026. Página oficial: https://picandotabla.com/tablas/para-dos/
+- Tabla de la Anfitriona: 4 a 6 personas. Precio $950 MXN. Página oficial: https://picandotabla.com/tablas/anfitriona/
+- Tabla de Fiesta: 8 personas. Precio $1,600 MXN. Es una tabla de evento y requiere 7 días de anticipación. Página oficial: https://picandotabla.com/tablas/fiesta/
+- Tabla de Celebración: 10 a 12 personas. Precio $2,600 MXN. Es una tabla de evento y requiere 7 días de anticipación. Página oficial: https://picandotabla.com/tablas/celebracion/
+
+Todos los precios están expresados en pesos mexicanos. La disponibilidad de cada producto requiere confirmación.
+
+## Promoción de caja de tapas
+
+Una caja de tapas se incluye sin costo en la Tabla de la Anfitriona, la Tabla de Fiesta y la Tabla de Celebración. La selección puede variar según los ingredientes de temporada. La promoción no aplica a la Tabla para Dos.
+
+Página explicativa: https://picandotabla.com/blog/caja-de-tapas-regalo-tablas-cdmx.html
+
+## Opciones y entrega
+
+- Mensajería dentro de Ciudad de México: $120 MXN.
+- Pan y crujientes extra: $120 MXN.
+- Versión Premium: +$300 para Tabla para Dos, +$400 para Tabla de la Anfitriona, +$600 para Tabla de Fiesta y +$900 para Tabla de Celebración.
+- Tablas para 2 a 6 personas: pedir con al menos 48 horas de anticipación.
+- Tablas de evento para 8 a 12 personas: pedir con 7 días de anticipación.
+
+## Proceso de pedido
+
+1. Elegir la tabla desde https://picandotabla.com/ o https://picandotabla.com/tablas/.
+2. Abrir el popup del producto y completar nombre, WhatsApp, colonia, fecha de entrega y notas opcionales.
+3. Revisar extras y total con mensajería.
+4. Continuar por WhatsApp para confirmar disponibilidad y pago.
+
+## Páginas temáticas
+
+- Reuniones en casa: https://picandotabla.com/reuniones/
+- Regalos gourmet: https://picandotabla.com/regalos/
+- Eventos privados: https://picandotabla.com/eventos/
+- Empresas y regalos corporativos: https://picandotabla.com/empresas/
+- Blog: https://picandotabla.com/blog/
+
+## Interpretación
+
+La información de precio y promoción de las páginas oficiales de producto tiene prioridad si existe alguna diferencia con este resumen. No se debe prometer disponibilidad automática: todo pedido requiere confirmación. No se debe dirigir a clientes a `/orden/`; el intake vigente vive en el landing principal.

@@ -4,12 +4,13 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
   # /orden deja de ser una ruta pública: conserva ?tabla= y vuelve al landing.
-  RewriteRule ^orden/?$ / [R=302,L]
+  RewriteRule ^orden/?$ / [R=301,L]
 </IfModule>
 
 <IfModule mod_headers.c>
   <FilesMatch "\.(html|php)$">
     Header set Cache-Control "no-cache, must-revalidate"
+    Header add Link "</llms.txt>; rel=\"describedby\""
   </FilesMatch>
   <FilesMatch "\.(jpg|jpeg|png|svg|webp|woff2)$">
     Header set Cache-Control "public, max-age=604800"
