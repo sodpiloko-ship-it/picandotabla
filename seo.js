@@ -16,7 +16,7 @@
     var href = link.getAttribute('href') || '';
     if (href.indexOf('wa.me/') !== -1) {
       window.gtag('event', 'click_whatsapp', { link_url: link.href });
-    } else if (href.indexOf('/orden/') === 0) {
+    } else if (/^\/\?tabla=/.test(href)) {
       window.gtag('event', 'begin_checkout', { link_url: link.href });
     } else if (/^\/tablas\/[a-z-]+\/$/.test(href)) {
       window.gtag('event', 'view_product', { link_url: link.href });

@@ -16,7 +16,7 @@ function walk(dir) {
 const htmlFiles = walk(root)
   .filter((file) => file.endsWith(".html"))
   .map((file) => path.relative(root, file).replaceAll("\\", "/"))
-  .filter((file) => !/name=["']robots["'][^>]+content=["']noindex["']/i.test(read(file)))
+  .filter((file) => !/name=["']robots["'][^>]+content=["'][^"']*\bnoindex\b[^"']*["']/i.test(read(file)))
   .sort();
 const titles = new Map();
 const canonicals = new Map();
@@ -46,6 +46,7 @@ function localTarget(href, sourceFile) {
 for (const file of htmlFiles) {
   const html = read(file);
   assert.ok(html.replace(/\s+/g, " ").includes(promotion), `${file}: promoción visible`);
+  assert.doesNotMatch(html, /href=["']\/orden\//i, `${file}: no enlaza al configurador legado`);
   const visibleCopy = html.replace(/<script\b[\s\S]*?<\/script>/gi, " ").replace(/<style\b[\s\S]*?<\/style>/gi, " ");
   assert.doesNotMatch(visibleCopy, /\b(dip|mermelada|viernes|sábado)\b/i, `${file}: copia sin regalos ni días específicos`);
   assert.equal((html.match(/<h1\b/gi) || []).length, 1, `${file}: exactamente un H1`);
@@ -101,6 +102,7 @@ for (const [file, price] of productFiles) {
 
 const sitemap = read("sitemap.xml");
 for (const canonical of canonicals.keys()) assert.ok(sitemap.includes(`<loc>${canonical}</loc>`), `sitemap incluye ${canonical}`);
+assert.doesNotMatch(sitemap, /https:\/\/picandotabla\.com\/orden\//);
 assert.match(read("robots.txt"), /Sitemap: https:\/\/picandotabla\.com\/sitemap\.xml/);
 
 const home = read("index.html");
@@ -111,6 +113,7 @@ assert.match(home, /pedidos pagados antes del 20 de septiembre de 2026/);
 assert.equal((home.match(/Caja de tapas de regalo incluida/g) || []).length, 3, "home: regalo visible en tres tablas elegibles");
 assert.match(home, /id="promo-tapas"[\s\S]*caja-tapas-regalo\.jpg[\s\S]*Ver tablas con regalo/);
 assert.match(read("tablas/index.html"), /id="promo-tapas"[\s\S]*Se agrega automáticamente:/);
+assert.match(home, /new URLSearchParams\(window\.location\.search\)\.get\('tabla'\)/);
 
 const order = read("orden/index.html");
 assert.doesNotMatch(order, /data-v="dip"/);
@@ -121,6 +124,8 @@ assert.doesNotMatch(order, /Mermelada de la casa \(incluida\)/);
 assert.match(order, /S\.extras = S\.extras\.filter\(function\(k\)\{ return k === 'pan'; \}\)/);
 assert.match(order, /if\(c\.t\.regalo\) out\.push\(\{qty:1, nombre:REGALO\.title\+' \(incluida\)'/);
 assert.match(order, /eligible_product_keys\.indexOf\(product\.key\) > -1/);
+assert.match(order, /name="robots" content="noindex,follow"/);
+assert.match(read(".htaccess"), /RewriteRule \^orden\/\?\$ \/ \[R=302,L\]/);
 
 const catalog = read("catalogo.js");
 assert.match(catalog, /["']?price_mxn["']?\s*:\s*485/);

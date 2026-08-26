@@ -103,7 +103,7 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
         <a href="/eventos/" style="color:#55585a;text-decoration:none">Eventos</a>
         <a href="/empresas/" style="color:#55585a;text-decoration:none">Empresas</a>
         <a href="/blog/" style="color:#55585a;text-decoration:none">Blog</a>
-        <a href="/orden/" class="ptbtn" style="text-decoration:none;background:transparent;color:#7c2d3e;padding:9px 16px;border-radius:999px;font-weight:600;font-size:14px;border:1.5px solid #7c2d3e">Ármala tú</a>
+        <a href="/#tablas" class="ptbtn" style="text-decoration:none;background:transparent;color:#7c2d3e;padding:9px 16px;border-radius:999px;font-weight:600;font-size:14px;border:1.5px solid #7c2d3e">Ármala tú</a>
         <button class="ptbtn" onclick="waGeneral('header')" style="display:inline-flex;align-items:center;gap:8px;background:#26282a;color:#fff;padding:10px 20px;border-radius:999px;font-weight:600;font-size:14px;border:none;cursor:pointer">
           <span style="width:16px;height:16px;border-radius:50%;background:#25D366;display:inline-block"></span>Pedir por WhatsApp</button>
       </div>
@@ -603,6 +603,10 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
     try{ if(window.fbq) fbq('track','Lead',{content_name:'Servicio de vinos'}); }catch(e){}
   };
   document.addEventListener('keydown',function(e){ if(e.key==='Escape') cerrarDetalles(); });
+  try{
+    var requestedTable=new URLSearchParams(window.location.search).get('tabla');
+    if(TABLAS[requestedTable]) setTimeout(function(){ window.verDetalles(requestedTable); },0);
+  }catch(e){}
   window.waCustom=function(){ open('¡Hola! Quiero una tabla a la medida'); track('whatsapp_click',{source:'custom'}); try{if(window.fbq)fbq('track','Contact',{source:'custom'});}catch(e){} };
   window.waZona=function(){ open('¡Hola! ¿Entregan en mi colonia? Estoy en '); track('whatsapp_click',{source:'zona'}); try{if(window.fbq)fbq('track','Contact',{source:'zona'});}catch(e){} };
   window.waCuraduria=function(){ open('¡Hola! Quiero una tabla de temporada'); track('whatsapp_click',{source:'curaduria'}); try{if(window.fbq)fbq('track','Contact',{source:'curaduria'});}catch(e){} };

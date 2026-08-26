@@ -76,7 +76,7 @@ es un espejo DEV divergido y no debe usarse para publicar.
 ## Catálogo canónico para POND
 
 `data/catalogo.json` es la única fuente editable de productos, precios, extras y
-logística que consumen la home y `/orden/`. Los importes `*_mxn` son pesos
+logística que consumen la home y el configurador legado interno. Los importes `*_mxn` son pesos
 mexicanos enteros (unidad mayor, no centavos).
 
 Después de editar el JSON, regenera la proyección JS y los fallbacks HTML usados

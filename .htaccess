@@ -1,6 +1,12 @@
 # Cache-Control en Hostinger (hcdn): sin esto el edge cachea el HTML por dias y
 # el sitio se queda "stale" tras cada deploy (leccion ya pagada en cadcamia/procagrillz/velaslumin).
 # El HTML se revalida siempre; los assets con hash de contenido pueden cachearse largo.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  # /orden deja de ser una ruta pública: conserva ?tabla= y vuelve al landing.
+  RewriteRule ^orden/?$ / [R=302,L]
+</IfModule>
+
 <IfModule mod_headers.c>
   <FilesMatch "\.(html|php)$">
     Header set Cache-Control "no-cache, must-revalidate"
