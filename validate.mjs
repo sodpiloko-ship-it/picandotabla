@@ -151,4 +151,25 @@ assert.ok(fs.existsSync(path.join(root, "img/caja-tapas-regalo.jpg")), "imagen d
 assert.match(read("blog/index.html"), /caja-de-tapas-regalo-tablas-cdmx\.html/);
 assert.match(read("blog/caja-de-tapas-regalo-tablas-cdmx.html"), /"@type": "FAQPage"/);
 
+const importedArticles = [
+  ["blog/rinde-por-tabla.html", "01-cuanto-queso-por-persona"],
+  ["blog/botanas-para-reuniones-cdmx.html", "02-botanas-para-reuniones"],
+  ["blog/precio-tabla-quesos-cdmx.html", "03-precio-tabla-quesos-cdmx"],
+  ["blog/como-armar-tabla-de-quesos.html", "04-que-quesos-lleva-una-tabla"],
+  ["blog/regalo-tabla-de-quesos.html", "05-ideas-regalos-gourmet-cdmx"],
+];
+for (const [file, imageKey] of importedArticles) {
+  const html = read(file);
+  assert.match(html, /"@type":"Article"/, `${file}: schema Article`);
+  assert.match(html, /"@type":"BreadcrumbList"/, `${file}: schema BreadcrumbList`);
+  assert.match(html, new RegExp(`/img/blog/${imageKey}-1600x900\\.webp`), `${file}: hero editorial`);
+  for (const suffix of ["-800x450.webp", "-1200x675.webp", "-1600x900.webp", "-og-1200x630.jpg"]) {
+    assert.ok(fs.existsSync(path.join(root, `img/blog/${imageKey}${suffix}`)), `${file}: imagen ${suffix}`);
+  }
+}
+assert.match(read("blog/index.html"), /botanas-para-reuniones-cdmx\.html/);
+assert.match(read("blog/index.html"), /precio-tabla-quesos-cdmx\.html/);
+assert.match(read("tablas/index.html"), /Guías para calcular y comparar/);
+assert.match(read("reuniones/index.html"), /botanas-para-reuniones-cdmx\.html/);
+
 console.log(`OK: ${htmlFiles.length} páginas, metadatos, schema, enlaces, sitemap y pedidos validados.`);

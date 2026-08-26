@@ -1,444 +1,152 @@
 <!doctype html>
-<html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-4BMCS7P6DQ"
-    ></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
-      gtag("config", "G-4BMCS7P6DQ");
-    </script>
-    <script>
-      !(function (f, b, e, v, n, t, s) {
-        if (f.fbq) return;
-        n = f.fbq = function () {
-          n.callMethod
-            ? n.callMethod.apply(n, arguments)
-            : n.queue.push(arguments);
-        };
-        if (!f._fbq) f._fbq = n;
-        n.push = n;
-        n.loaded = !0;
-        n.version = "2.0";
-        n.queue = [];
-        t = b.createElement(e);
-        t.async = !0;
-        t.src = v;
-        s = b.getElementsByTagName(e)[0];
-        s.parentNode.insertBefore(t, s);
-      })(
-        window,
-        document,
-        "script",
-        "https://connect.facebook.net/en_US/fbevents.js",
-      );
-      fbq("init", "1537185354529246");
-      fbq("track", "PageView");
-    </script>
-    <title>Cómo armar una tabla de quesos que impresione · Picando Tabla</title>
-    <meta
-      name="description"
-      content="La fórmula simple para armar una tabla de quesos que se vea de revista, aunque sea tu primera vez. O déjanos armarla por ti en CDMX."
-    />
-    <link
-      rel="canonical"
-      href="https://picandotabla.com/blog/como-armar-tabla-de-quesos.html"
-    />
-    <meta property="og:type" content="article" />
-    <meta
-      property="og:title"
-      content="Cómo armar una tabla de quesos que impresione · Picando Tabla"
-    />
-    <meta
-      property="og:description"
-      content="La fórmula sencilla para armar una tabla de quesos que se vea de revista, aunque sea tu primera vez."
-    />
-    <meta
-      property="og:url"
-      content="https://picandotabla.com/blog/como-armar-tabla-de-quesos.html"
-    />
-    <meta property="og:image" content="https://picandotabla.com/img/3.jpg" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <meta name="theme-color" content="#26282a" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,400&family=Work+Sans:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-      body {
-        background: #e9eaea;
-        color: #26282a;
-        font-family: "Work Sans", system-ui, sans-serif;
-        line-height: 1.7;
-      }
-      h1,
-      h2,
-      h3 {
-        font-family: "Lora", Georgia, serif;
-        font-weight: 600;
-        line-height: 1.2;
-        color: #26282a;
-      }
-      a {
-        color: #7c2d3e;
-        text-decoration: none;
-      }
-      a:hover {
-        text-decoration: underline;
-      }
-      .promo {
-        position: sticky;
-        top: 0;
-        z-index: 51;
-        height: 60px;
-        background: #6f1d33;
-        color: #fff;
-        text-align: center;
-        padding: 8px 14px;
-        font-size: 14px;
-        font-weight: 700;
-        line-height: 1.3;
-        letter-spacing: 0.3px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 3px 12px #26282a2b;
-      }
-      .hdr {
-        position: sticky;
-        top: 60px;
-        z-index: 50;
-        background: #e9eaeaf2;
-        backdrop-filter: blur(8px);
-        border-bottom: 1px solid #d3d5d4;
-      }
-      .hdr .w {
-        max-width: 1100px;
-        margin: 0 auto;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 14px 22px;
-        gap: 16px;
-      }
-      .logo {
-        font-family: "Lora", serif;
-        font-weight: 700;
-        font-size: 21px;
-        color: #26282a;
-        line-height: 1.1;
-      }
-      .logo small {
-        display: block;
-        font-family: "Work Sans", sans-serif;
-        font-size: 10px;
-        letter-spacing: 2.5px;
-        color: #75797a;
-        text-transform: uppercase;
-        font-weight: 600;
-      }
-      .right {
-        display: flex;
-        align-items: center;
-        gap: 16px;
-      }
-      .mid {
-        display: flex;
-        align-items: center;
-        gap: 20px;
-        font-size: 14px;
-      }
-      .mid a {
-        color: #55585a;
-      }
-      .mid a.on {
-        color: #7c2d3e;
-        font-weight: 600;
-      }
-      .btn-o {
-        background: transparent;
-        color: #7c2d3e !important;
-        padding: 9px 16px;
-        border-radius: 999px;
-        font-weight: 600;
-        border: 1.5px solid #7c2d3e;
-      }
-      .btn-wa {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        background: #26282a;
-        color: #fff !important;
-        padding: 10px 18px;
-        border-radius: 999px;
-        font-weight: 600;
-      }
-      .btn-wa .dot {
-        width: 15px;
-        height: 15px;
-        border-radius: 50%;
-        background: #25d366;
-        display: inline-block;
-      }
-      .wrap {
-        max-width: 760px;
-        margin: 0 auto;
-        padding: 0 22px;
-      }
-      article {
-        padding: 34px 0;
-      }
-      .back {
-        font-size: 13px;
-        color: #75797a;
-      }
-      .kick {
-        font-size: 11px;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        color: #7c2d3e;
-        font-weight: 600;
-        margin-top: 14px;
-      }
-      article h1 {
-        font-size: clamp(28px, 5vw, 40px);
-        margin: 12px 0 10px;
-      }
-      .meta {
-        font-size: 13px;
-        color: #75797a;
-        margin-bottom: 24px;
-      }
-      article h2 {
-        font-size: 23px;
-        margin: 28px 0 8px;
-      }
-      article p {
-        font-size: 16.5px;
-        color: #55585a;
-        margin: 12px 0;
-      }
-      .cta-box {
-        background: #fbfcfc;
-        border: 1px solid #d3d5d4;
-        border-left: 3px solid #7c2d3e;
-        border-radius: 14px;
-        padding: 22px;
-        margin: 34px 0;
-      }
-      .cta-box b {
-        font-family: "Lora", serif;
-        font-size: 19px;
-        color: #26282a;
-      }
-      .btn {
-        display: inline-block;
-        margin-top: 12px;
-        background: #26282a;
-        color: #fff !important;
-        border-radius: 999px;
-        padding: 12px 24px;
-        font-weight: 600;
-        font-size: 15px;
-      }
-      footer {
-        border-top: 1px solid #d3d5d4;
-        padding: 26px 0;
-        color: #75797a;
-        font-size: 13px;
-        text-align: center;
-      }
-      @media (max-width: 720px) {
-        .mid {
-          display: none;
-        }
-      }
-    </style>
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "Article",
-        "headline": "Cómo armar una tabla de quesos que impresione",
-        "description": "La fórmula simple para armar una tabla de quesos que se vea de revista, aunque sea tu primera vez. O déjanos armarla por ti en CDMX.",
-        "mainEntityOfPage": "https://picandotabla.com/blog/como-armar-tabla-de-quesos.html",
-        "author": { "@type": "Organization", "name": "Picando Tabla" },
-        "publisher": {
-          "@type": "Organization",
-          "name": "Picando Tabla",
-          "url": "https://picandotabla.com/"
-        }
-      }
-    </script>
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Inicio",
-            "item": "https://picandotabla.com/"
-          },
-          {
-            "@type": "ListItem",
-            "position": 2,
-            "name": "Blog",
-            "item": "https://picandotabla.com/blog/"
-          },
-          {
-            "@type": "ListItem",
-            "position": 3,
-            "name": "Guías",
-            "item": "https://picandotabla.com/blog/guias/"
-          },
-          {
-            "@type": "ListItem",
-            "position": 4,
-            "name": "Cómo armar una tabla de quesos que impresione",
-            "item": "https://picandotabla.com/blog/como-armar-tabla-de-quesos.html"
-          }
-        ]
-      }
-    </script>
-  </head>
-  <body>
-    <div class="promo">
-      PROMOCIONES · Tabla para Dos $485 hasta 20 sep · Caja de tapas GRATIS en tablas para más de 4 personas
-    </div>
-    <header class="hdr">
-      <div class="w">
-        <a href="/" style="text-decoration: none"
-          ><div class="logo">
-            Picando Tabla<small>Quesos · Charcutería · CDMX</small>
-          </div></a
-        >
-        <div class="right">
-          <div class="mid">
-            <a href="/tablas/">Tablas</a>
-            <a href="/reuniones/">Reuniones</a>
-            <a href="/regalos/">Regalos</a>
-            <a href="/blog/" class="on">Blog</a>
-            <a href="/eventos/" class="btn-o">Eventos</a>
-          </div>
-          <a
-            href="https://wa.me/525623632404?text=%C2%A1Hola!%20Quiero%20pedir%20una%20tabla%20%F0%9F%A7%80"
-            target="_blank"
-            rel="noopener"
-            class="btn-wa"
-            onclick="waTrack()"
-            ><span class="dot"></span>Pedir por WhatsApp</a
-          >
-        </div>
-      </div>
-    </header>
-
-    <article>
-      <div class="wrap">
-        <nav class="back" aria-label="Migas de pan">
-          <a href="/">Inicio</a> › <a href="/blog/">Blog</a> ›
-          <a href="/blog/guias/">Guías</a>
-        </nav>
-        <div class="kick">Guía</div>
-        <h1>Cómo armar una tabla de quesos que impresione</h1>
-        <div class="meta">Curaduría · 3 min de lectura</div>
-        <p>
-          Llega la comida del domingo, se juntan las amigas o toca la posada de
-          fin de año — y quieres poner algo que se vea bonito sin encerrarte
-          toda la tarde en la cocina. Armar una tabla que impresione no es
-          cuestión de suerte ni de ser chef: es una fórmula sencilla que, una
-          vez que la conoces, no se te olvida. Aquí va, paso a paso. Y si
-          prefieres no pensarle, en Picando Tabla la armamos nosotros y te la
-          entregamos lista a tu puerta.
-        </p>
-
-        <h2>1. Empieza por los quesos (la regla del 3)</h2>
-        <p>
-          Elige tres quesos con texturas distintas: uno fresco (panela, cabra),
-          uno semicurado (manchego, gouda) y uno intenso (azul, añejo). El
-          contraste es lo que hace que la gente siga picando. Córtalos en formas
-          diferentes —cubos, triángulos, lascas— para dar movimiento.
-        </p>
-
-        <h2>2. Suma lo salado y lo dulce</h2>
-        <p>
-          Junto a cada queso, pon un compañero: algo salado (jamón serrano,
-          salami, aceitunas) y algo dulce (uvas, higos o miel). Ese juego
-          dulce-salado es el truco que usan los lugares
-          caros.
-        </p>
-
-        <h2>3. Rellena los huecos</h2>
-        <p>
-          Aquí entra lo crujiente: galletas, pan tostado, nueces y almendras. No
-          los amontones: repártelos para tapar los espacios vacíos. Una tabla
-          "llena" se ve más generosa y apetitosa.
-        </p>
-
-        <h2>4. El toque verde</h2>
-        <p>
-          Unas hojas de romero, albahaca o unas uvas con su rama le dan vida y
-          color. Es el detalle que hace que se vea "armada con cariño" y no
-          improvisada.
-        </p>
-
-        <h2>5. Preséntala con generosidad</h2>
-        <p>
-          Extiende todo sobre una superficie amplia y llénala: la abundancia es
-          lo que impresiona. Deja los sabores intensos hacia un lado para probar
-          de suave a fuerte. Lo demás es disfrutar la sobremesa.
-        </p>
-
-        <p>
-          Esa es toda la ciencia: tres quesos, dulce y salado, crujientes, un
-          toque verde y buena presentación — de esas que hasta tu suegra
-          pregunta quién las armó. Y si el día no alcanza, nosotros escogemos
-          cada producto de temporada y te la dejamos lista en tu puerta.
-        </p>
-
-        <div class="cta-box">
-          <b>¿Prefieres que la armemos nosotros?</b><br />Tablas de quesos y
-          charcutería, hechas a mano y entregadas listas en CDMX.<br /><a
-            class="btn"
-            href="https://wa.me/525623632404?text=%C2%A1Hola!%20Quiero%20pedir%20una%20tabla%20%F0%9F%A7%80"
-            target="_blank"
-            rel="noopener"
-            onclick="waTrack()"
-            >Pídela por WhatsApp</a
-          >
-        </div>
-      </div>
-    </article>
-
-    <footer>
-      <div class="wrap">
-        Picando Tabla · Entregas en CDMX ·
-        <a href="/eventos/">Cotiza tu evento</a>
-      </div>
-    </footer>
-    <script>
-      function waTrack() {
-        try {
-          if (window.gtag) gtag("event", "whatsapp_click", { source: "blog" });
-        } catch (e) {}
-        try {
-          if (window.fbq) fbq("track", "Contact", { source: "blog" });
-        } catch (e) {}
-      }
-    </script>
-  </body>
+<html lang="es-MX">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4BMCS7P6DQ"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-4BMCS7P6DQ");</script>
+  <title>Qué Quesos Lleva una Tabla y Cómo Combinarlos | Picando Tabla</title>
+  <meta name="description" content="Descubre qué quesos poner en una tabla y cómo combinar texturas, intensidades, charcutería, fruta, pan y acompañamientos.">
+  <link rel="canonical" href="https://picandotabla.com/blog/como-armar-tabla-de-quesos.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="¿Qué quesos lleva una buena tabla y cómo se combinan?">
+  <meta property="og:description" content="Descubre qué quesos poner en una tabla y cómo combinar texturas, intensidades, charcutería, fruta, pan y acompañamientos.">
+  <meta property="og:url" content="https://picandotabla.com/blog/como-armar-tabla-de-quesos.html">
+  <meta property="og:image" content="https://picandotabla.com/img/blog/04-que-quesos-lleva-una-tabla-og-1200x630.jpg">
+  <meta property="og:locale" content="es_MX">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <meta name="theme-color" content="#26282a">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,400&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{background:#e9eaea;color:#26282a;font-family:"Work Sans",system-ui,sans-serif;line-height:1.75}h1,h2,h3{font-family:"Lora",Georgia,serif;font-weight:600;line-height:1.2;color:#26282a}a{color:#7c2d3e;text-decoration:none}a:hover{text-decoration:underline}.promo{position:sticky;top:0;z-index:51;min-height:60px;background:#6f1d33;color:#fff;text-align:center;padding:9px 14px;font-size:14px;font-weight:700;line-height:1.3;letter-spacing:.3px;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 12px #26282a2b}.hdr{position:sticky;top:60px;z-index:50;background:#e9eaeaf2;backdrop-filter:blur(8px);border-bottom:1px solid #d3d5d4}.hdr .w{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 22px;gap:16px}.logo{font-family:"Lora",serif;font-weight:700;font-size:21px;color:#26282a;line-height:1.1}.logo small{display:block;font-family:"Work Sans",sans-serif;font-size:10px;letter-spacing:2.5px;color:#75797a;text-transform:uppercase;font-weight:600}.right,.mid{display:flex;align-items:center}.right{gap:16px}.mid{gap:20px;font-size:14px}.mid a{color:#55585a}.mid .on{color:#7c2d3e;font-weight:600}.btn-o{color:#7c2d3e!important;padding:9px 16px;border-radius:999px;font-weight:600;border:1.5px solid #7c2d3e}.btn-wa{display:inline-flex;align-items:center;gap:8px;background:#26282a;color:#fff!important;padding:10px 18px;border-radius:999px;font-weight:600}.dot{width:15px;height:15px;border-radius:50%;background:#25d366;display:inline-block}.wrap{max-width:840px;margin:0 auto;padding:0 22px}article{padding:34px 0 48px}.back{font-size:13px;color:#75797a;margin-bottom:18px}.hero{width:100%;height:auto;display:block;border-radius:18px;box-shadow:0 12px 34px #26282a20}figcaption{font-size:12px;color:#75797a;margin-top:8px;text-align:center}.kick{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#7c2d3e;font-weight:700;margin-top:28px}article h1{font-size:clamp(30px,5vw,44px);margin:10px 0 10px}.meta{font-size:13px;color:#75797a;margin-bottom:24px}.content h2{font-size:26px;margin:34px 0 10px}.content h3{font-size:20px;margin:26px 0 8px}.content p{font-size:16.5px;color:#55585a;margin:13px 0}.content ul,.content ol{margin:12px 0 18px 24px;color:#55585a}.content li{padding:2px 0}.content blockquote{background:#fbfcfc;border-left:4px solid #7c2d3e;border-radius:0 12px 12px 0;padding:18px 22px;margin:22px 0;color:#55585a;font-family:Lora,serif;font-size:18px}.table-scroll{overflow-x:auto;margin:18px 0 24px;border:1px solid #d3d5d4;border-radius:14px;background:#fbfcfc}table{border-collapse:collapse;width:100%;min-width:590px}th,td{padding:12px 14px;text-align:left;border-bottom:1px solid #d3d5d4;vertical-align:top}th{background:#26282a;color:#fff;font-size:13px}td{font-size:14px;color:#55585a}tr:last-child td{border-bottom:0}.cta-box{background:#fbfcfc;border:1px solid #d3d5d4;border-left:4px solid #7c2d3e;border-radius:14px;padding:22px;margin:36px 0}.cta-box b{font-family:Lora,serif;font-size:20px}.cta-box .btn{display:inline-block;margin-top:12px;background:#26282a;color:#fff!important;border-radius:999px;padding:12px 24px;font-weight:600}footer{border-top:1px solid #d3d5d4;padding:26px 0;color:#75797a;font-size:13px;text-align:center}@media(max-width:720px){.mid{display:none}.promo{min-height:64px;font-size:12px}.hdr{top:64px}.btn-wa{padding:9px 13px;font-size:13px}article{padding-top:24px}.content h2{font-size:23px}}
+  </style>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"¿Qué quesos lleva una buena tabla y cómo se combinan?","description":"Descubre qué quesos poner en una tabla y cómo combinar texturas, intensidades, charcutería, fruta, pan y acompañamientos.","image":["https://picandotabla.com/img/blog/04-que-quesos-lleva-una-tabla-1600x900.webp"],"datePublished":"2026-08-25","dateModified":"2026-08-25","inLanguage":"es-MX","mainEntityOfPage":"https://picandotabla.com/blog/como-armar-tabla-de-quesos.html","author":{"@type":"Organization","name":"Picando Tabla","url":"https://picandotabla.com/"},"publisher":{"@type":"Organization","name":"Picando Tabla","url":"https://picandotabla.com/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://picandotabla.com/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://picandotabla.com/blog/"},{"@type":"ListItem","position":3,"name":"Guías","item":"https://picandotabla.com/blog/guias/"},{"@type":"ListItem","position":4,"name":"¿Qué quesos lleva una buena tabla y cómo se combinan?","item":"https://picandotabla.com/blog/como-armar-tabla-de-quesos.html"}]}</script>
+</head>
+<body>
+  <div class="promo">PROMOCIONES · Tabla para Dos $485 hasta 20 sep · Caja de tapas GRATIS en tablas para más de 4 personas</div>
+  <header class="hdr"><div class="w"><a href="/" style="text-decoration:none"><div class="logo">Picando Tabla<small>Quesos · Charcutería · CDMX</small></div></a><div class="right"><nav class="mid" aria-label="Principal"><a href="/tablas/">Tablas</a><a href="/reuniones/">Reuniones</a><a href="/regalos/">Regalos</a><a href="/blog/" class="on">Blog</a><a href="/eventos/" class="btn-o">Eventos</a></nav><a href="/#tablas" class="btn-wa"><span class="dot"></span>Elegir tabla</a></div></div></header>
+  <article><div class="wrap">
+    <nav class="back" aria-label="Migas de pan"><a href="/">Inicio</a> › <a href="/blog/">Blog</a> › <a href="/blog/guias/">Guías</a></nav>
+    <div class="kick" style="margin-top:0">Guías · Picando Tabla</div>
+    <h1>¿Qué quesos lleva una buena tabla y cómo se combinan?</h1>
+    <div class="meta">Actualizado el 25 de agosto de 2026 · 9 min de lectura</div>
+    <figure><picture><source type="image/webp" srcset="/img/blog/04-que-quesos-lleva-una-tabla-800x450.webp 800w, /img/blog/04-que-quesos-lleva-una-tabla-1200x675.webp 1200w, /img/blog/04-que-quesos-lleva-una-tabla-1600x900.webp 1600w" sizes="(max-width:900px) 100vw, 840px"><img class="hero" src="/img/blog/04-que-quesos-lleva-una-tabla-1600x900.webp" width="1600" height="900" alt="Selección de quesos suaves, firmes e intensos para una tabla" loading="eager" fetchpriority="high" decoding="async"></picture><figcaption>Imagen editorial ilustrativa; la selección final puede variar según temporada.</figcaption></figure>
+    <div class="content"><p>Una buena tabla puede construirse con <strong>tres perfiles principales</strong>: un queso cremoso o suave, uno firme o semicurado y uno de mayor intensidad. Para grupos grandes puedes añadir un queso fresco o un curado adicional.</p>
+        <p>La clave no es reunir el mayor número posible de variedades. Es crear contraste de <strong>textura, intensidad, aroma y sabor</strong> sin que todos los quesos cumplan la misma función.</p>
+        <h2>La fórmula más sencilla</h2>
+        <div class="table-scroll"><table><thead><tr><th>Papel en la tabla</th><th>Qué aporta</th><th>Ejemplos</th></tr></thead><tbody><tr><td>Suave o cremoso</td><td>Textura y entrada amable</td><td>Brie, Camembert, queso de cabra cremoso</td></tr><tr><td>Firme o semicurado</td><td>Equilibrio y facilidad para cortar</td><td>Gouda, manchego, cheddar maduro</td></tr><tr><td>Intenso</td><td>Contraste y final largo</td><td>Azul, gorgonzola, curados potentes</td></tr><tr><td>Fresco, opcional</td><td>Acidez y ligereza</td><td>Panela, feta, queso de cabra fresco</td></tr><tr><td>Muy curado, opcional</td><td>Sabor concentrado y textura firme</td><td>Parmesano, pecorino, añejos</td></tr></tbody></table></div>
+        <p>No es obligatorio utilizar esos nombres exactos. La tabla funciona cuando cada queso ocupa un lugar diferente dentro de la experiencia.</p>
+        <h2>1. Un queso suave o cremoso</h2>
+        <p>Es el punto de entrada de la tabla.</p>
+        <p>Suele combinar bien con:</p>
+        <ul><li>pan;</li><li>fruta fresca;</li><li>miel;</li><li>conservas dulces;</li><li>nueces;</li><li>charcutería delicada.</li></ul>
+        <p>Su textura contrasta con quesos duros y carnes curadas. También funciona para invitados que no disfrutan sabores demasiado intensos.</p>
+        <h2>2. Un queso firme o semicurado</h2>
+        <p>Aporta estructura y un sabor fácil de integrar con otros ingredientes.</p>
+        <p>Es útil porque:</p>
+        <ul><li>se corta con facilidad;</li><li>puede servirse en cubos, triángulos o lascas;</li><li>acompaña bien a varias carnes;</li><li>suele gustar a una parte amplia del grupo.</li></ul>
+        <p>En una tabla de tres quesos, normalmente ocupa el punto medio.</p>
+        <h2>3. Un queso con mayor intensidad</h2>
+        <p>La intensidad puede venir de:</p>
+        <ul><li>mayor maduración;</li><li>mohos azules;</li><li>corteza lavada;</li><li>ahumado;</li><li>curación prolongada.</li></ul>
+        <p>No necesitas colocar una cantidad enorme. Una porción menor puede crear el contraste suficiente.</p>
+        <p>Si todos los invitados prefieren sabores suaves, el perfil intenso puede sustituirse por un queso curado menos agresivo.</p>
+        <h2>4. Un queso fresco, cuando hace falta ligereza</h2>
+        <p>Los quesos frescos aportan humedad, acidez y un perfil limpio.</p>
+        <p>Funcionan bien cuando la tabla incluye charcutería intensa o varios elementos grasos. También pueden combinarse con vegetales, hierbas y fruta.</p>
+        <h2>5. Un queso muy curado para grupos mayores</h2>
+        <p>En una reunión grande puedes sumar un queso duro o muy curado. Sus lascas o pequeños fragmentos permiten crear bocados intensos sin necesitar grandes porciones.</p>
+        <h2>¿Cuántos tipos de queso poner?</h2>
+        <div class="table-scroll"><table><thead><tr><th>Personas</th><th>Variedad sugerida</th></tr></thead><tbody><tr><td>2</td><td>2–3 quesos</td></tr><tr><td>4–6</td><td>3 quesos</td></tr><tr><td>8</td><td>3–4 quesos</td></tr><tr><td>10–12</td><td>4–5 quesos</td></tr></tbody></table></div>
+        <p>La cantidad de quesos no debe crecer sin control. Si agregas una variedad, procura que aporte algo que todavía no existe: una textura, una intensidad o una leche diferente.</p>
+        <h2>Cómo elegir sin ser especialista</h2>
+        <p>Hazte cuatro preguntas.</p>
+        <h3>¿Todos tienen la misma textura?</h3>
+        <p>Si la respuesta es sí, cambia uno. Una tabla con tres quesos firmes pierde parte de la experiencia.</p>
+        <h3>¿Todos son suaves?</h3>
+        <p>Mantén uno accesible, pero añade al menos un perfil con mayor maduración o intensidad.</p>
+        <h3>¿Hay algún queso difícil de servir?</h3>
+        <p>Los quesos muy blandos necesitan cuchillo o cuchara. Asegúrate de incluir utensilios adecuados.</p>
+        <h3>¿El grupo realmente disfruta sabores fuertes?</h3>
+        <p>No elijas un azul intenso solamente porque “debe” estar en una tabla. La curaduría debe adaptarse a quienes van a comerla.</p>
+        <h2>Qué charcutería combina con los quesos</h2>
+        <p>La charcutería añade sal, grasa, especias y textura.</p>
+        <p>Una selección equilibrada puede incluir:</p>
+        <ul><li>una carne suave;</li><li>una opción más especiada;</li><li>una carne curada con mayor intensidad.</li></ul>
+        <p>No necesitas combinar cada queso con una carne distinta de manera rígida. La idea es permitir varias rutas.</p>
+        <h3>Con queso cremoso</h3>
+        <p>Funcionan bien carnes delicadas y elementos ácidos que eviten un bocado demasiado pesado.</p>
+        <h3>Con queso firme</h3>
+        <p>Admite combinaciones amplias, desde charcutería suave hasta perfiles especiados.</p>
+        <h3>Con queso intenso</h3>
+        <p>Conviene probar con una carne que no compita demasiado o con fruta que aporte dulzor.</p>
+        <h2>Qué fruta colocar</h2>
+        <p>La fruta ayuda a limpiar el paladar y aporta color, humedad y dulzor.</p>
+        <p>Según temporada pueden funcionar:</p>
+        <ul><li>uvas;</li><li>fresas;</li><li>higos;</li><li>manzana;</li><li>pera;</li><li>frutos rojos;</li><li>cítricos seleccionados.</li></ul>
+        <p>En Picando Tabla la fruta cambia con la temporada. Esto permite trabajar con productos en mejor momento y evita que todas las composiciones sean idénticas.</p>
+        <h2>Panes y crujientes</h2>
+        <p>Su función es crear una base para el bocado y aportar textura.</p>
+        <p>Puedes usar:</p>
+        <ul><li>baguette;</li><li>crostini;</li><li>crackers neutros;</li><li>pan tostado;</li><li>crujientes de temporada.</li></ul>
+        <p>Evita que todos tengan condimentos muy intensos. Si el cracker domina el sabor, el queso deja de ser protagonista.</p>
+        <h2>Algo dulce</h2>
+        <p>Una tabla suele necesitar solamente uno o dos elementos dulces.</p>
+        <p>Opciones:</p>
+        <ul><li>miel;</li><li>conserva dulce;</li><li>fruta fresca;</li><li>fruta seca;</li><li>chocolate en composiciones específicas.</li></ul>
+        <p>El dulce debe crear contraste, no cubrir todos los quesos.</p>
+        <h2>Algo ácido o salado</h2>
+        <p>Aceitunas, mostaza o encurtidos cortan la grasa y permiten volver a empezar entre bocados.</p>
+        <p>Son especialmente útiles cuando hay varios quesos cremosos o charcutería abundante.</p>
+        <h2>Cómo ordenar los quesos al probarlos</h2>
+        <p>Comienza por los perfiles más suaves y avanza hacia los más intensos.</p>
+        <p>Una secuencia sencilla es:</p>
+        <ol><li>fresco;</li><li>suave o cremoso;</li><li>semicurado;</li><li>curado;</li><li>azul o muy intenso.</li></ol>
+        <p>Si pruebas primero el queso más potente, puede ser más difícil percibir los matices de los demás.</p>
+        <h2>Tres combinaciones de ejemplo</h2>
+        <h3>Tabla amable para principiantes</h3>
+        <ul><li>queso cremoso;</li><li>gouda o manchego;</li><li>queso curado moderado;</li><li>charcutería suave;</li><li>uvas;</li><li>miel;</li><li>crackers neutros.</li></ul>
+        <h3>Tabla con mayor contraste</h3>
+        <ul><li>queso de cabra;</li><li>queso semicurado;</li><li>queso azul;</li><li>salami especiado;</li><li>pera;</li><li>nueces;</li><li>mostaza.</li></ul>
+        <h3>Tabla fresca para una tarde</h3>
+        <ul><li>queso fresco;</li><li>queso cremoso;</li><li>queso firme;</li><li>fruta de temporada;</li><li>vegetales;</li><li>pan;</li><li>untable ligero.</li></ul>
+        <p>Son estructuras, no recetas obligatorias.</p>
+        <h2>Errores frecuentes</h2>
+        <h3>Elegir cinco quesos casi iguales</h3>
+        <p>La cantidad no sustituye el contraste.</p>
+        <h3>Servir todo directamente del refrigerador</h3>
+        <p>Un queso demasiado frío suele expresar menos aroma y textura. Organiza el montaje con tiempo suficiente, respetando siempre la seguridad alimentaria.</p>
+        <h3>Cortar todos los quesos de la misma forma</h3>
+        <p>Cubos, triángulos, lascas y porciones para untar ayudan a que la presentación sea más legible.</p>
+        <h3>Olvidar utensilios</h3>
+        <p>Los quesos blandos y las conservas dulces necesitan cuchillos o cucharas independientes.</p>
+        <h3>Usar acompañamientos solamente para llenar huecos</h3>
+        <p>Cada elemento debería aportar textura, frescura, dulzor, acidez o sal.</p>
+        <h2>¿Qué quesos utiliza Picando Tabla?</h2>
+        <p>La selección rota según temporada y disponibilidad. En lugar de prometer siempre la misma lista, cada tamaño mantiene una estructura:</p>
+        <ul><li>perfiles de intensidad diferentes;</li><li>texturas distintas;</li><li>charcutería en varios cortes;</li><li>fruta y acompañamientos;</li><li>una tarjeta de cata para orientar el orden.</li></ul>
+        <p>Puedes consultar lo que incluye cada formato en <a href="/tablas/">nuestras tablas</a>.</p>
+        <h2>Preguntas frecuentes</h2>
+        <h3>¿Qué tres quesos debo poner en una tabla?</h3>
+        <p>Un queso cremoso, uno firme o semicurado y uno de mayor intensidad forman una base equilibrada.</p>
+        <h3>¿Qué queso gusta a la mayoría?</h3>
+        <p>Los perfiles firmes y semicurados suelen ser accesibles para un grupo amplio, pero no existe una elección universal.</p>
+        <h3>¿Puedo hacer una tabla sin queso azul?</h3>
+        <p>Sí. Sustitúyelo por un curado de intensidad media o alta.</p>
+        <h3>¿Cuánto queso necesito por persona?</h3>
+        <p>Como entrada, calcula aproximadamente 55 a 85 gramos de queso por adulto. Consulta la guía completa de <a href="/blog/rinde-por-tabla.html">cantidades por persona</a>.</p>
+        <h3>¿Qué va primero: queso o charcutería?</h3>
+        <p>Al diseñar la tabla, empieza por las piezas grandes y los quesos; después distribuye charcutería y acompañamientos. Al comer, no hay un orden obligatorio, aunque conviene avanzar de sabores suaves a intensos.</p>
+        <h2>La curaduría importa más que la cantidad</h2>
+        <p>Una buena tabla puede resumirse así:</p>
+        <blockquote>cremoso + firme + intenso<br>salado + dulce + ácido<br>suave + crujiente + fresco</blockquote>
+        <p><strong><a href="/tablas/">Ver tablas de quesos y charcutería</a></strong>&lt;br&gt; <strong><a href="/#tablas">Armar una tabla a tu gusto</a></strong></p></div>
+    <div class="cta-box"><b>¿Ya sabes para cuántas personas es?</b><br>Elige tu tabla en el landing y completa ahí mismo los datos de tu pedido.<br><a class="btn" href="/#tablas">Ver tablas y pedir</a></div>
+  </div></article>
+  <footer><div class="wrap">Picando Tabla · Entregas en CDMX · <a href="/eventos/">Cotiza tu evento</a></div></footer>
+</body>
 </html>
