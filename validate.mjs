@@ -133,7 +133,7 @@ assert.match(order, /if\(c\.t\.regalo\) out\.push\(\{qty:1, nombre:REGALO\.title
 assert.match(order, /eligible_product_keys\.indexOf\(product\.key\) > -1/);
 assert.match(order, /name="robots" content="noindex,follow"/);
 assert.match(read(".htaccess"), /RewriteRule \^orden\/\?\$ \/ \[R=301,L\]/);
-assert.match(read(".htaccess"), /<\/llms\.txt>; rel=\\"describedby\\"/);
+assert.match(read(".htaccess"), /<\/llms\.txt>; rel=describedby/);
 
 const catalog = read("catalogo.js");
 assert.match(catalog, /["']?price_mxn["']?\s*:\s*485/);

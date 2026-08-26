@@ -10,7 +10,7 @@
 <IfModule mod_headers.c>
   <FilesMatch "\.(html|php)$">
     Header set Cache-Control "no-cache, must-revalidate"
-    Header add Link "</llms.txt>; rel=\"describedby\""
+    Header add Link "</llms.txt>; rel=describedby"
   </FilesMatch>
   <FilesMatch "\.(jpg|jpeg|png|svg|webp|woff2)$">
     Header set Cache-Control "public, max-age=604800"
