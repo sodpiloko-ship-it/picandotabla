@@ -109,6 +109,8 @@ assert.match(read("llms.txt"), /https:\/\/picandotabla\.com\/llms-full\.txt/);
 assert.match(read("llms-full.txt"), /La ruta antigua `\/orden\/` no debe usarse/);
 
 const home = read("index.html");
+assert.match(home, /"@type":"Organization","@id":"https:\/\/picandotabla\.com\/#organization"/);
+assert.doesNotMatch(home, /"@type":"LocalBusiness"/);
 assert.match(home, /extra\.key==='pan'/);
 assert.doesNotMatch(home, /data-catalog-extra="dip"/);
 assert.doesNotMatch(home, /data-catalog-extra="mermelada"/);
@@ -152,8 +154,6 @@ assert.match(read("blog/index.html"), /caja-de-tapas-regalo-tablas-cdmx\.html/);
 assert.match(read("blog/caja-de-tapas-regalo-tablas-cdmx.html"), /"@type": "FAQPage"/);
 
 const importedArticles = [
-  ["blog/rinde-por-tabla.html", "01-cuanto-queso-por-persona"],
-  ["blog/botanas-para-reuniones-cdmx.html", "02-botanas-para-reuniones"],
   ["blog/precio-tabla-quesos-cdmx.html", "03-precio-tabla-quesos-cdmx"],
   ["blog/como-armar-tabla-de-quesos.html", "04-que-quesos-lleva-una-tabla"],
   ["blog/regalo-tabla-de-quesos.html", "05-ideas-regalos-gourmet-cdmx"],
@@ -167,8 +167,33 @@ for (const [file, imageKey] of importedArticles) {
     assert.ok(fs.existsSync(path.join(root, `img/blog/${imageKey}${suffix}`)), `${file}: imagen ${suffix}`);
   }
 }
+const aiArticles = [
+  ["blog/botanas-para-reuniones-cdmx.html", "01-que-servir-reunion-evento-cdmx"],
+  ["blog/rinde-por-tabla.html", "02-cuanta-tabla-quesos-reunion-evento"],
+  ["blog/tabla-quesos-cumpleanos-cdmx.html", "03-tabla-quesos-cumpleanos-cdmx"],
+  ["blog/maridaje-queso-vino-principiantes.html", "04-tabla-quesos-vino-reunion-cdmx"],
+  ["blog/tablas-charcuteria-eventos-cdmx.html", "05-tablas-charcuteria-eventos-cdmx"],
+];
+for (const [file, imageKey] of aiArticles) {
+  const html = read(file);
+  assert.match(html, /"@type":"Article"/, `${file}: schema Article`);
+  assert.match(html, /"@type":"BreadcrumbList"/, `${file}: schema BreadcrumbList`);
+  assert.match(html, /name="robots" content="index,follow,max-image-preview:large"/, `${file}: indexable y vista previa amplia`);
+  assert.doesNotMatch(html, /"@type":"FAQPage"/, `${file}: sin FAQPage schema`);
+  for (const suffix of ["-1600x900.webp", "-1600x900.jpg", "-1200x630.jpg"]) {
+    assert.ok(fs.existsSync(path.join(root, `img/blog/${imageKey}${suffix}`)), `${file}: imagen ${suffix}`);
+  }
+}
 assert.match(read("blog/index.html"), /botanas-para-reuniones-cdmx\.html/);
 assert.match(read("blog/index.html"), /precio-tabla-quesos-cdmx\.html/);
+for (const article of ["tabla-quesos-cumpleanos-cdmx", "maridaje-queso-vino-principiantes", "tablas-charcuteria-eventos-cdmx"]) {
+  assert.match(read("blog/index.html"), new RegExp(`${article}\\.html`), `blog incluye ${article}`);
+}
+assert.match(read("eventos/index.html"), /tablas-charcuteria-eventos-cdmx\.html/);
+assert.match(read("index.html"), /maridaje-queso-vino-principiantes\.html/);
+for (const file of ["tablas/anfitriona/index.html", "tablas/fiesta/index.html", "tablas/celebracion/index.html"]) {
+  assert.match(read(file), /rinde-por-tabla\.html/, `${file}: enlaza guía de tamaños`);
+}
 assert.match(read("tablas/index.html"), /Guías para calcular y comparar/);
 assert.match(read("reuniones/index.html"), /botanas-para-reuniones-cdmx\.html/);
 

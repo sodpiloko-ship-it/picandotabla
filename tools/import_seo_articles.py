@@ -13,12 +13,19 @@ from pathlib import Path
 
 
 PROMO = "PROMOCIONES · Tabla para Dos $485 hasta 20 sep · Caja de tapas GRATIS en tablas para más de 4 personas"
-ARTICLES = [
+LEGACY_ARTICLES = [
     ("01-cuanto-queso-charcuteria-por-persona.md", "rinde-por-tabla.html", "01-cuanto-queso-por-persona", "Guías", "/blog/guias/"),
     ("02-botanas-para-reuniones-cdmx.md", "botanas-para-reuniones-cdmx.html", "02-botanas-para-reuniones", "Reuniones", "/blog/reuniones/"),
     ("03-cuanto-cuesta-tabla-quesos-cdmx.md", "precio-tabla-quesos-cdmx.html", "03-precio-tabla-quesos-cdmx", "Guías", "/blog/guias/"),
     ("04-que-quesos-lleva-una-tabla.md", "como-armar-tabla-de-quesos.html", "04-que-quesos-lleva-una-tabla", "Guías", "/blog/guias/"),
     ("05-ideas-regalos-gourmet-cdmx.md", "regalo-tabla-de-quesos.html", "05-ideas-regalos-gourmet-cdmx", "Regalos", "/blog/regalos/"),
+]
+AI_ARTICLES = [
+    ("01-que-servir-reunion-evento-cdmx.md", "botanas-para-reuniones-cdmx.html", "01-que-servir-reunion-evento-cdmx", "Reuniones", "/blog/reuniones/", "2026-08-25"),
+    ("02-cuanta-tabla-quesos-reunion-evento.md", "rinde-por-tabla.html", "02-cuanta-tabla-quesos-reunion-evento", "Guías", "/blog/guias/", "2026-08-25"),
+    ("03-tabla-quesos-cumpleanos-cdmx.md", "tabla-quesos-cumpleanos-cdmx.html", "03-tabla-quesos-cumpleanos-cdmx", "Eventos", "/blog/eventos/", "2026-08-27"),
+    ("04-tabla-quesos-vino-reunion-cdmx.md", "maridaje-queso-vino-principiantes.html", "04-tabla-quesos-vino-reunion-cdmx", "Guías", "/blog/guias/", "2026-08-27"),
+    ("05-tablas-charcuteria-eventos-cdmx.md", "tablas-charcuteria-eventos-cdmx.html", "05-tablas-charcuteria-eventos-cdmx", "Eventos", "/blog/eventos/", "2026-08-27"),
 ]
 
 
@@ -146,16 +153,17 @@ def markdown_to_html(markdown: str) -> str:
     return "\n        ".join(output)
 
 
-def render(meta: dict[str, str], body: str, image_key: str, category: str, category_url: str) -> str:
+def render(meta: dict[str, str], body: str, image_key: str, category: str, category_url: str, published: str | None = None, responsive: bool = True) -> str:
     h1_match = re.search(r"^#\s+(.+)$", body, re.MULTILINE)
     if not h1_match:
         raise ValueError("El artículo no contiene H1")
     headline = h1_match.group(1).strip()
     body = body[: h1_match.start()] + body[h1_match.end() :]
     article_html = markdown_to_html(adapt_copy(body).strip())
-    canonical = meta["canonical"]
-    description = adapt_copy(meta["description"])
-    seo_title = adapt_copy(meta["seo_title"])
+    canonical = meta.get("canonical") or meta["canonical_url"]
+    description = adapt_copy(meta.get("description") or meta["meta_description"])
+    seo_title = adapt_copy(meta.get("seo_title") or meta["meta_title"])
+    page_title = seo_title if "Picando Tabla" in seo_title else f"{seo_title} | Picando Tabla"
     image_alt = adapt_copy(meta["image_alt"])
     hero = f"/img/blog/{image_key}-1600x900.webp"
     og = f"https://picandotabla.com/img/blog/{image_key}-og-1200x630.jpg"
@@ -165,8 +173,8 @@ def render(meta: dict[str, str], body: str, image_key: str, category: str, categ
         "headline": headline,
         "description": description,
         "image": [f"https://picandotabla.com{hero}"],
-        "datePublished": meta["date_published"],
-        "dateModified": meta["date_modified"],
+        "datePublished": meta.get("date_published") or published or "2026-08-27",
+        "dateModified": meta.get("date_modified") or meta.get("last_reviewed") or "2026-08-27",
         "inLanguage": "es-MX",
         "mainEntityOfPage": canonical,
         "author": {"@type": "Organization", "name": "Picando Tabla", "url": "https://picandotabla.com/"},
@@ -188,16 +196,18 @@ def render(meta: dict[str, str], body: str, image_key: str, category: str, categ
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-4BMCS7P6DQ"></script>
-  <script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments)}}gtag("js",new Date());gtag("config","G-4BMCS7P6DQ");</script>
-  <title>{html.escape(seo_title)} | Picando Tabla</title>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments)}}gtag("js",new Date());gtag("config","G-4BMCS7P6DQ");function articleCta(el,placement){{try{{gtag("event","article_cta_click",{{article:location.pathname,placement:placement}})}}catch(e){{}}var source=new URLSearchParams(location.search),target=new URLSearchParams;["utm_source","utm_medium","utm_campaign","utm_term","utm_content"].forEach(function(key){{if(source.has(key))target.set(key,source.get(key))}});if(target.toString())el.href="/?"+target.toString()+"#tablas"}}</script>
+  <title>{html.escape(page_title)}</title>
   <meta name="description" content="{html.escape(description, quote=True)}">
   <link rel="canonical" href="{html.escape(canonical, quote=True)}">
+  <meta name="robots" content="index,follow,max-image-preview:large">
   <meta property="og:type" content="article">
   <meta property="og:title" content="{html.escape(headline, quote=True)}">
   <meta property="og:description" content="{html.escape(description, quote=True)}">
   <meta property="og:url" content="{html.escape(canonical, quote=True)}">
   <meta property="og:image" content="{og}">
   <meta property="og:locale" content="es_MX">
+  <meta property="og:site_name" content="Picando Tabla">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <meta name="theme-color" content="#26282a">
@@ -212,15 +222,15 @@ def render(meta: dict[str, str], body: str, image_key: str, category: str, categ
 </head>
 <body>
   <div class="promo">{PROMO}</div>
-  <header class="hdr"><div class="w"><a href="/" style="text-decoration:none"><div class="logo">Picando Tabla<small>Quesos · Charcutería · CDMX</small></div></a><div class="right"><nav class="mid" aria-label="Principal"><a href="/tablas/">Tablas</a><a href="/reuniones/">Reuniones</a><a href="/regalos/">Regalos</a><a href="/blog/" class="on">Blog</a><a href="/eventos/" class="btn-o">Eventos</a></nav><a href="/#tablas" class="btn-wa"><span class="dot"></span>Elegir tabla</a></div></div></header>
+  <header class="hdr"><div class="w"><a href="/" style="text-decoration:none"><div class="logo">Picando Tabla<small>Quesos · Charcutería · CDMX</small></div></a><div class="right"><nav class="mid" aria-label="Principal"><a href="/tablas/">Tablas</a><a href="/reuniones/">Reuniones</a><a href="/regalos/">Regalos</a><a href="/blog/" class="on">Blog</a><a href="/eventos/" class="btn-o">Eventos</a></nav><a href="/#tablas" class="btn-wa" onclick="articleCta(this,'header')"><span class="dot"></span>Elegir tabla</a></div></div></header>
   <article><div class="wrap">
     <nav class="back" aria-label="Migas de pan"><a href="/">Inicio</a> › <a href="/blog/">Blog</a> › <a href="{category_url}">{html.escape(category)}</a></nav>
     <div class="kick" style="margin-top:0">{html.escape(category)} · Picando Tabla</div>
     <h1>{html.escape(headline)}</h1>
-    <div class="meta">Actualizado el 25 de agosto de 2026 · {html.escape(meta.get('reading_time', '7 min'))} de lectura</div>
-    <figure><picture><source type="image/webp" srcset="/img/blog/{image_key}-800x450.webp 800w, /img/blog/{image_key}-1200x675.webp 1200w, {hero} 1600w" sizes="(max-width:900px) 100vw, 840px"><img class="hero" src="{hero}" width="1600" height="900" alt="{html.escape(image_alt, quote=True)}" loading="eager" fetchpriority="high" decoding="async"></picture><figcaption>Imagen editorial ilustrativa; la selección final puede variar según temporada.</figcaption></figure>
+    <div class="meta">Actualizado el 27 de agosto de 2026 · {html.escape(meta.get('reading_time', '7 min'))} de lectura</div>
+    <figure>{hero_picture(image_key, hero, image_alt, responsive)}<figcaption>Imagen editorial ilustrativa; la selección final puede variar según temporada.</figcaption></figure>
     <div class="content">{article_html}</div>
-    <div class="cta-box"><b>¿Ya sabes para cuántas personas es?</b><br>Elige tu tabla en el landing y completa ahí mismo los datos de tu pedido.<br><a class="btn" href="/#tablas">Ver tablas y pedir</a></div>
+    <div class="cta-box"><b>¿Ya sabes para cuántas personas es?</b><br>Elige tu tabla en el landing y completa ahí mismo los datos de tu pedido.<br><a class="btn" href="/#tablas" onclick="articleCta(this,'final')">Ver tablas y pedir</a></div>
   </div></article>
   <footer><div class="wrap">Picando Tabla · Entregas en CDMX · <a href="/eventos/">Cotiza tu evento</a></div></footer>
 </body>
@@ -228,9 +238,16 @@ def render(meta: dict[str, str], body: str, image_key: str, category: str, categ
 '''
 
 
-def copy_images(package: Path, destination: Path) -> None:
+def hero_picture(image_key: str, hero: str, image_alt: str, responsive: bool) -> str:
+    alt = html.escape(image_alt, quote=True)
+    if responsive:
+        return f'<picture><source type="image/webp" srcset="/img/blog/{image_key}-800x450.webp 800w, /img/blog/{image_key}-1200x675.webp 1200w, {hero} 1600w" sizes="(max-width:900px) 100vw, 840px"><img class="hero" src="{hero}" width="1600" height="900" alt="{alt}" loading="eager" fetchpriority="high" decoding="async"></picture>'
+    return f'<picture><source type="image/webp" srcset="{hero}"><img class="hero" src="/img/blog/{image_key}-1600x900.jpg" width="1600" height="900" alt="{alt}" loading="eager" fetchpriority="high" decoding="async"></picture>'
+
+
+def copy_images(package: Path, destination: Path, image_dir: str) -> None:
     destination.mkdir(parents=True, exist_ok=True)
-    for source in (package / "imagenes").glob("*/*"):
+    for source in (package / image_dir).glob("*/*"):
         if source.is_file() and source.suffix.lower() in {".webp", ".jpg", ".jpeg", ".png"}:
             shutil.copy2(source, destination / source.name)
 
@@ -242,11 +259,15 @@ def main() -> None:
     args = parser.parse_args()
     package = args.package.resolve()
     root = args.root.resolve()
-    copy_images(package, root / "img" / "blog")
-    for source_name, target_name, image_key, category, category_url in ARTICLES:
-        source_path = package / "articulos" / source_name
+    is_ai_package = (package / "articles" / "01-que-servir-reunion-evento-cdmx.md").exists()
+    article_dir = "articles" if is_ai_package else "articulos"
+    image_dir = "images" if is_ai_package else "imagenes"
+    articles = AI_ARTICLES if is_ai_package else [(*item, None) for item in LEGACY_ARTICLES]
+    copy_images(package, root / "img" / "blog", image_dir)
+    for source_name, target_name, image_key, category, category_url, published in articles:
+        source_path = package / article_dir / source_name
         meta, body = parse_frontmatter(source_path.read_text(encoding="utf-8"))
-        result = render(meta, body, image_key, category, category_url)
+        result = render(meta, body, image_key, category, category_url, published, responsive=not is_ai_package)
         target = root / "blog" / target_name
         target.write_text(result, encoding="utf-8", newline="\n")
         print(f"{target.relative_to(root)}  {hashlib.sha256(result.encode()).hexdigest()[:12]}")

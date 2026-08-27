@@ -3,6 +3,8 @@
 Thumbs.db
 .vscode/
 *.log
+__pycache__/
+*.pyc
 
 # nada de secretos en el repo del sitio
 .env
