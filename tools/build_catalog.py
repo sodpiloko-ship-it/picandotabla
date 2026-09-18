@@ -296,8 +296,8 @@ def render_home_people_selector(catalog: dict) -> str:
 
 
 def render_home_extras(catalog: dict) -> str:
-    promotional = next(product for product in catalog["products"] if product.get("promotion"))
-    promotion = promotional["promotion"]
+    promotional = next((product for product in catalog["products"] if product.get("promotion")), None)
+    promotion = promotional["promotion"] if promotional else None
     cards = []
     for extra in catalog["extras"]:
         key = extra["key"]
@@ -309,14 +309,15 @@ def render_home_extras(catalog: dict) -> str:
                 "        </div>",
             ]
         )
-    cards.extend(
-        [
-            '        <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;background:#faf5f6;border:2px solid #7c2d3e;border-radius:12px;padding:16px 20px">',
-            f'          <div><div style="font-weight:700;font-size:15px;color:#7c2d3e;margin-bottom:2px">{escaped(promotional["title"])} en promoción</div><div style="font-size:13px;color:#55585a">{money(promotional["price_mxn"])} en lugar de {money(promotional["regular_price_mxn"])} para pedidos pagados antes del {escaped(promotion["display_deadline"])}.</div></div>',
-            f'          <span style="font-family:Lora,serif;font-size:20px;font-weight:700;color:#7c2d3e;flex:none">{money(promotional["price_mxn"])}</span>',
-            "        </div>",
-        ]
-    )
+    if promotional:
+        cards.extend(
+            [
+                '        <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;background:#faf5f6;border:2px solid #7c2d3e;border-radius:12px;padding:16px 20px">',
+                f'          <div><div style="font-weight:700;font-size:15px;color:#7c2d3e;margin-bottom:2px">{escaped(promotional["title"])} en promoción</div><div style="font-size:13px;color:#55585a">{money(promotional["price_mxn"])} en lugar de {money(promotional["regular_price_mxn"])} para pedidos pagados antes del {escaped(promotion["display_deadline"])}.</div></div>',
+                f'          <span style="font-family:Lora,serif;font-size:20px;font-weight:700;color:#7c2d3e;flex:none">{money(promotional["price_mxn"])}</span>',
+                "        </div>",
+            ]
+        )
     return "\n".join(
         [
             '      <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px">',
@@ -328,15 +329,19 @@ def render_home_extras(catalog: dict) -> str:
 
 def render_order_extras(catalog: dict) -> str:
     featured = next(product for product in catalog["products"] if product["presentation"]["featured"])
-    promotional = next(product for product in catalog["products"] if product.get("promotion"))
-    promotion = promotional["promotion"]
+    promotional = next((product for product in catalog["products"] if product.get("promotion")), None)
+    promotion = promotional["promotion"] if promotional else None
     premium = next(modifier for modifier in catalog["modifiers"] if modifier["key"] == "premium")
     gift = catalog["promotions"][0]
     lines = [
-        f'          <div class="ficha"><div class="t">Promoción {escaped(promotional["title"])}</div><div class="d">{money(promotional["price_mxn"])} en lugar de {money(promotional["regular_price_mxn"])}</div><ul><li>Aplica a pedidos pagados antes del {escaped(promotion["display_deadline"])}.</li></ul></div>',
         f'          <div class="ficha"><div class="t">{escaped(gift["title"])}</div><div class="d">Incluida sin costo</div><ul><li>Aplica a tablas para más de 4 personas: Anfitriona, Fiesta y Celebración.</li></ul></div>',
         f'          <button class="card wide" data-q="premium" data-v="si" id="cardPrem">{escaped(premium["title"])}<span class="m" id="premM">+ {money(premium["prices_mxn_by_product_key"][featured["key"]])}</span></button>'
     ]
+    if promotional:
+        lines.insert(
+            0,
+            f'          <div class="ficha"><div class="t">Promoción {escaped(promotional["title"])}</div><div class="d">{money(promotional["price_mxn"])} en lugar de {money(promotional["regular_price_mxn"])}</div><ul><li>Aplica a pedidos pagados antes del {escaped(promotion["display_deadline"])}.</li></ul></div>',
+        )
     for extra in catalog["extras"]:
         lines.append(
             f'          <button class="card" data-q="extras" data-v="{escaped(extra["key"])}" data-multi="1">{escaped(extra["title"])}<span class="m" data-extra-price="{escaped(extra["key"])}">+ {money(extra["price_mxn"])}</span></button>'
@@ -351,8 +356,8 @@ def render_html_blocks(catalog: dict) -> dict[Path, dict[str, str]]:
     standard_min, standard_max = people_range(standard)
     event_min, event_max = people_range(events)
     featured = next(product for product in products if product["presentation"]["featured"])
-    promotional = next(product for product in products if product.get("promotion"))
-    promotion = promotional["promotion"]
+    promotional = next((product for product in products if product.get("promotion")), None)
+    promotion = promotional["promotion"] if promotional else None
     premium = next(modifier for modifier in catalog["modifiers"] if modifier["key"] == "premium")
     delivery = catalog["delivery"]
     logistics = catalog["logistics"]
@@ -365,12 +370,20 @@ def render_html_blocks(catalog: dict) -> dict[Path, dict[str, str]]:
         HOME: {
             "HOME_META": (
                 '<meta name="description" content="Tablas de quesos y charcutería a domicilio en CDMX. '
-                f'{escaped(promotional["title"])} en promoción por {money(promotional["price_mxn"])} MXN para pedidos pagados antes del {escaped(promotion["display_deadline"])}.">'
+                + (
+                    f'{escaped(promotional["title"])} en promoción por {money(promotional["price_mxn"])} MXN para pedidos pagados antes del {escaped(promotion["display_deadline"])}.">'
+                    if promotional
+                    else f'Armadas a mano y listas para servir. Pídela por WhatsApp — desde {money(min_price)} MXN.">'
+                )
             ),
             "HOME_HERO_FACTS": "\n".join(
                 [
                     '      <div style="display:flex;gap:22px;font-size:13px;color:#75797a;flex-wrap:wrap">',
-                    f"        <span>✓ Lista para servir</span><span>✓ Precio anterior {money(promotional['regular_price_mxn'])}</span><span>✓ Promoción {money(promotional['price_mxn'])}</span><span>✓ Pago antes del 20 de septiembre</span>",
+                    (
+                        f"        <span>✓ Lista para servir</span><span>✓ Precio anterior {money(promotional['regular_price_mxn'])}</span><span>✓ Promoción {money(promotional['price_mxn'])}</span><span>✓ Pago antes del 20 de septiembre</span>"
+                        if promotional
+                        else f"        <span>✓ Lista para servir</span><span>✓ Entrega en CDMX</span><span>✓ Desde {money(min_price)}</span>"
+                    ),
                     "      </div>",
                 ]
             ),
@@ -418,7 +431,11 @@ def render_html_blocks(catalog: dict) -> dict[Path, dict[str, str]]:
         ORDER: {
             "ORDER_META": (
                 '<meta name="description" content="Arma tu tabla de quesos y charcutería y mírala tomar '
-                f'forma en vivo. {escaped(promotional["title"])} en promoción por {money(promotional["price_mxn"])} para pedidos pagados antes del {escaped(promotion["display_deadline"])}.">'
+                + (
+                    f'forma en vivo. {escaped(promotional["title"])} en promoción por {money(promotional["price_mxn"])} para pedidos pagados antes del {escaped(promotion["display_deadline"])}.">'
+                    if promotional
+                    else f'forma en vivo. Curaduría a tu medida y entrega en CDMX. Desde {money(min_price)}.">'
+                )
             ),
             "ORDER_HERO": "\n".join(
                 [

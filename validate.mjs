@@ -20,7 +20,7 @@ const htmlFiles = walk(root)
   .sort();
 const titles = new Map();
 const canonicals = new Map();
-const promotion = "PROMOCIONES · Tabla para Dos $485 hasta 20 sep · Caja de tapas GRATIS en tablas para más de 4 personas";
+const promotion = "PROMOCIÓN · Caja de tapas GRATIS en tablas para más de 4 personas";
 
 function attribute(html, name, value, attributeName = "content") {
   const tag = html.match(new RegExp(`<meta[^>]+${name}=["']${value}["'][^>]*>`, "i"))?.[0];
@@ -86,7 +86,7 @@ for (const file of htmlFiles) {
 }
 
 const productFiles = [
-  ["tablas/para-dos/index.html", 485],
+  ["tablas/para-dos/index.html", 650],
   ["tablas/anfitriona/index.html", 950],
   ["tablas/fiesta/index.html", 1600],
   ["tablas/celebracion/index.html", 2600],
@@ -114,7 +114,7 @@ assert.doesNotMatch(home, /"@type":"LocalBusiness"/);
 assert.match(home, /extra\.key==='pan'/);
 assert.doesNotMatch(home, /data-catalog-extra="dip"/);
 assert.doesNotMatch(home, /data-catalog-extra="mermelada"/);
-assert.match(home, /pedidos pagados antes del 20 de septiembre de 2026/);
+assert.doesNotMatch(home, /\$485|20 de septiembre/);
 assert.equal((home.match(/Caja de tapas de regalo incluida/g) || []).length, 3, "home: regalo visible en tres tablas elegibles");
 assert.match(home, /id="promo-tapas"[\s\S]*caja-tapas-regalo\.jpg[\s\S]*Ver tablas con regalo/);
 assert.match(read("tablas/index.html"), /id="promo-tapas"[\s\S]*Se agrega automáticamente:/);
@@ -138,8 +138,7 @@ assert.match(read(".htaccess"), /RewriteRule \^orden\/\?\$ \/ \[R=301,L\]/);
 assert.match(read(".htaccess"), /<\/llms\.txt>; rel=describedby/);
 
 const catalog = read("catalogo.js");
-assert.match(catalog, /["']?price_mxn["']?\s*:\s*485/);
-assert.match(catalog, /["']?regular_price_mxn["']?\s*:\s*650/);
+assert.doesNotMatch(catalog, /regular_price_mxn/);
 assert.match(catalog, /["']eligible_product_keys["']:\["anfitriona","fiesta","celebracion"\]/);
 assert.doesNotMatch(catalog, /["']?key["']?\s*:\s*["'](?:dip|mermelada)["']/);
 assert.match(read("seo.css"), /\.promo\{position:sticky;top:0/);

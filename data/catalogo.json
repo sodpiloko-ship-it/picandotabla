@@ -25,12 +25,7 @@
       "availability": "confirmation_required",
       "title": "Tabla para Dos",
       "description": "Quesos y charcutería en porciones pensadas para dos, con el dulce, la fruta y el crujiente que hacen que cada bocado sea distinto al anterior. La armamos con lo mejor de la semana: nunca la misma tabla dos veces.",
-      "price_mxn": 485,
-      "regular_price_mxn": 650,
-      "promotion": {
-        "valid_for_paid_orders_before": "2026-09-20",
-        "display_deadline": "20 de septiembre de 2026"
-      },
+      "price_mxn": 650,
       "people": {
         "min": 2,
         "max": 2

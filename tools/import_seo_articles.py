@@ -12,7 +12,7 @@ import shutil
 from pathlib import Path
 
 
-PROMO = "PROMOCIONES · Tabla para Dos $485 hasta 20 sep · Caja de tapas GRATIS en tablas para más de 4 personas"
+PROMO = "PROMOCIÓN · Caja de tapas GRATIS en tablas para más de 4 personas"
 LEGACY_ARTICLES = [
     ("01-cuanto-queso-charcuteria-por-persona.md", "rinde-por-tabla.html", "01-cuanto-queso-por-persona", "Guías", "/blog/guias/"),
     ("02-botanas-para-reuniones-cdmx.md", "botanas-para-reuniones-cdmx.html", "02-botanas-para-reuniones", "Reuniones", "/blog/reuniones/"),
