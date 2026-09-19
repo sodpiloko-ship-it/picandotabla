@@ -143,7 +143,7 @@ assert.match(catalog, /["']eligible_product_keys["']:\["anfitriona","fiesta","ce
 assert.doesNotMatch(catalog, /["']?key["']?\s*:\s*["'](?:dip|mermelada)["']/);
 assert.match(read("seo.css"), /\.promo\{position:sticky;top:0/);
 assert.match(read("seo.css"), /\.site-header\{position:sticky;top:60px/);
-assert.match(read("tablas/para-dos/index.html"), /"priceValidUntil": "2026-09-19"/);
+assert.match(read("tablas/para-dos/index.html"), /"priceValidUntil": "2026-12-31"/);
 assert.doesNotMatch(read("tablas/para-dos/index.html"), /Regalo incluido:/);
 for (const file of ["tablas/anfitriona/index.html", "tablas/fiesta/index.html", "tablas/celebracion/index.html"]) {
   assert.match(read(file), /Regalo incluido:[\s\S]*caja de[\s\n]+tapas sin costo/i, `${file}: regalo comunicado`);

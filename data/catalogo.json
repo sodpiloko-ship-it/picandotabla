@@ -26,6 +26,7 @@
       "title": "Tabla para Dos",
       "description": "Quesos y charcutería en porciones pensadas para dos, con el dulce, la fruta y el crujiente que hacen que cada bocado sea distinto al anterior. La armamos con lo mejor de la semana: nunca la misma tabla dos veces.",
       "price_mxn": 650,
+      "weight_g": 340,
       "people": {
         "min": 2,
         "max": 2
@@ -50,10 +51,10 @@
         "image": "img/1.jpg"
       },
       "presentation": {
-        "tag": "Para 2 · Noche tranquila",
+        "tag": "340 g · Noche tranquila",
         "card_description": "Una noche en casa se vuelve cita. Porciones justas para dos, sin repetir bocado.",
         "featured": false,
-        "order_subtitle": "2 personas · noche tranquila",
+        "order_subtitle": "340 g · recomendada para 2 personas",
         "scale_3d": 0.74
       }
     },
@@ -65,6 +66,7 @@
       "title": "Tabla de la Anfitriona",
       "description": "Variedad para que cada invitado encuentre su favorito y abundancia para que nadie se quede picando el plato vacío. Llega armada y lista para poner en el centro — tú solo recibes.",
       "price_mxn": 950,
+      "weight_g": 850,
       "people": {
         "min": 4,
         "max": 6
@@ -86,13 +88,13 @@
         "picandotabla:modifier:premium"
       ],
       "media": {
-        "image": "img/2.jpg"
+        "image": "img/tabla-850g.jpg"
       },
       "presentation": {
-        "tag": "4–6 personas · Reunión en casa",
+        "tag": "850 g · Reunión en casa",
         "card_description": "Recibes sin estrés: la pieza central que resuelve la reunión de 4 a 6.",
         "featured": true,
-        "order_subtitle": "4 a 6 personas · la favorita",
+        "order_subtitle": "850 g · recomendada para 4 a 6 personas",
         "scale_3d": 0.9
       }
     },
@@ -104,6 +106,7 @@
       "title": "Tabla de Fiesta",
       "description": "Curada para rendir toda la noche: intensidades que suben poco a poco, cortes generosos y una pieza central que además se ve espectacular en fotos. El cumpleaños, la posada o el brindis, resueltos.",
       "price_mxn": 1600,
+      "weight_g": 1360,
       "people": {
         "min": 8,
         "max": 8
@@ -128,10 +131,10 @@
         "image": "img/3.jpg"
       },
       "presentation": {
-        "tag": "8 personas · Tabla de evento",
+        "tag": "1,360 g · Tabla de evento",
         "card_description": "El festejo de 8, resuelto con una sola pieza. Pídela con una semana de anticipación.",
         "featured": false,
-        "order_subtitle": "8 personas · tabla de evento",
+        "order_subtitle": "1,360 g · recomendada para 8 personas",
         "scale_3d": 1.04
       }
     },
@@ -143,6 +146,7 @@
       "title": "Tabla de Celebración",
       "description": "La mesa que habla por ti: máxima variedad, curaduría pieza por pieza y un montaje pensado para la foto. Para la boda íntima, el aniversario o la celebración que merece una mesa central de verdad.",
       "price_mxn": 2600,
+      "weight_g": 1870,
       "people": {
         "min": 10,
         "max": 12
@@ -167,10 +171,10 @@
         "image": "img/4.jpg"
       },
       "presentation": {
-        "tag": "10–12 personas · Tabla de evento",
+        "tag": "1,870 g · Tabla de evento",
         "card_description": "Nuestra más grande, montada para lucirse ante 10 a 12. Con una semana de anticipación.",
         "featured": false,
-        "order_subtitle": "10 a 12 personas · tabla de evento",
+        "order_subtitle": "1,870 g · recomendada para 10 a 12 personas",
         "scale_3d": 1.16
       }
     }
@@ -220,5 +224,9 @@
     ],
     "standard_lead_time_hours": 48,
     "event_lead_time_days": 7
+  },
+  "portioning": {
+    "grams_per_person": 170,
+    "note": "Gramajes de referencia; el número de personas es una recomendación."
   }
 }

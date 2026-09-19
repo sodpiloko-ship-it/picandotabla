@@ -124,6 +124,8 @@ def load_and_validate() -> dict:
                 fail(f"promotion.valid_for_paid_orders_before inválido en {product['key']}")
             if not isinstance(promotion.get("display_deadline"), str):
                 fail(f"promotion.display_deadline inválido en {product['key']}")
+        if not isinstance(product.get("weight_g"), int) or product["weight_g"] < 100:
+            fail(f"products[{product['key']}].weight_g requiere gramos enteros")
         people = product.get("people", {})
         if not isinstance(people.get("min"), int) or not isinstance(people.get("max"), int):
             fail(f"products[{product['key']}].people requiere min y max enteros")
@@ -204,6 +206,13 @@ def selector_suffix(product: dict) -> str:
     return f"{people['min']}{people['max']}"
 
 
+def recommended_people(product: dict) -> str:
+    people = product["people"]
+    if people["min"] == people["max"]:
+        return f"Recomendada para {people['min']} personas"
+    return f"Recomendada para {people['min']}–{people['max']} personas"
+
+
 def people_range(products: list[dict]) -> tuple[int, int]:
     return (
         min(product["people"]["min"] for product in products),
@@ -253,7 +262,8 @@ def render_home_products(catalog: dict) -> str:
                 f'          <div data-catalog-image style="height:170px;background:#d3d5d4 url(\'{escaped(product["media"]["image"])}\') center/cover no-repeat"></div>',
                 '          <div style="padding:20px 22px;display:flex;flex-direction:column;flex:1">',
                 f'            <div data-catalog-tag style="font-size:11px;letter-spacing:1.5px;color:#7c2d3e;font-weight:600;text-transform:uppercase;margin-bottom:6px">{escaped(presentation["tag"])}</div>',
-                f'            <div data-catalog-title style="font-family:Lora,serif;font-size:20px;font-weight:600;margin-bottom:8px">{escaped(product["title"])}</div>',
+                f'            <div data-catalog-title style="font-family:Lora,serif;font-size:20px;font-weight:600;margin-bottom:4px">{escaped(product["title"])}</div>',
+                f'            <div style="font-size:12.5px;color:#75797a;margin-bottom:8px">{escaped(recommended_people(product))}</div>',
                 f'            <p style="font-size:13.5px;line-height:1.55;color:#55585a;margin:0 0 14px;flex:1">{escaped(presentation["card_description"])}</p>',
                 f'            <div data-catalog-price style="font-family:Lora,serif;font-size:21px;color:#26282a;margin-bottom:12px">{price_html}</div>',
                 gift_html,
@@ -391,6 +401,7 @@ def render_html_blocks(catalog: dict) -> dict[Path, dict[str, str]]:
             "HOME_PRODUCTS": render_home_products(catalog),
             "HOME_PRODUCTS_NOTE": (
                 '      <p style="font-size:12.5px;color:#75797a;margin:16px 0 0;text-align:center">'
+f'Gramajes de referencia: calculamos unos {catalog["portioning"]["grams_per_person"]} g por persona; el número de personas es una recomendación. '
                 f'Precios en MXN · Mensajería {money(delivery["price_mxn"])} a toda la CDMX (se suma a tu pedido) '
                 f'· Tablas de evento ({event_min}–{event_max}): '
                 f'{logistics["event_lead_time_days"]} días de anticipación</p>'
