@@ -201,16 +201,45 @@ function cmd_confirmados(): array {
     return $out;
 }
 
+// Pedido pagado en línea (pago/lib.php): el pedido privado con el estado del pago, por folio.
+// null = el pedido no pasó por Mercado Pago (WhatsApp, manual).
+function cmd_pago(array $o): ?array {
+    $folio = (string) ($o['folio'] ?? '');
+    if (($o['origen'] ?? '') !== 'pago_en_linea' || preg_match('/\APT-\d{6}-[A-F0-9]{8}\z/', $folio) !== 1) return null;
+    require_once __DIR__ . '/../pago/lib.php';
+    return ptpg_leer_pedido($folio) ?? ['estado' => 'creado'];
+}
+
+// Etiqueta del pago para la tarjeta de la comanda: [clase css, texto].
+function cmd_pago_pill(array $pago): array {
+    $cobro = '$' . number_format((float) ($pago['cobro'] ?? 0), 0);
+    switch ($pago['estado'] ?? 'creado') {
+        case 'pagado':
+            return ($pago['tipo'] ?? '') === 'anticipo'
+                ? ['p-pagado', '💳 Anticipo pagado ' . $cobro . ' · resta $' . number_format((float) $pago['total'] - (float) $pago['cobro'], 0)]
+                : ['p-pagado', '💳 Pagado ' . $cobro];
+        case 'pendiente':   return ['p-confirmada', '⏳ Pago en proceso (OXXO/transferencia)'];
+        case 'reembolsado': return ['p-sinpago', '↩ Reembolsado'];
+        default:            return ['p-sinpago', 'Sin pagar · no completó el pago'];
+    }
+}
+
 // Botón directo al WhatsApp del cliente: normaliza a 52XXXXXXXXXX y arma el wa.me con el mensaje listo.
-function cmd_wa_link(array $o): ?string {
+function cmd_wa_link(array $o, ?array $pago = null): ?string {
     $tel = preg_replace('/\D+/', '', (string) ($o['whatsapp'] ?? ''));
     if (strlen($tel) === 10) $tel = '52' . $tel;
     if (strlen($tel) < 12) return null;
     $nom = trim((string) ($o['nombre'] ?? ''));
-    $msg = '¡Hola' . ($nom !== '' ? ' ' . $nom : '') . '! Soy Jessica de Picando Tabla 🧀 Recibimos tu pedido por $'
-         . number_format((float) ($o['total'] ?? 0), 0)
-         . (($o['fecha'] ?? '') !== '' ? ' para el ' . $o['fecha'] : '')
-         . '. Te comparto los datos para la transferencia y con eso queda apartada tu fecha. ¡Gracias!';
+    $hola = '¡Hola' . ($nom !== '' ? ' ' . $nom : '') . '! Soy Jessica de Picando Tabla 🧀 ';
+    $para = (($o['fecha'] ?? '') !== '' ? ' para el ' . $o['fecha'] : '');
+    if ($pago !== null && ($pago['estado'] ?? '') === 'pagado') {
+        $msg = $hola . 'Recibimos tu pago del pedido ' . ($o['folio'] ?? '') . $para . '. Te confirmo tu entrega: ¿a qué hora te queda mejor? ¡Gracias!';
+    } elseif ($pago !== null) {
+        $msg = $hola . 'Vi que tu pedido' . $para . ' se quedó sin pagar. ¿Te ayudo a completarlo? También puedes pagar por transferencia.';
+    } else {
+        $msg = $hola . 'Recibimos tu pedido por $' . number_format((float) ($o['total'] ?? 0), 0) . $para
+             . '. Te comparto los datos para la transferencia y con eso queda apartada tu fecha. ¡Gracias!';
+    }
     return 'https://wa.me/' . $tel . '?text=' . rawurlencode($msg);
 }
 

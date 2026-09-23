@@ -346,13 +346,13 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
       <div style="display:flex;flex-direction:column;gap:16px">
         <div style="display:flex;gap:14px;align-items:flex-start;background:#fbfcfc;border:1px solid #d3d5d4;border-radius:12px;padding:18px 22px">
           <span style="font-family:Lora,serif;font-size:22px;color:#7c2d3e;font-weight:700;flex:none">1</span>
-          <div><div style="font-weight:600;font-size:15px;color:#26282a">Nos escribes por WhatsApp</div><div style="font-size:13.5px;color:#55585a;line-height:1.5">Eliges tu tabla o nos cuentas de tu evento. Confirmamos precio y disponibilidad.</div></div>
+          <div><div style="font-weight:600;font-size:15px;color:#26282a">Eliges tu tabla y tu día</div><div style="font-size:13.5px;color:#55585a;line-height:1.5">Eliges el día de entrega y pagas en línea. ¿Algo a la medida o un evento? Cuéntanos por WhatsApp.</div></div>
         </div>
         <div style="display:flex;gap:14px;align-items:flex-start;background:#fbfcfc;border:1px solid #d3d5d4;border-radius:12px;padding:18px 22px">
           <span style="font-family:Lora,serif;font-size:22px;color:#7c2d3e;font-weight:700;flex:none">2</span>
           <div><div style="font-weight:600;font-size:15px;color:#26282a">Confirmas con tu pago</div>
           <!-- POND_CATALOG:HOME_PAYMENT_STEP:START -->
-          <div style="font-size:13.5px;color:#55585a;line-height:1.5">Tablas de 2 a 6: pagas por transferencia hasta 48 h antes de tu entrega. Tablas de evento (8–12): apartas tu fecha con el 50 % y liquidas 8 días antes de la entrega; si faltan 8 días o menos, se paga completa al reservar.</div>
+          <div style="font-size:13.5px;color:#55585a;line-height:1.5">Tablas de 2 a 6: pagas completo al pedir, en línea con Mercado Pago (tarjeta, OXXO o transferencia). Tablas de evento (8–12): apartas tu fecha con el 50 % y liquidas 8 días antes de la entrega; si faltan 8 días o menos, se paga completa al reservar.</div>
           <!-- POND_CATALOG:HOME_PAYMENT_STEP:END -->
           </div>
         </div>
@@ -463,7 +463,7 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
         <div id="ptmUps" style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px"></div>
 
         <div style="font-size:12px;letter-spacing:1.5px;color:#75797a;font-weight:600;text-transform:uppercase;margin:2px 0 10px">Datos para preparar tu pedido</div>
-        <p style="font-size:13px;line-height:1.5;color:#75797a;margin:0 0 14px">Déjanos tus datos y abriremos WhatsApp con la tabla y el total listos para confirmar.</p>
+        <p id="ptmIntro" style="font-size:13px;line-height:1.5;color:#75797a;margin:0 0 14px">Déjanos tus datos y abriremos WhatsApp con la tabla y el total listos para confirmar.</p>
         <div class="ptm-intake-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
           <div>
             <label class="q-lbl" for="ptmCliente">Nombre</label>
@@ -480,8 +480,8 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
             <input id="ptmZona" class="q-in" autocomplete="address-level3" placeholder="Ej. Del Valle">
           </div>
           <div>
-            <label class="q-lbl" for="ptmFecha">¿Para qué día la quieres?</label>
-            <input id="ptmFecha" class="q-in" placeholder="Ej. 19 de septiembre">
+            <label class="q-lbl" for="ptmFecha">¿Qué día la entregamos?</label>
+            <input id="ptmFecha" class="q-in" type="date" onchange="ptmRecalc()" aria-describedby="ptmRegla">
           </div>
         </div>
         <div style="margin-bottom:14px">
@@ -501,8 +501,13 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
           <span style="font-size:14px;color:#55585a;font-weight:600">Total con envío</span>
           <span id="ptmTotal" style="font-family:Lora,serif;font-size:24px;color:#26282a"></span>
         </div>
-        <button class="ptbtn" onclick="pedirDetalles()" style="width:100%;display:inline-flex;align-items:center;justify-content:center;gap:10px;background:#26282a;color:#fff;padding:15px;border-radius:999px;font-weight:600;font-size:16px;border:none;cursor:pointer">
-          <span style="width:18px;height:18px;border-radius:50%;background:#25D366;display:inline-block"></span>Pedirla por WhatsApp</button>
+        <div id="ptmCobroRow" style="display:none;align-items:center;justify-content:space-between;margin:-8px 0 14px">
+          <span style="font-size:13px;color:#7c2d3e;font-weight:600">Pagas hoy para apartar tu fecha</span>
+          <span id="ptmCobro" style="font-family:Lora,serif;font-size:18px;color:#7c2d3e"></span>
+        </div>
+        <button id="ptmPagar" class="ptbtn" onclick="pagarDetalles()" style="display:none;width:100%;align-items:center;justify-content:center;gap:10px;background:#26282a;color:#fff;padding:15px;border-radius:999px;font-weight:600;font-size:16px;border:none;cursor:pointer;margin-bottom:10px">Pagar con Mercado Pago</button>
+        <button id="ptmWaBtn" class="ptbtn" onclick="pedirDetalles()" style="width:100%;display:inline-flex;align-items:center;justify-content:center;gap:10px;background:#26282a;color:#fff;padding:15px;border-radius:999px;font-weight:600;font-size:16px;border:none;cursor:pointer">
+          <span style="width:18px;height:18px;border-radius:50%;background:#25D366;display:inline-block"></span><span id="ptmWaTxt">Pedirla por WhatsApp</span></button>
         <p id="ptmError" role="alert" aria-live="polite" style="display:none;text-align:center;font-size:12.5px;color:#7c2d3e;font-weight:600;margin:10px 0 0"></p>
         <p id="ptmNota" style="text-align:center;font-size:12px;color:#75797a;margin:12px 0 0;line-height:1.5"></p>
       </div>
@@ -515,7 +520,7 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
 
 </div>
 
-<script src="catalogo.js?v=7e16b4c5018b"></script>
+<script src="catalogo.js?v=a96de97bc15d"></script>
 <script>
 (function(){
   var WA='525623632404';
@@ -572,6 +577,65 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
     card.querySelector('[data-catalog-extra-price]').textContent=fmt(extra.v);
   });
   var modalId=null;
+  // --- Pago en línea (Mercado Pago): se enciende solo si el servidor tiene la llave (pago/estado.php) ---
+  var PAGO_ONLINE=false, pagando=false;
+  try{
+    fetch('/pago/estado.php',{cache:'no-store'}).then(function(r){ return r.ok?r.json():{}; })
+      .then(function(d){ PAGO_ONLINE=!!(d&&d.activo); if(modalId) ptmRecalc(); }).catch(function(){});
+  }catch(e){}
+  window.addEventListener('pageshow',function(){ pagando=false; var b=document.getElementById('ptmPagar'); if(b) b.disabled=false; if(modalId) ptmRecalc(); });
+  // Fechas: mismas reglas que pago/lib.php (ptpg_cotizar). delivery_days_iso usa ISO: 5=viernes, 6=sábado.
+  function isoLocal(d){ return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2); }
+  function fechaDe(iso){ var p=String(iso||'').split('-'); return p.length===3?new Date(+p[0],+p[1]-1,+p[2]):null; }
+  function diasHasta(iso){ var d=fechaDe(iso), h=new Date(); h.setHours(0,0,0,0); return d?Math.round((d-h)/864e5):NaN; }
+  function diaIso(d){ return ((d.getDay()+6)%7)+1; }
+  function minDias(t){ return t.ev?LOGISTICA.event_lead_time_days:Math.ceil(LOGISTICA.standard_lead_time_hours/24); }
+  function primeraFecha(t){
+    var d=new Date(); d.setHours(0,0,0,0); d.setDate(d.getDate()+minDias(t));
+    for(var i=0;i<7&&LOGISTICA.delivery_days_iso.indexOf(diaIso(d))<0;i++) d.setDate(d.getDate()+1);
+    return d;
+  }
+  function fechaLarga(iso){ var d=fechaDe(iso); return d&&!isNaN(d)?d.toLocaleDateString('es-MX',{weekday:'long',day:'numeric',month:'long'}):String(iso||''); }
+  function errorFecha(t, iso){
+    var d=fechaDe(iso);
+    if(!d||isNaN(d)) return 'Elige el día de entrega.';
+    if(LOGISTICA.delivery_days_iso.indexOf(diaIso(d))<0) return 'Entregamos '+LOGISTICA.delivery_days_labels.join(' y ')+'. Elige uno de esos días.';
+    if(diasHasta(iso)<minDias(t)) return t.ev?'Las tablas de evento se piden con '+LOGISTICA.event_lead_time_days+' días de anticipación.':'Pide con al menos '+LOGISTICA.standard_lead_time_hours+' h de anticipación.';
+    return '';
+  }
+  // Lo que se paga hoy: completo, o el anticipo en tablas de evento con tiempo (regla del catálogo).
+  function cobroDe(t, total, iso){
+    var ev=LOGISTICA.payment.event;
+    if(t.ev&&iso&&diasHasta(iso)>ev.balance_due_days_before_delivery) return {tipo:'anticipo', monto:Math.round(total*ev.deposit_pct/100)};
+    return {tipo:'total', monto:total};
+  }
+  function totalDe(t){
+    var prem=document.getElementById('ptmPrem').checked, total=t.v+MENSAJERIA+(prem?t.prem:0);
+    UPSELLS.forEach(function(u){ var cb=document.querySelector('input[data-up="'+u.id+'"]'); if(cb&&cb.checked) total+=u.v; });
+    return total;
+  }
+  // Datos del formulario ya validados, o null (y muestra el error).
+  function leerDatos(t){
+    var v=function(id){ return document.getElementById(id).value.trim(); };
+    var d={prem:document.getElementById('ptmPrem').checked, nombre:v('ptmCliente'), whatsapp:v('ptmWhatsapp'),
+           zona:v('ptmZona'), fecha:v('ptmFecha'), notas:v('ptmNotas')};
+    var checks=[
+      {bad:!d.nombre,id:'ptmCliente',message:'Escribe tu nombre para continuar.'},
+      {bad:d.whatsapp.replace(/\D/g,'').length<10,id:'ptmWhatsapp',message:'Escribe tu WhatsApp (10 dígitos) para continuar.'},
+      {bad:!d.zona,id:'ptmZona',message:'Escribe tu colonia para confirmar la entrega.'},
+      {bad:!!errorFecha(t,d.fecha),id:'ptmFecha',message:errorFecha(t,d.fecha)}
+    ];
+    var missing=checks.filter(function(c){ return c.bad; })[0];
+    var error=document.getElementById('ptmError');
+    if(missing){
+      error.textContent=missing.message;
+      error.style.display='block';
+      document.getElementById(missing.id).focus();
+      return null;
+    }
+    error.style.display='none';
+    return d;
+  }
   window.verDetalles=function(id){
     var t=TABLAS[id]; if(!t) return;
     modalId=id;
@@ -592,13 +656,13 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
     }).join('');
     ['ptmCliente','ptmWhatsapp','ptmZona','ptmFecha','ptmNotas'].forEach(function(field){ document.getElementById(field).value=''; });
     document.getElementById('ptmError').style.display='none';
-    document.getElementById('ptmRegla').textContent = t.ev
-      ? 'Tabla de evento: pídela con '+LOGISTICA.event_lead_time_days+' días de anticipación.'
-      : 'Pide con al menos '+LOGISTICA.standard_lead_time_hours+' h de anticipación.';
-    var PAGO=LOGISTICA.payment;
-    document.getElementById('ptmNota').textContent = t.ev
-      ? 'Aparta tu fecha con el '+PAGO.event.deposit_pct+' % y liquida '+PAGO.event.balance_due_days_before_delivery+' días antes de la entrega; si faltan '+PAGO.event.balance_due_days_before_delivery+' días o menos, se paga completa al reservar.'
-      : 'Pago completo por '+PAGO.standard.method+' al confirmar (hasta '+PAGO.standard.full_payment_due_hours_before_delivery+' h antes de tu entrega).';
+    var fechaIn=document.getElementById('ptmFecha'), tope=new Date();
+    tope.setDate(tope.getDate()+120);
+    fechaIn.min=isoLocal(primeraFecha(t));
+    fechaIn.max=isoLocal(tope);
+    document.getElementById('ptmRegla').textContent = 'Entregamos '+LOGISTICA.delivery_days_labels.join(' y ')+(t.ev
+      ? '. Tabla de evento: pídela con '+LOGISTICA.event_lead_time_days+' días de anticipación.'
+      : ', con al menos '+LOGISTICA.standard_lead_time_hours+' h de anticipación.');
     ptmRecalc();
     document.getElementById('ptModalBg').classList.add('open');
     document.body.style.overflow='hidden';
@@ -624,30 +688,62 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
       if(cb&&cb.checked) total+=u.v;
     });
     document.getElementById('ptmTotal').textContent=fmt(total);
+    // Pago en línea: botón principal si el servidor lo tiene encendido y el precio está confirmado.
+    var cobro=cobroDe(t,total,document.getElementById('ptmFecha').value);
+    var premPend=prem.checked&&!t.premOk;
+    var online=PAGO_ONLINE&&!premPend;
+    var pagar=document.getElementById('ptmPagar'), waBtn=document.getElementById('ptmWaBtn');
+    pagar.style.display=online?'inline-flex':'none';
+    if(!pagando) pagar.textContent='Pagar '+fmt(cobro.monto)+' con Mercado Pago';
+    document.getElementById('ptmCobroRow').style.display=(online&&cobro.tipo==='anticipo')?'flex':'none';
+    document.getElementById('ptmCobro').textContent=fmt(cobro.monto);
+    waBtn.style.background=online?'transparent':'#26282a';
+    waBtn.style.color=online?'#26282a':'#fff';
+    waBtn.style.border=online?'1.5px solid #26282a':'none';
+    document.getElementById('ptmWaTxt').textContent=online?'O pídela por WhatsApp':'Pedirla por WhatsApp';
+    document.getElementById('ptmIntro').textContent=online
+      ?'Déjanos tus datos y paga en línea con Mercado Pago: tarjeta, OXXO o transferencia. Te escribimos por WhatsApp para confirmar tu entrega.'
+      :(PAGO_ONLINE&&premPend
+        ?'La versión Premium de esta tabla se confirma por WhatsApp: te abrimos el chat con tu pedido listo.'
+        :'Déjanos tus datos y abriremos WhatsApp con la tabla y el total listos para confirmar.');
+    var PAGO=LOGISTICA.payment, dd=PAGO.event.balance_due_days_before_delivery;
+    document.getElementById('ptmNota').textContent=(t.ev
+      ? 'Apartas tu fecha con el '+PAGO.event.deposit_pct+' % y liquidas '+dd+' días antes de la entrega; si faltan '+dd+' días o menos, se paga completa al reservar.'
+      : (online?'Pagas completo al pedir.':'Pago completo al confirmar tu pedido.'))
+      +(online?' Si no tenemos tu fecha, te devolvemos tu pago completo.':'');
+  };
+  window.pagarDetalles=function(){
+    var t=TABLAS[modalId]; if(!t||pagando) return;
+    var d=leerDatos(t); if(!d) return;
+    var btn=document.getElementById('ptmPagar'), error=document.getElementById('ptmError');
+    var cobro=cobroDe(t,totalDe(t),d.fecha);
+    var extras=UPSELLS.filter(function(u){ var cb=document.querySelector('input[data-up="'+u.id+'"]'); return cb&&cb.checked; })
+      .map(function(u){ return u.id; });
+    var utm={};
+    try{ new URLSearchParams(window.location.search).forEach(function(v,k){ if(/^(utm_\w+|fbclid|gclid)$/.test(k)) utm[k]=v; }); }catch(e){}
+    pagando=true; btn.disabled=true; btn.textContent='Abriendo Mercado Pago…';
+    track('begin_checkout',{source:'pago_en_linea', tabla:modalId, value:cobro.monto, currency:'MXN'});
+    try{ if(window.fbq) fbq('track','InitiateCheckout',{content_name:t.n, value:cobro.monto, currency:'MXN'}); }catch(e){}
+    fetch('/pago/pedido.php',{method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({tabla:modalId, premium:d.prem, extras:extras, nombre:d.nombre, whatsapp:d.whatsapp,
+                           zona:d.zona, fecha:d.fecha, notas:d.notas, utm:utm})})
+      .then(function(r){ return r.json().catch(function(){ return {}; }); })
+      .then(function(res){
+        if(res&&res.ok&&res.url){ window.location.href=res.url; return; }
+        pagando=false; btn.disabled=false; ptmRecalc();
+        error.textContent=((res&&res.error)||'No pudimos abrir Mercado Pago.')+(res&&res.error&&/WhatsApp/.test(res.error)?'':' También puedes pedirla por WhatsApp.');
+        error.style.display='block';
+      })
+      .catch(function(){
+        pagando=false; btn.disabled=false; ptmRecalc();
+        error.textContent='No pudimos abrir Mercado Pago. Revisa tu conexión o pídela por WhatsApp.';
+        error.style.display='block';
+      });
   };
   window.pedirDetalles=function(){
     var t=TABLAS[modalId]; if(!t) return;
-    var prem=document.getElementById('ptmPrem').checked;
-    var nombre=document.getElementById('ptmCliente').value.trim();
-    var whatsapp=document.getElementById('ptmWhatsapp').value.trim();
-    var zona=document.getElementById('ptmZona').value.trim();
-    var fecha=document.getElementById('ptmFecha').value.trim();
-    var notas=document.getElementById('ptmNotas').value.trim();
-    var required=[
-      {value:nombre,id:'ptmCliente',message:'Escribe tu nombre para continuar.'},
-      {value:whatsapp,id:'ptmWhatsapp',message:'Escribe tu WhatsApp para continuar.'},
-      {value:zona,id:'ptmZona',message:'Escribe tu colonia para confirmar la entrega.'},
-      {value:fecha,id:'ptmFecha',message:'Indica la fecha en que quieres recibirla.'}
-    ];
-    var missing=required.filter(function(field){return !field.value;})[0];
-    var error=document.getElementById('ptmError');
-    if(missing){
-      error.textContent=missing.message;
-      error.style.display='block';
-      document.getElementById(missing.id).focus();
-      return;
-    }
-    error.style.display='none';
+    var d=leerDatos(t); if(!d) return;
+    var prem=d.prem, nombre=d.nombre, whatsapp=d.whatsapp, zona=d.zona, fecha=fechaLarga(d.fecha), notas=d.notas;
     var total=t.v+(prem?t.prem:0);
     var items=[
       {qty:1,nombre:t.n+(prem?' (Premium)':''),precio:t.v+(prem?t.prem:0)}

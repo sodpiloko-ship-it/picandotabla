@@ -388,8 +388,7 @@ def payment_rule_text(catalog: dict) -> str:
     event = payment["event"]
     days = event["balance_due_days_before_delivery"]
     return (
-        f"Tablas de {standard_min} a {standard_max}: pagas por {standard['method']} hasta "
-        f"{standard['full_payment_due_hours_before_delivery']} h antes de tu entrega. "
+        f"Tablas de {standard_min} a {standard_max}: pagas completo al pedir, en línea con {standard['method']}. "
         f"Tablas de evento ({event_min}–{event_max}): apartas tu fecha con el {event['deposit_pct']} % "
         f"y liquidas {days} días antes de la entrega; si faltan {days} días o menos, "
         "se paga completa al reservar."

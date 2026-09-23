@@ -88,6 +88,7 @@ function cmd_head(string $title): void {
        . '.in{width:100%;background:#fbfcfc;border:1px solid #d3d5d4;border-radius:10px;padding:11px 13px;font-size:15px}'
        . '.pill{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.5px;border-radius:999px;padding:3px 10px;text-transform:uppercase}'
        . '.p-nueva{background:#7c2d3e;color:#fff}.p-confirmada{background:#c9a44a;color:#fff}.p-entregada{background:#315c48;color:#fff}'
+       . '.p-pagado{background:#e3efe8;color:#315c48;text-transform:none}.p-sinpago{background:#e9eaea;color:#55585a;text-transform:none}'
        . '.muted{color:#75797a;font-size:13px}'
        . '</style></head><body><div class="wrap">';
 }
@@ -182,11 +183,14 @@ if (!count($orders)) echo '<div class="card muted">Aún no hay pedidos. Cada ped
 foreach ($orders as $o) {
     $key = cmd_key($o);
     $estado = cmd_estado_de($estados, $key);
+    $pago = cmd_pago($o);
+    $pagoPill = $pago !== null ? cmd_pago_pill($pago) : null;
     $fecha = $o['at'] ?? '';
     try { $fecha = (new DateTime($fecha))->format('d/m/Y H:i'); } catch (Throwable $t) {}
-    echo '<div class="card">'
+    echo '<div class="card"' . ($pago !== null && ($pago['estado'] ?? '') === 'pagado' ? ' style="border-left:4px solid #315c48"' : '') . '>'
        . '<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:8px">'
        . '<div><span class="pill p-' . cmd_esc($estado) . '">' . cmd_esc($estado) . '</span> '
+       . ($pagoPill ? '<span class="pill ' . cmd_esc($pagoPill[0]) . '">' . cmd_esc($pagoPill[1]) . '</span> ' : '')
        . '<b>$' . number_format((float) ($o['total'] ?? 0), 0) . '</b> · ' . cmd_esc($o['nombre'] ?: 'Sin nombre') . '</div>'
        . '<span class="muted">' . cmd_esc($fecha) . '</span></div>'
        . '<div style="font-size:14px;line-height:1.6;margin-bottom:8px">' . implode('<br>', array_map('cmd_esc', (array) ($o['items'] ?? []))) . '</div>'
@@ -195,9 +199,10 @@ foreach ($orders as $o) {
        . (!empty($o['whatsapp']) ? 'WhatsApp: ' . cmd_esc($o['whatsapp']) . ' · ' : '')
        . (!empty($o['zona']) ? 'Zona: ' . cmd_esc($o['zona']) . ' · ' : '')
        . (!empty($o['fecha']) ? 'Entrega: ' . cmd_esc($o['fecha']) . ' · ' : '')
-       . (!empty($o['origen']) ? 'Origen: ' . cmd_esc($o['origen']) : 'Origen: sitio web') . '</div>'
+       . (!empty($o['folio']) ? 'Folio: ' . cmd_esc($o['folio']) . ' · ' : '')
+       . (!empty($o['origen']) ? 'Origen: ' . cmd_esc($o['origen'] === 'pago_en_linea' ? 'pago en línea (Mercado Pago)' : $o['origen']) : 'Origen: sitio web') . '</div>'
        . '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">';
-    $wa = cmd_wa_link($o);
+    $wa = cmd_wa_link($o, $pago);
     if ($wa) echo '<a style="background:#25D366;color:#fff;border-radius:999px;padding:8px 16px;font-size:12.5px;font-weight:700;text-decoration:none;display:inline-block" target="_blank" rel="noopener" href="' . cmd_esc($wa) . '">💬 Responder por WhatsApp</a>';
     foreach (['nueva' => 'Nueva', 'confirmada' => 'Confirmada', 'entregada' => 'Entregada'] as $val => $lbl) {
         if ($val === $estado) continue;

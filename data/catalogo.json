@@ -233,7 +233,7 @@
     "event_lead_time_days": 7,
     "payment": {
       "standard": {
-        "method": "transferencia",
+        "method": "Mercado Pago (tarjeta, OXXO o transferencia)",
         "full_payment_due_hours_before_delivery": 48
       },
       "event": {
