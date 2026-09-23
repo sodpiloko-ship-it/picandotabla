@@ -222,24 +222,34 @@
   },
   "logistics": {
     "delivery_days_iso": [
+      1,
+      2,
+      3,
+      4,
       5,
-      6
+      6,
+      7
     ],
     "delivery_days_labels": [
+      "lunes",
+      "martes",
+      "miércoles",
+      "jueves",
       "viernes",
-      "sábado"
+      "sábado",
+      "domingo"
     ],
-    "standard_lead_time_hours": 48,
+    "standard_lead_time_hours": 72,
     "event_lead_time_days": 7,
     "payment": {
-      "standard": {
-        "method": "Mercado Pago (tarjeta, OXXO o transferencia)",
-        "full_payment_due_hours_before_delivery": 48
+      "method": "Mercado Pago (tarjeta, OXXO o transferencia)",
+      "full": {
+        "installments_max": 12,
+        "installments_interest": "a cargo del cliente"
       },
-      "event": {
-        "deposit_pct": 50,
-        "balance_due_days_before_delivery": 8,
-        "note": "Si faltan 8 días o menos para la entrega, se paga completa al reservar."
+      "deposit": {
+        "pct": 50,
+        "balance_due_days_before_delivery": 1
       }
     }
   },

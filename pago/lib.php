@@ -253,11 +253,12 @@ function ptpg_catalogo(): ?array {
 
 /**
  * Calcula el pedido en el servidor. Devuelve ['lineas', 'total', 'cobro', 'tipo', 'producto', ...] o ['error' => texto].
- * Reglas del catálogo: entregas en delivery_days_iso; tablas estándar con 2 días de anticipación, de evento con
- * event_lead_time_days; las de evento pagan deposit_pct % y liquidan después, salvo que falten
- * balance_due_days_before_delivery días o menos (entonces se cobra completa).
+ * Reglas del catálogo: entregas en delivery_days_iso con standard_lead_time_hours (o event_lead_time_days en tablas
+ * de evento) de anticipación. El cliente elige $modo: 'completo' (hasta payment.full.installments_max meses con
+ * intereses) o 'anticipo' (payment.deposit.pct %; el resto se liquida antes de la entrega, fuera del sitio).
  */
-function ptpg_cotizar(string $clave, bool $premium, array $extras, string $fecha, ?DateTimeImmutable $hoy = null): array {
+function ptpg_cotizar(string $clave, bool $premium, array $extras, string $fecha, ?DateTimeImmutable $hoy = null,
+                       string $modo = 'completo'): array {
   $cat = ptpg_catalogo();
   if ($cat === null) return ['error' => 'No pudimos leer el catálogo.'];
   $hoy = $hoy ?? ptpg_hoy();
@@ -271,14 +272,14 @@ function ptpg_cotizar(string $clave, bool $premium, array $extras, string $fecha
   if ($entrega === false || $entrega->format('Y-m-d') !== $fecha) return ['error' => 'Elige la fecha de entrega.'];
   $log = $cat['logistics'];
   if (!in_array((int)$entrega->format('N'), array_map('intval', (array)$log['delivery_days_iso']), true)) {
-    return ['error' => 'Entregamos ' . implode(' y ', (array)$log['delivery_days_labels']) . '. Elige uno de esos días.'];
+    return ['error' => 'Ese día no entregamos. Elige ' . implode(', ', (array)$log['delivery_days_labels']) . '.'];
   }
   $dias = (int)$hoy->diff($entrega)->format('%r%a');
   $minimo = !empty($producto['is_event']) ? (int)$log['event_lead_time_days'] : (int)ceil($log['standard_lead_time_hours'] / 24);
   if ($dias < $minimo) {
     return ['error' => !empty($producto['is_event'])
       ? 'Las tablas de evento se piden con ' . $minimo . ' días de anticipación.'
-      : 'Pide con al menos ' . $log['standard_lead_time_hours'] . ' h de anticipación.'];
+      : 'Pide con al menos ' . $minimo . ' días de anticipación.'];
   }
   if ($dias > PTPG_MAX_DIAS) return ['error' => 'Esa fecha está muy lejos; escríbenos por WhatsApp.'];
 
@@ -319,13 +320,10 @@ function ptpg_cotizar(string $clave, bool $premium, array $extras, string $fecha
 
   $total = 0.0;
   foreach ($lineas as $l) $total += $l['precio'];
-  $tipo = 'total';
-  $cobro = $total;
-  $pago = $log['payment']['event'] ?? [];
-  if (!empty($producto['is_event']) && $dias > (int)($pago['balance_due_days_before_delivery'] ?? 0)) {
-    $tipo = 'anticipo';
-    $cobro = (float)round($total * (int)$pago['deposit_pct'] / 100);
-  }
+  if (!in_array($modo, ['completo', 'anticipo'], true)) return ['error' => 'Elige cómo quieres pagar.'];
+  $deposito = $log['payment']['deposit'];
+  $tipo = $modo === 'anticipo' ? 'anticipo' : 'total';
+  $cobro = $tipo === 'anticipo' ? (float)round($total * (int)$deposito['pct'] / 100) : $total;
   return [
     'producto' => $clave,
     'titulo' => $titulo,
@@ -333,8 +331,9 @@ function ptpg_cotizar(string $clave, bool $premium, array $extras, string $fecha
     'total' => $total,
     'cobro' => $cobro,
     'tipo' => $tipo,
-    'porcentaje' => $tipo === 'anticipo' ? (int)$pago['deposit_pct'] : 100,
-    'liquidar_dias_antes' => $tipo === 'anticipo' ? (int)$pago['balance_due_days_before_delivery'] : 0,
+    'porcentaje' => $tipo === 'anticipo' ? (int)$deposito['pct'] : 100,
+    'liquidar_dias_antes' => $tipo === 'anticipo' ? (int)$deposito['balance_due_days_before_delivery'] : 0,
+    'meses_max' => $tipo === 'total' ? max(1, (int)($log['payment']['full']['installments_max'] ?? 1)) : 1,
     'fecha' => $fecha,
     'dias' => $dias,
   ];
@@ -475,7 +474,9 @@ function ptpg_resumen_cobro(array $pedido): string {
   if (($pedido['tipo'] ?? '') === 'anticipo') {
     return 'Anticipo pagado: ' . ptpg_dinero($cobro) . ' de ' . ptpg_dinero((float)$pedido['total'])
       . ' (resta ' . ptpg_dinero((float)$pedido['total'] - $cobro) . ', se liquida '
-      . (int)$pedido['liquidar_dias_antes'] . ' días antes de la entrega)';
+      . ((int)$pedido['liquidar_dias_antes'] > 0
+        ? 'a más tardar ' . (int)$pedido['liquidar_dias_antes'] . ((int)$pedido['liquidar_dias_antes'] === 1 ? ' día' : ' días') . ' antes de la entrega)'
+        : 'al recibir la tabla)');
   }
   return 'Pagado completo: ' . ptpg_dinero($cobro);
 }

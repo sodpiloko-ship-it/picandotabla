@@ -185,26 +185,30 @@ def load_and_validate() -> dict:
     require_price(delivery.get("price_mxn"), "delivery.price_mxn")
 
     logistics = catalog.get("logistics", {})
-    if logistics.get("delivery_days_iso") != [5, 6]:
-        fail("delivery_days_iso debe conservar viernes y sábado")
-    if logistics.get("standard_lead_time_hours") != 48:
-        fail("standard_lead_time_hours debe conservar 48 h")
-    if logistics.get("event_lead_time_days") != 7:
-        fail("event_lead_time_days debe conservar 7 días")
+    days_iso = logistics.get("delivery_days_iso")
+    if (not isinstance(days_iso, list) or not days_iso or days_iso != sorted(set(days_iso))
+            or any(d not in range(1, 8) for d in days_iso)):
+        fail("delivery_days_iso debe ser una lista ordenada de días ISO (1=lunes … 7=domingo)")
+    if len(logistics.get("delivery_days_labels", [])) != len(days_iso):
+        fail("delivery_days_labels debe nombrar cada día de delivery_days_iso")
+    hours = logistics.get("standard_lead_time_hours")
+    if not isinstance(hours, int) or hours < 24 or hours % 24:
+        fail("standard_lead_time_hours debe ser un múltiplo entero de 24 h")
+    if not isinstance(logistics.get("event_lead_time_days"), int) or logistics["event_lead_time_days"] < hours // 24:
+        fail("event_lead_time_days no puede ser menor que la anticipación estándar")
+    # El cliente elige al pagar: completo (con meses con intereses) o anticipo (pago/lib.php lee estas reglas).
     payment = logistics.get("payment", {})
-    standard_payment = payment.get("standard", {})
-    event_payment = payment.get("event", {})
-    if standard_payment.get("full_payment_due_hours_before_delivery") != logistics["standard_lead_time_hours"]:
-        fail("el pago de tablas estándar vence con la misma anticipación del pedido")
-    if not isinstance(event_payment.get("deposit_pct"), int) or not 0 < event_payment["deposit_pct"] < 100:
-        fail("payment.event.deposit_pct debe ser un porcentaje entero")
-    balance_days = event_payment.get("balance_due_days_before_delivery")
-    if not isinstance(balance_days, int) or balance_days < 1:
-        fail("payment.event.balance_due_days_before_delivery debe ser un entero positivo")
-    # Una tabla de evento puede reservarse con event_lead_time_days: si la liquidación
-    # vence antes, el texto público debe decir qué pasa en esa ventana (pago completo).
-    if balance_days >= logistics["event_lead_time_days"] and not event_payment.get("note"):
-        fail("payment.event.note debe resolver reservas hechas dentro del plazo de liquidación")
+    if not payment.get("method"):
+        fail("payment.method debe describir el medio de pago")
+    installments = payment.get("full", {}).get("installments_max")
+    if not isinstance(installments, int) or not 1 <= installments <= 24:
+        fail("payment.full.installments_max debe ser un entero de 1 a 24")
+    deposit = payment.get("deposit", {})
+    if not isinstance(deposit.get("pct"), int) or not 0 < deposit["pct"] < 100:
+        fail("payment.deposit.pct debe ser un porcentaje entero")
+    balance_days = deposit.get("balance_due_days_before_delivery")
+    if not isinstance(balance_days, int) or not 0 <= balance_days < hours // 24:
+        fail("payment.deposit.balance_due_days_before_delivery debe caber dentro de la anticipación mínima")
 
     return catalog
 
@@ -380,18 +384,14 @@ def gift_rule_text(catalog: dict) -> str:
 
 
 def payment_rule_text(catalog: dict) -> str:
-    products = catalog["products"]
-    standard_min, standard_max = people_range([product for product in products if not product["is_event"]])
-    event_min, event_max = people_range([product for product in products if product["is_event"]])
     payment = catalog["logistics"]["payment"]
-    standard = payment["standard"]
-    event = payment["event"]
-    days = event["balance_due_days_before_delivery"]
+    deposit = payment["deposit"]
+    days = deposit["balance_due_days_before_delivery"]
     return (
-        f"Tablas de {standard_min} a {standard_max}: pagas completo al pedir, en línea con {standard['method']}. "
-        f"Tablas de evento ({event_min}–{event_max}): apartas tu fecha con el {event['deposit_pct']} % "
-        f"y liquidas {days} días antes de la entrega; si faltan {days} días o menos, "
-        "se paga completa al reservar."
+        f"Pagas en línea con {payment['method']} y tú eliges: completo, con tarjeta de crédito hasta "
+        f"{payment['full']['installments_max']} meses con intereses, o un anticipo del {deposit['pct']} % "
+        "para apartar tu fecha y el resto "
+        + (f"a más tardar {days} día{'s' if days != 1 else ''} antes de la entrega." if days else "al recibir tu tabla.")
     )
 
 
@@ -472,9 +472,9 @@ f'Gramajes de referencia: calculamos unos {catalog["portioning"]["grams_per_pers
             "HOME_DELIVERY_SUMMARY": (
                 '      <p style="font-size:13px;color:#75797a;margin:16px 0 0">'
                 f'Tablas de {standard_min} a {standard_max}: pide con al menos '
-                f'{logistics["standard_lead_time_hours"]} h de anticipación. Tablas de evento de '
+                f'{logistics["standard_lead_time_hours"] // 24} días de anticipación. Tablas de evento de '
                 f'{event_min} a {event_max}: con {logistics["event_lead_time_days"]} días de anticipación. '
-                f'Mensajería {money(delivery["price_mxn"])} a toda la CDMX.</p>'
+                f'Entregamos todos los días. Mensajería {money(delivery["price_mxn"])} a toda la CDMX.</p>'
             ),
             "HOME_QUOTE_NOTE": (
                 '        <p style="text-align:center;font-size:12.5px;color:#75797a;margin:14px 0 0">'

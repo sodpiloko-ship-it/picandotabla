@@ -350,7 +350,7 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
           <span style="font-family:Lora,serif;font-size:22px;color:#7c2d3e;font-weight:700;flex:none">2</span>
           <div><div style="font-weight:600;font-size:15px;color:#26282a">Confirmas con tu pago</div>
           <!-- POND_CATALOG:HOME_PAYMENT_STEP:START -->
-          <div style="font-size:13.5px;color:#55585a;line-height:1.5">Tablas de 2 a 6: pagas completo al pedir, en línea con Mercado Pago (tarjeta, OXXO o transferencia). Tablas de evento (8–12): apartas tu fecha con el 50 % y liquidas 8 días antes de la entrega; si faltan 8 días o menos, se paga completa al reservar.</div>
+          <div style="font-size:13.5px;color:#55585a;line-height:1.5">Pagas en línea con Mercado Pago (tarjeta, OXXO o transferencia) y tú eliges: completo, con tarjeta de crédito hasta 12 meses con intereses, o un anticipo del 50 % para apartar tu fecha y el resto a más tardar 1 día antes de la entrega.</div>
           <!-- POND_CATALOG:HOME_PAYMENT_STEP:END -->
           </div>
         </div>
@@ -374,7 +374,7 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
         <button onclick="waZona()" style="background:#fbfcfc;border:1px solid #7c2d3e;border-radius:999px;padding:7px 16px;font-size:13px;color:#7c2d3e;font-weight:600;cursor:pointer">¿Tu colonia? Pregúntanos →</button>
       </div>
       <!-- POND_CATALOG:HOME_DELIVERY_SUMMARY:START -->
-      <p style="font-size:13px;color:#75797a;margin:16px 0 0">Tablas de 2 a 6: pide con al menos 48 h de anticipación. Tablas de evento de 8 a 12: con 7 días de anticipación. Mensajería $120 a toda la CDMX.</p>
+      <p style="font-size:13px;color:#75797a;margin:16px 0 0">Tablas de 2 a 6: pide con al menos 3 días de anticipación. Tablas de evento de 8 a 12: con 7 días de anticipación. Entregamos todos los días. Mensajería $120 a toda la CDMX.</p>
       <!-- POND_CATALOG:HOME_DELIVERY_SUMMARY:END -->
     </div>
   </div>
@@ -501,9 +501,14 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
           <span style="font-size:14px;color:#55585a;font-weight:600">Total con envío</span>
           <span id="ptmTotal" style="font-family:Lora,serif;font-size:24px;color:#26282a"></span>
         </div>
-        <div id="ptmCobroRow" style="display:none;align-items:center;justify-content:space-between;margin:-8px 0 14px">
-          <span style="font-size:13px;color:#7c2d3e;font-weight:600">Pagas hoy para apartar tu fecha</span>
-          <span id="ptmCobro" style="font-family:Lora,serif;font-size:18px;color:#7c2d3e"></span>
+        <div id="ptmModo" role="radiogroup" aria-label="¿Cómo quieres pagar?" style="display:none;flex-direction:column;gap:10px;margin:0 0 16px">
+          <div style="font-size:12px;letter-spacing:1.5px;color:#75797a;font-weight:600;text-transform:uppercase">¿Cómo quieres pagar?</div>
+          <label class="pt-up on" id="ptmModoCompleto"><input type="radio" name="ptmModo" value="completo" checked onchange="ptmRecalc()">
+            <div><div style="font-weight:600;font-size:14.5px;color:#26282a">Pago completo <span id="ptmModoCompletoMonto" style="color:#7c2d3e"></span></div>
+            <div id="ptmModoCompletoTxt" style="font-size:13px;color:#75797a;line-height:1.5"></div></div></label>
+          <label class="pt-up" id="ptmModoAnticipo"><input type="radio" name="ptmModo" value="anticipo" onchange="ptmRecalc()">
+            <div><div style="font-weight:600;font-size:14.5px;color:#26282a">Anticipo <span id="ptmModoAnticipoMonto" style="color:#7c2d3e"></span></div>
+            <div id="ptmModoAnticipoTxt" style="font-size:13px;color:#75797a;line-height:1.5"></div></div></label>
         </div>
         <button id="ptmPagar" class="ptbtn" onclick="pagarDetalles()" style="display:none;width:100%;align-items:center;justify-content:center;gap:10px;background:#26282a;color:#fff;padding:15px;border-radius:999px;font-weight:600;font-size:16px;border:none;cursor:pointer;margin-bottom:10px">Pagar con Mercado Pago</button>
         <button id="ptmWaBtn" class="ptbtn" onclick="pedirDetalles()" style="width:100%;display:inline-flex;align-items:center;justify-content:center;gap:10px;background:#26282a;color:#fff;padding:15px;border-radius:999px;font-weight:600;font-size:16px;border:none;cursor:pointer">
@@ -520,7 +525,7 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
 
 </div>
 
-<script src="catalogo.js?v=a96de97bc15d"></script>
+<script src="catalogo.js?v=afcb12f9270f"></script>
 <script>
 (function(){
   var WA='525623632404';
@@ -599,15 +604,19 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
   function errorFecha(t, iso){
     var d=fechaDe(iso);
     if(!d||isNaN(d)) return 'Elige el día de entrega.';
-    if(LOGISTICA.delivery_days_iso.indexOf(diaIso(d))<0) return 'Entregamos '+LOGISTICA.delivery_days_labels.join(' y ')+'. Elige uno de esos días.';
-    if(diasHasta(iso)<minDias(t)) return t.ev?'Las tablas de evento se piden con '+LOGISTICA.event_lead_time_days+' días de anticipación.':'Pide con al menos '+LOGISTICA.standard_lead_time_hours+' h de anticipación.';
+    if(LOGISTICA.delivery_days_iso.indexOf(diaIso(d))<0) return 'Ese día no entregamos. Elige '+LOGISTICA.delivery_days_labels.join(', ')+'.';
+    if(diasHasta(iso)<minDias(t)) return t.ev?'Las tablas de evento se piden con '+LOGISTICA.event_lead_time_days+' días de anticipación.':'Pide con al menos '+minDias(t)+' días de anticipación.';
     return '';
   }
-  // Lo que se paga hoy: completo, o el anticipo en tablas de evento con tiempo (regla del catálogo).
-  function cobroDe(t, total, iso){
-    var ev=LOGISTICA.payment.event;
-    if(t.ev&&iso&&diasHasta(iso)>ev.balance_due_days_before_delivery) return {tipo:'anticipo', monto:Math.round(total*ev.deposit_pct/100)};
+  // Lo que se paga hoy según lo que elige el cliente (mismas reglas que pago/lib.php).
+  function modoElegido(){ var r=document.querySelector('input[name="ptmModo"]:checked'); return r&&r.value==='anticipo'?'anticipo':'completo'; }
+  function cobroDe(total){
+    if(modoElegido()==='anticipo') return {tipo:'anticipo', monto:Math.round(total*LOGISTICA.payment.deposit.pct/100)};
     return {tipo:'total', monto:total};
+  }
+  function restoTexto(){
+    var dd=LOGISTICA.payment.deposit.balance_due_days_before_delivery;
+    return dd>0?'a más tardar '+dd+(dd===1?' día':' días')+' antes de la entrega':'al recibir tu tabla';
   }
   function totalDe(t){
     var prem=document.getElementById('ptmPrem').checked, total=t.v+MENSAJERIA+(prem?t.prem:0);
@@ -660,9 +669,10 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
     tope.setDate(tope.getDate()+120);
     fechaIn.min=isoLocal(primeraFecha(t));
     fechaIn.max=isoLocal(tope);
-    document.getElementById('ptmRegla').textContent = 'Entregamos '+LOGISTICA.delivery_days_labels.join(' y ')+(t.ev
-      ? '. Tabla de evento: pídela con '+LOGISTICA.event_lead_time_days+' días de anticipación.'
-      : ', con al menos '+LOGISTICA.standard_lead_time_hours+' h de anticipación.');
+    var todos=LOGISTICA.delivery_days_iso.length===7;
+    document.getElementById('ptmRegla').textContent = (todos?'Entregamos todos los días':'Entregamos '+LOGISTICA.delivery_days_labels.join(', '))
+      +', con al menos '+minDias(t)+' días de anticipación'+(t.ev?' (tabla de evento).':'.');
+    var completo=document.querySelector('input[name="ptmModo"][value="completo"]'); if(completo) completo.checked=true;
     ptmRecalc();
     document.getElementById('ptModalBg').classList.add('open');
     document.body.style.overflow='hidden';
@@ -689,14 +699,20 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
     });
     document.getElementById('ptmTotal').textContent=fmt(total);
     // Pago en línea: botón principal si el servidor lo tiene encendido y el precio está confirmado.
-    var cobro=cobroDe(t,total,document.getElementById('ptmFecha').value);
+    var cobro=cobroDe(total);
     var premPend=prem.checked&&!t.premOk;
     var online=PAGO_ONLINE&&!premPend;
     var pagar=document.getElementById('ptmPagar'), waBtn=document.getElementById('ptmWaBtn');
     pagar.style.display=online?'inline-flex':'none';
     if(!pagando) pagar.textContent='Pagar '+fmt(cobro.monto)+' con Mercado Pago';
-    document.getElementById('ptmCobroRow').style.display=(online&&cobro.tipo==='anticipo')?'flex':'none';
-    document.getElementById('ptmCobro').textContent=fmt(cobro.monto);
+    var PAGO=LOGISTICA.payment, pct=PAGO.deposit.pct, anticipo=Math.round(total*pct/100);
+    document.getElementById('ptmModo').style.display=online?'flex':'none';
+    document.getElementById('ptmModoCompleto').classList.toggle('on', cobro.tipo==='total');
+    document.getElementById('ptmModoAnticipo').classList.toggle('on', cobro.tipo==='anticipo');
+    document.getElementById('ptmModoCompletoMonto').textContent=fmt(total);
+    document.getElementById('ptmModoCompletoTxt').textContent='Con tarjeta de crédito puedes pagarlo hasta en '+PAGO.full.installments_max+' meses (con intereses). También tarjeta de débito, OXXO o transferencia.';
+    document.getElementById('ptmModoAnticipoMonto').textContent=fmt(anticipo)+' hoy ('+pct+' %)';
+    document.getElementById('ptmModoAnticipoTxt').textContent='Apartas tu fecha y el resto, '+fmt(total-anticipo)+', lo liquidas '+restoTexto()+'.';
     waBtn.style.background=online?'transparent':'#26282a';
     waBtn.style.color=online?'#26282a':'#fff';
     waBtn.style.border=online?'1.5px solid #26282a':'none';
@@ -706,17 +722,15 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
       :(PAGO_ONLINE&&premPend
         ?'La versión Premium de esta tabla se confirma por WhatsApp: te abrimos el chat con tu pedido listo.'
         :'Déjanos tus datos y abriremos WhatsApp con la tabla y el total listos para confirmar.');
-    var PAGO=LOGISTICA.payment, dd=PAGO.event.balance_due_days_before_delivery;
-    document.getElementById('ptmNota').textContent=(t.ev
-      ? 'Apartas tu fecha con el '+PAGO.event.deposit_pct+' % y liquidas '+dd+' días antes de la entrega; si faltan '+dd+' días o menos, se paga completa al reservar.'
-      : (online?'Pagas completo al pedir.':'Pago completo al confirmar tu pedido.'))
-      +(online?' Si no tenemos tu fecha, te devolvemos tu pago completo.':'');
+    document.getElementById('ptmNota').textContent=online
+      ?'Si no tenemos tu fecha, te devolvemos lo que hayas pagado.'
+      :'Pago completo o anticipo del '+pct+' % al confirmar tu pedido.';
   };
   window.pagarDetalles=function(){
     var t=TABLAS[modalId]; if(!t||pagando) return;
     var d=leerDatos(t); if(!d) return;
     var btn=document.getElementById('ptmPagar'), error=document.getElementById('ptmError');
-    var cobro=cobroDe(t,totalDe(t),d.fecha);
+    var cobro=cobroDe(totalDe(t));
     var extras=UPSELLS.filter(function(u){ var cb=document.querySelector('input[data-up="'+u.id+'"]'); return cb&&cb.checked; })
       .map(function(u){ return u.id; });
     var utm={};
@@ -726,7 +740,7 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
     try{ if(window.fbq) fbq('track','InitiateCheckout',{content_name:t.n, value:cobro.monto, currency:'MXN'}); }catch(e){}
     fetch('/pago/pedido.php',{method:'POST', headers:{'Content-Type':'application/json'},
       body:JSON.stringify({tabla:modalId, premium:d.prem, extras:extras, nombre:d.nombre, whatsapp:d.whatsapp,
-                           zona:d.zona, fecha:d.fecha, notas:d.notas, utm:utm})})
+                           zona:d.zona, fecha:d.fecha, notas:d.notas, modo:modoElegido(), utm:utm})})
       .then(function(r){ return r.json().catch(function(){ return {}; }); })
       .then(function(res){
         if(res&&res.ok&&res.url){ window.location.href=res.url; return; }
