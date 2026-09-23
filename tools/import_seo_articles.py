@@ -230,7 +230,7 @@ def render(meta: dict[str, str], body: str, image_key: str, category: str, categ
     <div class="meta">Actualizado el 27 de agosto de 2026 · {html.escape(meta.get('reading_time', '7 min'))} de lectura</div>
     <figure>{hero_picture(image_key, hero, image_alt, responsive)}<figcaption>Imagen editorial ilustrativa; la selección final puede variar según temporada.</figcaption></figure>
     <div class="content">{article_html}</div>
-    <div class="cta-box"><b>¿Ya sabes para cuántas personas es?</b><br>Elige tu tabla en el landing y completa ahí mismo los datos de tu pedido.<br><a class="btn" href="/#tablas" onclick="articleCta(this,'final')">Ver tablas y pedir</a></div>
+    <div class="cta-box"><b>¿Ya sabes para cuántas personas es?</b><br>Elige tu tabla y tu día, y paga en línea con Mercado Pago.<br><a class="btn" href="/#tablas" onclick="articleCta(this,'final')">Elegir y pagar con Mercado Pago</a><a href="https://wa.me/525623632404?text=%C2%A1Hola!%20Tengo%20una%20duda%20sobre%20las%20tablas%20%F0%9F%A7%80" target="_blank" rel="noopener" style="display:inline-block;margin:12px 0 0 16px;color:#7c2d3e;font-weight:600;font-size:14px">¿Dudas? WhatsApp</a></div>
   </div></article>
   <footer><div class="wrap">Picando Tabla · Entregas en CDMX · <a href="/eventos/">Cotiza tu evento</a></div></footer>
 </body>

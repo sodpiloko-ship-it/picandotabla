@@ -298,9 +298,9 @@ def render_home_products(catalog: dict) -> str:
                 f'            <p style="font-size:13.5px;line-height:1.55;color:#55585a;margin:0 0 14px;flex:1">{escaped(presentation["card_description"])}</p>',
                 f'            <div data-catalog-price style="font-family:Lora,serif;font-size:21px;color:#26282a;margin-bottom:12px">{price_html}</div>',
                 gift_html,
-                '            <div style="display:flex;gap:8px">',
-                f'              <a class="ptbtn" href="/tablas/{"para-dos" if product["key"] == "dos" else product["key"]}/" style="flex:1;background:transparent;border:1.5px solid #7c2d3e;color:#7c2d3e;padding:9px 10px;border-radius:999px;font-size:13px;font-weight:600;text-align:center;text-decoration:none">Ver tabla</a>',
-                f'              <button class="ptbtn" onclick="verDetalles(\'{key}\')" style="flex:1;background:#26282a;color:#fff;border:none;padding:10px 10px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer">La quiero</button>',
+                '            <div style="display:flex;flex-direction:column;gap:8px">',
+                f'              <a class="ptbtn" href="/tablas/{"para-dos" if product["key"] == "dos" else product["key"]}/" style="order:2;background:transparent;border:1.5px solid #7c2d3e;color:#7c2d3e;padding:9px 10px;border-radius:999px;font-size:13px;font-weight:600;text-align:center;text-decoration:none">Ver detalles</a>',
+                f'              <button class="ptbtn" onclick="verDetalles(\'{key}\')" style="order:1;background:#26282a;color:#fff;border:none;padding:11px 10px;border-radius:999px;font-size:13.5px;font-weight:600;cursor:pointer">Pagar con Mercado Pago</button>',
                 "            </div>",
                 "          </div>",
                 "        </div>",
@@ -441,7 +441,7 @@ def render_html_blocks(catalog: dict) -> dict[Path, dict[str, str]]:
                 + (
                     f'{escaped(promotional["title"])} en promoción por {money(promotional["price_mxn"])} MXN para pedidos pagados antes del {escaped(promotion["display_deadline"])}.">'
                     if promotional
-                    else f'Armadas a mano y listas para servir. Pídela por WhatsApp — desde {money(min_price)} MXN.">'
+                    else f'Armadas a mano y listas para servir. Pídela en línea con Mercado Pago — desde {money(min_price)} MXN.">'
                 )
             ),
             "HOME_HERO_FACTS": "\n".join(
