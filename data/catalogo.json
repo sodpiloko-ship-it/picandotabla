@@ -222,8 +222,18 @@
     "status": "active",
     "availability": "confirmation_required",
     "title": "Mensajería CDMX",
-    "area": "CDMX",
-    "price_mxn": 120
+    "area": "CDMX y zona oriente",
+    "price_mxn": 120,
+    "east_municipalities": [
+      "Nezahualcóyotl",
+      "La Paz",
+      "Chimalhuacán",
+      "Ixtapaluca",
+      "Chalco",
+      "Valle de Chalco",
+      "Texcoco",
+      "Chicoloapan"
+    ]
   },
   "logistics": {
     "delivery_days_iso": [

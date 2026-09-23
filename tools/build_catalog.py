@@ -483,7 +483,7 @@ def render_html_blocks(catalog: dict) -> dict[Path, dict[str, str]]:
             "HOME_PRODUCTS_NOTE": (
                 '      <p style="font-size:12.5px;color:#75797a;margin:16px 0 0;text-align:center">'
 f'Gramajes de referencia: calculamos unos {catalog["portioning"]["grams_per_person"]} g por persona; el número de personas es una recomendación. '
-                f'Precios en MXN · Mensajería {money(delivery["price_mxn"])} a toda la CDMX (se suma a tu pedido) '
+                f'Precios en MXN · Mensajería {money(delivery["price_mxn"])} a toda la CDMX y la zona oriente (se suma a tu pedido) '
                 f'· Tablas de evento ({event_min}–{event_max}): '
                 f'{logistics["event_lead_time_days"]} días de anticipación</p>'
             ),
@@ -497,21 +497,21 @@ f'Gramajes de referencia: calculamos unos {catalog["portioning"]["grams_per_pers
                 f'Tablas de {standard_min} a {standard_max}: pide con al menos '
                 f'{logistics["standard_lead_time_hours"] // 24} días de anticipación. Tablas de evento de '
                 f'{event_min} a {event_max}: con {logistics["event_lead_time_days"]} días de anticipación. '
-                f'Entregamos todos los días. Mensajería {money(delivery["price_mxn"])} a toda la CDMX.</p>'
+                f'Entregamos todos los días. Mensajería {money(delivery["price_mxn"])} a toda la CDMX y la zona oriente.</p>'
             ),
             "HOME_QUOTE_NOTE": (
                 '        <p style="text-align:center;font-size:12.5px;color:#75797a;margin:14px 0 0">'
-                f'Te respondemos por WhatsApp con el precio y la disponibilidad. Mensajería {money(delivery["price_mxn"])} a toda la CDMX.</p>'
+                f'Te respondemos por WhatsApp con el precio y la disponibilidad. Mensajería {money(delivery["price_mxn"])} a toda la CDMX y la zona oriente.</p>'
             ),
             "HOME_FOOTER_NOTE": (
                 '    <div style="border-top:1px solid #3a3d40;text-align:center;padding:18px;font-size:12.5px;color:#75797a">'
                 f'Picando Tabla · CDMX · Tablas de evento bajo agenda · '
-                f'Mensajería {money(delivery["price_mxn"])} a toda la CDMX</div>'
+                f'Mensajería {money(delivery["price_mxn"])} a toda la CDMX y la zona oriente</div>'
             ),
             "HOME_MODAL_DELIVERY": "\n".join(
                 [
                     '        <div style="display:flex;align-items:center;justify-content:space-between;border-top:1px solid #d3d5d4;padding-top:12px;margin-bottom:4px">',
-                    f'          <span style="font-size:13px;color:#75797a">{escaped(delivery["title"])} a toda la CDMX</span>',
+                    f'          <span style="font-size:13px;color:#75797a">Mensajería a toda la CDMX y la zona oriente</span>',
                     f'          <span style="font-family:Lora,serif;font-size:15px;color:#55585a">{money(delivery["price_mxn"])}</span>',
                     "        </div>",
                 ]
