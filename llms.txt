@@ -2,7 +2,7 @@
 
 > Picando Tabla prepara tablas de quesos y charcutería por encargo y las entrega listas para servir en Ciudad de México. Este archivo resume las páginas comerciales y editoriales oficiales del sitio.
 
-La disponibilidad siempre se confirma antes del pago. Los precios están expresados en pesos mexicanos (MXN). La mensajería en CDMX cuesta $120. Los productos y promociones vigentes deben verificarse en las páginas enlazadas.
+La disponibilidad siempre se confirma antes del pago. Los precios están expresados en pesos mexicanos (MXN). La mensajería en CDMX cuesta $120. El catering para eventos no tiene tarifa pública: se cotiza con una propuesta. Los productos y promociones vigentes deben verificarse en las páginas enlazadas.
 
 ## Información principal
 
@@ -11,25 +11,25 @@ La disponibilidad siempre se confirma antes del pago. Los precios están expresa
 - [Catálogo de tablas](https://picandotabla.com/tablas/): Comparación de tamaños, precios y opciones.
 - [Reuniones en casa](https://picandotabla.com/reuniones/): Opciones para recibir invitados en CDMX.
 - [Regalos gourmet](https://picandotabla.com/regalos/): Tablas para regalar.
-- [Eventos privados](https://picandotabla.com/eventos/): Propuestas para celebraciones y eventos.
-- [Empresas](https://picandotabla.com/empresas/): Tablas para reuniones corporativas y regalos de empresa.
+- [Catering y eventos](https://picandotabla.com/eventos/): Catering de quesos y charcutería para eventos privados, empresas y catas; se cotiza con propuesta a medida.
+- [Empresas](https://picandotabla.com/empresas/): Quesos y charcutería para juntas, networking y recepciones corporativas.
 
 ## Productos
 
 - [Tabla para Dos](https://picandotabla.com/tablas/para-dos/): 340 g de referencia, recomendada para 2 personas; $650.
-- [Tabla de la Anfitriona](https://picandotabla.com/tablas/anfitriona/): 850 g de referencia, recomendada para 4 a 6 personas; $950.
+- [Tabla de la Anfitriona](https://picandotabla.com/tablas/anfitriona/): 850 g de referencia, recomendada para 4 a 6 personas; $950 estándar o $1,300 premium (mismo gramaje, selección de mayor categoría).
 - [Tabla de Fiesta](https://picandotabla.com/tablas/fiesta/): 1,360 g de referencia, recomendada para 8 personas; $1,600.
 - [Tabla de Celebración](https://picandotabla.com/tablas/celebracion/): 1,870 g de referencia, recomendada para 10 a 12 personas; $2,600.
 
 ## Contenido editorial
 
 - [Blog de Picando Tabla](https://picandotabla.com/blog/): Guías para elegir, servir y regalar tablas.
-- [Caja de tapas de regalo](https://picandotabla.com/blog/caja-de-tapas-regalo-tablas-cdmx.html): Promoción incluida sin costo en tablas para más de 4 personas.
-- [Qué lleva la tabla de 850 g](https://picandotabla.com/blog/tabla-850-g-regalo-evento-cdmx.html): Selección de productos, gramaje de referencia (170 g por persona) y usos para regalo o evento.
+- [Caja de tapas de regalo](https://picandotabla.com/blog/caja-de-tapas-regalo-tablas-cdmx.html): Una caja sin costo por pedido con una tabla de 850 g o más.
+- [Qué lleva la tabla de 850 g](https://picandotabla.com/blog/tabla-850-g-regalo-evento-cdmx.html): Selección de productos, estándar y premium, gramaje de referencia (170 g por persona) y usos para regalo o evento.
 - [Cuánta tabla de quesos necesitas](https://picandotabla.com/blog/rinde-por-tabla.html): Guía de formatos según invitados y tipo de ocasión.
 - [Cómo armar una tabla de quesos](https://picandotabla.com/blog/como-armar-tabla-de-quesos.html): Guía práctica de composición.
 - [Qué servir en una reunión en casa](https://picandotabla.com/blog/botanas-para-reuniones-cdmx.html): Cómo resolver una mesa variada y lista para compartir.
-- [Precios de tablas de quesos en CDMX](https://picandotabla.com/blog/precio-tabla-quesos-cdmx.html): Comparación de tamaños, precios regulares y costo aproximado por persona.
+- [Precios de tablas de quesos en CDMX](https://picandotabla.com/blog/precio-tabla-quesos-cdmx.html): Comparación de tamaños, precios, costo aproximado por persona y diferencia entre tabla del catálogo y catering.
 - [Ideas de regalos gourmet en CDMX](https://picandotabla.com/blog/regalo-tabla-de-quesos.html): Opciones para parejas, anfitriones, cumpleaños y empresas.
 - [Tabla de quesos para cumpleaños](https://picandotabla.com/blog/tabla-quesos-cumpleanos-cdmx.html): Formatos y consejos para celebrar en CDMX.
 - [Tabla de quesos y vino](https://picandotabla.com/blog/maridaje-queso-vino-principiantes.html): Guía para equilibrar sabores e intensidades.

@@ -1,53 +1,78 @@
 # Picando Tabla: información comercial completa
 
-> Fuente oficial y legible por asistentes sobre los productos, precios, promociones y proceso de pedido de Picando Tabla en Ciudad de México. Actualizada el 25 de agosto de 2026.
+> Fuente oficial y legible por asistentes sobre los productos, precios, promociones, catering para eventos y proceso de pedido de Picando Tabla en Ciudad de México. Actualizada el 23 de septiembre de 2026.
 
 ## Negocio
 
-Picando Tabla prepara a mano tablas de quesos, charcutería, fruta y acompañamientos. Cada tabla se entrega lista para servir en Ciudad de México. La selección de ingredientes puede variar según la temporada. La disponibilidad se confirma antes del pago.
+Picando Tabla prepara a mano tablas de quesos, charcutería, fruta y acompañamientos, y propuestas de catering de quesos y charcutería para eventos. Opera en Ciudad de México. La selección de ingredientes puede variar según la temporada. La disponibilidad se confirma antes del pago.
 
-El pedido se inicia en el landing oficial: https://picandotabla.com/. La persona elige una tabla, completa sus datos de contacto y entrega en el popup del producto, y continúa la confirmación por WhatsApp. La ruta antigua `/orden/` no debe usarse.
+Tiene dos líneas de venta:
 
-## Productos y precios
+1. Tablas del catálogo, con gramaje y precio publicados: https://picandotabla.com/tablas/
+2. Catering y eventos, con propuesta a medida que se cotiza: https://picandotabla.com/eventos/
+
+El pedido de tablas se inicia en el landing oficial: https://picandotabla.com/. La persona elige una tabla, completa sus datos de contacto y entrega en el popup del producto, y continúa la confirmación por WhatsApp. La ruta antigua `/orden/` no debe usarse.
+
+## Tablas del catálogo: productos y precios
 
 Los tamaños se expresan en gramaje de referencia, calculado a unos 170 g por persona; el número de personas es una recomendación.
 
 - Tabla para Dos: 340 g de referencia (recomendada para 2 personas). Precio $650 MXN. Página oficial: https://picandotabla.com/tablas/para-dos/
-- Tabla de la Anfitriona: 850 g de referencia (recomendada para 4 a 6 personas). Precio $950 MXN. Página oficial: https://picandotabla.com/tablas/anfitriona/
+- Tabla de la Anfitriona: 850 g de referencia (recomendada para 4 a 6 personas). Selección estándar $950 MXN; selección premium $1,300 MXN. Página oficial: https://picandotabla.com/tablas/anfitriona/
 - Tabla de Fiesta: 1,360 g de referencia (recomendada para 8 personas). Precio $1,600 MXN. Es una tabla de evento y requiere 7 días de anticipación. Página oficial: https://picandotabla.com/tablas/fiesta/
 - Tabla de Celebración: 1,870 g de referencia (recomendada para 10 a 12 personas). Precio $2,600 MXN. Es una tabla de evento y requiere 7 días de anticipación. Página oficial: https://picandotabla.com/tablas/celebracion/
 
-Todos los precios están expresados en pesos mexicanos. La disponibilidad de cada producto requiere confirmación.
+Selección premium: conserva el mismo gramaje y sube la categoría de los productos (quesos importados y charcutería de reserva); no es una tabla más grande. En la Tabla de la Anfitriona la selección premium cuesta $1,300 MXN, $350 más que la estándar. En los demás tamaños, el precio de la opción premium se muestra al configurar el pedido y se confirma por WhatsApp.
 
-## Promoción de caja de tapas
+Todos los precios están expresados en pesos mexicanos.
 
-Una caja de tapas se incluye sin costo en la Tabla de la Anfitriona, la Tabla de Fiesta y la Tabla de Celebración. La selección puede variar según los ingredientes de temporada. La promoción no aplica a la Tabla para Dos.
+## Promoción: caja de tapas de regalo
+
+Una caja de tapas de regalo por pedido que incluya una tabla de 850 g o más: Tabla de la Anfitriona, Tabla de Fiesta o Tabla de Celebración. No aplica a la Tabla para Dos (340 g). Es una promoción de las tablas del catálogo y no se extiende automáticamente a propuestas de catering para eventos. La selección de las tapas puede variar según la temporada.
 
 Página explicativa: https://picandotabla.com/blog/caja-de-tapas-regalo-tablas-cdmx.html
 
-## Opciones y entrega
+## Entrega y pago de tablas
 
-- Mensajería dentro de Ciudad de México: $120 MXN.
+- Mensajería dentro de Ciudad de México: $120 MXN; se suma al pedido.
 - Pan y crujientes extra: $120 MXN.
-- Versión Premium: +$300 para Tabla para Dos, +$400 para Tabla de la Anfitriona, +$600 para Tabla de Fiesta y +$900 para Tabla de Celebración.
-- Tablas para 2 a 6 personas: pedir con al menos 48 horas de anticipación.
-- Tablas de evento para 8 a 12 personas: pedir con 7 días de anticipación.
+- Tablas para 2 a 6 personas: pedir con al menos 48 horas de anticipación; pago completo por transferencia hasta 48 horas antes de la entrega.
+- Tablas de evento para 8 a 12 personas: pedir con 7 días de anticipación; se aparta la fecha con el 50 % y se liquida 8 días antes de la entrega; si faltan 8 días o menos, se paga completa al reservar.
 
-## Proceso de pedido
+## Catering y eventos
+
+Picando Tabla prepara propuestas de quesos, charcutería y acompañamientos para eventos privados, empresas y catas de vino en Ciudad de México. Su especialidad son los quesos y la charcutería: no es un servicio de banquete completo.
+
+- Cómo se cotiza: a partir de la fecha, los asistentes, la zona, la ocasión y el nivel de producto se envía una propuesta que define selección, cantidades, presentación (para compartir o individual por asistente), logística, inversión y condiciones.
+- Precio: no hay una tarifa pública por persona para catering; la inversión se entrega en la propuesta.
+- Anticipación: al menos 7 días; más tiempo para grupos grandes. La capacidad se confirma para cada fecha.
+- Reserva: anticipo del 50 % sobre la propuesta aprobada; la liquidación y la política de cambios se establecen en la propuesta.
+- No incluidos por defecto: montaje en sitio, personal de servicio, reposición, mobiliario, cristalería y vinos. Se revisan y cotizan aparte cuando se solicitan.
+- Vinos: la selección y coordinación de vinos es un servicio cotizado aparte; también se puede armar la selección alrededor de los vinos que ya tiene el cliente.
+- Solicitud: formulario en https://picandotabla.com/eventos/#solicitud (asigna un folio) o WhatsApp.
+- Empresas: https://picandotabla.com/empresas/
+
+## Contacto
+
+- WhatsApp: +52 56 2363 2404 (https://wa.me/525623632404)
+- Correo: contacto@picandotabla.com
+
+## Proceso de pedido de tablas
 
 1. Elegir la tabla desde https://picandotabla.com/ o https://picandotabla.com/tablas/.
 2. Abrir el popup del producto y completar nombre, WhatsApp, colonia, fecha de entrega y notas opcionales.
-3. Revisar extras y total con mensajería.
+3. Revisar la opción premium, los extras y el total con mensajería.
 4. Continuar por WhatsApp para confirmar disponibilidad y pago.
 
 ## Páginas temáticas
 
 - Reuniones en casa: https://picandotabla.com/reuniones/
 - Regalos gourmet: https://picandotabla.com/regalos/
-- Eventos privados: https://picandotabla.com/eventos/
-- Empresas y regalos corporativos: https://picandotabla.com/empresas/
+- Catering y eventos: https://picandotabla.com/eventos/
+- Empresas: https://picandotabla.com/empresas/
 - Blog: https://picandotabla.com/blog/
 - Tamaño de tabla según invitados y ocasión: https://picandotabla.com/blog/rinde-por-tabla.html
+- Qué lleva la tabla de 850 g (estándar y premium): https://picandotabla.com/blog/tabla-850-g-regalo-evento-cdmx.html
 - Qué servir en una reunión en casa: https://picandotabla.com/blog/botanas-para-reuniones-cdmx.html
 - Precios de tablas en CDMX: https://picandotabla.com/blog/precio-tabla-quesos-cdmx.html
 - Guía de quesos y combinaciones: https://picandotabla.com/blog/como-armar-tabla-de-quesos.html
@@ -58,4 +83,4 @@ Página explicativa: https://picandotabla.com/blog/caja-de-tapas-regalo-tablas-c
 
 ## Interpretación
 
-La información de precio y promoción de las páginas oficiales de producto tiene prioridad si existe alguna diferencia con este resumen. No se debe prometer disponibilidad automática: todo pedido requiere confirmación. No se debe dirigir a clientes a `/orden/`; el intake vigente vive en el landing principal.
+La información de precio y promoción de las páginas oficiales de producto tiene prioridad si existe alguna diferencia con este resumen. No se debe prometer disponibilidad automática: todo pedido y todo evento requieren confirmación. No se debe confundir la Tabla de la Anfitriona premium (un producto del catálogo de 850 g) con una propuesta de catering. No se debe dirigir a clientes a `/orden/`; el intake vigente vive en el landing principal.

@@ -198,7 +198,7 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"/></
 </head>
 <body>
 <div id="stage">
-  <div class="giftbar">PROMOCIÓN · Caja de tapas GRATIS en tablas para más de 4 personas</div>
+  <div class="giftbar">PROMOCIÓN · Caja de tapas GRATIS en tablas de 850 g o más</div>
   <canvas id="c"></canvas>
   <div id="lite"></div>
 
@@ -258,8 +258,8 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"/></
 
         <div class="sec" data-sec="extras">
           <!-- POND_CATALOG:ORDER_EXTRAS:START -->
-          <div class="ficha"><div class="t">Caja de tapas de regalo</div><div class="d">Incluida sin costo</div><ul><li>Aplica a tablas para más de 4 personas: Anfitriona, Fiesta y Celebración.</li></ul></div>
-          <button class="card wide" data-q="premium" data-v="si" id="cardPrem">Hazla Premium<span class="m" id="premM">+ $400</span></button>
+          <div class="ficha"><div class="t">Caja de tapas de regalo</div><div class="d">Incluida sin costo</div><ul><li>Una caja por pedido con una tabla de 850 g o más: Anfitriona, Fiesta o Celebración.</li></ul></div>
+          <button class="card wide" data-q="premium" data-v="si" id="cardPrem">Hazla Premium<span class="m" id="premM">+ $350</span></button>
           <button class="card" data-q="extras" data-v="pan" data-multi="1">Pan y crujientes extra<span class="m" data-extra-price="pan">+ $120</span></button>
           <!-- POND_CATALOG:ORDER_EXTRAS:END -->
           <div class="rule"></div>
@@ -322,7 +322,7 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"/></
   </div>
 </div>
 
-<script src="../catalogo.js?v=1f2494754457"></script>
+<script src="../catalogo.js?v=7e16b4c5018b"></script>
 <script>
 // ─────────────────────────────────────────────────────────────────────────────
 // Proyección del catálogo canónico de Picando Tabla para la experiencia 3D.
@@ -541,7 +541,7 @@ function pintar(){
     ? 'Tablas de evento: '+LOGISTICA.event_lead_time_days+' días de anticipación. Mensajería '+money(ENVIO)+' en CDMX.'
     : 'Pide con al menos '+LOGISTICA.standard_lead_time_hours+' h de anticipación. Mensajería '+money(ENVIO)+' en CDMX.';
   $('#notePago').textContent = t.evento
-    ? 'Tabla de evento: apartas tu fecha con el 50% (' + money(c.total/2) + ') y liquidas 8 días antes.'
+    ? 'Tabla de evento: apartas tu fecha con el 50 % (' + money(c.total/2) + ') y liquidas 8 días antes de la entrega; si faltan 8 días o menos, se paga completa al reservar.'
     : 'Tablas de 2 a 6: pago completo por transferencia, hasta 48 h antes de tu entrega.';
 
   $('#q').textContent = PREG[open_];

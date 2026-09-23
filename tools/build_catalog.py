@@ -107,6 +107,21 @@ def load_and_validate() -> dict:
         "celebracion",
     }:
         fail("la caja de tapas debe aplicar a Anfitriona, Fiesta y Celebración")
+    # La regla pública es por gramaje (David, 2026-09-22): tablas de 850 g o más,
+    # una caja por pedido y sin extenderse a propuestas de evento a medida.
+    if not isinstance(gift.get("min_weight_g"), int) or gift["min_weight_g"] < 100:
+        fail("la caja de tapas necesita min_weight_g en gramos enteros")
+    if gift.get("limit_per_order") != 1:
+        fail("la caja de tapas se entrega una vez por pedido (limit_per_order=1)")
+    if gift.get("applies_to_custom_events") is not False:
+        fail("la caja de tapas no aplica automáticamente a eventos a medida")
+    by_weight = {
+        product["key"]
+        for product in products
+        if isinstance(product.get("weight_g"), int) and product["weight_g"] >= gift["min_weight_g"]
+    }
+    if by_weight != set(gift["eligible_product_keys"]):
+        fail("eligible_product_keys debe coincidir con las tablas de min_weight_g o más")
 
     for product in products:
         if not product["id"].startswith("picandotabla:offer:"):
@@ -161,6 +176,8 @@ def load_and_validate() -> dict:
         fail("Premium necesita un precio para cada producto")
     for key, value in premium_prices.items():
         require_price(value, f"modifiers[premium].prices_mxn_by_product_key[{key}]")
+    if not set(premium.get("confirmed_product_keys", [])) <= product_keys:
+        fail("confirmed_product_keys de Premium debe usar llaves de producto existentes")
 
     delivery = catalog.get("delivery", {})
     if delivery.get("id") != "picandotabla:delivery:cdmx":
@@ -174,6 +191,20 @@ def load_and_validate() -> dict:
         fail("standard_lead_time_hours debe conservar 48 h")
     if logistics.get("event_lead_time_days") != 7:
         fail("event_lead_time_days debe conservar 7 días")
+    payment = logistics.get("payment", {})
+    standard_payment = payment.get("standard", {})
+    event_payment = payment.get("event", {})
+    if standard_payment.get("full_payment_due_hours_before_delivery") != logistics["standard_lead_time_hours"]:
+        fail("el pago de tablas estándar vence con la misma anticipación del pedido")
+    if not isinstance(event_payment.get("deposit_pct"), int) or not 0 < event_payment["deposit_pct"] < 100:
+        fail("payment.event.deposit_pct debe ser un porcentaje entero")
+    balance_days = event_payment.get("balance_due_days_before_delivery")
+    if not isinstance(balance_days, int) or balance_days < 1:
+        fail("payment.event.balance_due_days_before_delivery debe ser un entero positivo")
+    # Una tabla de evento puede reservarse con event_lead_time_days: si la liquidación
+    # vence antes, el texto público debe decir qué pasa en esa ventana (pago completo).
+    if balance_days >= logistics["event_lead_time_days"] and not event_payment.get("note"):
+        fail("payment.event.note debe resolver reservas hechas dentro del plazo de liquidación")
 
     return catalog
 
@@ -337,6 +368,34 @@ def render_home_extras(catalog: dict) -> str:
     )
 
 
+def gift_rule_text(catalog: dict) -> str:
+    gift = catalog["promotions"][0]
+    names = [
+        product["title"].replace("Tabla de la ", "").replace("Tabla de ", "")
+        for product in catalog["products"]
+        if product["key"] in gift["eligible_product_keys"]
+    ]
+    listed = ", ".join(names[:-1]) + " o " + names[-1] if len(names) > 1 else names[0]
+    return f"Una caja por pedido con una tabla de {gift['min_weight_g']:,} g o más: {listed}."
+
+
+def payment_rule_text(catalog: dict) -> str:
+    products = catalog["products"]
+    standard_min, standard_max = people_range([product for product in products if not product["is_event"]])
+    event_min, event_max = people_range([product for product in products if product["is_event"]])
+    payment = catalog["logistics"]["payment"]
+    standard = payment["standard"]
+    event = payment["event"]
+    days = event["balance_due_days_before_delivery"]
+    return (
+        f"Tablas de {standard_min} a {standard_max}: pagas por {standard['method']} hasta "
+        f"{standard['full_payment_due_hours_before_delivery']} h antes de tu entrega. "
+        f"Tablas de evento ({event_min}–{event_max}): apartas tu fecha con el {event['deposit_pct']} % "
+        f"y liquidas {days} días antes de la entrega; si faltan {days} días o menos, "
+        "se paga completa al reservar."
+    )
+
+
 def render_order_extras(catalog: dict) -> str:
     featured = next(product for product in catalog["products"] if product["presentation"]["featured"])
     promotional = next((product for product in catalog["products"] if product.get("promotion")), None)
@@ -344,7 +403,7 @@ def render_order_extras(catalog: dict) -> str:
     premium = next(modifier for modifier in catalog["modifiers"] if modifier["key"] == "premium")
     gift = catalog["promotions"][0]
     lines = [
-        f'          <div class="ficha"><div class="t">{escaped(gift["title"])}</div><div class="d">Incluida sin costo</div><ul><li>Aplica a tablas para más de 4 personas: Anfitriona, Fiesta y Celebración.</li></ul></div>',
+        f'          <div class="ficha"><div class="t">{escaped(gift["title"])}</div><div class="d">Incluida sin costo</div><ul><li>{escaped(gift_rule_text(catalog))}</li></ul></div>',
         f'          <button class="card wide" data-q="premium" data-v="si" id="cardPrem">{escaped(premium["title"])}<span class="m" id="premM">+ {money(premium["prices_mxn_by_product_key"][featured["key"]])}</span></button>'
     ]
     if promotional:
@@ -407,6 +466,10 @@ f'Gramajes de referencia: calculamos unos {catalog["portioning"]["grams_per_pers
                 f'{logistics["event_lead_time_days"]} días de anticipación</p>'
             ),
             "HOME_EXTRAS": render_home_extras(catalog),
+            "HOME_PAYMENT_STEP": (
+                '          <div style="font-size:13.5px;color:#55585a;line-height:1.5">'
+                f"{escaped(payment_rule_text(catalog))}</div>"
+            ),
             "HOME_DELIVERY_SUMMARY": (
                 '      <p style="font-size:13px;color:#75797a;margin:16px 0 0">'
                 f'Tablas de {standard_min} a {standard_max}: pide con al menos '

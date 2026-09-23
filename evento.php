@@ -1,80 +1,144 @@
 <?php
-// Solicitud de EVENTO de Picando Tabla (/eventos/). La llama el formulario por fetch.
-// Guarda la solicitud (PII en data/, gitignored + .htaccess), AVISA por TELEGRAM y manda correo.
+// Solicitud de CATERING / EVENTO de Picando Tabla (/eventos/). La llama el formulario por fetch.
+// Guarda la solicitud con FOLIO (PII en data/, gitignored + .htaccess), AVISA por TELEGRAM y manda correo.
+// Recepción real: solo responde ok cuando la solicitud quedó guardada o, si el disco falla, cuando
+// el aviso salió por correo o Telegram. El formulario muestra "Recibimos tu solicitud" SOLO con ok.
+// Idempotente: el formulario manda una llave `idem`; un reintento con la misma llave devuelve el
+// mismo folio sin duplicar el registro ni volver a avisar.
 // SEGURIDAD: el token de Telegram NUNCA vive en el repo. Se lee, en este orden:
 //   1) variables de entorno TG_BOT_TOKEN / TG_CHAT_ID (hPanel -> PHP -> Environment/Variables)
 //   2) secrets/telegram.json  ->  {"bot_token":"...","chat_id":"..."}  (subir A MANO al server, NO por git)
 // Si Telegram no está configurado, la solicitud igual se guarda y se envía por correo (degradación suave).
 // Generado por PATO.
 header('Content-Type: application/json; charset=utf-8');
+header('Cache-Control: no-store');
 
 // A quién avisa PATO de cada solicitud: buzón real del dominio (entrega confiable) + David.
 $NOTIFY = ['contacto@picandotabla.com', 'sodpiloko@gmail.com'];
 $FROM   = 'Picando Tabla <contacto@picandotabla.com>';
 
+function pt_out($code, $payload) {
+  http_response_code($code);
+  echo json_encode($payload, JSON_UNESCAPED_UNICODE);
+  exit;
+}
+
+if (($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'POST') pt_out(405, ['ok' => false, 'error' => 'usa POST']);
+
 $raw = file_get_contents('php://input');
 $d = json_decode($raw, true);
-if (!is_array($d)) { http_response_code(400); echo json_encode(['ok'=>false,'error'=>'sin datos']); exit; }
+if (!is_array($d)) pt_out(400, ['ok' => false, 'error' => 'sin datos']);
 
-function pt_clean($v, $n) { return substr(strip_tags(trim((string)($v ?? ''))), 0, $n); }
+function pt_clean($v, $n) {
+  $s = trim(strip_tags((string)($v ?? '')));
+  return function_exists('mb_substr') ? mb_substr($s, 0, $n, 'UTF-8') : substr($s, 0, $n);
+}
 
-$nombre    = pt_clean($d['nombre']           ?? '', 120);
-$empresa   = pt_clean($d['empresa']          ?? '', 120);
-$correo    = pt_clean($d['correo']           ?? '', 120);
-$telefono  = pt_clean($d['telefono']         ?? '', 40);
-$tipo      = pt_clean($d['tipo']             ?? '', 80);
-$fecha     = pt_clean($d['fecha']            ?? '', 40);
-$zona      = pt_clean($d['zona']             ?? '', 120);
-$personas  = pt_clean($d['personas']         ?? '', 20);
-$presTipo  = pt_clean($d['presupuesto_tipo'] ?? '', 60);
-$presupu   = pt_clean($d['presupuesto']      ?? '', 60);
-$vinos     = pt_clean($d['vinos']            ?? '', 600);
-$detalles  = pt_clean($d['detalles']         ?? '', 1400);
+$nombre       = pt_clean($d['nombre']            ?? '', 120);
+$empresa      = pt_clean($d['empresa']           ?? '', 120);
+$correo       = pt_clean($d['correo']            ?? '', 120);
+$telefono     = pt_clean($d['telefono']          ?? '', 40);
+$tipo         = pt_clean($d['tipo']              ?? '', 80);
+$fecha        = pt_clean($d['fecha']             ?? '', 40);
+$fechaFlex    = !empty($d['fecha_flexible']);
+$zona         = pt_clean($d['zona']              ?? '', 120);
+$personas     = pt_clean($d['personas']          ?? '', 20);
+$presentacion = pt_clean($d['presentacion']      ?? '', 60);
+$momento      = pt_clean($d['momento']           ?? '', 160);
+$formato      = pt_clean($d['formato']           ?? '', 80);
+$presTipo     = pt_clean($d['presupuesto_tipo']  ?? '', 60);
+$presupu      = pt_clean($d['presupuesto']       ?? '', 60);
+$presCubre    = pt_clean($d['presupuesto_cubre'] ?? '', 80);
+$vinos        = pt_clean($d['vinos']             ?? '', 600);
+$restric      = pt_clean($d['restricciones']     ?? '', 600);
+$detalles     = pt_clean($d['detalles']          ?? '', 1400);
+$origen       = pt_clean($d['origen']            ?? 'eventos_form', 60);
+$idem         = preg_replace('/[^a-f0-9]/', '', strtolower((string)($d['idem'] ?? '')));
+$idem         = substr($idem, 0, 32);
 
 $servicios = '';
 if (!empty($d['servicios']) && is_array($d['servicios'])) {
-  $ss = array_map(function ($x) { return substr(strip_tags(trim((string)$x)), 0, 60); }, $d['servicios']);
+  $ss = array_map(function ($x) { return pt_clean($x, 60); }, $d['servicios']);
   $ss = array_filter($ss, function ($x) { return $x !== ''; });
   $servicios = implode(', ', array_slice($ss, 0, 12));
 }
 
-// Necesitamos al menos una vía de contacto.
-if ($nombre === '' && $correo === '' && $telefono === '') {
-  http_response_code(400);
-  echo json_encode(['ok' => false, 'error' => 'faltan datos de contacto']);
-  exit;
+// Nombre + al menos una vía de contacto.
+if ($nombre === '' || ($correo === '' && $telefono === '')) {
+  pt_out(400, ['ok' => false, 'error' => 'faltan nombre y un medio de contacto']);
 }
+// Asistentes: si viene, un entero positivo razonable.
+if ($personas !== '' && (!preg_match('/^\d{1,5}$/', $personas) || (int)$personas < 1 || (int)$personas > 5000)) {
+  pt_out(400, ['ok' => false, 'error' => 'número de asistentes no válido']);
+}
+
+$dir  = __DIR__ . '/data';
+$file = $dir . '/eventos.jsonl';
+@mkdir($dir, 0755, true);
+@file_put_contents($dir . '/.htaccess', "Require all denied\nDeny from all\n");
+
+// --- Reintento con la misma llave: mismo folio, sin duplicar ni volver a avisar ---
+if ($idem !== '' && is_file($file)) {
+  $size = filesize($file);
+  $fh = @fopen($file, 'rb');
+  if ($fh) {
+    $len = min($size, 131072);
+    fseek($fh, -$len, SEEK_END);
+    $tail = fread($fh, $len);
+    fclose($fh);
+    foreach (array_reverse(explode("\n", (string)$tail)) as $line) {
+      if ($line === '' || strpos($line, $idem) === false) continue;
+      $prev = json_decode($line, true);
+      if (is_array($prev) && ($prev['idem'] ?? '') === $idem && !empty($prev['folio'])) {
+        pt_out(200, ['ok' => true, 'folio' => $prev['folio'], 'duplicado' => true]);
+      }
+    }
+  }
+}
+
+// --- Folio legible: EV-AAMMDD-XXXX (sin caracteres ambiguos) ---
+$alpha = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+$suffix = '';
+for ($i = 0; $i < 4; $i++) $suffix .= $alpha[random_int(0, strlen($alpha) - 1)];
+$folio = 'EV-' . date('ymd') . '-' . $suffix;
 
 // --- Guardar (PII) ---
 $rec = [
-  'at' => date('c'), 'tipo_solicitud' => 'evento',
+  'at' => date('c'), 'tipo_solicitud' => 'evento', 'folio' => $folio, 'idem' => $idem, 'origen' => $origen,
   'nombre' => $nombre, 'empresa' => $empresa, 'correo' => $correo, 'telefono' => $telefono,
-  'evento' => $tipo, 'fecha' => $fecha, 'zona' => $zona, 'personas' => $personas,
-  'presupuesto_tipo' => $presTipo, 'presupuesto' => $presupu,
-  'servicios' => $servicios, 'vinos' => $vinos, 'detalles' => $detalles,
+  'evento' => $tipo, 'fecha' => $fecha, 'fecha_flexible' => $fechaFlex ? 'sí' : '', 'zona' => $zona,
+  'personas' => $personas, 'presentacion' => $presentacion, 'momento' => $momento, 'formato' => $formato,
+  'presupuesto_tipo' => $presTipo, 'presupuesto' => $presupu, 'presupuesto_cubre' => $presCubre,
+  'servicios' => $servicios, 'vinos' => $vinos, 'restricciones' => $restric, 'detalles' => $detalles,
   'ip' => $_SERVER['REMOTE_ADDR'] ?? '',
 ];
-$dir = __DIR__ . '/data';
-@mkdir($dir, 0755, true);
-@file_put_contents($dir . '/.htaccess', "Require all denied\nDeny from all\n");
-@file_put_contents($dir . '/eventos.jsonl', json_encode($rec, JSON_UNESCAPED_UNICODE) . PHP_EOL, FILE_APPEND | LOCK_EX);
+$saved = @file_put_contents($file, json_encode($rec, JSON_UNESCAPED_UNICODE) . PHP_EOL, FILE_APPEND | LOCK_EX) !== false;
 
 // --- Texto del aviso ---
 $L = [];
-$L[] = "🧀 Nueva solicitud de EVENTO — Picando Tabla";
+$L[] = "🧀 Nueva solicitud de CATERING / EVENTO — Picando Tabla";
+$L[] = "Folio: " . $folio;
 $L[] = "";
 $L[] = "Nombre: " . $nombre;
 if ($empresa !== '') $L[] = "Empresa: " . $empresa;
-$L[] = "Correo: " . ($correo ?: '—');
 $L[] = "Tel/WhatsApp: " . ($telefono ?: '—');
+$L[] = "Correo: " . ($correo ?: '—');
 $L[] = "Tipo de evento: " . ($tipo ?: '—');
-$L[] = "Fecha: " . ($fecha ?: 'por definir');
-$L[] = "Colonia/locación: " . ($zona ?: '—');
-$L[] = "Personas: " . ($personas ?: '—');
-$L[] = "Presupuesto: " . ($presupu ?: 'por definir') . ($presTipo ? " (" . $presTipo . ")" : "");
-if ($servicios !== '') $L[] = "Le interesa: " . $servicios;
-if ($vinos !== '')    $L[] = "Vinos/bebidas: " . $vinos;
-if ($detalles !== '') $L[] = "Detalles: " . $detalles;
+$L[] = "Asistentes: " . ($personas ?: 'por definir');
+$L[] = "Fecha: " . ($fecha ?: 'por definir') . ($fechaFlex ? ' (flexible)' : '');
+$L[] = "Zona: " . ($zona ?: '—');
+if ($momento !== '')      $L[] = "Momento/horario: " . $momento;
+$L[] = "Presentación: " . ($presentacion ?: 'por definir');
+if ($formato !== '')      $L[] = "Formato: " . $formato;
+$L[] = "Presupuesto: " . ($presupu ?: 'por definir') . ($presTipo ? " (" . $presTipo . ")" : "")
+     . ($presCubre ? " · cubre: " . $presCubre : "");
+if ($servicios !== '')    $L[] = "Necesita: " . $servicios;
+if ($vinos !== '')        $L[] = "Vinos: " . $vinos;
+if ($restric !== '')      $L[] = "Restricciones: " . $restric;
+if ($detalles !== '')     $L[] = "Comentarios: " . $detalles;
+if (!$saved)              $L[] = "⚠️ No se pudo guardar en data/eventos.jsonl: este aviso es la única copia.";
+$L[] = "";
+$L[] = "Comanda: https://picandotabla.com/comanda/";
 $text = implode("\n", $L);
 
 // --- Config de Telegram (env o secrets/telegram.json) ---
@@ -124,10 +188,14 @@ if ($tok && $chat) {
 }
 
 // --- Correo (respaldo + copia al buzón real) ---
-$subj = "Solicitud de evento Picando Tabla — " . $nombre . ($tipo ? (" · " . $tipo) : "");
+$subj = "Solicitud de evento " . $folio . " — " . $nombre . ($tipo ? (" · " . $tipo) : "");
 $headers = "From: " . $FROM . "\r\n";
-if ($correo !== '') $headers .= "Reply-To: " . $correo . "\r\n";
+if ($correo !== '' && filter_var($correo, FILTER_VALIDATE_EMAIL)) $headers .= "Reply-To: " . $correo . "\r\n";
 $headers .= "Content-Type: text/plain; charset=UTF-8";
-foreach ($NOTIFY as $to) { @mail($to, $subj, $text, $headers); }
+$mail_ok = false;
+foreach ($NOTIFY as $to) { $mail_ok = @mail($to, '=?UTF-8?B?' . base64_encode($subj) . '?=', $text, $headers) || $mail_ok; }
 
-echo json_encode(['ok' => true, 'telegram' => $tg_ok], JSON_UNESCAPED_UNICODE);
+if (!$saved && !$mail_ok && !$tg_ok) {
+  pt_out(500, ['ok' => false, 'error' => 'no pudimos registrar la solicitud']);
+}
+pt_out(200, ['ok' => true, 'folio' => $folio]);

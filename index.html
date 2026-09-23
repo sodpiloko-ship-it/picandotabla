@@ -44,7 +44,7 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
 <meta property="og:image" content="https://picandotabla.com/img/tabla-850g.jpg">
 <meta property="og:url" content="https://picandotabla.com/">
 <meta property="og:locale" content="es_MX">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","@id":"https://picandotabla.com/#organization","name":"Picando Tabla","url":"https://picandotabla.com/","logo":{"@type":"ImageObject","url":"https://picandotabla.com/favicon.svg"},"description":"Tablas de quesos, charcutería, fruta y acompañamientos armadas a mano y entregadas listas para servir en Ciudad de México.","areaServed":{"@type":"City","name":"Ciudad de México"},"contactPoint":{"@type":"ContactPoint","telephone":"+52-56-2363-2404","contactType":"sales","areaServed":"MX","availableLanguage":["es"]}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","@id":"https://picandotabla.com/#organization","name":"Picando Tabla","url":"https://picandotabla.com/","logo":{"@type":"ImageObject","url":"https://picandotabla.com/favicon.svg"},"description":"Tablas de quesos, charcutería, fruta y acompañamientos armadas a mano y entregadas listas para servir en Ciudad de México.","areaServed":{"@type":"City","name":"Ciudad de México"},"contactPoint":{"@type":"ContactPoint","telephone":"+52-56-2363-2404","email":"contacto@picandotabla.com","contactType":"sales","areaServed":"MX","availableLanguage":["es"]},"knowsAbout":["Tablas de quesos y charcutería","Catering de quesos y charcutería para eventos","Maridaje de quesos y vino"]}</script>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
   body{background:#e9eaea;color:#26282a;font-family:'Work Sans',system-ui,sans-serif}
@@ -61,7 +61,8 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
   .q-in{width:100%;background:#fbfcfc;border:1px solid #d3d5d4;border-radius:10px;padding:11px 13px;font-size:15px;font-family:inherit;color:#26282a}
   .q-in:focus{outline:2px solid #7c2d3e;outline-offset:1px;border-color:#7c2d3e}
   .pt-grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
-  @media(max-width:1100px){ .pt-grid4{grid-template-columns:repeat(2,1fr)} }
+  .pt-nav-links > *{white-space:nowrap}
+  @media(max-width:1100px){ .pt-grid4{grid-template-columns:repeat(2,1fr)} .pt-nav-links .pt-nav-sec{display:none} }
   @media(max-width:820px){
     .pt-hero{grid-template-columns:1fr !important}
     .pt-grid3{grid-template-columns:1fr !important}
@@ -88,7 +89,7 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
 <div style="background:#e9eaea;color:#26282a;min-height:100vh">
 
   <!-- Banner -->
-  <div class="promo" style="position:sticky;top:0;z-index:51;min-height:60px;display:flex;align-items:center;justify-content:center;background:#6f1d33;color:#fff;text-align:center;padding:10px 16px;font-size:15px;font-weight:700;letter-spacing:.4px;box-shadow:0 3px 12px rgba(38,40,42,.2)">PROMOCIÓN · Caja de tapas GRATIS en tablas para más de 4 personas</div>
+  <div class="promo" style="position:sticky;top:0;z-index:51;min-height:60px;display:flex;align-items:center;justify-content:center;background:#6f1d33;color:#fff;text-align:center;padding:10px 16px;font-size:15px;font-weight:700;letter-spacing:.4px;box-shadow:0 3px 12px rgba(38,40,42,.2)">PROMOCIÓN · Caja de tapas GRATIS en tablas de 850 g o más</div>
 
   <!-- Header sticky -->
   <div id="ptHeader" style="position:sticky;top:60px;z-index:50;background:#e9eaeaf2;backdrop-filter:blur(8px);border-bottom:1px solid #d3d5d4;transition:box-shadow .3s">
@@ -99,11 +100,11 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
       </a>
       <div class="pt-nav-links" style="display:flex;align-items:center;gap:16px;font-size:14px;color:#55585a">
         <a href="/tablas/" style="color:#55585a;text-decoration:none">Tablas</a>
-        <a href="/reuniones/" style="color:#55585a;text-decoration:none">Reuniones</a>
-        <a href="/regalos/" style="color:#55585a;text-decoration:none">Regalos</a>
-        <a href="/eventos/" style="color:#55585a;text-decoration:none">Eventos</a>
-        <a href="/empresas/" style="color:#55585a;text-decoration:none">Empresas</a>
-        <a href="/blog/" style="color:#55585a;text-decoration:none">Blog</a>
+        <a href="/reuniones/" class="pt-nav-sec" style="color:#55585a;text-decoration:none">Reuniones</a>
+        <a href="/regalos/" class="pt-nav-sec" style="color:#55585a;text-decoration:none">Regalos</a>
+        <a href="/eventos/" style="color:#55585a;text-decoration:none">Catering y eventos</a>
+        <a href="/empresas/" class="pt-nav-sec" style="color:#55585a;text-decoration:none">Empresas</a>
+        <a href="/blog/" class="pt-nav-sec" style="color:#55585a;text-decoration:none">Blog</a>
         <a href="/#tablas" class="ptbtn" style="text-decoration:none;background:transparent;color:#7c2d3e;padding:9px 16px;border-radius:999px;font-weight:600;font-size:14px;border:1.5px solid #7c2d3e">Ármala tú</a>
         <button class="ptbtn" onclick="waGeneral('header')" style="display:inline-flex;align-items:center;gap:8px;background:#26282a;color:#fff;padding:10px 20px;border-radius:999px;font-weight:600;font-size:14px;border:none;cursor:pointer">
           <span style="width:16px;height:16px;border-radius:50%;background:#25D366;display:inline-block"></span>Pedir por WhatsApp</button>
@@ -122,6 +123,7 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
         <a href="/tablas/" class="ptbtn" style="display:inline-flex;align-items:center;background:#26282a;color:#fff;padding:15px 28px;border-radius:999px;font-weight:600;font-size:16px;text-decoration:none;box-shadow:0 3px 12px rgba(38,40,42,.25)">Ver tablas</a>
         <button class="ptbtn" onclick="waGeneral('hero')" style="display:inline-flex;align-items:center;gap:9px;background:transparent;color:#7c2d3e;padding:14px 24px;border-radius:999px;font-weight:600;font-size:15px;border:1.5px solid #7c2d3e;cursor:pointer"><span style="width:16px;height:16px;border-radius:50%;background:#25D366;display:inline-block"></span>Pedir por WhatsApp</button>
       </div>
+      <p style="font-size:14.5px;line-height:1.5;color:#55585a;margin:0 0 20px">¿Organizas un evento? <a href="/eventos/" style="color:#7c2d3e;font-weight:600">Conoce el catering de quesos y charcutería →</a></p>
       <!-- POND_CATALOG:HOME_HERO_FACTS:START -->
       <div style="display:flex;gap:22px;font-size:13px;color:#75797a;flex-wrap:wrap">
         <span>✓ Lista para servir</span><span>✓ Entrega en CDMX</span><span>✓ Desde $650</span>
@@ -137,8 +139,8 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
       <img src="/img/caja-tapas-regalo.jpg" alt="Tapa de pan con queso, higo, hojas verdes y jamón incluida como regalo" width="1448" height="1086" style="width:100%;height:360px;object-fit:cover;border-radius:16px">
       <div>
         <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#d4a6b1;font-weight:700;margin-bottom:12px">Regalo para compartir</div>
-        <h2 style="font-family:Lora,serif;font-size:clamp(30px,4vw,42px);line-height:1.12;font-weight:600;margin:0;color:#fff">Tu tabla para más de 4 personas incluye una caja de tapas.</h2>
-        <p style="font-size:16px;line-height:1.65;color:#c7cbcc;margin:18px 0 0;max-width:54ch">La agregamos sin costo a la Tabla de la Anfitriona, Fiesta y Celebración. Un primer bocado listo para servir mientras empieza la reunión.</p>
+        <h2 style="font-family:Lora,serif;font-size:clamp(30px,4vw,42px);line-height:1.12;font-weight:600;margin:0;color:#fff">Tu tabla de 850 g o más incluye una caja de tapas.</h2>
+        <p style="font-size:16px;line-height:1.65;color:#c7cbcc;margin:18px 0 0;max-width:54ch">Agregamos una caja por pedido, sin costo, cuando eliges la Tabla de la Anfitriona (850 g), la de Fiesta (1,360 g) o la de Celebración (1,870 g). Un primer bocado listo para servir mientras empieza la reunión.</p>
         <p style="font-size:12px;line-height:1.5;color:#9a9ea0;margin:12px 0 0">La selección puede variar según los ingredientes de temporada.</p>
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:24px">
           <a href="/tablas/#catalogo" class="ptbtn" style="display:inline-flex;align-items:center;background:#fff;color:#26282a;padding:12px 22px;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none">Ver tablas con regalo</a>
@@ -263,11 +265,33 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
       <div class="pt-grid4">
         <a href="/reuniones/" style="display:block;padding:25px 22px;border-radius:14px;background:#26282a;color:#fff;text-decoration:none"><small style="color:#d5aab4;font-weight:700;text-transform:uppercase">Para recibir</small><h3 style="font-family:Lora,serif;font-size:22px;margin:18px 0 8px">Una reunión en casa</h3><p style="color:#c9cccd;font-size:13px;line-height:1.5">Algo completo sobre la mesa sin pasar el día en la cocina.</p><b style="display:block;margin-top:18px;font-size:13px">Ver reuniones →</b></a>
         <a href="/regalos/" style="display:block;padding:25px 22px;border-radius:14px;background:#26282a;color:#fff;text-decoration:none"><small style="color:#d5aab4;font-weight:700;text-transform:uppercase">Para sorprender</small><h3 style="font-family:Lora,serif;font-size:22px;margin:18px 0 8px">Un regalo gourmet</h3><p style="color:#c9cccd;font-size:13px;line-height:1.5">Una experiencia que se abre, se comparte y sí se disfruta.</p><b style="display:block;margin-top:18px;font-size:13px">Ver regalos →</b></a>
-        <a href="/eventos/" style="display:block;padding:25px 22px;border-radius:14px;background:#26282a;color:#fff;text-decoration:none"><small style="color:#d5aab4;font-weight:700;text-transform:uppercase">Para celebrar</small><h3 style="font-family:Lora,serif;font-size:22px;margin:18px 0 8px">Un evento privado</h3><p style="color:#c9cccd;font-size:13px;line-height:1.5">Más volumen, logística y una propuesta hecha a la medida.</p><b style="display:block;margin-top:18px;font-size:13px">Cotizar evento →</b></a>
+        <a href="/eventos/" style="display:block;padding:25px 22px;border-radius:14px;background:#26282a;color:#fff;text-decoration:none"><small style="color:#d5aab4;font-weight:700;text-transform:uppercase">Catering y eventos</small><h3 style="font-family:Lora,serif;font-size:22px;margin:18px 0 8px">Un evento privado</h3><p style="color:#c9cccd;font-size:13px;line-height:1.5">Quesos y charcutería con una propuesta a la medida de tu ocasión.</p><b style="display:block;margin-top:18px;font-size:13px">Conocer el catering →</b></a>
         <a href="/empresas/" style="display:block;padding:25px 22px;border-radius:14px;background:#26282a;color:#fff;text-decoration:none"><small style="color:#d5aab4;font-weight:700;text-transform:uppercase">Para equipos</small><h3 style="font-family:Lora,serif;font-size:22px;margin:18px 0 8px">Una ocasión corporativa</h3><p style="color:#c9cccd;font-size:13px;line-height:1.5">Juntas, networking, inauguraciones y regalos de empresa.</p><b style="display:block;margin-top:18px;font-size:13px">Ver empresas →</b></a>
       </div>
     </div>
   </div>
+
+  <!-- Catering y eventos: segundo camino de la portada (plan SEO/LLM/catering 2026-09) -->
+  <section id="catering" style="background:#fbfcfc;border-top:1px solid #d3d5d4">
+    <div class="revealable pt-2col pt-pad" style="max-width:1200px;margin:0 auto;padding:60px 32px;display:grid;grid-template-columns:1fr 1.1fr;gap:48px;align-items:center">
+      <img src="/img/5.jpg" alt="Selección de quesos y charcutería lista para compartir en un evento" width="960" height="960" loading="lazy" style="width:100%;height:340px;object-fit:cover;border-radius:16px">
+      <div>
+        <div style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#7c2d3e;font-weight:600;margin-bottom:12px">Catering y eventos</div>
+        <h2 style="font-family:Lora,serif;font-size:clamp(28px,3.6vw,34px);line-height:1.15;font-weight:600;margin:0 0 14px;color:#26282a">¿Tu evento necesita una propuesta a medida?</h2>
+        <p style="font-size:15.5px;line-height:1.65;color:#55585a;margin:0 0 16px">Quesos, charcutería y acompañamientos para eventos privados, empresas y catas en CDMX. Definimos la selección, las cantidades y la presentación a partir de tu ocasión y tu presupuesto.</p>
+        <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:22px;font-size:14.5px;color:#55585a">
+          <span><b style="color:#7c2d3e">✓</b> Eventos privados, recepciones y celebraciones</span>
+          <span><b style="color:#7c2d3e">✓</b> Juntas, networking y eventos de marca</span>
+          <span><b style="color:#7c2d3e">✓</b> Catas y maridajes alrededor de tus vinos</span>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <a href="/eventos/" class="ptbtn" style="display:inline-flex;align-items:center;background:#26282a;color:#fff;padding:13px 24px;border-radius:999px;font-weight:600;font-size:15px;text-decoration:none">Conocer el catering</a>
+          <a href="/eventos/#solicitud" class="ptbtn" style="display:inline-flex;align-items:center;background:transparent;color:#7c2d3e;padding:12px 22px;border-radius:999px;font-weight:600;font-size:15px;text-decoration:none;border:1.5px solid #7c2d3e">Solicitar propuesta</a>
+        </div>
+        <p style="font-size:12.5px;line-height:1.5;color:#75797a;margin:14px 0 0">Cada propuesta se cotiza con su propio alcance. Si solo necesitas una tabla, elígela en el catálogo.</p>
+      </div>
+    </div>
+  </section>
 
   <!-- Servicio de vinos -->
   <div id="vinos" style="background:#7c2d3e;color:#fff">
@@ -275,20 +299,20 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
       <div class="pt-2col" style="display:grid;grid-template-columns:1.2fr 1fr;gap:44px;align-items:center">
         <div>
           <div style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#e8c9d0;font-weight:600;margin-bottom:14px">Nuevo servicio</div>
-          <h2 style="font-family:Lora,serif;font-size:clamp(26px,3.6vw,34px);line-height:1.15;font-weight:600;margin:0 0 14px;color:#fff">¿Quieres que lo resolvamos todo?<br>Selección y coordinación de vinos.</h2>
-          <p style="font-size:15px;line-height:1.65;color:#f0dfe3;margin:0 0 10px">Elegimos los vinos para tu evento y coordinamos que lleguen contigo, maridados con tu tabla. Tú nos dices cuánto quieres invertir y <strong>nos adaptamos a tu presupuesto</strong> — desde etiquetas honestas de todos los días hasta botellas para una ocasión que importa.</p>
-          <p style="font-size:14px;line-height:1.6;color:#e8c9d0;margin:0 0 22px">Tu presupuesto es el límite: tú decides, nosotras seleccionamos, compramos y coordinamos.</p>
+          <h2 style="font-family:Lora,serif;font-size:clamp(26px,3.6vw,34px);line-height:1.15;font-weight:600;margin:0 0 14px;color:#fff">¿También buscas los vinos?<br>Selección y coordinación de vinos.</h2>
+          <p style="font-size:15px;line-height:1.65;color:#f0dfe3;margin:0 0 10px">Si lo pides, elegimos los vinos para tu evento, maridados con tu tabla, y coordinamos su compra y entrega. Tú nos dices cuánto quieres invertir y <strong>nos adaptamos a tu presupuesto</strong> — desde etiquetas honestas de todos los días hasta botellas para una ocasión que importa.</p>
+          <p style="font-size:14px;line-height:1.6;color:#e8c9d0;margin:0 0 22px">Los vinos no forman parte de las tablas: se cotizan aparte, según la selección que apruebes.</p>
           <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
             <button class="ptbtn" onclick="waVinos()" style="display:inline-flex;align-items:center;gap:10px;background:#fff;color:#7c2d3e;padding:14px 26px;border-radius:999px;font-weight:600;font-size:15px;border:none;cursor:pointer">
               <span style="width:16px;height:16px;border-radius:50%;background:#25D366;display:inline-block"></span>Quiero mis vinos resueltos</button>
             <a href="/blog/maridaje-queso-vino-principiantes.html" style="color:#fff;font-size:14px;text-decoration:underline;text-underline-offset:4px">Leer la guía de quesos y vino</a>
-            <span style="font-size:14px;color:#f0dfe3"><span style="font-family:Lora,serif;font-size:20px;color:#fff">Se cotiza aparte</span> · 5 botellas</span>
+            <span style="font-size:14px;color:#f0dfe3"><span style="font-family:Lora,serif;font-size:20px;color:#fff">Se cotiza aparte</span></span>
           </div>
         </div>
         <div style="display:flex;flex-direction:column;gap:12px">
           <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:16px 20px"><div style="font-weight:600;font-size:15px;margin-bottom:3px">1 · Nos cuentas tu evento</div><div style="font-size:13.5px;color:#f0dfe3;line-height:1.5">Cuántos son, qué celebras y tu presupuesto para vino.</div></div>
           <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:16px 20px"><div style="font-weight:600;font-size:15px;margin-bottom:3px">2 · Te proponemos la selección</div><div style="font-size:13.5px;color:#f0dfe3;line-height:1.5">Etiquetas elegidas para tu tabla y tu ocasión, dentro de lo que definiste.</div></div>
-          <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:16px 20px"><div style="font-weight:600;font-size:15px;margin-bottom:3px">3 · Llega todo junto y resuelto</div><div style="font-size:13.5px;color:#f0dfe3;line-height:1.5">Coordinamos la compra y la entrega: tu mesa queda completa sin que muevas un dedo.</div></div>
+          <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:16px 20px"><div style="font-weight:600;font-size:15px;margin-bottom:3px">3 · Coordinamos compra y entrega</div><div style="font-size:13.5px;color:#f0dfe3;line-height:1.5">Con la selección aprobada, coordinamos que los vinos lleguen junto con tu tabla.</div></div>
         </div>
       </div>
     </div>
@@ -326,7 +350,11 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
         </div>
         <div style="display:flex;gap:14px;align-items:flex-start;background:#fbfcfc;border:1px solid #d3d5d4;border-radius:12px;padding:18px 22px">
           <span style="font-family:Lora,serif;font-size:22px;color:#7c2d3e;font-weight:700;flex:none">2</span>
-          <div><div style="font-weight:600;font-size:15px;color:#26282a">Confirmas con tu pago</div><div style="font-size:13.5px;color:#55585a;line-height:1.5">Tablas de 2 a 6: pagas por transferencia hasta 48 h antes de tu entrega. Tablas de evento (8–12): apartas tu fecha con el 50% y liquidas 8 días antes.</div></div>
+          <div><div style="font-weight:600;font-size:15px;color:#26282a">Confirmas con tu pago</div>
+          <!-- POND_CATALOG:HOME_PAYMENT_STEP:START -->
+          <div style="font-size:13.5px;color:#55585a;line-height:1.5">Tablas de 2 a 6: pagas por transferencia hasta 48 h antes de tu entrega. Tablas de evento (8–12): apartas tu fecha con el 50 % y liquidas 8 días antes de la entrega; si faltan 8 días o menos, se paga completa al reservar.</div>
+          <!-- POND_CATALOG:HOME_PAYMENT_STEP:END -->
+          </div>
         </div>
         <div style="display:flex;gap:14px;align-items:flex-start;background:#fbfcfc;border:1px solid #d3d5d4;border-radius:12px;padding:18px 22px">
           <span style="font-family:Lora,serif;font-size:22px;color:#7c2d3e;font-weight:700;flex:none">3</span>
@@ -357,9 +385,9 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
   <div id="cotizar" style="background:#fbfcfc;border-top:1px solid #d3d5d4">
     <div class="revealable pt-pad" style="max-width:760px;margin:0 auto;padding:60px 32px">
       <div style="text-align:center;margin-bottom:26px">
-        <div style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#7c2d3e;font-weight:600;margin-bottom:12px">Cotiza tu evento</div>
+        <div style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#7c2d3e;font-weight:600;margin-bottom:12px">Tabla a tu medida</div>
         <h2 style="font-family:Lora,serif;font-size:30px;font-weight:600;margin:0 0 10px;color:#26282a">Armamos tu tabla a tu medida</h2>
-        <p style="font-size:15px;color:#55585a;margin:0;line-height:1.6">Cuéntanos de tu reunión y te cotizamos por WhatsApp. Curaduría de temporada, para el número de personas y la ocasión que sea.</p>
+        <p style="font-size:15px;color:#55585a;margin:0;line-height:1.6">Cuéntanos de tu reunión y te cotizamos por WhatsApp. Curaduría de temporada, para el número de personas y la ocasión. Si es un evento con propuesta completa, usa el <a href="/eventos/#solicitud" style="color:#7c2d3e;font-weight:600">formulario de catering</a>.</p>
       </div>
       <div style="background:#fff;border:1px solid #d3d5d4;border-radius:16px;padding:28px">
         <div class="pt-qgrid" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
@@ -427,7 +455,7 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
             <!-- POND_CATALOG:HOME_MODAL_PREMIUM_TITLE:START -->
             <div style="font-weight:600;font-size:14.5px;color:#26282a">Hazla Premium <span id="ptmPremPrecio" style="color:#7c2d3e"></span> <span style="background:#c9a44a;color:#fff;font-size:10px;font-weight:700;letter-spacing:1px;padding:2px 8px;border-radius:999px;text-transform:uppercase;vertical-align:2px">Premium</span></div>
             <!-- POND_CATALOG:HOME_MODAL_PREMIUM_TITLE:END -->
-            <div style="font-size:13px;color:#75797a;line-height:1.5">La misma curaduría con quesos importados y charcutería de reserva — para una ocasión que importa.</div>
+            <div style="font-size:13px;color:#75797a;line-height:1.5">El mismo gramaje con una selección de mayor categoría: quesos importados y charcutería de reserva. No es una tabla más grande.</div>
           </div>
         </label>
 
@@ -487,7 +515,7 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
 
 </div>
 
-<script src="catalogo.js?v=1f2494754457"></script>
+<script src="catalogo.js?v=7e16b4c5018b"></script>
 <script>
 (function(){
   var WA='525623632404';
@@ -566,9 +594,10 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
     document.getElementById('ptmRegla').textContent = t.ev
       ? 'Tabla de evento: pídela con '+LOGISTICA.event_lead_time_days+' días de anticipación.'
       : 'Pide con al menos '+LOGISTICA.standard_lead_time_hours+' h de anticipación.';
-    document.getElementById('ptmNota').innerHTML = t.ev
-      ? 'Aparta tu fecha con el 50% · se liquida 8 días antes del evento.'
-      : 'Pago completo por transferencia al confirmar (hasta 48 h antes de tu entrega).';
+    var PAGO=LOGISTICA.payment;
+    document.getElementById('ptmNota').textContent = t.ev
+      ? 'Aparta tu fecha con el '+PAGO.event.deposit_pct+' % y liquida '+PAGO.event.balance_due_days_before_delivery+' días antes de la entrega; si faltan '+PAGO.event.balance_due_days_before_delivery+' días o menos, se paga completa al reservar.'
+      : 'Pago completo por '+PAGO.standard.method+' al confirmar (hasta '+PAGO.standard.full_payment_due_hours_before_delivery+' h antes de tu entrega).';
     ptmRecalc();
     document.getElementById('ptModalBg').classList.add('open');
     document.body.style.overflow='hidden';

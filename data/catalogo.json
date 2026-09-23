@@ -8,7 +8,10 @@
       "id": "picandotabla:promotion:caja-tapas-regalo",
       "type": "gift",
       "title": "Caja de tapas de regalo",
-      "description": "Una caja de tapas incluida sin costo para acompañar la reunión.",
+      "description": "Una caja de tapas de regalo por pedido que incluya una tabla de 850 g o más.",
+      "min_weight_g": 850,
+      "limit_per_order": 1,
+      "applies_to_custom_events": false,
       "eligible_product_keys": [
         "anfitriona",
         "fiesta",
@@ -196,12 +199,16 @@
       "key": "premium",
       "status": "active",
       "title": "Hazla Premium",
+      "description": "Mismo gramaje con una selección de mayor categoría; no es una tabla más grande.",
       "prices_mxn_by_product_key": {
         "dos": 300,
-        "anfitriona": 400,
+        "anfitriona": 350,
         "fiesta": 600,
         "celebracion": 900
-      }
+      },
+      "confirmed_product_keys": [
+        "anfitriona"
+      ]
     }
   ],
   "delivery": {
@@ -223,7 +230,18 @@
       "sábado"
     ],
     "standard_lead_time_hours": 48,
-    "event_lead_time_days": 7
+    "event_lead_time_days": 7,
+    "payment": {
+      "standard": {
+        "method": "transferencia",
+        "full_payment_due_hours_before_delivery": 48
+      },
+      "event": {
+        "deposit_pct": 50,
+        "balance_due_days_before_delivery": 8,
+        "note": "Si faltan 8 días o menos para la entrega, se paga completa al reservar."
+      }
+    }
   },
   "portioning": {
     "grams_per_person": 170,

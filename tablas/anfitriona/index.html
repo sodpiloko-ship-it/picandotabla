@@ -6,7 +6,7 @@
     <title>Tabla de Quesos para 4 a 6 Personas en CDMX | Picando Tabla</title>
     <meta
       name="description"
-      content="Tabla de quesos y charcutería para reuniones de 4 a 6 personas en CDMX. Armada y lista para servir. $950 MXN."
+      content="Tabla de quesos y charcutería de 850 g para 4 a 6 personas en CDMX. Selección estándar $950 MXN o premium $1,300 MXN, lista para servir."
     />
     <link rel="canonical" href="https://picandotabla.com/tablas/anfitriona/" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -18,7 +18,7 @@
     />
     <meta
       property="og:description"
-      content="Tabla de quesos y charcutería para reuniones de 4 a 6 personas en CDMX. Armada y lista para servir. $950 MXN."
+      content="Tabla de quesos y charcutería de 850 g para 4 a 6 personas en CDMX. Selección estándar $950 MXN o premium $1,300 MXN, lista para servir."
     />
     <meta
       property="og:url"
@@ -43,14 +43,27 @@
         "sku": "PT-ANFITRIONA",
         "weight": { "@type": "QuantitativeValue", "value": 850, "unitCode": "GRM" },
         "brand": { "@type": "Brand", "name": "Picando Tabla" },
-        "offers": {
-          "@type": "Offer",
-          "url": "https://picandotabla.com/tablas/anfitriona/",
-          "priceCurrency": "MXN",
-          "price": 950,
-          "availability": "https://schema.org/LimitedAvailability",
-          "seller": { "@type": "Organization", "name": "Picando Tabla" }
-        }
+        "offers": [
+          {
+            "@type": "Offer",
+            "name": "Selección estándar (850 g)",
+            "url": "https://picandotabla.com/tablas/anfitriona/",
+            "priceCurrency": "MXN",
+            "price": 950,
+            "availability": "https://schema.org/LimitedAvailability",
+            "seller": { "@type": "Organization", "@id": "https://picandotabla.com/#organization", "name": "Picando Tabla" }
+          },
+          {
+            "@type": "Offer",
+            "name": "Selección premium (850 g)",
+            "description": "El mismo gramaje con quesos importados y charcutería de reserva.",
+            "url": "https://picandotabla.com/tablas/anfitriona/#premium",
+            "priceCurrency": "MXN",
+            "price": 1300,
+            "availability": "https://schema.org/LimitedAvailability",
+            "seller": { "@type": "Organization", "@id": "https://picandotabla.com/#organization", "name": "Picando Tabla" }
+          }
+        ]
       }
     </script>
     <script type="application/ld+json">
@@ -82,7 +95,7 @@
   </head>
   <body>
     <div class="promo">
-      PROMOCIÓN · Caja de tapas GRATIS en tablas para más de 4 personas
+      PROMOCIÓN · Caja de tapas GRATIS en tablas de 850 g o más
     </div>
     <header class="site-header">
       <nav class="nav" aria-label="Navegación principal">
@@ -92,7 +105,7 @@
         <div class="nav-links">
           <a href="/tablas/" aria-current="page">Tablas</a
           ><a href="/reuniones/">Reuniones</a><a href="/regalos/">Regalos</a
-          ><a href="/eventos/">Eventos</a><a href="/blog/">Blog</a
+          ><a href="/eventos/">Catering y eventos</a><a href="/blog/">Blog</a
           ><a class="nav-cta" href="/?tabla=anfitriona#tablas"
             >Pedir esta tabla</a
           >
@@ -122,7 +135,8 @@
             </p>
             <div class="price-line">
               <strong class="price">$950 MXN</strong
-              ><span class="people">850 g · recomendada para 4–6 personas</span>
+              ><span class="people">850 g · recomendada para 4–6 personas</span
+              ><a class="people" href="#premium">Premium: $1,300 MXN, mismo gramaje</a>
             </div>
             <div class="pill-row">
               <span class="pill">Reunión de amigos</span
@@ -132,7 +146,7 @@
             </div>
             <div class="gift-note">
               <strong>Regalo incluido:</strong> esta tabla incluye una caja de
-              tapas sin costo para acompañar la reunión.
+              tapas sin costo (una por pedido, en tablas de 850 g o más).
             </div>
             <div class="actions">
               <a
@@ -156,6 +170,50 @@
           </div>
         </section>
       </div>
+      <section class="section" id="premium" style="scroll-margin-top:140px">
+        <div class="wrap">
+          <div class="section-head">
+            <div>
+              <div class="eyebrow">Estándar o premium</div>
+              <h2>La misma tabla de 850 g, dos niveles de selección</h2>
+            </div>
+            <p>
+              La versión premium no es una tabla más grande: conserva los 850 g
+              y cambia la categoría de lo que lleva.
+            </p>
+          </div>
+          <div class="options">
+            <div class="option">
+              <small>Selección estándar</small>
+              <h3>Tabla de la Anfitriona</h3>
+              <div class="amount">$950 MXN</div>
+              <p>
+                850 g de referencia con 4 quesos de temporada, 3 carnes de
+                charcutería, fruta, miel, frutos secos y crujientes.
+              </p>
+            </div>
+            <div class="option on">
+              <small>Selección premium</small>
+              <h3>Tabla de la Anfitriona Premium</h3>
+              <div class="amount">$1,300 MXN</div>
+              <p>
+                Los mismos 850 g con quesos importados y charcutería de reserva.
+                Son $350 MXN más que la estándar; se elige con la opción «Hazla
+                Premium» al hacer tu pedido.
+              </p>
+            </div>
+          </div>
+          <div class="quick">
+            <strong>Respuesta rápida:</strong> la Tabla de la Anfitriona pesa
+            850 g de referencia y se recomienda para 4 a 6 personas. Cuesta $950
+            MXN en selección estándar o $1,300 MXN en selección premium (mismo
+            gramaje, productos de mayor categoría). Incluye una caja de tapas de
+            regalo por pedido. Se entrega en CDMX con mensajería de $120 MXN; se
+            pide con al menos 48 horas de anticipación y se paga por
+            transferencia hasta 48 horas antes de la entrega.
+          </div>
+        </div>
+      </section>
       <section class="section paper">
         <div class="wrap split">
           <div>
@@ -180,8 +238,9 @@
             <div class="eyebrow">Entrega</div>
             <h2>Entrega en CDMX</h2>
             <p>
-              Pide y confirma con al menos 48 horas de anticipación. La
-              mensajería cuesta $120 MXN y se suma al pedido.
+              Pide y confirma con al menos 48 horas de anticipación. Pagas por
+              transferencia hasta 48 horas antes de la entrega. La mensajería
+              cuesta $120 MXN y se suma al pedido.
             </p>
             <div class="actions">
               <a class="btn primary" href="/?tabla=anfitriona#tablas"
@@ -242,7 +301,7 @@
       <div class="wrap">
         <div>
           <h2>Tabla de la Anfitriona</h2>
-          <p>850 g · recomendada para 4–6 personas · $950 MXN · entrega en CDMX.</p>
+          <p>850 g · recomendada para 4–6 personas · $950 MXN (premium $1,300 MXN) · entrega en CDMX.</p>
         </div>
         <a class="btn" href="/?tabla=anfitriona#tablas">Pedir esta tabla</a>
       </div>
@@ -255,7 +314,7 @@
         </div>
         <nav>
           <a href="/tablas/">Tablas</a><a href="/reuniones/">Reuniones</a
-          ><a href="/regalos/">Regalos</a><a href="/eventos/">Eventos</a
+          ><a href="/regalos/">Regalos</a><a href="/eventos/">Catering y eventos</a
           ><a href="/empresas/">Empresas</a><a href="/blog/">Blog</a>
         </nav>
       </div>

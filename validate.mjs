@@ -20,7 +20,7 @@ const htmlFiles = walk(root)
   .sort();
 const titles = new Map();
 const canonicals = new Map();
-const promotion = "PROMOCIÓN · Caja de tapas GRATIS en tablas para más de 4 personas";
+const promotion = "PROMOCIÓN · Caja de tapas GRATIS en tablas de 850 g o más";
 
 function attribute(html, name, value, attributeName = "content") {
   const tag = html.match(new RegExp(`<meta[^>]+${name}=["']${value}["'][^>]*>`, "i"))?.[0];
@@ -91,13 +91,61 @@ const productFiles = [
   ["tablas/fiesta/index.html", 1600],
   ["tablas/celebracion/index.html", 2600],
 ];
+const productSchema = (html) => [...html.matchAll(/<script[^>]*application\/ld\+json[^>]*>([\s\S]*?)<\/script>/gi)]
+  .map((match) => JSON.parse(match[1]))
+  .find((data) => data["@type"] === "Product");
 for (const [file, price] of productFiles) {
   const html = read(file);
-  const product = [...html.matchAll(/<script[^>]*application\/ld\+json[^>]*>([\s\S]*?)<\/script>/gi)]
-    .map((match) => JSON.parse(match[1]))
-    .find((data) => data["@type"] === "Product");
-  assert.equal(product?.offers?.price, price, `${file}: precio de Product schema`);
+  const offers = [].concat(productSchema(html)?.offers || []);
+  assert.equal(offers[0]?.price, price, `${file}: precio de Product schema`);
   assert.match(html, new RegExp(`\\$${price.toLocaleString("en-US")} MXN`), `${file}: precio visible coincide`);
+}
+
+// Datos confirmados por David (paquete SEO/LLM/catering, 2026-09-22): Anfitriona 850 g,
+// estándar $950, premium $1,300 (+$350, mismo gramaje). El +$350 nunca es el precio del premium.
+const anfitriona = read("tablas/anfitriona/index.html");
+const anfitrionaOffers = [].concat(productSchema(anfitriona)?.offers || []);
+assert.deepEqual(anfitrionaOffers.map((offer) => offer.price), [950, 1300], "anfitriona: ofertas estándar y premium en schema");
+assert.match(anfitriona, /\$1,300 MXN/, "anfitriona: premium visible");
+assert.match(anfitriona, /mismo gramaje|mismos 850 g/i, "anfitriona: premium no cambia el gramaje");
+assert.match(read("catalogo.js"), /"anfitriona":350/, "catálogo: premium de Anfitriona +$350");
+
+// Promoción por gramaje, una por pedido; sin el criterio anterior por personas.
+const publicText = [...htmlFiles, "llms.txt", "llms-full.txt"].map((file) => [file, read(file)]);
+for (const [file, text] of publicText) {
+  assert.ok(!/más de\s+(4|cuatro)\s+personas/i.test(text), `${file}: la promoción ya no se expresa por personas`);
+}
+assert.match(read("llms-full.txt"), /Una caja de tapas de regalo por pedido que incluya una tabla de 850 g o más/);
+
+// Plazos: una tabla de evento se pide con 7 días, así que "liquidar 8 días antes" debe
+// resolver la ventana de reservas tardías; la frase suelta era una contradicción.
+for (const file of htmlFiles) {
+  const html = read(file);
+  for (const match of html.matchAll(/liquid[a-z]* 8 días antes/gi)) {
+    assert.ok(/si faltan 8 días o menos/.test(html.slice(match.index, match.index + 200).replace(/\s+/g, " ")), `${file}: regla de liquidación sin contradicción`);
+  }
+}
+
+// Alcance: el sitio no promete servicios que no están confirmados.
+for (const file of htmlFiles) {
+  const visible = read(file).replace(/<script\b[\s\S]*?<\/script>/gi, " ").replace(/<style\b[\s\S]*?<\/style>/gi, " ");
+  assert.ok(!/lo resolvamos todo|sin que muevas un dedo|todo incluido|nos encargamos de todo/i.test(visible), `${file}: sin promesas de alcance total`);
+}
+
+// Catering: /eventos/ es la página del servicio y solo confirma con recepción real (folio).
+const eventos = read("eventos/index.html");
+assert.match(eventos, /<h1[^>]*>Catering de quesos y charcutería para eventos en CDMX<\/h1>/);
+assert.match(eventos, /"@type":"Service"/);
+assert.doesNotMatch(eventos, /"@type":"Event"/);
+assert.match(eventos, /fetch\('\/evento\.php'/);
+assert.match(eventos, /if\(!j\|\|!j\.ok\|\|!j\.folio\)/, "eventos: confirma solo con folio del servidor");
+for (const field of ["e_tipo", "e_personas", "e_fecha", "e_zona", "e_prestipo", "e_cubre", "e_nombre", "e_tel", "e_correo", "e_restric", "failBox", "okBox"]) {
+  assert.match(eventos, new RegExp(`id=["']${field}["']`), `eventos incluye ${field}`);
+}
+assert.match(read("evento.php"), /'folio' => \$folio/);
+assert.match(read("index.html"), /id="catering"[\s\S]*href="\/eventos\/"/, "home: bloque de catering enlazado");
+for (const file of htmlFiles) {
+  if (/href=["']\/eventos\/["'][^>]*>\s*Eventos\s*</.test(read(file))) assert.fail(`${file}: el menú debe decir "Catering y eventos"`);
 }
 
 const sitemap = read("sitemap.xml");

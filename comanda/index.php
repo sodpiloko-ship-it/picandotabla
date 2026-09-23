@@ -216,12 +216,14 @@ foreach ($eventos as $ev) {
     $fecha = $ev['at'] ?? '';
     try { $fecha = (new DateTime($fecha))->format('d/m/Y H:i'); } catch (Throwable $t) {}
     echo '<div class="card"><div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:6px">'
-       . '<b>' . cmd_esc($ev['nombre'] ?? 'Sin nombre') . '</b><span class="muted">' . cmd_esc($fecha) . '</span></div>'
+       . '<b>' . (!empty($ev['folio']) ? cmd_esc($ev['folio']) . ' · ' : '') . cmd_esc($ev['nombre'] ?? 'Sin nombre') . '</b><span class="muted">' . cmd_esc($fecha) . '</span></div>'
        . '<div style="font-size:14px;line-height:1.7">';
     foreach (['evento' => 'Tipo', 'empresa' => 'Empresa', 'personas' => 'Personas', 'fecha' => 'Fecha del evento',
-              'zona' => 'Zona', 'presupuesto_tipo' => 'Tipo de presupuesto', 'presupuesto' => 'Presupuesto',
-              'telefono' => 'Teléfono', 'correo' => 'Correo',
-              'servicios' => 'Le interesa', 'vinos' => 'Vinos', 'detalles' => 'Detalles'] as $k => $lbl) {
+              'fecha_flexible' => 'Fecha flexible', 'zona' => 'Zona', 'momento' => 'Momento', 'presentacion' => 'Presentación',
+              'formato' => 'Busca', 'presupuesto_tipo' => 'Tipo de presupuesto', 'presupuesto' => 'Presupuesto',
+              'presupuesto_cubre' => 'El presupuesto cubre', 'telefono' => 'Teléfono', 'correo' => 'Correo',
+              'servicios' => 'Le interesa', 'vinos' => 'Vinos', 'restricciones' => 'Restricciones alimentarias',
+              'detalles' => 'Detalles'] as $k => $lbl) {
         $v = $ev[$k] ?? '';
         if (is_array($v)) $v = implode(', ', $v);
         if ((string) $v !== '') echo '<span class="muted">' . cmd_esc($lbl) . ':</span> ' . cmd_esc((string) $v) . '<br>';
