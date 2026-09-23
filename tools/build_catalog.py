@@ -15,6 +15,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "data" / "catalogo.json"
 TARGET = ROOT / "catalogo.js"
+PROMO_TARGET = ROOT / "promo.js"
 HOME = ROOT / "index.html"
 ORDER = ROOT / "orden" / "index.html"
 EXPECTED_PRODUCT_KEYS = {"dos", "anfitriona", "fiesta", "celebracion"}
@@ -223,6 +224,28 @@ def render_js(catalog: dict) -> str:
         "  document.documentElement.dataset.pondCatalog='picandotabla:'"
         "+catalog.schema_version;\n"
         "})(window);\n"
+    )
+
+
+def render_promo_js(catalog: dict) -> str:
+    """Banner de la extensión temporal de la caja de tapas: el HTML conserva la regla base y este script
+    muestra la extensión solo mientras esté vigente (al vencer, el sitio vuelve solo a la regla base)."""
+    ext = catalog["promotions"][0].get("extension") or {}
+    config = json.dumps({"hasta": ext.get("all_orders_until", ""), "banner": ext.get("banner", "")}, ensure_ascii=False)
+    return (
+        "/* Generado por tools/build_catalog.py desde data/catalogo.json. No editar. */\n"
+        "(function(){\n"
+        f"  var P={config};\n"
+        "  function vigente(){ if(!P.hasta) return false; var d=new Date(), h=P.hasta.split('-');"
+        " return d<=new Date(+h[0],+h[1]-1,+h[2],23,59,59); }\n"
+        "  window.PT_PROMO_EXTENDIDA=vigente();\n"
+        "  if(!window.PT_PROMO_EXTENDIDA) return;\n"
+        "  function aplicar(){\n"
+        "    document.querySelectorAll('.promo').forEach(function(el){ if(/Caja de tapas GRATIS/.test(el.textContent)) el.textContent=P.banner; });\n"
+        "    document.querySelectorAll('[data-promo-ext]').forEach(function(el){ el.textContent=el.getAttribute('data-promo-ext'); });\n"
+        "  }\n"
+        "  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',aplicar); else aplicar();\n"
+        "})();\n"
     )
 
 
@@ -655,6 +678,8 @@ def main() -> int:
     if args.check:
         if not TARGET.exists() or TARGET.read_text(encoding="utf-8") != generated:
             fail("catalogo.js está desactualizado; ejecuta tools/build_catalog.py")
+        if not PROMO_TARGET.exists() or PROMO_TARGET.read_text(encoding="utf-8") != render_promo_js(catalog):
+            fail("promo.js está desactualizado; ejecuta tools/build_catalog.py")
         for path, blocks in blocks_by_path.items():
             current = path.read_text(encoding="utf-8")
             if current != expected_html(
@@ -667,7 +692,8 @@ def main() -> int:
         print("Catálogo válido; proyección JS y fallbacks HTML actualizados.")
         return 0
     TARGET.write_text(generated, encoding="utf-8", newline="\n")
-    updated = [str(TARGET.relative_to(ROOT))]
+    PROMO_TARGET.write_text(render_promo_js(catalog), encoding="utf-8", newline="\n")
+    updated = [str(TARGET.relative_to(ROOT)), str(PROMO_TARGET.relative_to(ROOT))]
     for path, blocks in blocks_by_path.items():
         rendered = expected_html(
             catalog,

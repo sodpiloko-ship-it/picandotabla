@@ -17,7 +17,12 @@
         "fiesta",
         "celebracion"
       ],
-      "price_mxn": 0
+      "price_mxn": 0,
+      "extension": {
+        "all_orders_until": "2026-09-30",
+        "banner": "PROMOCIÓN · Caja de tapas GRATIS en todos los pedidos · hasta el 30 de septiembre",
+        "note": "Extensión temporal: la caja va en cualquier tabla (también la de 340 g). Al vencer, la regla vuelve a min_weight_g."
+      }
     }
   ],
   "products": [

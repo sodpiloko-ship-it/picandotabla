@@ -84,6 +84,7 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
   .pt-up input{margin-top:3px;accent-color:#7c2d3e;width:16px;height:16px;flex:none;cursor:pointer}
   @media(max-width:760px){.promo{font-size:12px!important;line-height:1.25!important;height:64px!important;min-height:64px!important;padding:7px 12px!important}#ptHeader{top:64px!important}}
 </style>
+<script defer src="/promo.js"></script>
 </head>
 <body>
 <div style="background:#e9eaea;color:#26282a;min-height:100vh">
@@ -137,11 +138,11 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
       <img src="/img/caja-tapas-regalo.jpg" alt="Tapa de pan con queso, higo, hojas verdes y jamón incluida como regalo" width="1448" height="1086" style="width:100%;height:360px;object-fit:cover;border-radius:16px">
       <div>
         <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#d4a6b1;font-weight:700;margin-bottom:12px">Regalo para compartir</div>
-        <h2 style="font-family:Lora,serif;font-size:clamp(30px,4vw,42px);line-height:1.12;font-weight:600;margin:0;color:#fff">Tu tabla de 850 g o más incluye una caja de tapas.</h2>
-        <p style="font-size:16px;line-height:1.65;color:#c7cbcc;margin:18px 0 0;max-width:54ch">Agregamos una caja por pedido, sin costo, cuando eliges la Tabla de la Anfitriona (850 g), la de Fiesta (1,360 g) o la de Celebración (1,870 g). Un primer bocado listo para servir mientras empieza la reunión.</p>
+        <h2 style="font-family:Lora,serif;font-size:clamp(30px,4vw,42px);line-height:1.12;font-weight:600;margin:0;color:#fff" data-promo-ext="Hasta el 30 de septiembre, todas las tablas incluyen una caja de tapas.">Tu tabla de 850 g o más incluye una caja de tapas.</h2>
+        <p style="font-size:16px;line-height:1.65;color:#c7cbcc;margin:18px 0 0;max-width:54ch" data-promo-ext="Agregamos una caja por pedido, sin costo, en cualquier tabla: también la Tabla para Dos. Un primer bocado listo para servir mientras empieza la reunión.">Agregamos una caja por pedido, sin costo, cuando eliges la Tabla de la Anfitriona (850 g), la de Fiesta (1,360 g) o la de Celebración (1,870 g). Un primer bocado listo para servir mientras empieza la reunión.</p>
         <p style="font-size:12px;line-height:1.5;color:#9a9ea0;margin:12px 0 0">La selección puede variar según los ingredientes de temporada.</p>
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:24px">
-          <a href="/tablas/#catalogo" class="ptbtn" style="display:inline-flex;align-items:center;background:#fff;color:#26282a;padding:12px 22px;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none">Ver tablas con regalo</a>
+          <a href="/tablas/#catalogo" class="ptbtn" style="display:inline-flex;align-items:center;background:#fff;color:#26282a;padding:12px 22px;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none" data-promo-ext="Elegir mi tabla con regalo">Ver tablas con regalo</a>
           <a href="/blog/caja-de-tapas-regalo-tablas-cdmx.html" style="display:inline-flex;align-items:center;color:#fff;padding:11px 18px;border:1px solid #8f9293;border-radius:999px;font-weight:600;font-size:14px;text-decoration:none">Conocer la promoción</a>
         </div>
       </div>
@@ -525,7 +526,7 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
 
 </div>
 
-<script src="catalogo.js?v=afcb12f9270f"></script>
+<script src="catalogo.js?v=9d2ffa46a154"></script>
 <script>
 (function(){
   var WA='525623632404';
@@ -544,6 +545,9 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
   var CATALOGO=window.PICANDO_CATALOGO_V1;
   var PREMIUM=CATALOGO.modifiers.filter(function(m){return m.key==='premium';})[0];
   var REGALO=CATALOGO.promotions.filter(function(p){return p.id==='picandotabla:promotion:caja-tapas-regalo';})[0];
+  // Extensión temporal: hasta extension.all_orders_until la caja va en cualquier tabla (pago/lib.php aplica lo mismo).
+  var PROMO_EXT=(function(){ var e=REGALO&&REGALO.extension; if(!e||!e.all_orders_until) return false;
+    var h=e.all_orders_until.split('-'); return new Date()<=new Date(+h[0],+h[1]-1,+h[2],23,59,59); })();
   var MENSAJERIA=CATALOGO.delivery.price_mxn;
   var LOGISTICA=CATALOGO.logistics;
   var TABLAS={};
@@ -560,7 +564,7 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
       ev:product.is_event,
       d:product.description,
       inc:product.included,
-      regalo:REGALO&&REGALO.eligible_product_keys.indexOf(product.key)>-1
+      regalo:!!REGALO&&(PROMO_EXT||REGALO.eligible_product_keys.indexOf(product.key)>-1)
     };
   });
   var UPSELLS=CATALOGO.extras.filter(function(extra){return extra.key==='pan';}).map(function(extra){
@@ -569,6 +573,13 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
   var fmt=function(v){ return '$'+v.toLocaleString('en-US'); };
   document.querySelectorAll('[data-catalog-product]').forEach(function(card){
     var product=TABLAS[card.dataset.catalogProduct]; if(!product) return;
+    var precio=card.querySelector('[data-catalog-price]');
+    if(product.regalo&&!/Caja de tapas/.test(card.textContent)&&precio){
+      var g=document.createElement('div');
+      g.setAttribute('style','margin:-2px 0 13px;padding:8px 10px;border-radius:9px;background:#faf5f6;color:#7c2d3e;font-size:12px;font-weight:700');
+      g.textContent='🎁 '+REGALO.title+' incluida';
+      precio.insertAdjacentElement('afterend',g);
+    }
     card.querySelector('[data-catalog-image]').style.backgroundImage='url("'+product.img+'")';
     card.querySelector('[data-catalog-tag]').textContent=product.tag;
     card.querySelector('[data-catalog-title]').textContent=product.n;

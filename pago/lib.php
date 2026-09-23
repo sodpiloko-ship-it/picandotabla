@@ -299,7 +299,10 @@ function ptpg_cotizar(string $clave, bool $premium, array $extras, string $fecha
   $lineas = [['id' => (string)$producto['id'], 'titulo' => $titulo, 'precio' => $precio]];
 
   foreach ((array)$cat['promotions'] as $promo) {
-    if (($promo['type'] ?? '') === 'gift' && in_array($clave, (array)($promo['eligible_product_keys'] ?? []), true)) {
+    // Extensión temporal (extension.all_orders_until): la caja va en cualquier tabla hasta esa fecha inclusive.
+    $hasta = (string)($promo['extension']['all_orders_until'] ?? '');
+    $extendida = $hasta !== '' && $hoy->format('Y-m-d') <= $hasta;
+    if (($promo['type'] ?? '') === 'gift' && ($extendida || in_array($clave, (array)($promo['eligible_product_keys'] ?? []), true))) {
       $lineas[] = ['id' => (string)$promo['id'], 'titulo' => $promo['title'] . ' (regalo)', 'precio' => 0.0];
     }
   }
