@@ -3,7 +3,7 @@
    Eventos: PageView en toda página; ViewContent en las fichas /tablas/<tabla>/; Contact al abrir WhatsApp;
    el pago (InitiateCheckout) y la compra (Purchase) los mide la ficha del inicio y pago/gracias.php. */
 (function () {
-  var PIXEL = '1476266257879276';
+  var PIXEL = '2506529536509128';
   if (window.fbq) return;
   !function (f, b, e, v, n, t, s) {
     if (f.fbq) return; n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); };
