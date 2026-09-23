@@ -271,7 +271,7 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
     </div>
   </div>
 
-  <!-- Catering y eventos: segundo camino de la portada (plan SEO/LLM/catering 2026-09) -->
+  <!-- Catering y eventos: segundo camino de la portada -->
   <section id="catering" style="background:#fbfcfc;border-top:1px solid #d3d5d4">
     <div class="revealable pt-2col pt-pad" style="max-width:1200px;margin:0 auto;padding:60px 32px;display:grid;grid-template-columns:1fr 1.1fr;gap:48px;align-items:center">
       <img src="/img/5.jpg" alt="Selección de quesos y charcutería lista para compartir en un evento" width="960" height="960" loading="lazy" style="width:100%;height:340px;object-fit:cover;border-radius:16px">
@@ -455,7 +455,7 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
             <!-- POND_CATALOG:HOME_MODAL_PREMIUM_TITLE:START -->
             <div style="font-weight:600;font-size:14.5px;color:#26282a">Hazla Premium <span id="ptmPremPrecio" style="color:#7c2d3e"></span> <span style="background:#c9a44a;color:#fff;font-size:10px;font-weight:700;letter-spacing:1px;padding:2px 8px;border-radius:999px;text-transform:uppercase;vertical-align:2px">Premium</span></div>
             <!-- POND_CATALOG:HOME_MODAL_PREMIUM_TITLE:END -->
-            <div style="font-size:13px;color:#75797a;line-height:1.5">El mismo gramaje con una selección de mayor categoría: quesos importados y charcutería de reserva. No es una tabla más grande.</div>
+            <div style="font-size:13px;color:#75797a;line-height:1.5">El mismo gramaje con una selección de mayor categoría (por ejemplo, quesos importados o charcutería de reserva, según disponibilidad). No es una tabla más grande.</div>
           </div>
         </label>
 
@@ -544,6 +544,7 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
       v:product.price_mxn,
       regular:product.regular_price_mxn||null,
       prem:PREMIUM.prices_mxn_by_product_key[product.key],
+      premOk:(PREMIUM.confirmed_product_keys||[]).indexOf(product.key)>-1,
       img:product.media.image,
       tag:product.presentation.tag,
       ev:product.is_event,
@@ -583,7 +584,7 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
       (t.regalo?'<li><strong style="color:#7c2d3e">'+REGALO.title+' incluida sin costo</strong></li>':'');
     document.getElementById('ptmPrem').checked=false;
     document.getElementById('ptmPremBox').classList.remove('on');
-    document.getElementById('ptmPremPrecio').textContent='+'+fmt(t.prem);
+    document.getElementById('ptmPremPrecio').textContent='+'+fmt(t.prem)+' · queda en '+fmt(t.v+t.prem)+(t.premOk?'':' (se confirma por WhatsApp)');
     document.getElementById('ptmUps').innerHTML=UPSELLS.map(function(u){
       return '<label class="pt-up" id="ptmUp_'+u.id+'"><input type="checkbox" data-up="'+u.id+'" onchange="ptmRecalc()">'+
         '<div><div style="font-weight:600;font-size:14.5px;color:#26282a">'+u.n+' <span style="color:#7c2d3e">+'+fmt(u.v)+'</span></div>'+
@@ -616,6 +617,7 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
     var prem=document.getElementById('ptmPrem');
     document.getElementById('ptmPremBox').classList.toggle('on', prem.checked);
     if(prem.checked) total+=t.prem;
+    document.getElementById('ptmPrecio').textContent=fmt(t.v+(prem.checked?t.prem:0));
     UPSELLS.forEach(function(u){
       var cb=document.querySelector('input[data-up="'+u.id+'"]');
       document.getElementById('ptmUp_'+u.id).classList.toggle('on', !!(cb&&cb.checked));

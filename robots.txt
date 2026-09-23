@@ -1,8 +1,8 @@
 # Picando Tabla — el contenido público está abierto a buscadores y asistentes.
 # Los buscadores de IA se nombran explícitamente para dejar constancia de que pueden
 # recuperar las páginas públicas (la decisión sobre bots de entrenamiento no cambia:
-# también quedan permitidos por la regla general). Las áreas privadas (/comanda/, /data/)
-# se protegen con contraseña y bloqueo del servidor, no con este archivo.
+# también quedan permitidos por la regla general). Las áreas privadas se protegen con
+# contraseña y bloqueo del servidor, no con este archivo.
 
 User-agent: *
 Allow: /

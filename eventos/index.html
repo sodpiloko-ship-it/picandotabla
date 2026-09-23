@@ -323,7 +323,7 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
   </div>
 
   <!-- Alcance -->
-  <div style="background:#fbfcfc;border-top:1px solid #d3d5d4">
+  <div id="alcance" style="background:#fbfcfc;border-top:1px solid #d3d5d4;scroll-margin-top:130px">
     <div class="pt-pad" style="max-width:1200px;margin:0 auto;padding:60px 32px">
       <div style="margin-bottom:24px">
         <div class="ev-eyebrow">Alcance</div>
@@ -558,8 +558,9 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
   window.evPaso2=function(){
     if(!val('e_tipo')) return showErr('evErr1','Elige el tipo de evento.','e_tipo');
     var n=val('e_personas');
-    if(!/^\d{1,4}$/.test(n)||parseInt(n,10)<1) return showErr('evErr1','Escribe el número aproximado de asistentes (un número entero mayor que cero).','e_personas');
+    if(!/^\d{1,4}$/.test(n)||parseInt(n,10)<1||parseInt(n,10)>5000) return showErr('evErr1','Escribe el número aproximado de asistentes (un número entero entre 1 y 5,000).','e_personas');
     if(!fechaEl.value&&!flexEl.checked) return showErr('evErr1','Indica la fecha del evento o marca que aún no la tienes.','e_fecha');
+    if(fechaEl.value&&new Date(fechaEl.value+'T00:00:00')<hoy) return showErr('evErr1','Esa fecha ya pasó: elige una fecha a partir de hoy.','e_fecha');
     if(!val('e_zona')) return showErr('evErr1','Escribe la alcaldía o colonia del evento.','e_zona');
     showErr('evErr1','');
     $('evStep1').style.display='none'; $('evStep2').style.display='block';
@@ -610,9 +611,10 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
     var p=payload(), btn=$('evEnviar');
     sending=true; btn.disabled=true; btn.textContent='Enviando…'; $('failBox').style.display='none';
     var ctrl=(typeof AbortController!=='undefined')?new AbortController():null;
-    var timer=setTimeout(function(){ if(ctrl) ctrl.abort(); },15000);
+    var timer=setTimeout(function(){ if(ctrl) ctrl.abort(); },30000);
+    var rechazo='';
     fetch('/evento.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(p),signal:ctrl?ctrl.signal:undefined})
-      .then(function(r){ return r.json().catch(function(){ return {ok:false}; }); })
+      .then(function(r){ return r.json().catch(function(){ return {ok:false}; }).then(function(j){ if(r.status===400&&j&&j.error) rechazo=j.error; return j; }); })
       .then(function(j){
         clearTimeout(timer);
         if(!j||!j.ok||!j.folio) throw new Error((j&&j.error)||'sin confirmación');
@@ -628,6 +630,7 @@ src="https://www.facebook.com/tr?id=1537185354529246&ev=PageView&noscript=1"
       })
       .catch(function(){
         clearTimeout(timer);
+        if(rechazo){ showErr('evErr2','Revisa tus datos: '+rechazo+'.'); track('quote_error',{source:'eventos_form',tipo:'validacion'}); return; }
         $('failBox').style.display='block';
         $('failBox').scrollIntoView({behavior:'smooth',block:'center'});
         track('quote_error',{source:'eventos_form'});

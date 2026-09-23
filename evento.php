@@ -3,8 +3,9 @@
 // Guarda la solicitud con FOLIO (PII en data/, gitignored + .htaccess), AVISA por TELEGRAM y manda correo.
 // Recepción real: solo responde ok cuando la solicitud quedó guardada o, si el disco falla, cuando
 // el aviso salió por correo o Telegram. El formulario muestra "Recibimos tu solicitud" SOLO con ok.
-// Idempotente: el formulario manda una llave `idem`; un reintento con la misma llave devuelve el
-// mismo folio sin duplicar el registro ni volver a avisar.
+// Idempotente: el formulario manda una llave `idem`. Un reintento IDÉNTICO (misma llave y mismo
+// contenido) devuelve el mismo folio sin duplicar ni volver a avisar; si el cliente corrigió algún dato
+// antes de reintentar, se guarda como solicitud nueva que indica a qué folio reemplaza.
 // SEGURIDAD: el token de Telegram NUNCA vive en el repo. Se lee, en este orden:
 //   1) variables de entorno TG_BOT_TOKEN / TG_CHAT_ID (hPanel -> PHP -> Environment/Variables)
 //   2) secrets/telegram.json  ->  {"bot_token":"...","chat_id":"..."}  (subir A MANO al server, NO por git)
@@ -55,6 +56,7 @@ $detalles     = pt_clean($d['detalles']          ?? '', 1400);
 $origen       = pt_clean($d['origen']            ?? 'eventos_form', 60);
 $idem         = preg_replace('/[^a-f0-9]/', '', strtolower((string)($d['idem'] ?? '')));
 $idem         = substr($idem, 0, 32);
+if (strlen($idem) < 16) $idem = '';   // llaves cortas no deduplican (evita colisiones entre clientes)
 
 $servicios = '';
 if (!empty($d['servicios']) && is_array($d['servicios'])) {
@@ -77,7 +79,13 @@ $file = $dir . '/eventos.jsonl';
 @mkdir($dir, 0755, true);
 @file_put_contents($dir . '/.htaccess', "Require all denied\nDeny from all\n");
 
-// --- Reintento con la misma llave: mismo folio, sin duplicar ni volver a avisar ---
+// Firma del contenido: distingue un reintento idéntico de uno con datos corregidos.
+$sig = substr(hash('sha256', json_encode([$nombre, $empresa, $correo, $telefono, $tipo, $fecha, $fechaFlex, $zona,
+  $personas, $presentacion, $momento, $formato, $presTipo, $presupu, $presCubre, $servicios, $vinos, $restric,
+  $detalles], JSON_UNESCAPED_UNICODE)), 0, 16);
+$reemplaza = '';
+
+// --- Reintento con la misma llave: idéntico = mismo folio; corregido = solicitud nueva ---
 if ($idem !== '' && is_file($file)) {
   $size = filesize($file);
   $fh = @fopen($file, 'rb');
@@ -89,9 +97,10 @@ if ($idem !== '' && is_file($file)) {
     foreach (array_reverse(explode("\n", (string)$tail)) as $line) {
       if ($line === '' || strpos($line, $idem) === false) continue;
       $prev = json_decode($line, true);
-      if (is_array($prev) && ($prev['idem'] ?? '') === $idem && !empty($prev['folio'])) {
-        pt_out(200, ['ok' => true, 'folio' => $prev['folio'], 'duplicado' => true]);
-      }
+      if (!is_array($prev) || ($prev['idem'] ?? '') !== $idem || empty($prev['folio'])) continue;
+      if (($prev['sig'] ?? '') === $sig) pt_out(200, ['ok' => true, 'folio' => $prev['folio'], 'duplicado' => true]);
+      $reemplaza = $prev['folio'];
+      break;
     }
   }
 }
@@ -104,7 +113,8 @@ $folio = 'EV-' . date('ymd') . '-' . $suffix;
 
 // --- Guardar (PII) ---
 $rec = [
-  'at' => date('c'), 'tipo_solicitud' => 'evento', 'folio' => $folio, 'idem' => $idem, 'origen' => $origen,
+  'at' => date('c'), 'tipo_solicitud' => 'evento', 'folio' => $folio, 'idem' => $idem, 'sig' => $sig,
+  'reemplaza' => $reemplaza, 'origen' => $origen,
   'nombre' => $nombre, 'empresa' => $empresa, 'correo' => $correo, 'telefono' => $telefono,
   'evento' => $tipo, 'fecha' => $fecha, 'fecha_flexible' => $fechaFlex ? 'sí' : '', 'zona' => $zona,
   'personas' => $personas, 'presentacion' => $presentacion, 'momento' => $momento, 'formato' => $formato,
@@ -117,7 +127,7 @@ $saved = @file_put_contents($file, json_encode($rec, JSON_UNESCAPED_UNICODE) . P
 // --- Texto del aviso ---
 $L = [];
 $L[] = "🧀 Nueva solicitud de CATERING / EVENTO — Picando Tabla";
-$L[] = "Folio: " . $folio;
+$L[] = "Folio: " . $folio . ($reemplaza !== '' ? " (corrige la solicitud " . $reemplaza . ")" : "");
 $L[] = "";
 $L[] = "Nombre: " . $nombre;
 if ($empresa !== '') $L[] = "Empresa: " . $empresa;
@@ -164,14 +174,14 @@ if ($tok && $chat) {
   $url = "https://api.telegram.org/bot" . $tok . "/sendMessage";
   $post = http_build_query([
     'chat_id' => (string)$chat,
-    'text' => substr($text, 0, 4090),
+    'text' => function_exists('mb_strcut') ? mb_strcut($text, 0, 4000, 'UTF-8') : substr($text, 0, 4000),
     'disable_web_page_preview' => 'true',
   ]);
   if (function_exists('curl_init')) {
     $ch = curl_init($url);
     curl_setopt_array($ch, [
       CURLOPT_POST => true, CURLOPT_POSTFIELDS => $post,
-      CURLOPT_RETURNTRANSFER => true, CURLOPT_TIMEOUT => 15,
+      CURLOPT_RETURNTRANSFER => true, CURLOPT_CONNECTTIMEOUT => 3, CURLOPT_TIMEOUT => 5,
     ]);
     curl_exec($ch);
     $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -181,7 +191,7 @@ if ($tok && $chat) {
     $ctx = stream_context_create(['http' => [
       'method' => 'POST',
       'header' => 'Content-Type: application/x-www-form-urlencoded',
-      'content' => $post, 'timeout' => 15,
+      'content' => $post, 'timeout' => 5,
     ]]);
     $tg_ok = (@file_get_contents($url, false, $ctx) !== false);
   }

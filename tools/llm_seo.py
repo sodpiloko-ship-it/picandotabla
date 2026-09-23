@@ -26,7 +26,10 @@ SKIP_DIRS = {"comanda", "orden", "tools", ".git"}
 
 def text_of(fragment: str) -> str:
     plain = re.sub(r"<[^>]+>", " ", fragment)
-    return re.sub(r"\s+", " ", htmllib.unescape(plain)).strip()
+    text = re.sub(r"\s+", " ", htmllib.unescape(plain)).strip()
+    # Las etiquetas se vuelven espacios: no dejar "enlace ." ni "( texto".
+    text = re.sub(r"\s+([.,;:!?)])", r"", text)
+    return re.sub(r"([¿¡(])\s+", r"", text)
 
 
 def faq_pairs(page: str) -> list[tuple[str, str]]:

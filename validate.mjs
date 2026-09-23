@@ -117,6 +117,12 @@ for (const [file, text] of publicText) {
 }
 assert.match(read("llms-full.txt"), /Una caja de tapas de regalo por pedido que incluya una tabla de 850 g o más/);
 
+// Tarifas de eventos sin aprobar: no se publican (David 2026-09-23: presupuestaban $180 por persona;
+// las referencias de $500/$850 y sus mínimos quedaron descartadas).
+for (const [file, text] of publicText) {
+  assert.ok(!/\$\s?(180|500|850)\s*(MXN\s*)?(por persona|\/\s*persona)|\$7,500|\$12,000/i.test(text), `${file}: sin tarifas de eventos no aprobadas`);
+}
+
 // Plazos: una tabla de evento se pide con 7 días, así que "liquidar 8 días antes" debe
 // resolver la ventana de reservas tardías; la frase suelta era una contradicción.
 for (const file of htmlFiles) {
@@ -143,6 +149,7 @@ for (const field of ["e_tipo", "e_personas", "e_fecha", "e_zona", "e_prestipo", 
   assert.match(eventos, new RegExp(`id=["']${field}["']`), `eventos incluye ${field}`);
 }
 assert.match(read("evento.php"), /'folio' => \$folio/);
+assert.match(read("evento.php"), /\(\$prev\['sig'\] \?\? ''\) === \$sig/, "evento.php: un reintento corregido no reutiliza el folio viejo");
 assert.match(read("index.html"), /id="catering"[\s\S]*href="\/eventos\/"/, "home: bloque de catering enlazado");
 for (const file of htmlFiles) {
   if (/href=["']\/eventos\/["'][^>]*>\s*Eventos\s*</.test(read(file))) assert.fail(`${file}: el menú debe decir "Catering y eventos"`);
