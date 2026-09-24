@@ -515,14 +515,14 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"
 
   window.waEventos=function(loc){
     open('¡Hola! Estoy organizando un evento y quiero una propuesta de quesos y charcutería 🧀');
-    track('click_whatsapp', {source:'eventos_'+(loc||'general')});
-    track('whatsapp_click', {source:'eventos_'+(loc||'general')});
-    try{ if(window.fbq) fbq('track','Contact',{source:'eventos_'+(loc||'general')}); }catch(e){}
+    track('click_whatsapp', {origen:'eventos_'+(loc||'general')});
+    track('whatsapp_click', {origen:'eventos_'+(loc||'general')});
+    try{ if(window.fbq) fbq('track','Contact',{origen:'eventos_'+(loc||'general')}); }catch(e){}
   };
   window.waVinosEv=function(){
     open('¡Hola! Quiero cotizar la selección y coordinación de vinos para mi evento 🍷');
-    track('click_whatsapp',{source:'eventos_vinos'});
-    track('whatsapp_click',{source:'eventos_vinos'});
+    track('click_whatsapp',{origen:'eventos_vinos'});
+    track('whatsapp_click',{origen:'eventos_vinos'});
     try{ if(window.fbq) fbq('track','Contact',{content_name:'Servicio de vinos'}); }catch(e){}
   };
 
@@ -549,7 +549,7 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"
   }
   fechaEl.addEventListener('change',checkFecha);
   flexEl.addEventListener('change',function(){ if(flexEl.checked){ fechaEl.value=''; $('e_fecha_hint').textContent=''; } });
-  $('evForm').addEventListener('focusin',function(){ if(!started){ started=true; track('start_quote',{source:'eventos_form'}); } });
+  $('evForm').addEventListener('focusin',function(){ if(!started){ started=true; track('start_quote',{origen:'eventos_form'}); } });
 
   function showErr(id,msg,focusId){
     var e=$(id); e.textContent=msg||''; e.style.display=msg?'block':'none';
@@ -566,7 +566,7 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"
     showErr('evErr1','');
     $('evStep1').style.display='none'; $('evStep2').style.display='block';
     $('evStep1Tab').classList.remove('on'); $('evStep2Tab').classList.add('on');
-    track('quote_step_2',{source:'eventos_form'});
+    track('quote_step_2',{origen:'eventos_form'});
     $('evForm').scrollIntoView({behavior:'smooth',block:'start'});
     return true;
   };
@@ -625,24 +625,24 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"
         $('evStep2').style.display='none'; $('evStepsBar').style.display='none';
         $('okBox').style.display='block';
         $('okBox').scrollIntoView({behavior:'smooth',block:'center'});
-        track('submit_quote',{source:'eventos_form',event_type:p.tipo});
-        track('generate_lead',{source:'eventos_form'});
-        try{ if(window.fbq) fbq('track','Lead',{content_name:'evento',source:'eventos_form'}); }catch(e){}
+        track('submit_quote',{origen:'eventos_form',event_type:p.tipo});
+        track('generate_lead',{origen:'eventos_form'});
+        try{ if(window.fbq) fbq('track','Lead',{content_name:'evento',origen:'eventos_form'}); }catch(e){}
       })
       .catch(function(){
         clearTimeout(timer);
-        if(rechazo){ showErr('evErr2','Revisa tus datos: '+rechazo+'.'); track('quote_error',{source:'eventos_form',tipo:'validacion'}); return; }
+        if(rechazo){ showErr('evErr2','Revisa tus datos: '+rechazo+'.'); track('quote_error',{origen:'eventos_form',tipo:'validacion'}); return; }
         $('failBox').style.display='block';
         $('failBox').scrollIntoView({behavior:'smooth',block:'center'});
-        track('quote_error',{source:'eventos_form'});
+        track('quote_error',{origen:'eventos_form'});
       })
       .then(function(){ sending=false; btn.disabled=false; btn.textContent='Enviar solicitud'; });
     return true;
   };
   window.compartirWA=function(){
     open(buildSummary(payload()));
-    track('click_whatsapp',{source:folio?'eventos_form_share':'eventos_form_fallback'});
-    track('whatsapp_click',{source:folio?'eventos_form_share':'eventos_form_fallback'});
+    track('click_whatsapp',{origen:folio?'eventos_form_share':'eventos_form_fallback'});
+    track('whatsapp_click',{origen:folio?'eventos_form_share':'eventos_form_fallback'});
   };
   window.compartirCorreo=function(){
     window.location.href='mailto:contacto@picandotabla.com?subject='+encodeURIComponent('Solicitud de propuesta para evento — Picando Tabla')+'&body='+encodeURIComponent(buildSummary(payload()));

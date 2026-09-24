@@ -548,9 +548,9 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"
   }
   window.waGeneral=function(loc){
     open('¡Hola! Quiero pedir una tabla 🧀');
-    track('click_whatsapp', {source: loc||'general'});
-    track('whatsapp_click', {source: loc||'general'});
-    try{ if(window.fbq) fbq('track','Contact',{source: loc||'general'}); }catch(e){}
+    track('click_whatsapp', {origen: loc||'general'});
+    track('whatsapp_click', {origen: loc||'general'});
+    try{ if(window.fbq) fbq('track','Contact',{origen: loc||'general'}); }catch(e){}
   };
   // --- Proyección del catálogo canónico de Picando Tabla para esta interfaz ---
   var CATALOGO=window.PICANDO_CATALOGO_V1;
@@ -758,7 +758,7 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"
     var utm={};
     try{ new URLSearchParams(window.location.search).forEach(function(v,k){ if(/^(utm_\w+|fbclid|gclid)$/.test(k)) utm[k]=v; }); }catch(e){}
     pagando=true; btn.disabled=true; btn.textContent='Abriendo Mercado Pago…';
-    track('begin_checkout',{source:'pago_en_linea', tabla:modalId, value:cobro.monto, currency:'MXN'});
+    track('begin_checkout',{origen:'pago_en_linea', tabla:modalId, value:cobro.monto, currency:'MXN'});
     try{ if(window.fbq) fbq('track','InitiateCheckout',{content_name:t.n, value:cobro.monto, currency:'MXN'}); }catch(e){}
     fetch('/pago/pedido.php',{method:'POST', headers:{'Content-Type':'application/json'},
       body:JSON.stringify({tabla:modalId, premium:d.prem, extras:extras, nombre:d.nombre, whatsapp:d.whatsapp,
@@ -803,16 +803,16 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"
       var pl=JSON.stringify({nombre:nombre, whatsapp:whatsapp, zona:zona, fecha:fecha, notas:notas, origen:'landing_popup_producto', total:total, items:items});
       if(navigator.sendBeacon){ navigator.sendBeacon('order.php', new Blob([pl],{type:'application/json'})); }
     }catch(e){}
-    track('begin_checkout',{source:'detalles', tabla:modalId, value:total, currency:'MXN'});
+    track('begin_checkout',{origen:'detalles', tabla:modalId, value:total, currency:'MXN'});
     open(lines.join('\n'));
-    track('click_whatsapp',{source:'detalles', tabla:modalId, premium:prem, value:total, currency:'MXN'});
-    track('whatsapp_click',{source:'detalles', tabla:modalId, premium:prem, value:total, currency:'MXN'});
+    track('click_whatsapp',{origen:'detalles', tabla:modalId, premium:prem, value:total, currency:'MXN'});
+    track('whatsapp_click',{origen:'detalles', tabla:modalId, premium:prem, value:total, currency:'MXN'});
     try{ if(window.fbq) fbq('track','Lead',{content_name:t.n, value:total, currency:'MXN'}); }catch(e){}
     cerrarDetalles();
   };
   window.waVinos=function(){
     open('¡Hola! Me interesa el servicio de selección y coordinación de vinos para mi evento 🍷');
-    track('whatsapp_click',{source:'vinos'});
+    track('whatsapp_click',{origen:'vinos'});
     try{ if(window.fbq) fbq('track','Lead',{content_name:'Servicio de vinos'}); }catch(e){}
   };
   document.addEventListener('keydown',function(e){ if(e.key==='Escape') cerrarDetalles(); });
@@ -820,9 +820,9 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"
     var requestedTable=new URLSearchParams(window.location.search).get('tabla');
     if(TABLAS[requestedTable]) setTimeout(function(){ window.verDetalles(requestedTable); },0);
   }catch(e){}
-  window.waCustom=function(){ open('¡Hola! Quiero una tabla a la medida'); track('whatsapp_click',{source:'custom'}); try{if(window.fbq)fbq('track','Contact',{source:'custom'});}catch(e){} };
-  window.waZona=function(){ open('¡Hola! ¿Entregan en mi colonia? Estoy en '); track('whatsapp_click',{source:'zona'}); try{if(window.fbq)fbq('track','Contact',{source:'zona'});}catch(e){} };
-  window.waCuraduria=function(){ open('¡Hola! Quiero una tabla de temporada'); track('whatsapp_click',{source:'curaduria'}); try{if(window.fbq)fbq('track','Contact',{source:'curaduria'});}catch(e){} };
+  window.waCustom=function(){ open('¡Hola! Quiero una tabla a la medida'); track('whatsapp_click',{origen:'custom'}); try{if(window.fbq)fbq('track','Contact',{origen:'custom'});}catch(e){} };
+  window.waZona=function(){ open('¡Hola! ¿Entregan en mi colonia? Estoy en '); track('whatsapp_click',{origen:'zona'}); try{if(window.fbq)fbq('track','Contact',{origen:'zona'});}catch(e){} };
+  window.waCuraduria=function(){ open('¡Hola! Quiero una tabla de temporada'); track('whatsapp_click',{origen:'curaduria'}); try{if(window.fbq)fbq('track','Contact',{origen:'curaduria'});}catch(e){} };
   window.enviarCotizacion=function(){
     var g=function(id){var el=document.getElementById(id);return el?el.value.trim():'';};
     var nombre=g('q_nombre'); if(!nombre){ alert('Escribe tu nombre para cotizar'); return; }
@@ -838,11 +838,11 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"
         items:[{qty:1, nombre:'COTIZACION'+(personas?' '+personas+' personas':'')+(detalles?' — '+detalles:''), precio:0}]});
       if(navigator.sendBeacon){ navigator.sendBeacon('order.php', new Blob([pl],{type:'application/json'})); }
     }catch(e){}
-    track('request_quote',{source:'cotizacion'});
+    track('request_quote',{origen:'cotizacion'});
     open(msg);
-    track('click_whatsapp',{source:'cotizacion'});
-    track('whatsapp_click',{source:'cotizacion'});
-    try{if(window.fbq)fbq('track','Lead',{source:'cotizacion'});}catch(e){}
+    track('click_whatsapp',{origen:'cotizacion'});
+    track('whatsapp_click',{origen:'cotizacion'});
+    try{if(window.fbq)fbq('track','Lead',{origen:'cotizacion'});}catch(e){}
   };
 
   // --- Selector "¿Cuántos son?" ---

@@ -613,10 +613,10 @@
     <script>
       function waTrack() {
         try {
-          if (window.gtag) gtag("event", "whatsapp_click", { source: "blog" });
+          if (window.gtag) gtag("event", "whatsapp_click", { origen: "blog" });
         } catch (e) {}
         try {
-          if (window.fbq) fbq("track", "Contact", { source: "blog" });
+          if (window.fbq) fbq("track", "Contact", { origen: "blog" });
         } catch (e) {}
       }
     </script>
