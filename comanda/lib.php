@@ -62,7 +62,21 @@ function cmd_pass_hash(): ?string {
             if ($h !== '') return $h;
         }
     }
-    return null;
+    return cmd_pass_extra()[0] ?? null;
+}
+// Claves adicionales (David 2026-09-24: acceso propio sin cambiar la de Jessica). Solo hashes bcrypt, uno por línea,
+// en picandotabla-private/comanda-claves.txt (fuera de public_html y del repo; lo coloca el instalador de un solo uso).
+function cmd_pass_extra(): array {
+    require_once __DIR__ . '/../pago/lib.php';
+    $root = ptpg_private_root();
+    $f = $root === false ? '' : $root . DIRECTORY_SEPARATOR . 'comanda-claves.txt';
+    if ($f === '' || !is_file($f)) return [];
+    $out = [];
+    foreach (file($f, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $ln) {
+        $ln = trim($ln);
+        if (preg_match('/\A\$2y\$\d{2}\$[.\/A-Za-z0-9]{53}\z/', $ln) === 1) $out[] = $ln;
+    }
+    return $out;
 }
 function cmd_pass_set(string $raw): bool {
     if (strlen($raw) < 8) return false;
@@ -70,8 +84,10 @@ function cmd_pass_set(string $raw): bool {
     return @file_put_contents(CMD_CLAVE, password_hash($raw, PASSWORD_BCRYPT) . "\n", LOCK_EX) !== false;
 }
 function cmd_pass_check(string $raw): bool {
-    $h = cmd_pass_hash();
-    return $h !== null && password_verify($raw, $h);
+    foreach (array_unique(array_filter(array_merge([cmd_pass_hash()], cmd_pass_extra()))) as $h) {
+        if (password_verify($raw, $h)) return true;
+    }
+    return false;
 }
 
 // Freno anti fuerza bruta POR IP (antes era global: un solo cliente equivocandose dejaba fuera

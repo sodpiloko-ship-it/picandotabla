@@ -5,6 +5,8 @@
   RewriteEngine On
   # /orden deja de ser una ruta pública: conserva ?tabla= y vuelve al landing.
   RewriteRule ^orden/?$ / [R=301,L]
+  # Acceso corto a la comanda de pedidos (David 2026-09-24).
+  RewriteRule ^pedidos/?$ /comanda/ [R=302,L]
 </IfModule>
 
 <IfModule mod_headers.c>
