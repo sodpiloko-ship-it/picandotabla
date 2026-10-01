@@ -68,6 +68,8 @@ if (!ptpg_guardar_pedido($pedido)) {
   ptpg_json(503, ['ok' => false, 'error' => 'No pudimos preparar tu pedido. Pídela por WhatsApp.']);
   exit;
 }
+// Aviso inmediato al negocio con el contacto, aunque el cliente no llegue a pagar.
+ptpg_aviso_nuevo($pedido);
 
 // La comanda de Jessica lee data/orders.jsonl: el pedido aparece ahí con su folio y el estado del pago.
 $rec = [
@@ -107,7 +109,7 @@ $vence = min(
 );
 $preferencia = [
   'items' => $items,
-  'payer' => ['name' => $nombre],
+  'payer' => ['name' => $nombre, 'phone' => ['area_code' => '', 'number' => $digitos]],
   'external_reference' => $folio,
   'back_urls' => [
     'success' => $base . '/pago/gracias.php',
@@ -120,7 +122,9 @@ $preferencia = [
   // Completo: meses con intereses a cargo del cliente (Mercado Pago los ofrece con tarjeta de crédito). Anticipo: una exhibición.
   'payment_methods' => ['installments' => $cot['meses_max']],
   'date_of_expiration' => $vence->format('Y-m-d\TH:i:s.vP'),
-  'metadata' => ['folio' => $folio, 'tabla' => $cot['producto'], 'tipo' => $cot['tipo']],
+  // nombre/whatsapp/zona/fecha: el vigilante de PATO (picandotabla_pedidos) avisa por Telegram a Jessica y a David.
+  'metadata' => ['folio' => $folio, 'tabla' => $cot['producto'], 'tipo' => $cot['tipo'],
+    'nombre' => $nombre, 'whatsapp' => $digitos, 'zona' => $zona, 'fecha' => $cot['fecha']],
 ];
 
 list($status, $respuesta) = ptpg_mp('POST', '/checkout/preferences', $preferencia);

@@ -514,6 +514,38 @@ function ptpg_aviso_negocio(array $pedido): bool {
   return $ok;
 }
 
+/** Pedido recién creado, AÚN SIN PAGAR: que el negocio tenga el contacto aunque el cliente no termine de pagar. */
+function ptpg_aviso_nuevo(array $pedido): bool {
+  $c = (array)($pedido['cliente'] ?? []);
+  $digitos = preg_replace('/\D+/', '', (string)($c['whatsapp'] ?? '')) ?? '';
+  $wa = strlen($digitos) === 10 ? '52' . $digitos : $digitos;
+  $saludo = 'Hola ' . ($c['nombre'] ?? '') . ', te escribimos de Picando Tabla por tu pedido ' . $pedido['folio'] . '. ¿Te ayudamos a terminarlo?';
+  $cuerpo = implode("\n", array_merge([
+    'Pedido NUEVO en línea en Picando Tabla (todavía SIN PAGAR).',
+    'Si en un rato no llega el correo de «Pedido PAGADO», escríbele: puede que se haya atorado en el pago.',
+    '',
+  ], ptpg_renglones($pedido), [
+    '',
+    'Total del pedido: ' . ptpg_dinero((float)$pedido['total']),
+    'Quiere pagar: ' . (($pedido['tipo'] ?? '') === 'anticipo' ? 'anticipo de ' : 'completo, ') . ptpg_dinero((float)$pedido['cobro']),
+    'Entrega: ' . ptpg_fecha_larga((string)$pedido['fecha']),
+    'Nombre: ' . ($c['nombre'] ?? ''),
+    'WhatsApp del cliente: ' . ($c['whatsapp'] ?? ''),
+    'Colonia: ' . ($c['zona'] ?? ''),
+    (!empty($c['notas']) ? 'Notas: ' . $c['notas'] : 'Notas: (sin notas)'),
+    'Folio: ' . $pedido['folio'],
+    '',
+    'Escribirle por WhatsApp: https://wa.me/' . $wa . '?text=' . rawurlencode($saludo),
+    'Comanda: https://picandotabla.com/comanda/',
+  ]));
+  $ok = true;
+  foreach (PTPG_AVISO_A as $para) {
+    $ok = ptpg_mail($para, 'Pedido nuevo SIN PAGAR · ' . ($c['nombre'] ?? '') . ' · ' . ptpg_dinero((float)$pedido['cobro']) . ' · ' . $pedido['folio'],
+      $cuerpo, 'nuevo', (string)$pedido['folio']) && $ok;
+  }
+  return $ok;
+}
+
 function ptpg_aviso_cliente(array $pedido): bool {
   $c = (array)($pedido['cliente'] ?? []);
   $cuerpo = implode("\n", array_merge([
