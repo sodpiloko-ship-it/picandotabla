@@ -69,9 +69,9 @@ if (!empty($d['servicios']) && is_array($d['servicios'])) {
 if ($nombre === '' || ($correo === '' && $telefono === '')) {
   pt_out(400, ['ok' => false, 'error' => 'faltan nombre y un medio de contacto']);
 }
-// Asistentes: si viene, un entero positivo razonable.
-if ($personas !== '' && (!preg_match('/^\d{1,5}$/', $personas) || (int)$personas < 1 || (int)$personas > 5000)) {
-  pt_out(400, ['ok' => false, 'error' => 'número de asistentes no válido']);
+// Oferta de eventos: mínimo 25 asistentes, confirmado por el propietario.
+if (!preg_match('/^\d{1,5}$/', $personas) || (int)$personas < 25 || (int)$personas > 5000) {
+  pt_out(400, ['ok' => false, 'error' => 'cotizamos eventos desde 25 personas; indica un número entero entre 25 y 5,000']);
 }
 
 $dir  = __DIR__ . '/data';
@@ -140,7 +140,7 @@ $L[] = "Zona: " . ($zona ?: '—');
 if ($momento !== '')      $L[] = "Momento/horario: " . $momento;
 $L[] = "Presentación: " . ($presentacion ?: 'por definir');
 if ($formato !== '')      $L[] = "Formato: " . $formato;
-$L[] = "Presupuesto: " . ($presupu ?: 'por definir') . ($presTipo ? " (" . $presTipo . ")" : "")
+if ($presupu !== '' || $presTipo !== '' || $presCubre !== '') $L[] = "Presupuesto: " . ($presupu ?: 'por definir') . ($presTipo ? " (" . $presTipo . ")" : "")
      . ($presCubre ? " · cubre: " . $presCubre : "");
 if ($servicios !== '')    $L[] = "Necesita: " . $servicios;
 if ($vinos !== '')        $L[] = "Vinos: " . $vinos;

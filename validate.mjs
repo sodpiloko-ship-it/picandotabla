@@ -146,7 +146,7 @@ assert.match(eventos, /"@type":"Service"/);
 assert.doesNotMatch(eventos, /"@type":"Event"/);
 assert.match(eventos, /fetch\('\/evento\.php'/);
 assert.match(eventos, /if\(!j\|\|!j\.ok\|\|!j\.folio\)/, "eventos: confirma solo con folio del servidor");
-for (const field of ["e_tipo", "e_personas", "e_fecha", "e_zona", "e_prestipo", "e_cubre", "e_nombre", "e_tel", "e_correo", "e_restric", "failBox", "okBox"]) {
+for (const field of ["e_tipo", "e_personas", "e_fecha", "e_zona", "e_offer_note", "e_nombre", "e_tel", "e_correo", "e_restric", "failBox", "okBox"]) {
   assert.match(eventos, new RegExp(`id=["']${field}["']`), `eventos incluye ${field}`);
 }
 assert.match(read("evento.php"), /'folio' => \$folio/);
