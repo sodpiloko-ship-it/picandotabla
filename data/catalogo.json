@@ -81,12 +81,12 @@
       },
       "is_event": false,
       "composition": {
-        "cheeses": 4,
+        "cheeses": 3,
         "meats": 3,
         "accompaniments": 7
       },
       "included": [
-        "4 quesos de temporada (frescos, semicurados y curados)",
+        "3 quesos de temporada (frescos, semicurados y curados)",
         "3 carnes de charcutería en distintos cortes",
         "Higos, miel y fruta de temporada",
         "Frutos secos y crujientes",
@@ -121,12 +121,12 @@
       },
       "is_event": true,
       "composition": {
-        "cheeses": 5,
+        "cheeses": 4,
         "meats": 4,
         "accompaniments": 11
       },
       "included": [
-        "5 quesos de temporada (frescos, semicurados y curados)",
+        "4 quesos de temporada (frescos, semicurados y curados)",
         "4 carnes de charcutería en cortes generosos",
         "Fruta de temporada y toques dulces",
         "Frutos secos, aceitunas y crujientes",
