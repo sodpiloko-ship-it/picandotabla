@@ -2,7 +2,7 @@
 
 > Picando Tabla prepara tablas de quesos y charcutería por encargo y las entrega listas para servir en Ciudad de México. Este archivo resume las páginas comerciales y editoriales oficiales del sitio.
 
-La disponibilidad siempre se confirma antes del pago. Los precios están expresados en pesos mexicanos (MXN). La mensajería en CDMX cuesta $120. El catering para eventos no tiene tarifa pública: se cotiza con una propuesta. Los productos y promociones vigentes deben verificarse en las páginas enlazadas.
+La disponibilidad siempre se confirma antes del pago. Los precios están expresados en pesos mexicanos (MXN). La mensajería en CDMX cuesta $120. Las presentaciones individuales para eventos parten de $200 MXN por persona en alimentos; la opción Premium, el transporte y los servicios adicionales se cotizan por separado. Los productos y promociones vigentes deben verificarse en las páginas enlazadas.
 
 ## Información principal
 
@@ -34,6 +34,10 @@ La disponibilidad siempre se confirma antes del pago. Los precios están expresa
 - [Tabla de quesos para cumpleaños](https://picandotabla.com/blog/tabla-quesos-cumpleanos-cdmx.html): Formatos y consejos para celebrar en CDMX.
 - [Tabla de quesos y vino](https://picandotabla.com/blog/maridaje-queso-vino-principiantes.html): Guía para equilibrar sabores e intensidades.
 - [Charcutería para eventos](https://picandotabla.com/blog/tablas-charcuteria-eventos-cdmx.html): Opciones clásicas, premium y de temporada para eventos en CDMX.
+
+## Presentaciones individuales para eventos
+
+Desde $200 MXN por persona en alimentos. Opciones Individual y Premium; transporte y servicios adicionales sujetos a cotización. Composición y solicitud: https://picandotabla.com/eventos/#individuales
 
 ## Optional
 

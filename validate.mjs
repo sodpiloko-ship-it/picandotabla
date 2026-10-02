@@ -48,7 +48,8 @@ for (const file of htmlFiles) {
   assert.ok(html.replace(/\s+/g, " ").includes(promotion), `${file}: promoción visible`);
   assert.doesNotMatch(html, /href=["']\/orden\//i, `${file}: no enlaza al configurador legado`);
   const visibleCopy = html.replace(/<script\b[\s\S]*?<\/script>/gi, " ").replace(/<style\b[\s\S]*?<\/style>/gi, " ");
-  assert.doesNotMatch(visibleCopy, /\b(dip|mermelada|viernes|sábado)\b/i, `${file}: copia sin regalos ni días específicos`);
+  assert.doesNotMatch(visibleCopy, /\b(dip|viernes|sábado)\b/i, `${file}: copia sin regalos ni días específicos`);
+  if (file !== "eventos/index.html") assert.doesNotMatch(visibleCopy, /\bmermelada\b/i, `${file}: sin mermelada no confirmada en catálogo`);
   assert.equal((html.match(/<h1\b/gi) || []).length, 1, `${file}: exactamente un H1`);
 
   const title = html.match(/<title>([^<]+)<\/title>/i)?.[1]?.trim();
@@ -140,7 +141,7 @@ for (const file of htmlFiles) {
 
 // Catering: /eventos/ es la página del servicio y solo confirma con recepción real (folio).
 const eventos = read("eventos/index.html");
-assert.match(eventos, /<h1[^>]*>Catering de quesos y charcutería para eventos en CDMX<\/h1>/);
+assert.match(eventos, /<h1[^>]*>Catering individual para eventos en CDMX<\/h1>/);
 assert.match(eventos, /"@type":"Service"/);
 assert.doesNotMatch(eventos, /"@type":"Event"/);
 assert.match(eventos, /fetch\('\/evento\.php'/);
