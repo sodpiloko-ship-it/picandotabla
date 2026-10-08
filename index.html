@@ -82,7 +82,7 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"
   .pt-up:hover{border-color:#7c2d3e}
   .pt-up.on{border:2px solid #7c2d3e;background:#faf5f6;padding:12px 14px}
   .pt-up input{margin-top:3px;accent-color:#7c2d3e;width:16px;height:16px;flex:none;cursor:pointer}
-  @media(max-width:760px){.promo{font-size:12px!important;line-height:1.25!important;height:64px!important;min-height:64px!important;padding:7px 12px!important}#ptHeader{top:64px!important}}
+  @media(max-width:760px){.promo{font-size:12px!important;line-height:1.25!important;height:64px!important;min-height:64px!important;padding:7px 12px!important}#ptHeader{top:0!important}}
 </style>
 <script defer src="/promo.js"></script>
 </head>
@@ -90,10 +90,10 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"
 <div style="background:#e9eaea;color:#26282a;min-height:100vh">
 
   <!-- Banner -->
-  <div class="promo" style="position:sticky;top:0;z-index:51;min-height:60px;display:flex;align-items:center;justify-content:center;background:#6f1d33;color:#fff;text-align:center;padding:10px 16px;font-size:15px;font-weight:700;letter-spacing:.4px;box-shadow:0 3px 12px rgba(38,40,42,.2)">PROMOCIÓN · Caja de tapas GRATIS en tablas de 850 g o más</div>
+
 
   <!-- Header sticky -->
-  <div id="ptHeader" style="position:sticky;top:60px;z-index:50;background:#e9eaeaf2;backdrop-filter:blur(8px);border-bottom:1px solid #d3d5d4;transition:box-shadow .3s">
+  <div id="ptHeader" style="position:sticky;top:0;z-index:50;background:#e9eaeaf2;backdrop-filter:blur(8px);border-bottom:1px solid #d3d5d4;transition:box-shadow .3s">
     <div style="max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 32px">
       <a href="#top" style="text-decoration:none">
         <div style="font-family:Lora,serif;font-weight:700;font-size:22px;color:#26282a">Picando Tabla</div>
@@ -132,22 +132,8 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"
     <div style="background:#d3d5d4 url('img/tabla-850g.jpg') center/cover no-repeat;min-height:440px"></div>
   </div>
 
-  <!-- Promoción caja de tapas -->
-  <section id="promo-tapas" style="background:#26282a;color:#fff;border-top:1px solid #3a3d40;border-bottom:1px solid #3a3d40">
-    <div class="pt-2col pt-pad" style="max-width:1200px;margin:0 auto;padding:58px 32px;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center">
-      <img src="/img/caja-tapas-regalo.jpg" alt="Tapa de pan con queso, higo, hojas verdes y jamón incluida como regalo" width="1448" height="1086" style="width:100%;height:360px;object-fit:cover;border-radius:16px">
-      <div>
-        <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#d4a6b1;font-weight:700;margin-bottom:12px">Regalo para compartir</div>
-        <h2 style="font-family:Lora,serif;font-size:clamp(30px,4vw,42px);line-height:1.12;font-weight:600;margin:0;color:#fff" data-promo-ext="Hasta el 30 de septiembre, todas las tablas incluyen una caja de tapas.">Tu tabla de 850 g o más incluye una caja de tapas.</h2>
-        <p style="font-size:16px;line-height:1.65;color:#c7cbcc;margin:18px 0 0;max-width:54ch" data-promo-ext="Agregamos una caja por pedido, sin costo, en cualquier tabla: también la Tabla para Dos. Un primer bocado listo para servir mientras empieza la reunión.">Agregamos una caja por pedido, sin costo, cuando eliges la Tabla de la Anfitriona (850 g), la de Fiesta (1,360 g) o la de Celebración (1,870 g). Un primer bocado listo para servir mientras empieza la reunión.</p>
-        <p style="font-size:12px;line-height:1.5;color:#9a9ea0;margin:12px 0 0">La selección puede variar según los ingredientes de temporada.</p>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:24px">
-          <a href="/tablas/#catalogo" class="ptbtn" style="display:inline-flex;align-items:center;background:#fff;color:#26282a;padding:12px 22px;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none" data-promo-ext="Elegir mi tabla con regalo">Ver tablas con regalo</a>
-          <a href="/blog/caja-de-tapas-regalo-tablas-cdmx.html" style="display:inline-flex;align-items:center;color:#fff;padding:11px 18px;border:1px solid #8f9293;border-radius:999px;font-weight:600;font-size:14px;text-decoration:none">Conocer la promoción</a>
-        </div>
-      </div>
-    </div>
-  </section>
+
+
 
   <!-- Selector + tablas -->
   <div id="tablas" style="background:#fbfcfc;border-top:1px solid #d3d5d4">
@@ -193,7 +179,7 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"
             <div style="font-size:12.5px;color:#75797a;margin-bottom:8px">Recomendada para 4–6 personas</div>
             <p style="font-size:13.5px;line-height:1.55;color:#55585a;margin:0 0 14px;flex:1">Recibes sin estrés: la pieza central que resuelve la reunión de 4 a 6.</p>
             <div data-catalog-price style="font-family:Lora,serif;font-size:21px;color:#26282a;margin-bottom:12px">$950</div>
-            <div style="margin:-2px 0 13px;padding:8px 10px;border-radius:9px;background:#faf5f6;color:#7c2d3e;font-size:12px;font-weight:700">🎁 Caja de tapas de regalo incluida</div>
+
             <div style="display:flex;flex-direction:column;gap:8px">
               <a class="ptbtn" href="/tablas/anfitriona/" style="order:2;background:transparent;border:1.5px solid #7c2d3e;color:#7c2d3e;padding:9px 10px;border-radius:999px;font-size:13px;font-weight:600;text-align:center;text-decoration:none">Ver detalles</a>
               <button class="ptbtn" onclick="verDetalles('anfitriona')" style="order:1;background:#26282a;color:#fff;border:none;padding:11px 10px;border-radius:999px;font-size:13.5px;font-weight:600;cursor:pointer">Pagar con Mercado Pago</button>
@@ -210,7 +196,7 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"
             <div style="font-size:12.5px;color:#75797a;margin-bottom:8px">Recomendada para 8 personas</div>
             <p style="font-size:13.5px;line-height:1.55;color:#55585a;margin:0 0 14px;flex:1">El festejo de 8, resuelto con una sola pieza. Pídela con una semana de anticipación.</p>
             <div data-catalog-price style="font-family:Lora,serif;font-size:21px;color:#26282a;margin-bottom:12px">$1,600</div>
-            <div style="margin:-2px 0 13px;padding:8px 10px;border-radius:9px;background:#faf5f6;color:#7c2d3e;font-size:12px;font-weight:700">🎁 Caja de tapas de regalo incluida</div>
+
             <div style="display:flex;flex-direction:column;gap:8px">
               <a class="ptbtn" href="/tablas/fiesta/" style="order:2;background:transparent;border:1.5px solid #7c2d3e;color:#7c2d3e;padding:9px 10px;border-radius:999px;font-size:13px;font-weight:600;text-align:center;text-decoration:none">Ver detalles</a>
               <button class="ptbtn" onclick="verDetalles('fiesta')" style="order:1;background:#26282a;color:#fff;border:none;padding:11px 10px;border-radius:999px;font-size:13.5px;font-weight:600;cursor:pointer">Pagar con Mercado Pago</button>
@@ -227,7 +213,7 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"
             <div style="font-size:12.5px;color:#75797a;margin-bottom:8px">Recomendada para 10–12 personas</div>
             <p style="font-size:13.5px;line-height:1.55;color:#55585a;margin:0 0 14px;flex:1">Nuestra más grande, montada para lucirse ante 10 a 12. Con una semana de anticipación.</p>
             <div data-catalog-price style="font-family:Lora,serif;font-size:21px;color:#26282a;margin-bottom:12px">$2,600</div>
-            <div style="margin:-2px 0 13px;padding:8px 10px;border-radius:9px;background:#faf5f6;color:#7c2d3e;font-size:12px;font-weight:700">🎁 Caja de tapas de regalo incluida</div>
+
             <div style="display:flex;flex-direction:column;gap:8px">
               <a class="ptbtn" href="/tablas/celebracion/" style="order:2;background:transparent;border:1.5px solid #7c2d3e;color:#7c2d3e;padding:9px 10px;border-radius:999px;font-size:13px;font-weight:600;text-align:center;text-decoration:none">Ver detalles</a>
               <button class="ptbtn" onclick="verDetalles('celebracion')" style="order:1;background:#26282a;color:#fff;border:none;padding:11px 10px;border-radius:999px;font-size:13.5px;font-weight:600;cursor:pointer">Pagar con Mercado Pago</button>
@@ -538,7 +524,7 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"
 
 </div>
 
-<script src="catalogo.js?v=b546173eb1d2"></script>
+<script src="catalogo.js?v=b45d709ead50"></script>
 <script>
 (function(){
   var WA='525623632404';

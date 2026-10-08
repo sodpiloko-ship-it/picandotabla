@@ -45,7 +45,7 @@ function localTarget(href, sourceFile) {
 
 for (const file of htmlFiles) {
   const html = read(file);
-  assert.ok(html.replace(/\s+/g, " ").includes(promotion), `${file}: promoción visible`);
+  assert.ok(!html.replace(/\s+/g, " ").includes(promotion), `${file}: sin promoción retirada`);
   assert.doesNotMatch(html, /href=["']\/orden\//i, `${file}: no enlaza al configurador legado`);
   const visibleCopy = html.replace(/<script\b[\s\S]*?<\/script>/gi, " ").replace(/<style\b[\s\S]*?<\/style>/gi, " ");
   assert.doesNotMatch(visibleCopy, /\b(dip|viernes|sábado)\b/i, `${file}: copia sin regalos ni días específicos`);
@@ -116,7 +116,7 @@ const publicText = [...htmlFiles, "llms.txt", "llms-full.txt"].map((file) => [fi
 for (const [file, text] of publicText) {
   assert.ok(!/más de\s+(4|cuatro)\s+personas/i.test(text), `${file}: la promoción ya no se expresa por personas`);
 }
-assert.match(read("llms-full.txt"), /Una caja de tapas de regalo por pedido que incluya una tabla de 850 g o más/);
+assert.doesNotMatch(read("llms-full.txt"), /caja de tapas de regalo/i);
 
 // Tarifas de eventos sin aprobar: no se publican (David 2026-09-23: presupuestaban $180 por persona;
 // las referencias de $500/$850 y sus mínimos quedaron descartadas).
@@ -171,9 +171,7 @@ assert.match(home, /extra\.key==='pan'/);
 assert.doesNotMatch(home, /data-catalog-extra="dip"/);
 assert.doesNotMatch(home, /data-catalog-extra="mermelada"/);
 assert.doesNotMatch(home, /\$485|20 de septiembre/);
-assert.equal((home.match(/Caja de tapas de regalo incluida/g) || []).length, 3, "home: regalo visible en tres tablas elegibles");
-assert.match(home, /id="promo-tapas"[\s\S]*caja-tapas-regalo\.jpg[\s\S]*Ver tablas con regalo/);
-assert.match(read("tablas/index.html"), /id="promo-tapas"[\s\S]*Se agrega automáticamente:/);
+assert.equal((home.match(/Caja de tapas de regalo incluida/g) || []).length, 0, "home: sin regalo promocional");
 assert.match(home, /new URLSearchParams\(window\.location\.search\)\.get\('tabla'\)/);
 for (const field of ["ptmCliente", "ptmWhatsapp", "ptmZona", "ptmFecha", "ptmNotas"]) {
   assert.match(home, new RegExp(`id=["']${field}["']`), `popup incluye ${field}`);
@@ -195,18 +193,14 @@ assert.match(read(".htaccess"), /<\/llms\.txt>; rel=describedby/);
 
 const catalog = read("catalogo.js");
 assert.doesNotMatch(catalog, /regular_price_mxn/);
-assert.match(catalog, /["']eligible_product_keys["']:\["anfitriona","fiesta","celebracion"\]/);
 assert.doesNotMatch(catalog, /["']?key["']?\s*:\s*["'](?:dip|mermelada)["']/);
 assert.match(read("seo.css"), /\.promo\{position:sticky;top:0/);
-assert.match(read("seo.css"), /\.site-header\{position:sticky;top:60px/);
+assert.match(read("seo.css"), /\.site-header\{position:sticky;top:0/);
 assert.match(read("tablas/para-dos/index.html"), /"priceValidUntil": "2026-12-31"/);
 assert.doesNotMatch(read("tablas/para-dos/index.html"), /Regalo incluido:/);
 for (const file of ["tablas/anfitriona/index.html", "tablas/fiesta/index.html", "tablas/celebracion/index.html"]) {
-  assert.match(read(file), /Regalo incluido:[\s\S]*caja de[\s\n]+tapas sin costo/i, `${file}: regalo comunicado`);
 }
 assert.ok(fs.existsSync(path.join(root, "img/caja-tapas-regalo.jpg")), "imagen de tapas incluida");
-assert.match(read("blog/index.html"), /caja-de-tapas-regalo-tablas-cdmx\.html/);
-assert.match(read("blog/caja-de-tapas-regalo-tablas-cdmx.html"), /"@type": "FAQPage"/);
 
 const importedArticles = [
   ["blog/precio-tabla-quesos-cdmx.html", "03-precio-tabla-quesos-cdmx"],
@@ -253,3 +247,5 @@ assert.match(read("tablas/index.html"), /Guías para calcular y comparar/);
 assert.match(read("reuniones/index.html"), /botanas-para-reuniones-cdmx\.html/);
 
 console.log(`OK: ${htmlFiles.length} páginas, metadatos, schema, enlaces, sitemap y pedidos validados.`);
+
+assert.match(read("blog/caja-de-tapas-regalo-tablas-cdmx.html"), /Esta promoción ha finalizado/);

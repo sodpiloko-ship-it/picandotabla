@@ -95,34 +95,34 @@ def load_and_validate() -> dict:
         fail(f"extras esperados: {sorted(EXPECTED_EXTRA_KEYS)}")
 
     promotions = catalog.get("promotions")
-    if not isinstance(promotions, list) or len(promotions) != 1:
-        fail("se requiere una promoción de regalo activa")
-    gift = promotions[0]
-    if gift.get("id") != "picandotabla:promotion:caja-tapas-regalo":
-        fail("promotions[0].id debe identificar la caja de tapas")
-    if gift.get("type") != "gift" or gift.get("price_mxn") != 0:
-        fail("la caja de tapas debe declararse como regalo sin costo")
-    if set(gift.get("eligible_product_keys", [])) != {
-        "anfitriona",
-        "fiesta",
-        "celebracion",
-    }:
-        fail("la caja de tapas debe aplicar a Anfitriona, Fiesta y Celebración")
-    # La regla pública es por gramaje (David, 2026-09-22): tablas de 850 g o más,
-    # una caja por pedido y sin extenderse a propuestas de evento a medida.
-    if not isinstance(gift.get("min_weight_g"), int) or gift["min_weight_g"] < 100:
-        fail("la caja de tapas necesita min_weight_g en gramos enteros")
-    if gift.get("limit_per_order") != 1:
-        fail("la caja de tapas se entrega una vez por pedido (limit_per_order=1)")
-    if gift.get("applies_to_custom_events") is not False:
-        fail("la caja de tapas no aplica automáticamente a eventos a medida")
-    by_weight = {
-        product["key"]
-        for product in products
-        if isinstance(product.get("weight_g"), int) and product["weight_g"] >= gift["min_weight_g"]
-    }
-    if by_weight != set(gift["eligible_product_keys"]):
-        fail("eligible_product_keys debe coincidir con las tablas de min_weight_g o más")
+    if not isinstance(promotions, list) or len(promotions) > 1:
+        fail("promotions debe ser una lista con cero o una promoción")
+    for gift in promotions:
+        if gift.get("id") != "picandotabla:promotion:caja-tapas-regalo":
+            fail("promotions[0].id debe identificar la caja de tapas")
+        if gift.get("type") != "gift" or gift.get("price_mxn") != 0:
+            fail("la caja de tapas debe declararse como regalo sin costo")
+        if set(gift.get("eligible_product_keys", [])) != {
+            "anfitriona",
+            "fiesta",
+            "celebracion",
+        }:
+            fail("la caja de tapas debe aplicar a Anfitriona, Fiesta y Celebración")
+        # La regla pública es por gramaje (David, 2026-09-22): tablas de 850 g o más,
+        # una caja por pedido y sin extenderse a propuestas de evento a medida.
+        if not isinstance(gift.get("min_weight_g"), int) or gift["min_weight_g"] < 100:
+            fail("la caja de tapas necesita min_weight_g en gramos enteros")
+        if gift.get("limit_per_order") != 1:
+            fail("la caja de tapas se entrega una vez por pedido (limit_per_order=1)")
+        if gift.get("applies_to_custom_events") is not False:
+            fail("la caja de tapas no aplica automáticamente a eventos a medida")
+        by_weight = {
+            product["key"]
+            for product in products
+            if isinstance(product.get("weight_g"), int) and product["weight_g"] >= gift["min_weight_g"]
+        }
+        if by_weight != set(gift["eligible_product_keys"]):
+            fail("eligible_product_keys debe coincidir con las tablas de min_weight_g o más")
 
     for product in products:
         if not product["id"].startswith("picandotabla:offer:"):
@@ -230,7 +230,7 @@ def render_js(catalog: dict) -> str:
 def render_promo_js(catalog: dict) -> str:
     """Banner de la extensión temporal de la caja de tapas: el HTML conserva la regla base y este script
     muestra la extensión solo mientras esté vigente (al vencer, el sitio vuelve solo a la regla base)."""
-    ext = catalog["promotions"][0].get("extension") or {}
+    ext = (catalog["promotions"][0] if catalog["promotions"] else {}).get("extension") or {}
     config = json.dumps({"hasta": ext.get("all_orders_until", ""), "banner": ext.get("banner", "")}, ensure_ascii=False)
     return (
         "/* Generado por tools/build_catalog.py desde data/catalogo.json. No editar. */\n"
@@ -280,8 +280,8 @@ def people_range(products: list[dict]) -> tuple[int, int]:
 
 def render_home_products(catalog: dict) -> str:
     lines = ['      <div class="pt-grid4">', ""]
-    gift = catalog["promotions"][0]
-    gift_keys = set(gift["eligible_product_keys"])
+    gift = catalog["promotions"][0] if catalog["promotions"] else {}
+    gift_keys = set(gift.get("eligible_product_keys", []))
     for index, product in enumerate(catalog["products"]):
         key = escaped(product["key"])
         suffix = selector_suffix(product)
@@ -396,7 +396,7 @@ def render_home_extras(catalog: dict) -> str:
 
 
 def gift_rule_text(catalog: dict) -> str:
-    gift = catalog["promotions"][0]
+    gift = catalog["promotions"][0] if catalog["promotions"] else {}
     names = [
         product["title"].replace("Tabla de la ", "").replace("Tabla de ", "")
         for product in catalog["products"]
@@ -423,9 +423,9 @@ def render_order_extras(catalog: dict) -> str:
     promotional = next((product for product in catalog["products"] if product.get("promotion")), None)
     promotion = promotional["promotion"] if promotional else None
     premium = next(modifier for modifier in catalog["modifiers"] if modifier["key"] == "premium")
-    gift = catalog["promotions"][0]
+    gift = catalog["promotions"][0] if catalog["promotions"] else {}
     lines = [
-        f'          <div class="ficha"><div class="t">{escaped(gift["title"])}</div><div class="d">Incluida sin costo</div><ul><li>{escaped(gift_rule_text(catalog))}</li></ul></div>',
+        f'          <div class="ficha"><div class="t">{escaped(gift.get("title", ""))}</div><div class="d">Incluida sin costo</div><ul><li>{escaped(gift_rule_text(catalog))}</li></ul></div>' if gift else "",
         f'          <button class="card wide" data-q="premium" data-v="si" id="cardPrem">{escaped(premium["title"])}<span class="m" id="premM">+ {money(premium["prices_mxn_by_product_key"][featured["key"]])}</span></button>'
     ]
     if promotional:

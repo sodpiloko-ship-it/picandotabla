@@ -3,28 +3,7 @@
   "business_id": "picandotabla",
   "currency": "MXN",
   "price_unit": "major",
-  "promotions": [
-    {
-      "id": "picandotabla:promotion:caja-tapas-regalo",
-      "type": "gift",
-      "title": "Caja de tapas de regalo",
-      "description": "Una caja de tapas de regalo por pedido que incluya una tabla de 850 g o más.",
-      "min_weight_g": 850,
-      "limit_per_order": 1,
-      "applies_to_custom_events": false,
-      "eligible_product_keys": [
-        "anfitriona",
-        "fiesta",
-        "celebracion"
-      ],
-      "price_mxn": 0,
-      "extension": {
-        "all_orders_until": "2026-09-30",
-        "banner": "PROMOCIÓN · Caja de tapas GRATIS en todos los pedidos · hasta el 30 de septiembre",
-        "note": "Extensión temporal: la caja va en cualquier tabla (también la de 340 g). Al vencer, la regla vuelve a min_weight_g."
-      }
-    }
-  ],
+  "promotions": [],
   "products": [
     {
       "id": "picandotabla:offer:tabla-dos",
