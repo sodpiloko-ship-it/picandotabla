@@ -1,0 +1,18 @@
+name: Validar cambios del sitio
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verificar catálogos, fichas y enlaces
+        run: |
+          python tools/build_catalog.py --check
+          python tools/build_wines.py --check
+          python -m unittest discover -s tools -p 'test_wines.py'
+          node --check vinos/vinos.js
+          node validate.mjs

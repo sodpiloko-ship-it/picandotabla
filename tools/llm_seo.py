@@ -21,7 +21,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 START = "<!-- LLM_SEO:FAQ:START -->"
 END = "<!-- LLM_SEO:FAQ:END -->"
-SKIP_DIRS = {"comanda", "orden", "tools", ".git"}
+SKIP_DIRS = {"comanda", "orden", "tools", "vinos", ".git"}
 
 
 def text_of(fragment: str) -> str:

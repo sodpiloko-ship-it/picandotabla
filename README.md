@@ -92,3 +92,19 @@ No edites `catalogo.js` ni el contenido entre marcadores
 de ellos deja de coincidir con el JSON. También audita el contenido público y
 rechaza precios del catálogo copiados fuera de esos bloques; artículos y ejemplos
 deben enlazar al precio vigente.
+
+## Vinos, fichas y reseñas
+
+La sección `/vinos/` se genera desde `data/vinos.json`. Incluye fichas documentales,
+propuestas de maridaje con las tablas y un flujo preparado para catas propias.
+Los vinos se cotizan por separado; esta sección no agrega botellas al checkout.
+
+```bash
+python tools/build_wines.py --new bodega-linea-uva
+# Completar la ficha en data/vinos.json y cambiar draft a published.
+python tools/build_wines.py
+python tools/build_wines.py --check
+```
+
+Consulta [la guía de carga y publicación](tools/VINOS.md) para fuentes, fechas,
+imágenes, reseñas reales y validaciones. Versiona los datos y HTML generados juntos.

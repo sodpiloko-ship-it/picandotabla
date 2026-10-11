@@ -1,0 +1,227 @@
+{
+  "schema_version": "picandotabla.wines.v1",
+  "updated_at": "2026-10-10",
+  "wines": [
+    {
+      "id": "picandotabla:wine:casillero-del-diablo-reserva-carmenere",
+      "slug": "casillero-del-diablo-reserva-carmenere",
+      "status": "published",
+      "name": "Casillero del Diablo Reserva Carmenère",
+      "brand": "Casillero del Diablo",
+      "type": "tinto",
+      "country": "Chile",
+      "region": "Valle Central",
+      "grapes": [
+        "Carmenère"
+      ],
+      "vintage": null,
+      "volume_ml": null,
+      "alcohol_percent": null,
+      "sweetness": null,
+      "body": "Medio",
+      "serving_temperature_c": {
+        "min": 16,
+        "max": 18
+      },
+      "summary": "Carmenère chileno del Valle Central. Según la bodega, combina cuerpo medio, fruta y especias; lo consideraríamos para explorar quesos suaves y madurados.",
+      "description": [
+        "Casillero del Diablo Reserva Carmenère es un tinto del Valle Central de Chile. Su ficha oficial destaca ciruela, frutos del bosque, café y especias, con un cuerpo medio y taninos de sensación amable.",
+        "Lo consideraríamos si buscas un tinto para alternar bocados de distinta intensidad. En una tabla, proponemos empezar por el queso suave y seguir con el madurado y la charcutería: así puedes elegir qué sabores prefieres junto al vino."
+      ],
+      "aromas": [
+        "Frutos del bosque",
+        "Ciruela",
+        "Café",
+        "Especias"
+      ],
+      "palate": "La bodega lo presenta con volumen intermedio, taninos de sensación amable y persistencia prolongada.",
+      "considerations": [
+        "Esta ficha no está vinculada a una añada concreta; confirma el año y la presentación de la botella al cotizar.",
+        "La clasificación de dulzor no está confirmada. Un aroma frutal no indica por sí solo que el vino sea dulce.",
+        "La graduación alcohólica debe comprobarse en la etiqueta de la botella propuesta."
+      ],
+      "pairings": [
+        {
+          "product_key": "dos",
+          "reason": "La Tabla para Dos reúne un queso suave y uno madurado. Proponemos empezar por el suave y pasar después al madurado para comparar textura e intensidad junto al vino. La charcutería abre una tercera comparación para encontrar tu bocado favorito."
+        },
+        {
+          "product_key": "anfitriona",
+          "reason": "Los quesos frescos, semicurados y curados permiten comparar qué intensidad prefieres con este tinto de cuerpo medio. Proponemos probar primero el queso solo y después añadir un poco de higo o miel, para elegir entre el sabor del queso y su contraste dulce."
+        }
+      ],
+      "faq": [
+        {
+          "question": "¿Qué tipo de vino es Casillero del Diablo Reserva Carmenère?",
+          "answer": "Es un tinto de uva Carmenère de la línea Reserva de Casillero del Diablo, con origen en el Valle Central de Chile. La bodega lo describe de cuerpo medio."
+        },
+        {
+          "question": "¿Es un vino dulce?",
+          "answer": "La referencia consultada no especifica su clasificación de dulzor. Si buscas un vino dulce, conviene confirmar este dato antes de elegirlo; las notas frutales no bastan para clasificarlo."
+        },
+        {
+          "question": "¿A qué temperatura recomienda servirlo la bodega?",
+          "answer": "Casillero del Diablo recomienda entre 16 y 18 °C para esta etiqueta."
+        },
+        {
+          "question": "¿Puedo cotizarlo con una tabla de Picando Tabla?",
+          "answer": "Sí, puedes solicitarlo con la Tabla para Dos o la Tabla de la Anfitriona. Indica la fecha, tus preferencias y el presupuesto para vino; la propuesta se confirma en la cotización."
+        }
+      ],
+      "sources": [
+        {
+          "id": "casillero-reserva-carmenere-oficial",
+          "title": "Carmenere — Reserva — Casillero del Diablo",
+          "publisher": "Casillero del Diablo",
+          "url": "https://www.casillerodeldiablo.com/es/wine/reserva-carmenere/",
+          "checked_on": "2026-10-10",
+          "supports": [
+            "name",
+            "brand",
+            "type",
+            "region",
+            "grapes",
+            "body",
+            "serving_temperature_c",
+            "summary",
+            "description",
+            "aromas",
+            "palate",
+            "faq"
+          ]
+        },
+        {
+          "id": "casillero-enologos-valles-oficial",
+          "title": "The Winemakers and Valleys — Casillero del Diablo",
+          "publisher": "Casillero del Diablo",
+          "url": "https://www.casillerodeldiablo.com/the-winemakers/",
+          "checked_on": "2026-10-10",
+          "supports": [
+            "country"
+          ]
+        }
+      ],
+      "review": {
+        "kind": "documentary",
+        "author": "Picando Tabla",
+        "published_at": "2026-10-10",
+        "updated_at": "2026-10-10",
+        "tasted_at": null,
+        "tasted_vintage": null,
+        "tasting_notes": null,
+        "evidence": [],
+        "rating": null,
+        "tasting_published_at": null
+      },
+      "offer": null,
+      "image": null
+    },
+    {
+      "id": "picandotabla:wine:monte-xanic-calixa-cabernet-sauvignon-syrah",
+      "slug": "monte-xanic-calixa-cabernet-sauvignon-syrah",
+      "status": "published",
+      "name": "Monte Xanic Calixa Cabernet Sauvignon Syrah",
+      "brand": "Monte Xanic",
+      "type": "tinto",
+      "country": "México",
+      "region": null,
+      "grapes": [
+        "Cabernet Sauvignon",
+        "Syrah"
+      ],
+      "vintage": 2024,
+      "volume_ml": 750,
+      "alcohol_percent": null,
+      "sweetness": "Seco",
+      "body": "Lleno",
+      "serving_temperature_c": {
+        "min": 15,
+        "max": 15
+      },
+      "summary": "Tinto mexicano de Cabernet Sauvignon y Syrah, añada 2024. La bodega lo describe seco, de cuerpo lleno y perfil frutal; una opción a considerar con quesos curados y charcutería.",
+      "description": [
+        "Calixa Cabernet Sauvignon Syrah 2024 reúne 80% Cabernet Sauvignon y 20% Syrah. Monte Xanic lo presenta como un tinto seco, de cuerpo lleno, con fruta roja, ciruela y un matiz de vainilla.",
+        "Lo consideraríamos si prefieres que el vino tenga presencia junto a la charcutería y los quesos de mayor maduración. Para una tabla variada, proponemos reservar los bocados más suaves para el inicio y comparar después cómo cambia la combinación con cada carne y queso."
+      ],
+      "aromas": [
+        "Fruta roja",
+        "Ciruela",
+        "Vainilla",
+        "Especias"
+      ],
+      "palate": "La bodega describe sensación seca, acidez fresca y taninos pulidos, con volumen amplio en boca.",
+      "considerations": [
+        "La referencia documentada es la añada 2024; otra cosecha puede tener una ficha diferente.",
+        "La graduación alcohólica debe comprobarse en la etiqueta de la botella propuesta."
+      ],
+      "pairings": [
+        {
+          "product_key": "fiesta",
+          "reason": "Los quesos frescos, semicurados y curados y la variedad de charcutería dan margen para buscar los bocados que prefieres con su cuerpo lleno. Proponemos comparar primero un queso curado y una carne; después, probar cómo cambia cada combinación al añadir aceitunas o un toque dulce."
+        },
+        {
+          "product_key": "celebracion",
+          "reason": "Si quieres centrar el maridaje en la charcutería, esta tabla ofrece varios cortes junto a una selección amplia de quesos. Proponemos probar cada combinación primero sola y después con higo o miel, para elegir si prefieres el bocado salado o su contraste dulce."
+        }
+      ],
+      "faq": [
+        {
+          "question": "¿Calixa Cabernet Sauvignon Syrah es dulce o seco?",
+          "answer": "Monte Xanic describe la añada 2024 como un vino seco. Las notas frutales de su ficha no significan que sea un vino dulce."
+        },
+        {
+          "question": "¿De qué uvas está hecho?",
+          "answer": "La fuente oficial de la añada 2024 indica 80% Cabernet Sauvignon y 20% Syrah. La añada debe comprobarse en la botella propuesta."
+        },
+        {
+          "question": "¿A qué temperatura se sirve?",
+          "answer": "Monte Xanic recomienda 15 °C para la referencia consultada."
+        },
+        {
+          "question": "¿Puedo pedirlo con una Tabla de Fiesta o de Celebración?",
+          "answer": "Sí, puedes solicitar una combinación con cualquiera de esas tablas. Indica la fecha, los invitados y si prefieres destacar quesos, charcutería o acompañamientos; con eso preparamos la propuesta de maridaje y cotización."
+        }
+      ],
+      "sources": [
+        {
+          "id": "monte-xanic-calixa-cabernet-syrah-2024-oficial",
+          "title": "Calixa Cabernet Sauvignon Syrah 2024 — Monte Xanic",
+          "publisher": "Monte Xanic",
+          "url": "https://montexanic.mx/tienda/producto/monte-xanic-calixa-cabernet-sauvignon-syrah/",
+          "checked_on": "2026-10-10",
+          "supports": [
+            "name",
+            "brand",
+            "type",
+            "country",
+            "grapes",
+            "vintage",
+            "volume_ml",
+            "sweetness",
+            "body",
+            "serving_temperature_c",
+            "summary",
+            "description",
+            "aromas",
+            "palate",
+            "faq"
+          ]
+        }
+      ],
+      "review": {
+        "kind": "documentary",
+        "author": "Picando Tabla",
+        "published_at": "2026-10-10",
+        "updated_at": "2026-10-10",
+        "tasted_at": null,
+        "tasted_vintage": null,
+        "tasting_notes": null,
+        "evidence": [],
+        "rating": null,
+        "tasting_published_at": null
+      },
+      "offer": null,
+      "image": null
+    }
+  ]
+}

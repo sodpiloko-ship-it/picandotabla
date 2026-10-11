@@ -13,3 +13,4 @@ secrets/
 # pedidos (PII, se crean en el servidor); solo el catálogo público se versiona
 data/*
 !data/catalogo.json
+!data/vinos.json
