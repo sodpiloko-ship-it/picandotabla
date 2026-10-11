@@ -79,3 +79,14 @@ Picando Tabla prepara propuestas de quesos, charcutería y acompañamientos para
 ## Interpretación
 
 La información de precio y promoción de las páginas oficiales de producto tiene prioridad si existe alguna diferencia con este resumen. No se debe prometer disponibilidad automática: todo pedido y todo evento requieren confirmación. No se debe confundir la Tabla de la Anfitriona premium (un producto del catálogo de 850 g) con una propuesta de catering. No se debe dirigir a clientes a `/orden/`; el intake vigente vive en el landing principal.
+
+<!-- WINES:INDEX:START -->
+## Vinos y maridaje
+
+- [Fichas de vinos y maridajes](https://picandotabla.com/vinos/): Catálogo editorial de vinos con fuentes y conexiones a las tablas de Picando Tabla.
+- [Cómo elaboramos fichas y reseñas](https://picandotabla.com/vinos/como-resenamos/): Distinción entre información documental y catas propias.
+- [Casillero del Diablo Reserva Carmenère](https://picandotabla.com/vinos/casillero-del-diablo-reserva-carmenere/): Ficha documental; Chile; Carmenère.
+- [Monte Xanic Calixa Cabernet Sauvignon Syrah](https://picandotabla.com/vinos/monte-xanic-calixa-cabernet-sauvignon-syrah/): Ficha documental; México; Cabernet Sauvignon, Syrah.
+
+Las fichas de vinos no son confirmación de inventario. Los vinos se cotizan por separado; los precios de otras tiendas no son precios de Picando Tabla.
+<!-- WINES:INDEX:END -->

@@ -3,7 +3,15 @@
   window.dataLayer = window.dataLayer || [];
   window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
   window.gtag('js', new Date());
-  window.gtag('config', measurementId);
+  // En vinos, la búsqueda es una ayuda local. No enviar su texto a Analytics.
+  var analyticsConfig = {};
+  if (document.body && document.body.classList.contains('wine-site')) {
+    var analyticsUrl = new URL(window.location.href);
+    analyticsUrl.searchParams.delete('q');
+    analyticsUrl.searchParams.delete('tipo');
+    analyticsConfig.page_location = analyticsUrl.origin + analyticsUrl.pathname + analyticsUrl.search;
+  }
+  window.gtag('config', measurementId, analyticsConfig);
 
   var script = document.createElement('script');
   script.async = true;

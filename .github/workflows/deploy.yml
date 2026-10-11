@@ -21,6 +21,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Validar catálogos y páginas
+        run: |
+          python tools/build_catalog.py --check
+          python tools/build_wines.py --check
+          python -m unittest discover -s tools -p 'test_wines.py'
+          node --check vinos/vinos.js
+          node validate.mjs
+
       - name: Subir por FTP a Hostinger
         # se salta (workflow en verde) mientras no existan los secrets FTP
         if: ${{ env.FTP_SERVER != '' }}
