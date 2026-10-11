@@ -88,6 +88,8 @@
 <link rel="stylesheet" href="/tienda.css?v=20261011a">
 <script defer src="/catalogo.js?v=b45d709ead50"></script>
 <script defer src="/tienda.js?v=20261011a"></script>
+<link rel="stylesheet" href="/newsletter/community.css?v=20261010b">
+<script defer src="/newsletter/community.js?v=20261010b"></script>
 </head>
 <body>
 
@@ -194,6 +196,22 @@
         <p><strong><a href="/regalos/">Ver opciones de regalo</a></strong><br> <strong><a href="/#tablas">Configurar una tabla</a></strong><br> <strong><a href="/empresas/">Cotizar un regalo corporativo</a></strong></p></div>
     <div class="cta-box"><b>¿Ya sabes para cuántas personas es?</b><br>Elige tu tabla y tu día, y paga en línea con Mercado Pago.<br><a class="btn" href="/#tablas">Elegir y pagar con Mercado Pago</a><a href="https://wa.me/525623632404?text=%C2%A1Hola!%20Tengo%20una%20duda%20sobre%20las%20tablas%20%F0%9F%A7%80" target="_blank" rel="noopener" style="display:inline-block;margin:12px 0 0 16px;color:#7c2d3e;font-weight:600;font-size:14px">¿Dudas? WhatsApp</a></div>
   </div></article>
-  <footer><div class="wrap">Picando Tabla · Entregas en CDMX · <a href="/eventos/">Cotiza tu evento</a></div></footer>
+  <!-- PT_COMMUNITY:START -->
+<section class="pt-community" aria-labelledby="pt-community-heading">
+  <div><div class="pt-community-eyebrow">La sobremesa · El newsletter de Picando Tabla</div>
+    <h2 id="pt-community-heading">Una buena idea para tu próxima reunión.</h2>
+    <p>Ideas para compartir, novedades y propuestas para celebrar. Recíbelas en tu correo y sigue lo que estamos preparando en redes.</p>
+    <nav class="pt-social-links" aria-label="Redes sociales de Picando Tabla"><a href="https://www.instagram.com/picandotabla/" target="_blank" rel="noopener noreferrer">Instagram · @picandotabla ↗</a><a href="https://www.facebook.com/profile.php?id=61591673554258" target="_blank" rel="noopener noreferrer">Facebook ↗</a></nav>
+  </div>
+  <form class="pt-newsletter-form" action="/newsletter/subscribe.php" method="post">
+    <label for="pt-newsletter-email">Tu correo electrónico</label><input id="pt-newsletter-email" name="email" type="email" autocomplete="email" placeholder="tu@correo.com" maxlength="254" required>
+    <label class="pt-consent"><input type="checkbox" name="consent" required><span>Quiero recibir ideas, novedades y propuestas de Picando Tabla. Puedo darme de baja cuando quiera. <a href="/newsletter/privacy.html">Cómo se usa mi correo</a>.</span></label>
+    <div class="pt-honey" aria-hidden="true"><label>Sitio web<input name="website" tabindex="-1" autocomplete="off"></label></div>
+    <button class="pt-community-button" type="submit">Quiero recibir La sobremesa</button><p role="status" aria-live="polite"></p>
+    <noscript>Activa JavaScript para suscribirte desde este formulario.</noscript>
+  </form>
+</section>
+<!-- PT_COMMUNITY:END -->
+<footer><div class="wrap">Picando Tabla · Entregas en CDMX · <a href="/eventos/">Cotiza tu evento</a></div></footer>
 </body>
 </html>

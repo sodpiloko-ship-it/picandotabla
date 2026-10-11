@@ -27,6 +27,8 @@
 <link rel="stylesheet" href="/tienda.css?v=20261011a">
 <script defer src="/catalogo.js?v=b45d709ead50"></script>
 <script defer src="/tienda.js?v=20261011a"></script>
+<link rel="stylesheet" href="/newsletter/community.css?v=20261010b">
+<script defer src="/newsletter/community.js?v=20261010b"></script>
 </head>
 <!-- Generado por tools/build_wines.py; editar data/vinos.json. -->
 <body class="wine-site" data-wine-page="methodology" data-wine-slug="">
@@ -43,6 +45,22 @@
     <h2>Qué vendemos y qué se cotiza</h2><p>Picando Tabla prepara tablas de quesos y charcutería. También ofrece selección y coordinación de vinos por cotización aparte. Tener una ficha de una botella no significa que esté en inventario o que venga incluida en una tabla.</p><p>Los precios de otras tiendas no son precios de Picando Tabla. Antes de cerrar un pedido confirmamos la etiqueta, la presentación, la disponibilidad y el precio aplicable. La presencia de un enlace a una bodega identifica una fuente de información.</p>
     <h2>Fechas, cambios y correcciones</h2><p>Cada ficha muestra cuándo se publicó o actualizó y cuándo consultamos sus fuentes. Una modificación de diseño no renueva la fecha de verificación de un vino. Cuando cambia una etiqueta o recibimos una corrección, revisamos el dato y su respaldo antes de actualizarlo.</p><p>Si detectas un error, <a href="https://wa.me/525623632404?text=Hola%2C+llegu%C3%A9+desde+https%3A%2F%2Fpicandotabla.com%2Fvinos%2F+y+quiero+elegir+vino+y+una+tabla+para+mi+reuni%C3%B3n.+%C2%BFPodemos+revisar+la+selecci%C3%B3n+y+disponibilidad%3F">escríbenos con el nombre del vino y el dato a revisar</a>. No atribuimos títulos profesionales ni experiencia de cata a personas que no hayan participado.</p>
     <div class="wine-actions"><a class="btn primary" href="/vinos/">Explorar las fichas</a><a class="btn" href="/blog/maridaje-queso-vino-principiantes.html">Leer la guía de maridaje</a></div></article></main>
-  <footer class="wine-footer"><div class="wrap footer-grid"><div><a class="logo" href="/">Picando Tabla</a><p>Vinos, quesos y una mesa para compartir.</p><p>La selección de vinos se cotiza por separado y se confirma antes del pedido.</p></div><nav aria-label="Enlaces al pie"><a href="/vinos/">Vinos</a><a href="/vinos/como-resenamos/">Cómo elaboramos las fichas</a><a href="/tablas/">Tablas</a><a href="/eventos/">Catering y eventos</a><a href="/blog/">Blog</a></nav></div></footer>
+  <!-- PT_COMMUNITY:START -->
+<section class="pt-community" aria-labelledby="pt-community-heading">
+  <div><div class="pt-community-eyebrow">La sobremesa · El newsletter de Picando Tabla</div>
+    <h2 id="pt-community-heading">Una buena idea para tu próxima reunión.</h2>
+    <p>Ideas para compartir, novedades y propuestas para celebrar. Recíbelas en tu correo y sigue lo que estamos preparando en redes.</p>
+    <nav class="pt-social-links" aria-label="Redes sociales de Picando Tabla"><a href="https://www.instagram.com/picandotabla/" target="_blank" rel="noopener noreferrer">Instagram · @picandotabla ↗</a><a href="https://www.facebook.com/profile.php?id=61591673554258" target="_blank" rel="noopener noreferrer">Facebook ↗</a></nav>
+  </div>
+  <form class="pt-newsletter-form" action="/newsletter/subscribe.php" method="post">
+    <label for="pt-newsletter-email">Tu correo electrónico</label><input id="pt-newsletter-email" name="email" type="email" autocomplete="email" placeholder="tu@correo.com" maxlength="254" required>
+    <label class="pt-consent"><input type="checkbox" name="consent" required><span>Quiero recibir ideas, novedades y propuestas de Picando Tabla. Puedo darme de baja cuando quiera. <a href="/newsletter/privacy.html">Cómo se usa mi correo</a>.</span></label>
+    <div class="pt-honey" aria-hidden="true"><label>Sitio web<input name="website" tabindex="-1" autocomplete="off"></label></div>
+    <button class="pt-community-button" type="submit">Quiero recibir La sobremesa</button><p role="status" aria-live="polite"></p>
+    <noscript>Activa JavaScript para suscribirte desde este formulario.</noscript>
+  </form>
+</section>
+<!-- PT_COMMUNITY:END -->
+<footer class="wine-footer"><div class="wrap footer-grid"><div><a class="logo" href="/">Picando Tabla</a><p>Vinos, quesos y una mesa para compartir.</p><p>La selección de vinos se cotiza por separado y se confirma antes del pedido.</p></div><nav aria-label="Enlaces al pie"><a href="/vinos/">Vinos</a><a href="/vinos/como-resenamos/">Cómo elaboramos las fichas</a><a href="/tablas/">Tablas</a><a href="/eventos/">Catering y eventos</a><a href="/blog/">Blog</a></nav></div></footer>
 </body>
 </html>

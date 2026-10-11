@@ -10,6 +10,7 @@ import json
 import re
 import shutil
 from pathlib import Path
+from install_community import integrate
 
 
 PROMO = ""  # No hay promoción activa desde 2026-10-08
@@ -267,7 +268,7 @@ def main() -> None:
     for source_name, target_name, image_key, category, category_url, published in articles:
         source_path = package / article_dir / source_name
         meta, body = parse_frontmatter(source_path.read_text(encoding="utf-8"))
-        result = render(meta, body, image_key, category, category_url, published, responsive=not is_ai_package)
+        result = integrate(render(meta, body, image_key, category, category_url, published, responsive=not is_ai_package))
         target = root / "blog" / target_name
         target.write_text(result, encoding="utf-8", newline="\n")
         print(f"{target.relative_to(root)}  {hashlib.sha256(result.encode()).hexdigest()[:12]}")
