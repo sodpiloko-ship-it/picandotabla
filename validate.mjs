@@ -164,7 +164,7 @@ assert.match(read("llms.txt"), /^# Picando Tabla/m);
 assert.match(read("llms.txt"), /https:\/\/picandotabla\.com\/llms-full\.txt/);
 assert.match(read("llms-full.txt"), /La ruta antigua `\/orden\/` no debe usarse/);
 
-const home = read("index.html");
+const home = read("index.html") + read("tienda.js").replaceAll('\\"', '"');
 assert.match(home, /"@type":"Organization","@id":"https:\/\/picandotabla\.com\/#organization"/);
 assert.doesNotMatch(home, /"@type":"LocalBusiness"/);
 assert.match(home, /extra\.key==='pan'/);

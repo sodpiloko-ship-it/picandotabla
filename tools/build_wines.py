@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import copy
 from datetime import date, datetime
+import hashlib
 import html
 import json
 from pathlib import Path
@@ -17,6 +18,8 @@ import re
 import sys
 from urllib.parse import urlencode, urlparse
 from zoneinfo import ZoneInfo
+
+from build_catalog import load_and_validate, render_js
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "data/vinos.json"
@@ -194,6 +197,7 @@ def breadcrumbs(items: list[tuple[str, str]]) -> dict:
 def page(title: str, description: str, path: str, body: str, schemas: list[dict], kind: str, slug: str = "", image: str = "/img/tabla-850g.jpg") -> str:
     title, description = short(title, 70), short(description, 165)
     require(25 <= len(title) <= 70 and 70 <= len(description) <= 170, f"metadatos incompletos en {path}")
+    catalog_version = hashlib.sha256(render_js(load_and_validate()).encode("utf-8")).hexdigest()[:12]
     return f'''<!doctype html>
 <html lang="es-MX">
 <head>
@@ -220,6 +224,9 @@ def page(title: str, description: str, path: str, body: str, schemas: list[dict]
   <script defer src="/seo.js"></script>
   <script defer src="/vinos/vinos.js?v=1"></script>
   {''.join(ld(s) for s in schemas)}
+<link rel="stylesheet" href="/tienda.css?v=20261011a">
+<script defer src="/catalogo.js?v={catalog_version}"></script>
+<script defer src="/tienda.js?v=20261011a"></script>
 </head>
 {MARKER}
 <body class="wine-site" data-wine-page="{kind}" data-wine-slug="{esc(slug)}">

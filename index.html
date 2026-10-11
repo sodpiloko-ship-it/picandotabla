@@ -74,17 +74,12 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"
     .pt-pad{padding:44px 22px !important}
     .ptm-intake-grid{grid-template-columns:1fr !important}
   }
-  /* Modal de detalles */
-  #ptModalBg{position:fixed;inset:0;background:rgba(38,40,42,.55);z-index:90;display:none;align-items:center;justify-content:center;padding:18px;backdrop-filter:blur(3px)}
-  #ptModalBg.open{display:flex}
-  #ptModal{background:#fbfcfc;border-radius:16px;max-width:520px;width:100%;max-height:92vh;overflow-y:auto;box-shadow:0 20px 60px rgba(38,40,42,.4);animation:pt-fade-up .3s ease both}
-  .pt-up{display:flex;align-items:flex-start;gap:12px;border:1px solid #d3d5d4;border-radius:12px;padding:13px 15px;cursor:pointer;transition:border .15s,background .15s;background:#fff}
-  .pt-up:hover{border-color:#7c2d3e}
-  .pt-up.on{border:2px solid #7c2d3e;background:#faf5f6;padding:12px 14px}
-  .pt-up input{margin-top:3px;accent-color:#7c2d3e;width:16px;height:16px;flex:none;cursor:pointer}
   @media(max-width:760px){.promo{font-size:12px!important;line-height:1.25!important;height:64px!important;min-height:64px!important;padding:7px 12px!important}#ptHeader{top:0!important}}
 </style>
 <script defer src="/promo.js?v=20261008"></script>
+<link rel="stylesheet" href="/tienda.css?v=20261011a">
+<script defer src="/catalogo.js?v=b45d709ead50"></script>
+<script defer src="/tienda.js?v=20261011a"></script>
 </head>
 <body>
 <div style="background:#e9eaea;color:#26282a;min-height:100vh">
@@ -152,75 +147,71 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"
       </div>
 
       <!-- POND_CATALOG:HOME_PRODUCTS:START -->
-      <div class="pt-grid4">
-
-        <div id="card2" data-catalog-product="dos" style="border-radius:14px;overflow:hidden;background:#fff;transition:all .3s;border:1px solid #d3d5d4;box-shadow:none;position:relative;display:flex;flex-direction:column">
-          <div id="badge2" style="display:none;position:absolute;top:14px;left:14px;background:#26282a;color:#fff;font-size:11px;font-weight:600;letter-spacing:1px;padding:5px 12px;border-radius:999px;text-transform:uppercase;z-index:2">Para ti</div>
-          <div data-catalog-image style="height:170px;background:#d3d5d4 url('img/1.jpg') center/cover no-repeat"></div>
-          <div style="padding:20px 22px;display:flex;flex-direction:column;flex:1">
-            <div data-catalog-tag style="font-size:11px;letter-spacing:1.5px;color:#7c2d3e;font-weight:600;text-transform:uppercase;margin-bottom:6px">340 g · Noche tranquila</div>
-            <div data-catalog-title style="font-family:Lora,serif;font-size:20px;font-weight:600;margin-bottom:4px">Tabla para Dos</div>
-            <div style="font-size:12.5px;color:#75797a;margin-bottom:8px">Recomendada para 2 personas</div>
-            <p style="font-size:13.5px;line-height:1.55;color:#55585a;margin:0 0 14px;flex:1">Una noche en casa se vuelve cita. Porciones justas para dos, sin repetir bocado.</p>
-            <div data-catalog-price style="font-family:Lora,serif;font-size:21px;color:#26282a;margin-bottom:12px">$650</div>
-
-            <div style="display:flex;flex-direction:column;gap:8px">
-              <a class="ptbtn" href="/tablas/para-dos/" style="order:2;background:transparent;border:1.5px solid #7c2d3e;color:#7c2d3e;padding:9px 10px;border-radius:999px;font-size:13px;font-weight:600;text-align:center;text-decoration:none">Ver detalles</a>
-              <button class="ptbtn" onclick="verDetalles('dos')" style="order:1;background:#26282a;color:#fff;border:none;padding:11px 10px;border-radius:999px;font-size:13.5px;font-weight:600;cursor:pointer">Pagar con Mercado Pago</button>
-            </div>
+      <div class="pt-grid4 pt-card-grid" data-pt-columns="4">
+        <article class="pt-product-card" id="card2" data-pt-product="dos" data-catalog-product="dos">
+          <span class="pt-card-badge" id="badge2" style="display:none">Para ti</span>
+          <img class="pt-card-media" data-catalog-image src="/img/1.jpg" alt="Tabla para Dos" width="640" height="420" loading="lazy" decoding="async">
+          <div class="pt-card-body">
+            <p class="pt-card-tag" data-catalog-tag>340 g · Noche tranquila</p>
+            <h3 class="pt-card-title" data-catalog-title>Tabla para Dos</h3>
+            <p class="pt-card-people">Para 2 personas · 340 g</p>
+            <p class="pt-card-description">Una noche en casa se vuelve cita. Porciones justas para dos, sin repetir bocado.</p>
+            <p class="pt-card-composition">2 quesos · 2 carnes · 5 acompañamientos</p>
+            <p class="pt-card-price"><span data-catalog-price>$650</span> <small>MXN</small></p>
+            <p class="pt-card-delivery">Envío +$120 MXN · CDMX y zona oriente</p>
+            <p class="pt-card-lead">Pide con 3 días de anticipación.</p>
+            <button class="pt-card-buy" type="button" data-pt-buy="dos" aria-label="Elegir y pedir Tabla para Dos" aria-haspopup="dialog">Elegir y pedir <span aria-hidden="true">⌄</span></button>
+            <noscript><a class="pt-card-fallback" href="/?tabla=dos#tablas">Elegir y pedir Tabla para Dos</a></noscript>
           </div>
-        </div>
-
-        <div id="card46" data-catalog-product="anfitriona" style="border-radius:14px;overflow:hidden;background:#fff;transition:all .3s;border:2px solid #7c2d3e;box-shadow:none;position:relative;display:flex;flex-direction:column">
-          <div style="position:absolute;top:14px;left:14px;background:#7c2d3e;color:#fff;font-size:11px;font-weight:600;letter-spacing:1px;padding:5px 12px;border-radius:999px;text-transform:uppercase;z-index:2">La favorita</div>
-          <div data-catalog-image style="height:170px;background:#d3d5d4 url('img/tabla-850g.jpg') center/cover no-repeat"></div>
-          <div style="padding:20px 22px;display:flex;flex-direction:column;flex:1">
-            <div data-catalog-tag style="font-size:11px;letter-spacing:1.5px;color:#7c2d3e;font-weight:600;text-transform:uppercase;margin-bottom:6px">850 g · Reunión en casa</div>
-            <div data-catalog-title style="font-family:Lora,serif;font-size:20px;font-weight:600;margin-bottom:4px">Tabla de la Anfitriona</div>
-            <div style="font-size:12.5px;color:#75797a;margin-bottom:8px">Recomendada para 4–6 personas</div>
-            <p style="font-size:13.5px;line-height:1.55;color:#55585a;margin:0 0 14px;flex:1">Recibes sin estrés: la pieza central que resuelve la reunión de 4 a 6.</p>
-            <div data-catalog-price style="font-family:Lora,serif;font-size:21px;color:#26282a;margin-bottom:12px">$950</div>
-
-            <div style="display:flex;flex-direction:column;gap:8px">
-              <a class="ptbtn" href="/tablas/anfitriona/" style="order:2;background:transparent;border:1.5px solid #7c2d3e;color:#7c2d3e;padding:9px 10px;border-radius:999px;font-size:13px;font-weight:600;text-align:center;text-decoration:none">Ver detalles</a>
-              <button class="ptbtn" onclick="verDetalles('anfitriona')" style="order:1;background:#26282a;color:#fff;border:none;padding:11px 10px;border-radius:999px;font-size:13.5px;font-weight:600;cursor:pointer">Pagar con Mercado Pago</button>
-            </div>
+        </article>
+        <article class="pt-product-card pt-card-featured" id="card46" data-pt-product="anfitriona" data-catalog-product="anfitriona">
+          <span class="pt-card-badge" id="badge46">La favorita</span>
+          <img class="pt-card-media" data-catalog-image src="/img/tabla-850g.jpg" alt="Tabla de la Anfitriona" width="640" height="420" loading="lazy" decoding="async">
+          <div class="pt-card-body">
+            <p class="pt-card-tag" data-catalog-tag>850 g · Reunión en casa</p>
+            <h3 class="pt-card-title" data-catalog-title>Tabla de la Anfitriona</h3>
+            <p class="pt-card-people">Para 4–6 personas · 850 g</p>
+            <p class="pt-card-description">Recibes sin estrés: la pieza central que resuelve la reunión de 4 a 6.</p>
+            <p class="pt-card-composition">3 quesos · 3 carnes · 7 acompañamientos</p>
+            <p class="pt-card-price"><span data-catalog-price>$950</span> <small>MXN</small></p>
+            <p class="pt-card-delivery">Envío +$120 MXN · CDMX y zona oriente</p>
+            <p class="pt-card-lead">Pide con 3 días de anticipación.</p>
+            <button class="pt-card-buy" type="button" data-pt-buy="anfitriona" aria-label="Elegir y pedir Tabla de la Anfitriona" aria-haspopup="dialog">Elegir y pedir <span aria-hidden="true">⌄</span></button>
+            <noscript><a class="pt-card-fallback" href="/?tabla=anfitriona#tablas">Elegir y pedir Tabla de la Anfitriona</a></noscript>
           </div>
-        </div>
-
-        <div id="card8" data-catalog-product="fiesta" style="border-radius:14px;overflow:hidden;background:#fff;transition:all .3s;border:1px solid #d3d5d4;box-shadow:none;position:relative;display:flex;flex-direction:column">
-          <div id="badge8" style="display:none;position:absolute;top:14px;left:14px;background:#26282a;color:#fff;font-size:11px;font-weight:600;letter-spacing:1px;padding:5px 12px;border-radius:999px;text-transform:uppercase;z-index:2">Para ti</div>
-          <div data-catalog-image style="height:170px;background:#d3d5d4 url('img/3.jpg') center/cover no-repeat"></div>
-          <div style="padding:20px 22px;display:flex;flex-direction:column;flex:1">
-            <div data-catalog-tag style="font-size:11px;letter-spacing:1.5px;color:#7c2d3e;font-weight:600;text-transform:uppercase;margin-bottom:6px">1,360 g · Tabla de evento</div>
-            <div data-catalog-title style="font-family:Lora,serif;font-size:20px;font-weight:600;margin-bottom:4px">Tabla de Fiesta</div>
-            <div style="font-size:12.5px;color:#75797a;margin-bottom:8px">Recomendada para 8 personas</div>
-            <p style="font-size:13.5px;line-height:1.55;color:#55585a;margin:0 0 14px;flex:1">El festejo de 8, resuelto con una sola pieza. Pídela con una semana de anticipación.</p>
-            <div data-catalog-price style="font-family:Lora,serif;font-size:21px;color:#26282a;margin-bottom:12px">$1,600</div>
-
-            <div style="display:flex;flex-direction:column;gap:8px">
-              <a class="ptbtn" href="/tablas/fiesta/" style="order:2;background:transparent;border:1.5px solid #7c2d3e;color:#7c2d3e;padding:9px 10px;border-radius:999px;font-size:13px;font-weight:600;text-align:center;text-decoration:none">Ver detalles</a>
-              <button class="ptbtn" onclick="verDetalles('fiesta')" style="order:1;background:#26282a;color:#fff;border:none;padding:11px 10px;border-radius:999px;font-size:13.5px;font-weight:600;cursor:pointer">Pagar con Mercado Pago</button>
-            </div>
+        </article>
+        <article class="pt-product-card" id="card8" data-pt-product="fiesta" data-catalog-product="fiesta">
+          <span class="pt-card-badge" id="badge8" style="display:none">Para ti</span>
+          <img class="pt-card-media" data-catalog-image src="/img/3.jpg" alt="Tabla de Fiesta" width="640" height="420" loading="lazy" decoding="async">
+          <div class="pt-card-body">
+            <p class="pt-card-tag" data-catalog-tag>1,360 g · Tabla de evento</p>
+            <h3 class="pt-card-title" data-catalog-title>Tabla de Fiesta</h3>
+            <p class="pt-card-people">Para 8 personas · 1,360 g</p>
+            <p class="pt-card-description">El festejo de 8, resuelto con una sola pieza. Pídela con una semana de anticipación.</p>
+            <p class="pt-card-composition">4 quesos · 4 carnes · 11 acompañamientos</p>
+            <p class="pt-card-price"><span data-catalog-price>$1,600</span> <small>MXN</small></p>
+            <p class="pt-card-delivery">Envío +$120 MXN · CDMX y zona oriente</p>
+            <p class="pt-card-lead">Pide con 7 días de anticipación.</p>
+            <button class="pt-card-buy" type="button" data-pt-buy="fiesta" aria-label="Elegir y pedir Tabla de Fiesta" aria-haspopup="dialog">Elegir y pedir <span aria-hidden="true">⌄</span></button>
+            <noscript><a class="pt-card-fallback" href="/?tabla=fiesta#tablas">Elegir y pedir Tabla de Fiesta</a></noscript>
           </div>
-        </div>
-
-        <div id="card1012" data-catalog-product="celebracion" style="border-radius:14px;overflow:hidden;background:#fff;transition:all .3s;border:1px solid #d3d5d4;box-shadow:none;position:relative;display:flex;flex-direction:column">
-          <div id="badge1012" style="display:none;position:absolute;top:14px;left:14px;background:#26282a;color:#fff;font-size:11px;font-weight:600;letter-spacing:1px;padding:5px 12px;border-radius:999px;text-transform:uppercase;z-index:2">Para ti</div>
-          <div data-catalog-image style="height:170px;background:#d3d5d4 url('img/4.jpg') center/cover no-repeat"></div>
-          <div style="padding:20px 22px;display:flex;flex-direction:column;flex:1">
-            <div data-catalog-tag style="font-size:11px;letter-spacing:1.5px;color:#7c2d3e;font-weight:600;text-transform:uppercase;margin-bottom:6px">1,870 g · Tabla de evento</div>
-            <div data-catalog-title style="font-family:Lora,serif;font-size:20px;font-weight:600;margin-bottom:4px">Tabla de Celebración</div>
-            <div style="font-size:12.5px;color:#75797a;margin-bottom:8px">Recomendada para 10–12 personas</div>
-            <p style="font-size:13.5px;line-height:1.55;color:#55585a;margin:0 0 14px;flex:1">Nuestra más grande, montada para lucirse ante 10 a 12. Con una semana de anticipación.</p>
-            <div data-catalog-price style="font-family:Lora,serif;font-size:21px;color:#26282a;margin-bottom:12px">$2,600</div>
-
-            <div style="display:flex;flex-direction:column;gap:8px">
-              <a class="ptbtn" href="/tablas/celebracion/" style="order:2;background:transparent;border:1.5px solid #7c2d3e;color:#7c2d3e;padding:9px 10px;border-radius:999px;font-size:13px;font-weight:600;text-align:center;text-decoration:none">Ver detalles</a>
-              <button class="ptbtn" onclick="verDetalles('celebracion')" style="order:1;background:#26282a;color:#fff;border:none;padding:11px 10px;border-radius:999px;font-size:13.5px;font-weight:600;cursor:pointer">Pagar con Mercado Pago</button>
-            </div>
+        </article>
+        <article class="pt-product-card" id="card1012" data-pt-product="celebracion" data-catalog-product="celebracion">
+          <span class="pt-card-badge" id="badge1012" style="display:none">Para ti</span>
+          <img class="pt-card-media" data-catalog-image src="/img/4.jpg" alt="Tabla de Celebración" width="640" height="420" loading="lazy" decoding="async">
+          <div class="pt-card-body">
+            <p class="pt-card-tag" data-catalog-tag>1,870 g · Tabla de evento</p>
+            <h3 class="pt-card-title" data-catalog-title>Tabla de Celebración</h3>
+            <p class="pt-card-people">Para 10–12 personas · 1,870 g</p>
+            <p class="pt-card-description">Nuestra más grande, montada para lucirse ante 10 a 12. Con una semana de anticipación.</p>
+            <p class="pt-card-composition">5 quesos · 7 carnes · 15 acompañamientos</p>
+            <p class="pt-card-price"><span data-catalog-price>$2,600</span> <small>MXN</small></p>
+            <p class="pt-card-delivery">Envío +$120 MXN · CDMX y zona oriente</p>
+            <p class="pt-card-lead">Pide con 7 días de anticipación.</p>
+            <button class="pt-card-buy" type="button" data-pt-buy="celebracion" aria-label="Elegir y pedir Tabla de Celebración" aria-haspopup="dialog">Elegir y pedir <span aria-hidden="true">⌄</span></button>
+            <noscript><a class="pt-card-fallback" href="/?tabla=celebracion#tablas">Elegir y pedir Tabla de Celebración</a></noscript>
           </div>
-        </div>
+        </article>
       </div>
       <!-- POND_CATALOG:HOME_PRODUCTS:END -->
       <!-- POND_CATALOG:HOME_PRODUCTS_NOTE:START -->
@@ -434,99 +425,12 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"
     <!-- POND_CATALOG:HOME_FOOTER_NOTE:END --><small style="display:block;width:100%;box-sizing:border-box;text-align:center;font-size:12px;padding:16px 24px;grid-column:1/-1;flex-basis:100%;line-height:1.5;letter-spacing:normal;color:inherit"><a href="https://patologicos.com/sitio-web/?utm_source=picandotabla&amp;utm_medium=referral&amp;utm_campaign=credito-desarrollo" rel="nofollow" style="color:inherit;font:inherit;letter-spacing:normal;text-transform:none;text-decoration:underline;text-underline-offset:3px">Desarrollo web por Patológicos</a></small>
   </div>
 
-  <!-- Modal de detalles de producto -->
-  <div id="ptModalBg" onclick="if(event.target===this)cerrarDetalles()">
-    <div id="ptModal" role="dialog" aria-modal="true">
-      <div id="ptmImg" style="height:190px;background:#d3d5d4 center/cover no-repeat;border-radius:16px 16px 0 0;position:relative">
-        <button onclick="cerrarDetalles()" aria-label="Cerrar" style="position:absolute;top:12px;right:12px;width:34px;height:34px;border-radius:50%;background:rgba(38,40,42,.75);color:#fff;border:none;font-size:17px;cursor:pointer;line-height:1">×</button>
-      </div>
-      <div style="padding:24px 26px 26px">
-        <div id="ptmTag" style="font-size:11px;letter-spacing:1.5px;color:#7c2d3e;font-weight:600;text-transform:uppercase;margin-bottom:6px"></div>
-        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:10px">
-          <div id="ptmNombre" style="font-family:Lora,serif;font-size:24px;font-weight:600;color:#26282a"></div>
-          <div id="ptmPrecio" style="font-family:Lora,serif;font-size:22px;color:#26282a;flex:none"></div>
-        </div>
-        <p id="ptmDesc" style="font-size:14.5px;line-height:1.6;color:#55585a;margin:0 0 14px"></p>
-        <div style="font-size:12px;letter-spacing:1.5px;color:#75797a;font-weight:600;text-transform:uppercase;margin-bottom:8px">¿Qué lleva?</div>
-        <ul id="ptmInc" style="margin:0 0 18px;padding:0 0 0 18px;font-size:13.5px;line-height:1.7;color:#55585a"></ul>
-
-        <label class="pt-up" id="ptmPremBox" style="margin-bottom:16px;background:#fdf9f4;border-color:#c9a44a">
-          <input type="checkbox" id="ptmPrem" onchange="ptmRecalc()">
-          <div>
-            <!-- POND_CATALOG:HOME_MODAL_PREMIUM_TITLE:START -->
-            <div style="font-weight:600;font-size:14.5px;color:#26282a">Hazla Premium <span id="ptmPremPrecio" style="color:#7c2d3e"></span> <span style="background:#c9a44a;color:#fff;font-size:10px;font-weight:700;letter-spacing:1px;padding:2px 8px;border-radius:999px;text-transform:uppercase;vertical-align:2px">Premium</span></div>
-            <!-- POND_CATALOG:HOME_MODAL_PREMIUM_TITLE:END -->
-            <div style="font-size:13px;color:#75797a;line-height:1.5">El mismo gramaje con una selección de mayor categoría (por ejemplo, quesos importados o charcutería de reserva, según disponibilidad). No es una tabla más grande.</div>
-          </div>
-        </label>
-
-        <div style="font-size:12px;letter-spacing:1.5px;color:#75797a;font-weight:600;text-transform:uppercase;margin-bottom:8px">Complétala <span style="letter-spacing:0;text-transform:none;font-weight:500">· si quieres algo extra</span></div>
-        <div id="ptmUps" style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px"></div>
-
-        <div style="font-size:12px;letter-spacing:1.5px;color:#75797a;font-weight:600;text-transform:uppercase;margin:2px 0 10px">Datos para preparar tu pedido</div>
-        <p id="ptmIntro" style="font-size:13px;line-height:1.5;color:#75797a;margin:0 0 14px">Déjanos tus datos y abriremos WhatsApp con la tabla y el total listos para confirmar.</p>
-        <div class="ptm-intake-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
-          <div>
-            <label class="q-lbl" for="ptmCliente">Nombre</label>
-            <input id="ptmCliente" class="q-in" autocomplete="name" placeholder="Tu nombre">
-          </div>
-          <div>
-            <label class="q-lbl" for="ptmWhatsapp">Tu WhatsApp</label>
-            <input id="ptmWhatsapp" class="q-in" type="tel" inputmode="tel" autocomplete="tel" placeholder="55 0000 0000">
-          </div>
-        </div>
-        <div class="ptm-intake-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
-          <div>
-            <label class="q-lbl" for="ptmZona">Colonia (CDMX)</label>
-            <input id="ptmZona" class="q-in" autocomplete="address-level3" placeholder="Ej. Del Valle">
-          </div>
-          <div>
-            <label class="q-lbl" for="ptmFecha">¿Qué día la entregamos?</label>
-            <input id="ptmFecha" class="q-in" type="date" onchange="ptmRecalc()" aria-describedby="ptmRegla">
-          </div>
-        </div>
-        <div style="margin-bottom:14px">
-          <label class="q-lbl" for="ptmNotas">Notas <span style="font-weight:400;color:#9a9ea0">(opcional)</span></label>
-          <textarea id="ptmNotas" class="q-in" rows="2" placeholder="Ocasión, restricciones o sabores que prefieres" style="resize:vertical"></textarea>
-        </div>
-        <div style="margin-bottom:14px">
-          <div id="ptmRegla" style="font-size:12px;color:#75797a;margin-top:6px;line-height:1.5"></div>
-        </div>
-        <!-- POND_CATALOG:HOME_MODAL_DELIVERY:START -->
-        <div style="display:flex;align-items:center;justify-content:space-between;border-top:1px solid #d3d5d4;padding-top:12px;margin-bottom:4px">
-          <span style="font-size:13px;color:#75797a">Mensajería a toda la CDMX y la zona oriente</span>
-          <span style="font-family:Lora,serif;font-size:15px;color:#55585a">$120</span>
-        </div>
-        <!-- POND_CATALOG:HOME_MODAL_DELIVERY:END -->
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
-          <span style="font-size:14px;color:#55585a;font-weight:600">Total con envío</span>
-          <span id="ptmTotal" style="font-family:Lora,serif;font-size:24px;color:#26282a"></span>
-        </div>
-        <div id="ptmModo" role="radiogroup" aria-label="¿Cómo quieres pagar?" style="display:none;flex-direction:column;gap:10px;margin:0 0 16px">
-          <div style="font-size:12px;letter-spacing:1.5px;color:#75797a;font-weight:600;text-transform:uppercase">¿Cómo quieres pagar?</div>
-          <label class="pt-up on" id="ptmModoCompleto"><input type="radio" name="ptmModo" value="completo" checked onchange="ptmRecalc()">
-            <div><div style="font-weight:600;font-size:14.5px;color:#26282a">Pago completo <span id="ptmModoCompletoMonto" style="color:#7c2d3e"></span></div>
-            <div id="ptmModoCompletoTxt" style="font-size:13px;color:#75797a;line-height:1.5"></div></div></label>
-          <label class="pt-up" id="ptmModoAnticipo"><input type="radio" name="ptmModo" value="anticipo" onchange="ptmRecalc()">
-            <div><div style="font-weight:600;font-size:14.5px;color:#26282a">Anticipo <span id="ptmModoAnticipoMonto" style="color:#7c2d3e"></span></div>
-            <div id="ptmModoAnticipoTxt" style="font-size:13px;color:#75797a;line-height:1.5"></div></div></label>
-        </div>
-        <button id="ptmPagar" class="ptbtn" onclick="pagarDetalles()" style="display:none;width:100%;align-items:center;justify-content:center;gap:10px;background:#26282a;color:#fff;padding:15px;border-radius:999px;font-weight:600;font-size:16px;border:none;cursor:pointer;margin-bottom:10px">Pagar con Mercado Pago</button>
-        <button id="ptmWaBtn" class="ptbtn" onclick="pedirDetalles()" style="width:100%;display:inline-flex;align-items:center;justify-content:center;gap:10px;background:#26282a;color:#fff;padding:15px;border-radius:999px;font-weight:600;font-size:16px;border:none;cursor:pointer">
-          <span style="width:18px;height:18px;border-radius:50%;background:#25D366;display:inline-block"></span><span id="ptmWaTxt">Pedirla por WhatsApp</span></button>
-        <p id="ptmError" role="alert" aria-live="polite" style="display:none;text-align:center;font-size:12.5px;color:#7c2d3e;font-weight:600;margin:10px 0 0"></p>
-        <p id="ptmNota" style="text-align:center;font-size:12px;color:#75797a;margin:12px 0 0;line-height:1.5"></p>
-      </div>
-    </div>
-  </div>
-
   <!-- FAB WhatsApp -->
   <button id="ptFab" onclick="waGeneral('fab')" style="position:fixed;bottom:28px;right:28px;z-index:60;display:inline-flex;align-items:center;gap:10px;background:#26282a;color:#fff;padding:14px 24px;border-radius:999px;font-weight:600;font-size:14px;border:none;cursor:pointer;animation:pt-pulse 2.5s ease-in-out infinite;transition:opacity .3s,transform .3s;opacity:0;transform:translateY(16px);pointer-events:none">
     <span style="width:16px;height:16px;border-radius:50%;background:#25D366;display:inline-block"></span>¿Dudas? WhatsApp</button>
 
 </div>
 
-<script src="catalogo.js?v=b45d709ead50"></script>
 <script>
 (function(){
   var WA='525623632404';
@@ -541,274 +445,11 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"
     track('whatsapp_click', {origen: loc||'general'});
     try{ if(window.fbq) fbq('track','Contact',{origen: loc||'general'}); }catch(e){}
   };
-  // --- Proyección del catálogo canónico de Picando Tabla para esta interfaz ---
-  var CATALOGO=window.PICANDO_CATALOGO_V1;
-  var PREMIUM=CATALOGO.modifiers.filter(function(m){return m.key==='premium';})[0];
-  var REGALO=CATALOGO.promotions.filter(function(p){return p.id==='picandotabla:promotion:caja-tapas-regalo';})[0];
-  // Extensión temporal: hasta extension.all_orders_until la caja va en cualquier tabla (pago/lib.php aplica lo mismo).
-  var PROMO_EXT=(function(){ var e=REGALO&&REGALO.extension; if(!e||!e.all_orders_until) return false;
-    var h=e.all_orders_until.split('-'); return new Date()<=new Date(+h[0],+h[1]-1,+h[2],23,59,59); })();
-  var MENSAJERIA=CATALOGO.delivery.price_mxn;
-  var LOGISTICA=CATALOGO.logistics;
-  var TABLAS={};
-  CATALOGO.products.forEach(function(product){
-    TABLAS[product.key]={
-      id:product.id,
-      n:product.title,
-      v:product.price_mxn,
-      regular:product.regular_price_mxn||null,
-      prem:PREMIUM.prices_mxn_by_product_key[product.key],
-      premOk:(PREMIUM.confirmed_product_keys||[]).indexOf(product.key)>-1,
-      img:product.media.image,
-      tag:product.presentation.tag,
-      ev:product.is_event,
-      d:product.description,
-      inc:product.included,
-      regalo:!!REGALO&&(PROMO_EXT||REGALO.eligible_product_keys.indexOf(product.key)>-1)
-    };
-  });
-  var UPSELLS=CATALOGO.extras.filter(function(extra){return extra.key==='pan';}).map(function(extra){
-    return {id:extra.key,n:extra.title,v:extra.price_mxn,d:extra.description};
-  });
-  var fmt=function(v){ return '$'+v.toLocaleString('en-US'); };
-  document.querySelectorAll('[data-catalog-product]').forEach(function(card){
-    var product=TABLAS[card.dataset.catalogProduct]; if(!product) return;
-    var precio=card.querySelector('[data-catalog-price]');
-    if(product.regalo&&!/Caja de tapas/.test(card.textContent)&&precio){
-      var g=document.createElement('div');
-      g.setAttribute('style','margin:-2px 0 13px;padding:8px 10px;border-radius:9px;background:#faf5f6;color:#7c2d3e;font-size:12px;font-weight:700');
-      g.textContent='🎁 '+REGALO.title+' incluida';
-      precio.insertAdjacentElement('afterend',g);
-    }
-    card.querySelector('[data-catalog-image]').style.backgroundImage='url("'+product.img+'")';
-    card.querySelector('[data-catalog-tag]').textContent=product.tag;
-    card.querySelector('[data-catalog-title]').textContent=product.n;
-    card.querySelector('[data-catalog-price]').innerHTML=(product.regular?'<s style="font-size:14px;color:#75797a">'+fmt(product.regular)+'</s> ':'')+fmt(product.v);
-  });
-  document.querySelectorAll('[data-catalog-extra]').forEach(function(card){
-    var key=card.dataset.catalogExtra;
-    var extra=UPSELLS.filter(function(item){return item.id===key;})[0]; if(!extra) return;
-    card.querySelector('[data-catalog-extra-title]').textContent=extra.n;
-    card.querySelector('[data-catalog-extra-description]').textContent=extra.d;
-    card.querySelector('[data-catalog-extra-price]').textContent=fmt(extra.v);
-  });
-  var modalId=null;
-  // --- Pago en línea (Mercado Pago): se enciende solo si el servidor tiene la llave (pago/estado.php) ---
-  var PAGO_ONLINE=false, pagando=false;
-  try{
-    fetch('/pago/estado.php',{cache:'no-store'}).then(function(r){ return r.ok?r.json():{}; })
-      .then(function(d){ PAGO_ONLINE=!!(d&&d.activo); if(modalId) ptmRecalc(); }).catch(function(){});
-  }catch(e){}
-  window.addEventListener('pageshow',function(){ pagando=false; var b=document.getElementById('ptmPagar'); if(b) b.disabled=false; if(modalId) ptmRecalc(); });
-  // Fechas: mismas reglas que pago/lib.php (ptpg_cotizar). delivery_days_iso usa ISO: 5=viernes, 6=sábado.
-  function isoLocal(d){ return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2); }
-  function fechaDe(iso){ var p=String(iso||'').split('-'); return p.length===3?new Date(+p[0],+p[1]-1,+p[2]):null; }
-  function diasHasta(iso){ var d=fechaDe(iso), h=new Date(); h.setHours(0,0,0,0); return d?Math.round((d-h)/864e5):NaN; }
-  function diaIso(d){ return ((d.getDay()+6)%7)+1; }
-  function minDias(t){ return t.ev?LOGISTICA.event_lead_time_days:Math.ceil(LOGISTICA.standard_lead_time_hours/24); }
-  function primeraFecha(t){
-    var d=new Date(); d.setHours(0,0,0,0); d.setDate(d.getDate()+minDias(t));
-    for(var i=0;i<7&&LOGISTICA.delivery_days_iso.indexOf(diaIso(d))<0;i++) d.setDate(d.getDate()+1);
-    return d;
-  }
-  function fechaLarga(iso){ var d=fechaDe(iso); return d&&!isNaN(d)?d.toLocaleDateString('es-MX',{weekday:'long',day:'numeric',month:'long'}):String(iso||''); }
-  function errorFecha(t, iso){
-    var d=fechaDe(iso);
-    if(!d||isNaN(d)) return 'Elige el día de entrega.';
-    if(LOGISTICA.delivery_days_iso.indexOf(diaIso(d))<0) return 'Ese día no entregamos. Elige '+LOGISTICA.delivery_days_labels.join(', ')+'.';
-    if(diasHasta(iso)<minDias(t)) return t.ev?'Las tablas de evento se piden con '+LOGISTICA.event_lead_time_days+' días de anticipación.':'Pide con al menos '+minDias(t)+' días de anticipación.';
-    return '';
-  }
-  // Lo que se paga hoy según lo que elige el cliente (mismas reglas que pago/lib.php).
-  function modoElegido(){ var r=document.querySelector('input[name="ptmModo"]:checked'); return r&&r.value==='anticipo'?'anticipo':'completo'; }
-  function cobroDe(total){
-    if(modoElegido()==='anticipo') return {tipo:'anticipo', monto:Math.round(total*LOGISTICA.payment.deposit.pct/100)};
-    return {tipo:'total', monto:total};
-  }
-  function restoTexto(){
-    var dd=LOGISTICA.payment.deposit.balance_due_days_before_delivery;
-    return dd>0?'a más tardar '+dd+(dd===1?' día':' días')+' antes de la entrega':'al recibir tu tabla';
-  }
-  function totalDe(t){
-    var prem=document.getElementById('ptmPrem').checked, total=t.v+MENSAJERIA+(prem?t.prem:0);
-    UPSELLS.forEach(function(u){ var cb=document.querySelector('input[data-up="'+u.id+'"]'); if(cb&&cb.checked) total+=u.v; });
-    return total;
-  }
-  // Datos del formulario ya validados, o null (y muestra el error).
-  function leerDatos(t){
-    var v=function(id){ return document.getElementById(id).value.trim(); };
-    var d={prem:document.getElementById('ptmPrem').checked, nombre:v('ptmCliente'), whatsapp:v('ptmWhatsapp'),
-           zona:v('ptmZona'), fecha:v('ptmFecha'), notas:v('ptmNotas')};
-    var checks=[
-      {bad:!d.nombre,id:'ptmCliente',message:'Escribe tu nombre para continuar.'},
-      {bad:d.whatsapp.replace(/\D/g,'').length<10,id:'ptmWhatsapp',message:'Escribe tu WhatsApp (10 dígitos) para continuar.'},
-      {bad:!d.zona,id:'ptmZona',message:'Escribe tu colonia para confirmar la entrega.'},
-      {bad:!!errorFecha(t,d.fecha),id:'ptmFecha',message:errorFecha(t,d.fecha)}
-    ];
-    var missing=checks.filter(function(c){ return c.bad; })[0];
-    var error=document.getElementById('ptmError');
-    if(missing){
-      error.textContent=missing.message;
-      error.style.display='block';
-      document.getElementById(missing.id).focus();
-      return null;
-    }
-    error.style.display='none';
-    return d;
-  }
-  window.verDetalles=function(id){
-    var t=TABLAS[id]; if(!t) return;
-    modalId=id;
-    document.getElementById('ptmImg').style.background='#d3d5d4 url(\''+t.img+'\') center/cover no-repeat';
-    document.getElementById('ptmTag').textContent=t.tag;
-    document.getElementById('ptmNombre').textContent=t.n;
-    document.getElementById('ptmPrecio').textContent=fmt(t.v);
-    document.getElementById('ptmDesc').textContent=t.d;
-    document.getElementById('ptmInc').innerHTML=t.inc.map(function(i){return '<li>'+i+'</li>';}).join('')+
-      (t.regalo?'<li><strong style="color:#7c2d3e">'+REGALO.title+' incluida sin costo</strong></li>':'');
-    document.getElementById('ptmPrem').checked=false;
-    document.getElementById('ptmPremBox').classList.remove('on');
-    document.getElementById('ptmPremPrecio').textContent='+'+fmt(t.prem)+' · queda en '+fmt(t.v+t.prem)+(t.premOk?'':' (se confirma por WhatsApp)');
-    document.getElementById('ptmUps').innerHTML=UPSELLS.map(function(u){
-      return '<label class="pt-up" id="ptmUp_'+u.id+'"><input type="checkbox" data-up="'+u.id+'" onchange="ptmRecalc()">'+
-        '<div><div style="font-weight:600;font-size:14.5px;color:#26282a">'+u.n+' <span style="color:#7c2d3e">+'+fmt(u.v)+'</span></div>'+
-        '<div style="font-size:13px;color:#75797a;line-height:1.5">'+u.d+'</div></div></label>';
-    }).join('');
-    ['ptmCliente','ptmWhatsapp','ptmZona','ptmFecha','ptmNotas'].forEach(function(field){ document.getElementById(field).value=''; });
-    document.getElementById('ptmError').style.display='none';
-    var fechaIn=document.getElementById('ptmFecha'), tope=new Date();
-    tope.setDate(tope.getDate()+120);
-    fechaIn.min=isoLocal(primeraFecha(t));
-    fechaIn.max=isoLocal(tope);
-    var todos=LOGISTICA.delivery_days_iso.length===7;
-    document.getElementById('ptmRegla').textContent = (todos?'Entregamos todos los días':'Entregamos '+LOGISTICA.delivery_days_labels.join(', '))
-      +', con al menos '+minDias(t)+' días de anticipación'+(t.ev?' (tabla de evento).':'.');
-    var completo=document.querySelector('input[name="ptmModo"][value="completo"]'); if(completo) completo.checked=true;
-    ptmRecalc();
-    document.getElementById('ptModalBg').classList.add('open');
-    document.body.style.overflow='hidden';
-    track('view_product',{item_name:t.n, value:t.v, currency:'MXN'});
-    track('view_item',{item_name:t.n, value:t.v, currency:'MXN'});
-    try{ if(window.fbq) fbq('track','ViewContent',{content_name:t.n, value:t.v, currency:'MXN'}); }catch(e){}
-  };
-  window.cerrarDetalles=function(){
-    document.getElementById('ptModalBg').classList.remove('open');
-    document.body.style.overflow='';
-    modalId=null;
-  };
-  window.ptmRecalc=function(){
-    var t=TABLAS[modalId]; if(!t) return;
-    var total=t.v+MENSAJERIA;
-    var prem=document.getElementById('ptmPrem');
-    document.getElementById('ptmPremBox').classList.toggle('on', prem.checked);
-    if(prem.checked) total+=t.prem;
-    document.getElementById('ptmPrecio').textContent=fmt(t.v+(prem.checked?t.prem:0));
-    UPSELLS.forEach(function(u){
-      var cb=document.querySelector('input[data-up="'+u.id+'"]');
-      document.getElementById('ptmUp_'+u.id).classList.toggle('on', !!(cb&&cb.checked));
-      if(cb&&cb.checked) total+=u.v;
-    });
-    document.getElementById('ptmTotal').textContent=fmt(total);
-    // Pago en línea: botón principal si el servidor lo tiene encendido y el precio está confirmado.
-    var cobro=cobroDe(total);
-    var premPend=prem.checked&&!t.premOk;
-    var online=PAGO_ONLINE&&!premPend;
-    var pagar=document.getElementById('ptmPagar'), waBtn=document.getElementById('ptmWaBtn');
-    pagar.style.display=online?'inline-flex':'none';
-    if(!pagando) pagar.textContent='Pagar '+fmt(cobro.monto)+' con Mercado Pago';
-    var PAGO=LOGISTICA.payment, pct=PAGO.deposit.pct, anticipo=Math.round(total*pct/100);
-    document.getElementById('ptmModo').style.display=online?'flex':'none';
-    document.getElementById('ptmModoCompleto').classList.toggle('on', cobro.tipo==='total');
-    document.getElementById('ptmModoAnticipo').classList.toggle('on', cobro.tipo==='anticipo');
-    document.getElementById('ptmModoCompletoMonto').textContent=fmt(total);
-    document.getElementById('ptmModoCompletoTxt').textContent='Con tarjeta de crédito puedes pagarlo hasta en '+PAGO.full.installments_max+' meses (con intereses). También tarjeta de débito, OXXO o transferencia.';
-    document.getElementById('ptmModoAnticipoMonto').textContent=fmt(anticipo)+' hoy ('+pct+' %)';
-    document.getElementById('ptmModoAnticipoTxt').textContent='Apartas tu fecha y el resto, '+fmt(total-anticipo)+', lo liquidas '+restoTexto()+'.';
-    waBtn.style.background=online?'transparent':'#26282a';
-    waBtn.style.color=online?'#26282a':'#fff';
-    waBtn.style.border=online?'1.5px solid #26282a':'none';
-    document.getElementById('ptmWaTxt').textContent=online?'¿Dudas? Escríbenos por WhatsApp':'Pedirla por WhatsApp';
-    document.getElementById('ptmIntro').textContent=online
-      ?'Déjanos tus datos y paga en línea con Mercado Pago: tarjeta, OXXO o transferencia. Te escribimos por WhatsApp para confirmar tu entrega.'
-      :(PAGO_ONLINE&&premPend
-        ?'La versión Premium de esta tabla se confirma por WhatsApp: te abrimos el chat con tu pedido listo.'
-        :'Déjanos tus datos y abriremos WhatsApp con la tabla y el total listos para confirmar.');
-    document.getElementById('ptmNota').textContent=online
-      ?'Si no tenemos tu fecha, te devolvemos lo que hayas pagado.'
-      :'Pago completo o anticipo del '+pct+' % al confirmar tu pedido.';
-  };
-  window.pagarDetalles=function(){
-    var t=TABLAS[modalId]; if(!t||pagando) return;
-    var d=leerDatos(t); if(!d) return;
-    var btn=document.getElementById('ptmPagar'), error=document.getElementById('ptmError');
-    var cobro=cobroDe(totalDe(t));
-    var extras=UPSELLS.filter(function(u){ var cb=document.querySelector('input[data-up="'+u.id+'"]'); return cb&&cb.checked; })
-      .map(function(u){ return u.id; });
-    var utm={};
-    try{ new URLSearchParams(window.location.search).forEach(function(v,k){ if(/^(utm_\w+|fbclid|gclid)$/.test(k)) utm[k]=v; }); }catch(e){}
-    pagando=true; btn.disabled=true; btn.textContent='Abriendo Mercado Pago…';
-    track('begin_checkout',{origen:'pago_en_linea', tabla:modalId, value:cobro.monto, currency:'MXN'});
-    try{ if(window.fbq) fbq('track','InitiateCheckout',{content_name:t.n, value:cobro.monto, currency:'MXN'}); }catch(e){}
-    fetch('/pago/pedido.php',{method:'POST', headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({tabla:modalId, premium:d.prem, extras:extras, nombre:d.nombre, whatsapp:d.whatsapp,
-                           zona:d.zona, fecha:d.fecha, notas:d.notas, modo:modoElegido(), utm:utm})})
-      .then(function(r){ return r.json().catch(function(){ return {}; }); })
-      .then(function(res){
-        if(res&&res.ok&&res.url){ window.location.href=res.url; return; }
-        pagando=false; btn.disabled=false; ptmRecalc();
-        error.textContent=((res&&res.error)||'No pudimos abrir Mercado Pago.')+(res&&res.error&&/WhatsApp/.test(res.error)?'':' También puedes pedirla por WhatsApp.');
-        error.style.display='block';
-      })
-      .catch(function(){
-        pagando=false; btn.disabled=false; ptmRecalc();
-        error.textContent='No pudimos abrir Mercado Pago. Revisa tu conexión o pídela por WhatsApp.';
-        error.style.display='block';
-      });
-  };
-  window.pedirDetalles=function(){
-    var t=TABLAS[modalId]; if(!t) return;
-    var d=leerDatos(t); if(!d) return;
-    var prem=d.prem, nombre=d.nombre, whatsapp=d.whatsapp, zona=d.zona, fecha=fechaLarga(d.fecha), notas=d.notas;
-    var total=t.v+(prem?t.prem:0);
-    var items=[
-      {qty:1,nombre:t.n+(prem?' (Premium)':''),precio:t.v+(prem?t.prem:0)}
-    ];
-    var lines=['¡Hola! Quiero la '+t.n+(prem?' en versión Premium':'')+' ('+fmt(total)+')'];
-    if(t.regalo){ items.push({qty:1,nombre:REGALO.title+' (incluida)',precio:0}); lines.push('+ '+REGALO.title+' — REGALO'); }
-    UPSELLS.forEach(function(u){
-      var cb=document.querySelector('input[data-up="'+u.id+'"]');
-      if(cb&&cb.checked){ total+=u.v; items.push({qty:1,nombre:u.n,precio:u.v}); lines.push('+ '+u.n+' ('+fmt(u.v)+')'); }
-    });
-    total+=MENSAJERIA;
-    items.push({qty:1,nombre:'Mensajería CDMX',precio:MENSAJERIA});
-    lines.push('+ Mensajería CDMX ('+fmt(MENSAJERIA)+')');
-    lines.push('Nombre: '+nombre);
-    lines.push('Mi WhatsApp: '+whatsapp);
-    lines.push('Colonia: '+zona);
-    lines.push('Entrega: '+fecha);
-    if(notas) lines.push('Notas: '+notas);
-    lines.push('Total: '+fmt(total));
-    try{
-      var pl=JSON.stringify({nombre:nombre, whatsapp:whatsapp, zona:zona, fecha:fecha, notas:notas, origen:'landing_popup_producto', total:total, items:items});
-      if(navigator.sendBeacon){ navigator.sendBeacon('order.php', new Blob([pl],{type:'application/json'})); }
-    }catch(e){}
-    track('begin_checkout',{origen:'detalles', tabla:modalId, value:total, currency:'MXN'});
-    open(lines.join('\n'));
-    track('click_whatsapp',{origen:'detalles', tabla:modalId, premium:prem, value:total, currency:'MXN'});
-    track('whatsapp_click',{origen:'detalles', tabla:modalId, premium:prem, value:total, currency:'MXN'});
-    try{ if(window.fbq) fbq('track','Lead',{content_name:t.n, value:total, currency:'MXN'}); }catch(e){}
-    cerrarDetalles();
-  };
   window.waVinos=function(){
     open('¡Hola! Me interesa el servicio de selección y coordinación de vinos para mi evento 🍷');
     track('whatsapp_click',{origen:'vinos'});
     try{ if(window.fbq) fbq('track','Lead',{content_name:'Servicio de vinos'}); }catch(e){}
   };
-  document.addEventListener('keydown',function(e){ if(e.key==='Escape') cerrarDetalles(); });
-  try{
-    var requestedTable=new URLSearchParams(window.location.search).get('tabla');
-    if(TABLAS[requestedTable]) setTimeout(function(){ window.verDetalles(requestedTable); },0);
-  }catch(e){}
   window.waCustom=function(){ open('¡Hola! Quiero una tabla a la medida'); track('whatsapp_click',{origen:'custom'}); try{if(window.fbq)fbq('track','Contact',{origen:'custom'});}catch(e){} };
   window.waZona=function(){ open('¡Hola! ¿Entregan en mi colonia? Estoy en '); track('whatsapp_click',{origen:'zona'}); try{if(window.fbq)fbq('track','Contact',{origen:'zona'});}catch(e){} };
   window.waCuraduria=function(){ open('¡Hola! Quiero una tabla de temporada'); track('whatsapp_click',{origen:'curaduria'}); try{if(window.fbq)fbq('track','Contact',{origen:'curaduria'});}catch(e){} };

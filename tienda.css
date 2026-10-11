@@ -1,0 +1,69 @@
+/* Tarjetas y compra compartidas en todas las páginas. */
+.pt-card-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;align-items:stretch}
+.pt-card-grid[data-pt-columns="3"]{grid-template-columns:repeat(3,minmax(0,1fr))}
+.pt-card-body p{margin:0}
+.pt-card-price small{font:400 12px 'Work Sans',system-ui,sans-serif}
+@media(min-width:601px) and (max-width:1100px){.pt-card-grid,.pt-card-grid[data-pt-columns="3"]{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.pt-product-card{position:relative;display:flex;flex-direction:column;min-width:0;border:1px solid #d3d5d4;border-radius:18px;overflow:hidden;background:#fff;color:#26282a;font-family:'Work Sans',system-ui,sans-serif;box-shadow:0 3px 14px #26282a06;text-decoration:none}
+.pt-product-card *{box-sizing:border-box}
+.pt-product-card [data-catalog-image],.pt-card-image{display:block;width:100%;height:190px;object-fit:cover;background-size:cover;background-position:center}
+.pt-card-body{display:flex;flex:1;flex-direction:column;padding:20px;gap:10px}
+.pt-card-tag{font-size:11px;letter-spacing:1px;color:#7c2d3e;text-transform:uppercase;font-weight:600}
+.pt-card-title{font-family:Lora,Georgia,serif;font-size:22px;font-weight:600;line-height:1.2;margin:0;color:#26282a}
+.pt-card-people{font-size:14px;font-weight:600;color:#55585a}
+.pt-card-description,.pt-card-composition{font-size:13px;color:#55585a;line-height:1.55;margin:0}
+.pt-card-description{flex:1}
+.pt-card-price{font-family:Lora,Georgia,serif;font-size:24px;color:#26282a;font-weight:600;margin-top:6px}
+.pt-card-delivery,.pt-card-lead,.pt-card-note{font-size:12px;line-height:1.5;color:#626567;margin:0}
+.pt-card-button,.pt-card-buy{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:48px;padding:13px 16px;background:#7c2d3e;border:0;border-radius:12px;color:#fff;font:600 15px 'Work Sans',system-ui,sans-serif;cursor:pointer;text-decoration:none;margin-top:4px}
+.pt-card-button::after{content:'⌄';font-size:21px;line-height:1}
+.pt-card-button:hover,.pt-card-buy:hover{background:#602332;color:white}
+.pt-card-badge{position:absolute;top:12px;left:12px;padding:6px 10px;border-radius:100px;background:#7c2d3e;color:#fff;font-size:11px;font-weight:600;z-index:1}
+.pt-card-featured{border-color:#7c2d3e}
+.pt-product-card button:focus-visible,#ptModalBg :is(button,input,textarea,summary):focus-visible{outline:3px solid #b98e3e;outline-offset:3px}
+.pt-order-open{overflow:hidden}
+#ptModalBg{padding:0;border:0;border-radius:22px;margin:auto;width:min(100% - 32px,570px);max-width:570px;max-height:calc(100dvh - 36px);overflow:hidden;color:#26282a;background:#fbfcfc;box-shadow:0 24px 90px #0004;font-family:'Work Sans',system-ui,sans-serif}
+#ptModalBg::backdrop{background:#242327a8;backdrop-filter:blur(3px)}
+#ptModalBg:not([open]){display:none}
+#ptModalBg *{box-sizing:border-box}
+#ptModal{display:flex;flex-direction:column;height:min(860px,calc(100dvh - 36px));max-height:calc(100dvh - 36px);overflow:hidden}
+.pt-sheet-header{display:flex;flex:none;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px 10px 24px;border-bottom:1px solid #e3e0dd;background:#fff;font-size:13px;font-weight:600;color:#7c2d3e}
+#ptmClose{width:44px;height:44px;border:1px solid #e4dedb;border-radius:50%;background:#fff;color:#26282a;font-size:28px;cursor:pointer}
+#ptmImg{display:none}
+.pt-sheet-body{overflow-y:auto;overscroll-behavior:contain;min-height:0;padding:22px 24px 16px;scroll-padding:18px;flex:1}
+#ptmNombre{margin:0;line-height:1.15;max-width:70%}
+#ptmTag{padding-right:8px}
+.pt-includes{border-bottom:1px solid #e5dfda;margin:12px 0 20px;padding-bottom:12px}
+.pt-includes summary{font-size:14px;font-weight:600;cursor:pointer;min-height:44px;display:flex;align-items:center;gap:10px}
+.pt-includes summary::after{content:'+';margin-left:auto;font-size:22px;color:#7c2d3e}
+.pt-includes[open] summary::after{content:'−'}
+.pt-includes summary::-webkit-details-marker{display:none}
+.pt-step{font-family:Lora,Georgia,serif;font-size:19px;margin:0 0 12px}
+.pt-step small{font:400 12px 'Work Sans',system-ui,sans-serif;color:#777;margin-left:6px}
+#ptModalBg .pt-up{display:flex;align-items:flex-start;gap:12px;border:1px solid #d8d0cb;border-radius:12px;padding:13px;cursor:pointer;background:#fff}
+#ptModalBg .pt-up.on{border-color:#7c2d3e;background:#faf5f6;box-shadow:inset 0 0 0 1px #7c2d3e}
+#ptModalBg .pt-up input{width:22px;height:22px;flex:none;accent-color:#7c2d3e;margin:1px 0 0}
+#ptModalBg .q-lbl{display:block;font-size:13px;font-weight:600;color:#26282a;margin-bottom:6px}
+#ptModalBg .q-in{width:100%;min-width:0;min-height:48px;border:1px solid #cfcac6;border-radius:10px;padding:11px 12px;font:400 16px 'Work Sans',system-ui,sans-serif;color:#26282a;background:#fff}
+#ptModalBg input[type=date]{display:block;min-width:0;width:100%;appearance:none}
+.pt-sheet-footer{flex:none;padding:14px 24px max(14px,env(safe-area-inset-bottom));background:#fff;border-top:1px solid #e2dbd7;box-shadow:0 -6px 20px #26282a06}
+#ptModalBg .pt-total-line{margin-bottom:10px!important}
+#ptmPagar,#ptmWaBtn{min-height:48px;border-radius:12px!important;margin-bottom:0!important;line-height:1.4}
+#ptmPagar{background:#7c2d3e!important}
+#ptmWaBtn{font-size:12px!important;padding:8px!important;min-height:36px}
+#ptmWaBtn:not([style*="transparent"]){font-size:15px!important;min-height:48px}
+#ptmNota{margin:6px 0 0!important;font-size:11px!important}
+#ptModalBg button:disabled{opacity:.6;cursor:wait}
+@media(max-width:600px){
+  #ptModalBg{width:100%;max-width:none;margin:auto 0 0;border-radius:22px 22px 0 0;max-height:96dvh}
+  #ptModal{height:96dvh;max-height:96dvh}
+  .pt-sheet-header{padding:7px 14px 7px 20px}
+  .pt-sheet-body{padding:18px 20px 12px}
+  .pt-sheet-footer{padding:12px 20px max(12px,env(safe-area-inset-bottom))}
+  #ptmNombre{font-size:23px!important}
+  #ptmPrecio{font-size:21px!important}
+  #ptModalBg .ptm-intake-grid{grid-template-columns:1fr!important}
+  .pt-product-card [data-catalog-image],.pt-card-image{height:195px}
+  .pt-grid4,.product-grid{grid-template-columns:minmax(0,1fr)!important}
+}
+@media(prefers-reduced-motion:reduce){#ptModalBg *,.pt-product-card{animation:none!important;transition:none!important;scroll-behavior:auto!important}}

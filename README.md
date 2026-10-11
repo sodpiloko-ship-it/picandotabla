@@ -1,5 +1,19 @@
 # Picando Tabla — sitio web (tienda)
 
+## Compra compartida
+
+Las tarjetas de portada, catálogo, reuniones y regalos se generan con
+`tools/store_cards.py` desde el catálogo canónico. Su botón abre en la misma
+página el panel de `tienda.js`, con estilos en `tienda.css`: extras opcionales,
+datos de entrega, total y pago. Las fichas y los enlaces comerciales usan ese
+mismo panel. Los borradores se conservan en memoria al cerrar y reabrir una
+tabla; no se guardan datos personales en el navegador.
+
+`python tools/build_catalog.py --check` comprueba tarjetas, precios y versión
+del catálogo en las páginas públicas. `tools/build_wines.py` conserva también
+las referencias del componente al regenerar las fichas de vino. Los precios,
+plazos y Premium que requieren confirmación siguen validados por `pago/lib.php`.
+
 Tienda en línea estática de **Picando Tabla** (tablas de parota & maridaje, CDMX). Un solo `index.html`
 **self-contained** (sin dependencias externas): Inicio, Tienda, Producto (con grabado), Carrito, Pago,
 Maridaje y Nosotros. Carrito en `localStorage`. Pensado para **GitHub → Hostinger**.

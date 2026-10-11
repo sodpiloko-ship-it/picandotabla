@@ -10,6 +10,9 @@ import json
 import os
 import re
 from pathlib import Path
+from textwrap import indent
+
+from store_cards import SEO_CARD_PRODUCTS, render_card_grid, update_seo_cards
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -40,6 +43,17 @@ PRIVATE_OR_GENERATED_DIRS = {
     "reuniones",
     "tablas",
 }
+# A diferencia de la auditoría de precios, el versionado también recorre las
+# páginas públicas de catálogo, ocasiones, blog y vinos. Home y orden ya se
+# versionan al renderizar sus bloques comerciales.
+CATALOG_SCRIPT_EXCLUDED_DIRS = {
+    ".git", ".github", "data", "secrets", "orders", "pedidos", "storage",
+    "uploads", "img", "vendor", "node_modules", "__pycache__", "comanda",
+    "pago", "newsletter", "tools", "orden", "work", "outputs",
+}
+CATALOG_SCRIPT_PATTERN = re.compile(
+    r'(<script\b[^>]*\bsrc="(?:/|\.\./)?catalogo\.js)(?:\?v=[a-f0-9]+)?("[^>]*>\s*</script>)'
+)
 PRICE_LITERAL = re.compile(
     r"(?:\$\s*([0-9][0-9.,]*)|\b([0-9][0-9.,]*)\s*(?:MXN|pesos?)\b)",
     re.IGNORECASE,
@@ -279,64 +293,8 @@ def people_range(products: list[dict]) -> tuple[int, int]:
 
 
 def render_home_products(catalog: dict) -> str:
-    lines = ['      <div class="pt-grid4">', ""]
-    gift = catalog["promotions"][0] if catalog["promotions"] else {}
-    gift_keys = set(gift.get("eligible_product_keys", []))
-    for index, product in enumerate(catalog["products"]):
-        key = escaped(product["key"])
-        suffix = selector_suffix(product)
-        presentation = product["presentation"]
-        featured = presentation["featured"]
-        regular_price = product.get("regular_price_mxn")
-        if regular_price:
-            price_html = (
-                f'<s style="font-size:14px;color:#75797a">{money(regular_price)}</s> '
-                f'{money(product["price_mxn"])}'
-            )
-        else:
-            price_html = money(product["price_mxn"])
-        gift_html = (
-            f'            <div style="margin:-2px 0 13px;padding:8px 10px;border-radius:9px;background:#faf5f6;color:#7c2d3e;font-size:12px;font-weight:700">🎁 {escaped(gift["title"])} incluida</div>'
-            if product["key"] in gift_keys
-            else ""
-        )
-        border = "2px solid #7c2d3e" if featured else "1px solid #d3d5d4"
-        if featured:
-            badge = (
-                '          <div style="position:absolute;top:14px;left:14px;background:#7c2d3e;color:#fff;'
-                'font-size:11px;font-weight:600;letter-spacing:1px;padding:5px 12px;border-radius:999px;'
-                'text-transform:uppercase;z-index:2">La favorita</div>'
-            )
-        else:
-            badge = (
-                f'          <div id="badge{suffix}" style="display:none;position:absolute;top:14px;left:14px;'
-                'background:#26282a;color:#fff;font-size:11px;font-weight:600;letter-spacing:1px;'
-                'padding:5px 12px;border-radius:999px;text-transform:uppercase;z-index:2">Para ti</div>'
-            )
-        lines.extend(
-            [
-                f'        <div id="card{suffix}" data-catalog-product="{key}" style="border-radius:14px;overflow:hidden;background:#fff;transition:all .3s;border:{border};box-shadow:none;position:relative;display:flex;flex-direction:column">',
-                badge,
-                f'          <div data-catalog-image style="height:170px;background:#d3d5d4 url(\'{escaped(product["media"]["image"])}\') center/cover no-repeat"></div>',
-                '          <div style="padding:20px 22px;display:flex;flex-direction:column;flex:1">',
-                f'            <div data-catalog-tag style="font-size:11px;letter-spacing:1.5px;color:#7c2d3e;font-weight:600;text-transform:uppercase;margin-bottom:6px">{escaped(presentation["tag"])}</div>',
-                f'            <div data-catalog-title style="font-family:Lora,serif;font-size:20px;font-weight:600;margin-bottom:4px">{escaped(product["title"])}</div>',
-                f'            <div style="font-size:12.5px;color:#75797a;margin-bottom:8px">{escaped(recommended_people(product))}</div>',
-                f'            <p style="font-size:13.5px;line-height:1.55;color:#55585a;margin:0 0 14px;flex:1">{escaped(presentation["card_description"])}</p>',
-                f'            <div data-catalog-price style="font-family:Lora,serif;font-size:21px;color:#26282a;margin-bottom:12px">{price_html}</div>',
-                gift_html,
-                '            <div style="display:flex;flex-direction:column;gap:8px">',
-                f'              <a class="ptbtn" href="/tablas/{"para-dos" if product["key"] == "dos" else product["key"]}/" style="order:2;background:transparent;border:1.5px solid #7c2d3e;color:#7c2d3e;padding:9px 10px;border-radius:999px;font-size:13px;font-weight:600;text-align:center;text-decoration:none">Ver detalles</a>',
-                f'              <button class="ptbtn" onclick="verDetalles(\'{key}\')" style="order:1;background:#26282a;color:#fff;border:none;padding:11px 10px;border-radius:999px;font-size:13.5px;font-weight:600;cursor:pointer">Pagar con Mercado Pago</button>',
-                "            </div>",
-                "          </div>",
-                "        </div>",
-            ]
-        )
-        if index < len(catalog["products"]) - 1:
-            lines.append("")
-    lines.append("      </div>")
-    return "\n".join(lines)
+    keys = tuple(product["key"] for product in catalog["products"])
+    return indent(render_card_grid(catalog, keys, home=True), "      ")
 
 
 def render_home_people_selector(catalog: dict) -> str:
@@ -508,21 +466,6 @@ f'Gramajes de referencia: calculamos unos {catalog["portioning"]["grams_per_pers
                 f'Picando Tabla · CDMX · Tablas de evento bajo agenda · '
                 f'Mensajería {money(delivery["price_mxn"])} a toda la CDMX y la zona oriente</div>'
             ),
-            "HOME_MODAL_DELIVERY": "\n".join(
-                [
-                    '        <div style="display:flex;align-items:center;justify-content:space-between;border-top:1px solid #d3d5d4;padding-top:12px;margin-bottom:4px">',
-                    f'          <span style="font-size:13px;color:#75797a">Mensajería a toda la CDMX y la zona oriente</span>',
-                    f'          <span style="font-family:Lora,serif;font-size:15px;color:#55585a">{money(delivery["price_mxn"])}</span>',
-                    "        </div>",
-                ]
-            ),
-            "HOME_MODAL_PREMIUM_TITLE": (
-                '            <div style="font-weight:600;font-size:14.5px;color:#26282a">'
-                f'{escaped(premium["title"])} <span id="ptmPremPrecio" style="color:#7c2d3e"></span> '
-                '<span style="background:#c9a44a;color:#fff;font-size:10px;font-weight:700;letter-spacing:1px;'
-                'padding:2px 8px;border-radius:999px;text-transform:uppercase;vertical-align:2px">'
-                f'{escaped(premium["title"].replace("Hazla ", ""))}</span></div>'
-            ),
         },
         ORDER: {
             "ORDER_META": (
@@ -585,14 +528,44 @@ def expected_html(
 
 
 def version_catalog_script(text: str, path: Path, version: str) -> str:
-    pattern = re.compile(
-        r'(<script\s+src="(?:\.\./)?catalogo\.js)(?:\?v=[a-f0-9]+)?("></script>)'
-    )
-    updated, count = pattern.subn(rf"\1?v={version}\2", text)
+    updated, count = CATALOG_SCRIPT_PATTERN.subn(rf"\1?v={version}\2", text)
     if count != 1:
         fail(
             f"{path.relative_to(ROOT)} necesita exactamente un script catalogo.js"
         )
+    return updated
+
+
+def public_catalog_script_files() -> list[Path]:
+    """HTML públicos que ya cargan el catálogo; nunca añade nuevos scripts."""
+    paths = []
+    for current, directories, filenames in os.walk(ROOT):
+        directories[:] = [
+            name for name in directories
+            if name.lower() not in CATALOG_SCRIPT_EXCLUDED_DIRS
+        ]
+        for filename in filenames:
+            path = Path(current) / filename
+            if path == HOME or path.suffix.lower() != ".html":
+                continue
+            if CATALOG_SCRIPT_PATTERN.search(path.read_text(encoding="utf-8")):
+                paths.append(path)
+    return sorted(paths)
+
+
+def update_public_catalog_versions(version: str, *, check: bool = False) -> list[str]:
+    """Comparte la versión del catálogo entre todas las superficies de compra."""
+    updated = []
+    for path in public_catalog_script_files():
+        current = path.read_text(encoding="utf-8")
+        rendered = version_catalog_script(current, path, version)
+        if current == rendered:
+            continue
+        relative = path.relative_to(ROOT).as_posix()
+        if check:
+            fail(f"{relative} carga una versión desactualizada de catalogo.js; ejecuta tools/build_catalog.py")
+        path.write_text(rendered, encoding="utf-8", newline="\n")
+        updated.append(relative)
     return updated
 
 
@@ -689,6 +662,12 @@ def main() -> int:
                 catalog_version,
             ):
                 fail(f"{path.relative_to(ROOT)} contiene un fallback comercial desactualizado")
+        for relative, keys in SEO_CARD_PRODUCTS.items():
+            path = ROOT / relative
+            current = path.read_text(encoding="utf-8")
+            if current != update_seo_cards(current, catalog, keys):
+                fail(f"{relative} contiene tarjetas desactualizadas; ejecuta tools/build_catalog.py")
+        update_public_catalog_versions(catalog_version, check=True)
         print("Catálogo válido; proyección JS y fallbacks HTML actualizados.")
         return 0
     TARGET.write_text(generated, encoding="utf-8", newline="\n")
@@ -704,6 +683,14 @@ def main() -> int:
         if path.read_text(encoding="utf-8") != rendered:
             path.write_text(rendered, encoding="utf-8", newline="\n")
         updated.append(str(path.relative_to(ROOT)))
+    for relative, keys in SEO_CARD_PRODUCTS.items():
+        path = ROOT / relative
+        current = path.read_text(encoding="utf-8")
+        rendered = update_seo_cards(current, catalog, keys)
+        if current != rendered:
+            path.write_text(rendered, encoding="utf-8", newline="\n")
+        updated.append(relative)
+    updated.extend(update_public_catalog_versions(catalog_version))
     print("Generado: " + ", ".join(updated))
     return 0
 
