@@ -2,7 +2,7 @@
 
 > Picando Tabla prepara tablas de quesos y charcutería por encargo y las entrega listas para servir en Ciudad de México. Este archivo resume las páginas comerciales y editoriales oficiales del sitio.
 
-La disponibilidad siempre se confirma antes del pago. Los precios están expresados en pesos mexicanos (MXN). La mensajería en CDMX cuesta $120. Las presentaciones individuales para eventos parten de $200 MXN por persona en alimentos, para eventos desde 25 personas; la opción Premium, el transporte y los servicios adicionales se cotizan por separado. Los productos y promociones vigentes deben verificarse en las páginas enlazadas.
+La disponibilidad siempre se confirma antes del pago. Los precios están expresados en pesos mexicanos (MXN). La mensajería en CDMX cuesta $120. Para 10 personas o más se cotiza por persona en alimentos: Clásica desde $200, Premium desde $245 y Reserva desde $385 MXN, en porciones individuales o en presentación para evento; el transporte y los servicios adicionales se cotizan por separado. Los productos y promociones vigentes deben verificarse en las páginas enlazadas.
 
 ## Información principal
 
@@ -19,7 +19,7 @@ La disponibilidad siempre se confirma antes del pago. Los precios están expresa
 - [Para Dos](https://picandotabla.com/tablas/para-dos/): 340 g de referencia, recomendada para 2 personas; $650.
 - [Tabla de la Anfitriona](https://picandotabla.com/tablas/anfitriona/): 850 g de referencia, recomendada para 4 a 6 personas; $950 estándar o $1,300 premium (mismo gramaje, selección de mayor categoría).
 - [Tabla de Fiesta](https://picandotabla.com/tablas/fiesta/): 1,360 g de referencia, recomendada para 8 personas; $1,600.
-- [Tabla de Celebración](https://picandotabla.com/tablas/celebracion/): 1,870 g de referencia, recomendada para 10 a 12 personas; $2,600.
+- [Tabla de Celebración](https://picandotabla.com/tablas/celebracion/): 1,870 g de referencia, recomendada para 10 a 12 personas; se cotiza desde $200 por persona.
 
 ## Contenido editorial
 
@@ -36,7 +36,7 @@ La disponibilidad siempre se confirma antes del pago. Los precios están expresa
 
 ## Presentaciones individuales para eventos
 
-Desde $200 MXN por persona en alimentos, para eventos desde 25 personas. Opciones Individual y Premium; transporte y servicios adicionales sujetos a cotización. Composición y solicitud: https://picandotabla.com/eventos/#individuales
+Para eventos desde 10 personas: Clásica desde $200, Premium desde $245 y Reserva desde $385 MXN por persona en alimentos, en porciones individuales o en presentación para evento; transporte y servicios adicionales sujetos a cotización. Composición y solicitud: https://picandotabla.com/eventos/#individuales
 
 ## Optional
 

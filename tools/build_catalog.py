@@ -179,6 +179,14 @@ def load_and_validate() -> dict:
         fail("exactamente un producto debe tener presentation.featured=true")
 
     for product in products:
+        quote = product.get("quote")
+        if quote is not None:
+            require_price(quote.get("price_per_person_from_mxn"), f"{product['key']}.quote.price_per_person_from_mxn")
+            if not isinstance(quote.get("url"), str) or not quote["url"].startswith("/eventos/"):
+                fail(f"{product['key']}.quote.url debe llevar a /eventos/")
+            if product.get("package"):
+                fail(f"{product['key']}: una tabla que se cotiza no puede tener paquete")
+    for product in products:
         package = product.get("package")
         if package is None:
             continue

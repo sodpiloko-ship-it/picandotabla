@@ -69,9 +69,9 @@ if (!empty($d['servicios']) && is_array($d['servicios'])) {
 if ($nombre === '' || ($correo === '' && $telefono === '')) {
   pt_out(400, ['ok' => false, 'error' => 'faltan nombre y un medio de contacto']);
 }
-// Oferta de eventos: mínimo 25 asistentes, confirmado por el propietario.
-if (!preg_match('/^\d{1,5}$/', $personas) || (int)$personas < 25 || (int)$personas > 5000) {
-  pt_out(400, ['ok' => false, 'error' => 'cotizamos eventos desde 25 personas; indica un número entero entre 25 y 5,000']);
+// Oferta de eventos: cotizamos desde 10 asistentes (David, 2026-10-20).
+if (!preg_match('/^\d{1,5}$/', $personas) || (int)$personas < 10 || (int)$personas > 5000) {
+  pt_out(400, ['ok' => false, 'error' => 'cotizamos eventos desde 10 personas; indica un número entero entre 10 y 5,000']);
 }
 
 $dir  = __DIR__ . '/data';

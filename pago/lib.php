@@ -267,6 +267,9 @@ function ptpg_cotizar(string $clave, bool $premium, array $extras, string $fecha
     if (($p['key'] ?? '') === $clave) $producto = $p;
   }
   if ($producto === null) return ['error' => 'Esa tabla no existe.'];
+  if (!empty($producto['quote'])) {
+    return ['error' => 'Para 10 personas o más preparamos una cotización: pídela en picandotabla.com/eventos o por WhatsApp.'];
+  }
 
   $entrega = DateTimeImmutable::createFromFormat('!Y-m-d', $fecha, new DateTimeZone(PTPG_TZ));
   if ($entrega === false || $entrega->format('Y-m-d') !== $fecha) return ['error' => 'Elige la fecha de entrega.'];

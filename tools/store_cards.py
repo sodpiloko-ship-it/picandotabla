@@ -69,6 +69,12 @@ def render_product_card(catalog: dict, product: dict, *, home: bool = False) -> 
         total += sum(extras[extra_key]["price_mxn"] for extra_key in package["extra_keys"])
         price = _money(total)
         delivery_text = package["card_note"]
+    quote = product.get("quote")
+    price_unit = "MXN"
+    if quote:
+        price = "Desde " + _money(quote["price_per_person_from_mxn"])
+        price_unit = "MXN por persona"
+        delivery_text = f'Para {quote.get("min_people", 10)} personas o más preparamos una cotización.'
     regular = product.get("regular_price_mxn")
     price_html = f'<s class="pt-card-regular-price">{_money(regular)}</s> ' if regular else ""
     price_html += price
@@ -87,12 +93,14 @@ def render_product_card(catalog: dict, product: dict, *, home: bool = False) -> 
         f'    <p class="pt-card-people">Para {people_text} personas · {product["weight_g"]:,} g</p>',
         f'    <p class="pt-card-description">{_escape(presentation["card_description"])}</p>',
         f'    <p class="pt-card-composition">{composition["cheeses"]} quesos · {composition["meats"]} carnes · {composition["accompaniments"]} acompañamientos</p>',
-        f'    <p class="pt-card-price"><span data-catalog-price>{price_html}</span> <small>MXN</small></p>',
+        f'    <p class="pt-card-price"><span data-catalog-price>{price_html}</span> <small>{price_unit}</small></p>',
         *gift_lines,
         f'    <p class="pt-card-delivery">{_escape(delivery_text)}</p>',
         f'    <p class="pt-card-lead">Pide con {lead_days} días de anticipación.</p>',
-        f'    <button class="pt-card-buy" type="button" data-pt-buy="{key}" aria-label="Elegir y pedir {title}" aria-haspopup="dialog">Elegir y pedir <span aria-hidden="true">⌄</span></button>',
-        f'    <noscript><a class="pt-card-fallback" href="/?tabla={key}#tablas">Elegir y pedir {title}</a></noscript>',
+        (f'    <a class="pt-card-buy" href="{_escape(quote["url"])}" aria-label="Pedir cotización de {title}">Pedir cotización</a>'
+         if quote else
+         f'    <button class="pt-card-buy" type="button" data-pt-buy="{key}" aria-label="Elegir y pedir {title}" aria-haspopup="dialog">Elegir y pedir <span aria-hidden="true">⌄</span></button>'),
+        "" if quote else f'    <noscript><a class="pt-card-fallback" href="/?tabla={key}#tablas">Elegir y pedir {title}</a></noscript>',
         '  </div>',
         '</article>',
     ]

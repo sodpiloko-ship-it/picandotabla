@@ -89,7 +89,7 @@ const productFiles = [
   ["tablas/para-dos/index.html", 650],
   ["tablas/anfitriona/index.html", 950],
   ["tablas/fiesta/index.html", 1600],
-  ["tablas/celebracion/index.html", 2600],
+  ["tablas/celebracion/index.html", 200],
 ];
 const productSchema = (html) => [...html.matchAll(/<script[^>]*application\/ld\+json[^>]*>([\s\S]*?)<\/script>/gi)]
   .map((match) => JSON.parse(match[1]))

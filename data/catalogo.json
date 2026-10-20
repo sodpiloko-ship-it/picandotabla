@@ -162,6 +162,11 @@
       "modifier_ids": [
         "picandotabla:modifier:premium"
       ],
+      "quote": {
+        "price_per_person_from_mxn": 200,
+        "min_people": 10,
+        "url": "/eventos/?personas=10#solicitud"
+      },
       "media": {
         "image": "img/4.jpg"
       },
@@ -282,6 +287,16 @@
         "balance_due_days_before_delivery": 1
       }
     }
+  },
+  "event_quote": {
+    "min_people": 10,
+    "url": "/eventos/#solicitud",
+    "note": "Precios de referencia por persona en alimentos; aplican a porciones individuales o a presentación para evento. Entrega y servicios adicionales se cotizan.",
+    "tiers": [
+      {"key": "clasica", "title": "Clásica", "price_per_person_from_mxn": 200},
+      {"key": "premium", "title": "Premium", "price_per_person_from_mxn": 245},
+      {"key": "reserva", "title": "Reserva", "price_per_person_from_mxn": 385}
+    ]
   },
   "portioning": {
     "grams_per_person": 170,

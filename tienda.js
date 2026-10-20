@@ -33,6 +33,7 @@
       d:product.description,
       inc:product.included,
       pkg:product.package||null,
+      quote:product.quote||null,
       regalo:!!REGALO&&(PROMO_EXT||REGALO.eligible_product_keys.indexOf(product.key)>-1)
     };
   });
@@ -116,6 +117,7 @@
   }
   window.verDetalles=function(id,preset){
     var t=TABLAS[id]; if(!t) return;
+    if(t.quote){ track('select_quote',{tabla:id}); window.location.href=t.quote.url; return; }
     if(pagando) return;
     rememberDraft();
     modalId=id;
