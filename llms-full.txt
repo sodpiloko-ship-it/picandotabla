@@ -17,7 +17,7 @@ El pedido de tablas se inicia en el landing oficial: https://picandotabla.com/. 
 
 Los tamaños se expresan en gramaje de referencia, calculado a unos 170 g por persona; el número de personas es una recomendación.
 
-- Tabla para Dos: 340 g de referencia (recomendada para 2 personas). Precio $650 MXN. Página oficial: https://picandotabla.com/tablas/para-dos/
+- Para Dos: 340 g de referencia (recomendada para 2 personas). Precio $650 MXN. Página oficial: https://picandotabla.com/tablas/para-dos/
 - Tabla de la Anfitriona: 850 g de referencia (recomendada para 4 a 6 personas). Selección estándar $950 MXN; selección premium $1,300 MXN. Página oficial: https://picandotabla.com/tablas/anfitriona/
 - Tabla de Fiesta: 1,360 g de referencia (recomendada para 8 personas). Precio $1,600 MXN. Es una tabla de evento y requiere 7 días de anticipación. Página oficial: https://picandotabla.com/tablas/fiesta/
 - Tabla de Celebración: 1,870 g de referencia (recomendada para 10 a 12 personas). Precio $2,600 MXN. Es una tabla de evento y requiere 7 días de anticipación. Página oficial: https://picandotabla.com/tablas/celebracion/

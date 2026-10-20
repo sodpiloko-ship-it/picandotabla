@@ -48,7 +48,7 @@ for (const file of htmlFiles) {
   assert.ok(!html.replace(/\s+/g, " ").includes(promotion), `${file}: sin promoción retirada`);
   assert.doesNotMatch(html, /href=["']\/orden\//i, `${file}: no enlaza al configurador legado`);
   const visibleCopy = html.replace(/<script\b[\s\S]*?<\/script>/gi, " ").replace(/<style\b[\s\S]*?<\/style>/gi, " ");
-  assert.doesNotMatch(visibleCopy, /\b(dip|viernes|sábado)\b/i, `${file}: copia sin regalos ni días específicos`);
+  assert.doesNotMatch(visibleCopy, /\b(viernes|sábado)\b/i, `${file}: copia sin regalos ni días específicos`);
   assert.equal((html.match(/<h1\b/gi) || []).length, 1, `${file}: exactamente un H1`);
 
   const title = html.match(/<title>([^<]+)<\/title>/i)?.[1]?.trim();

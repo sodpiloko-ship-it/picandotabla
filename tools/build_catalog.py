@@ -178,6 +178,19 @@ def load_and_validate() -> dict:
     if sum(bool(product["presentation"]["featured"]) for product in products) != 1:
         fail("exactamente un producto debe tener presentation.featured=true")
 
+    for product in products:
+        package = product.get("package")
+        if package is None:
+            continue
+        if not isinstance(package.get("card_note"), str) or not package["card_note"].strip():
+            fail(f"package.card_note de {product['key']} es obligatorio")
+        if not set(package.get("extra_keys", [])) <= extra_keys:
+            fail(f"package.extra_keys de {product['key']} debe usar extras existentes")
+        if package.get("premium") and product["key"] not in next(
+            (m.get("confirmed_product_keys", []) for m in modifiers if m["key"] == "premium"), []
+        ):
+            fail(f"package de {product['key']} incluye un Premium sin confirmar")
+
     for extra in extras:
         if not extra["id"].startswith("picandotabla:addon:"):
             fail(f"id global inválido: {extra['id']}")

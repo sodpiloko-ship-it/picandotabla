@@ -10,7 +10,7 @@
       "key": "dos",
       "status": "active",
       "availability": "confirmation_required",
-      "title": "Tabla para Dos",
+      "title": "Para Dos",
       "description": "Quesos y charcutería en porciones pensadas para dos, con el dulce, la fruta y el crujiente que hacen que cada bocado sea distinto al anterior. La armamos con lo mejor de la semana: nunca la misma tabla dos veces.",
       "price_mxn": 650,
       "weight_g": 340,
@@ -34,6 +34,14 @@
       "modifier_ids": [
         "picandotabla:modifier:premium"
       ],
+      "package": {
+        "card_note": "Paquete con envío incluido: Premium, mermelada o dip con pan y fresas con chocolate Turín. Quita lo que no quieras al pedir.",
+        "premium": true,
+        "extra_keys": [
+          "mermelada",
+          "fresas"
+        ]
+      },
       "media": {
         "image": "img/1.jpg"
       },
@@ -181,8 +189,8 @@
       "key": "mermelada",
       "status": "active",
       "availability": "confirmation_required",
-      "title": "Mermelada de la casa",
-      "description": "Nuestra mermelada, para acompañar los quesos.",
+      "title": "Mermelada o dip de la casa",
+      "description": "Tú eliges mermelada o dip. Incluye pan.",
       "price_mxn": 120
     },
     {

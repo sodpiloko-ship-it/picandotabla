@@ -58,6 +58,17 @@ def render_product_card(catalog: dict, product: dict, *, home: bool = False) -> 
     logistics = catalog["logistics"]
     lead_days = logistics["event_lead_time_days"] if product["is_event"] else logistics["standard_lead_time_hours"] // 24
     price = _money(product["price_mxn"])
+    package = product.get("package")
+    delivery_text = f'Envío +{_money(catalog["delivery"]["price_mxn"])} MXN · {catalog["delivery"]["area"]}'
+    if package:
+        extras = {extra["key"]: extra for extra in catalog["extras"]}
+        premium = next(modifier for modifier in catalog["modifiers"] if modifier["key"] == "premium")
+        total = product["price_mxn"] + catalog["delivery"]["price_mxn"]
+        if package.get("premium"):
+            total += premium["prices_mxn_by_product_key"][product["key"]]
+        total += sum(extras[extra_key]["price_mxn"] for extra_key in package["extra_keys"])
+        price = _money(total)
+        delivery_text = package["card_note"]
     regular = product.get("regular_price_mxn")
     price_html = f'<s class="pt-card-regular-price">{_money(regular)}</s> ' if regular else ""
     price_html += price
@@ -78,7 +89,7 @@ def render_product_card(catalog: dict, product: dict, *, home: bool = False) -> 
         f'    <p class="pt-card-composition">{composition["cheeses"]} quesos · {composition["meats"]} carnes · {composition["accompaniments"]} acompañamientos</p>',
         f'    <p class="pt-card-price"><span data-catalog-price>{price_html}</span> <small>MXN</small></p>',
         *gift_lines,
-        f'    <p class="pt-card-delivery">Envío +{_money(catalog["delivery"]["price_mxn"])} MXN · {_escape(catalog["delivery"]["area"])}</p>',
+        f'    <p class="pt-card-delivery">{_escape(delivery_text)}</p>',
         f'    <p class="pt-card-lead">Pide con {lead_days} días de anticipación.</p>',
         f'    <button class="pt-card-buy" type="button" data-pt-buy="{key}" aria-label="Elegir y pedir {title}" aria-haspopup="dialog">Elegir y pedir <span aria-hidden="true">⌄</span></button>',
         f'    <noscript><a class="pt-card-fallback" href="/?tabla={key}#tablas">Elegir y pedir {title}</a></noscript>',

@@ -43,7 +43,7 @@
       "pairings": [
         {
           "product_key": "dos",
-          "reason": "La Tabla para Dos reúne un queso suave y uno madurado. Proponemos empezar por el suave y pasar después al madurado para comparar textura e intensidad junto al vino. La charcutería abre una tercera comparación para encontrar tu bocado favorito."
+          "reason": "La tabla Para Dos reúne un queso suave y uno madurado. Proponemos empezar por el suave y pasar después al madurado para comparar textura e intensidad junto al vino. La charcutería abre una tercera comparación para encontrar tu bocado favorito."
         },
         {
           "product_key": "anfitriona",
@@ -65,7 +65,7 @@
         },
         {
           "question": "¿Puedo cotizarlo con una tabla de Picando Tabla?",
-          "answer": "Sí, puedes solicitarlo con la Tabla para Dos o la Tabla de la Anfitriona. Indica la fecha, tus preferencias y el presupuesto para vino; la propuesta se confirma en la cotización."
+          "answer": "Sí, puedes solicitarlo con la tabla Para Dos o la Tabla de la Anfitriona. Indica la fecha, tus preferencias y el presupuesto para vino; la propuesta se confirma en la cotización."
         }
       ],
       "sources": [

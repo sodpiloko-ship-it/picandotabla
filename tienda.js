@@ -32,6 +32,7 @@
       ev:product.is_event,
       d:product.description,
       inc:product.included,
+      pkg:product.package||null,
       regalo:!!REGALO&&(PROMO_EXT||REGALO.eligible_product_keys.indexOf(product.key)>-1)
     };
   });
@@ -141,6 +142,10 @@
     if(draft){
       UPSELLS.forEach(function(u){document.querySelector('input[data-up="'+u.id+'"]').checked=draft.extras.indexOf(u.id)>-1;});
       document.querySelector('input[name="ptmModo"][value="'+draft.mode+'"]').checked=true;
+    }
+    if(!draft&&t.pkg){
+      document.getElementById('ptmPrem').checked=!!t.pkg.premium;
+      UPSELLS.forEach(function(u){ if(t.pkg.extra_keys.indexOf(u.id)>-1) document.querySelector('input[data-up="'+u.id+'"]').checked=true; });
     }
     if(preset&&preset.premium) document.getElementById('ptmPrem').checked=true;
     ptmRecalc();
