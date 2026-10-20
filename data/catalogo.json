@@ -35,7 +35,14 @@
         "picandotabla:modifier:premium"
       ],
       "package": {
-        "card_note": "Paquete con envío incluido: Premium, mermelada o dip con pan y fresas con chocolate Turín. Quita lo que no quieras al pedir.",
+        "card_label": "Paquete Para Dos",
+        "card_title": "Incluye, con envío:",
+        "card_items": [
+          "Versión Premium",
+          "Mermelada o dip con pan",
+          "Fresas con chocolate Turín"
+        ],
+        "card_note": "Quita lo que no quieras al pedir.",
         "premium": true,
         "extra_keys": [
           "mermelada",

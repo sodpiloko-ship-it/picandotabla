@@ -78,8 +78,8 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"
   @media(max-width:760px){.promo{font-size:12px!important;line-height:1.25!important;height:64px!important;min-height:64px!important;padding:7px 12px!important}#ptHeader{top:0!important}}
 </style>
 <script defer src="/promo.js?v=20261008"></script>
-<link rel="stylesheet" href="/tienda.css?v=20261011a">
-<script defer src="/catalogo.js?v=237ac6d9da4c"></script>
+<link rel="stylesheet" href="/tienda.css?v=20261020a">
+<script defer src="/catalogo.js?v=6ddf94ecac61"></script>
 <script defer src="/tienda.js?v=20261020d"></script>
 <link rel="stylesheet" href="/newsletter/community.css?v=20261010b">
 <script defer src="/newsletter/community.js?v=20261010b"></script>
@@ -151,17 +151,18 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"
 
       <!-- POND_CATALOG:HOME_PRODUCTS:START -->
       <div class="pt-grid4 pt-card-grid" data-pt-columns="4">
-        <article class="pt-product-card" id="card2" data-pt-product="dos" data-catalog-product="dos">
+        <article class="pt-product-card pt-card-package" id="card2" data-pt-product="dos" data-catalog-product="dos">
           <span class="pt-card-badge" id="badge2" style="display:none">Para ti</span>
           <img class="pt-card-media" data-catalog-image src="/img/1.jpg" alt="Para Dos" width="640" height="420" loading="lazy" decoding="async">
           <div class="pt-card-body">
+            <p class="pt-card-package-label">Paquete Para Dos</p>
             <p class="pt-card-tag" data-catalog-tag>340 g · Noche tranquila</p>
             <h3 class="pt-card-title" data-catalog-title>Para Dos</h3>
             <p class="pt-card-people">Para 2 personas · 340 g</p>
             <p class="pt-card-description">Una noche en casa se vuelve cita. Porciones justas para dos, sin repetir bocado.</p>
             <p class="pt-card-composition">2 quesos · 2 carnes · 5 acompañamientos</p>
             <p class="pt-card-price"><span data-catalog-price>$1,470</span> <small>MXN</small></p>
-            <p class="pt-card-delivery">Paquete con envío incluido: Premium, mermelada o dip con pan y fresas con chocolate Turín. Quita lo que no quieras al pedir.</p>
+            <div class="pt-card-delivery pt-card-package-box"><p class="pt-card-package-title">Incluye, con envío:</p><ul><li><strong>Versión Premium</strong></li><li><strong>Mermelada o dip con pan</strong></li><li><strong>Fresas con chocolate Turín</strong></li></ul><p>Quita lo que no quieras al pedir.</p></div>
             <p class="pt-card-lead">Pide con 3 días de anticipación.</p>
             <button class="pt-card-buy" type="button" data-pt-buy="dos" aria-label="Elegir y pedir Para Dos" aria-haspopup="dialog">Elegir y pedir <span aria-hidden="true">⌄</span></button>
             <noscript><a class="pt-card-fallback" href="/?tabla=dos#tablas">Elegir y pedir Para Dos</a></noscript>
@@ -510,9 +511,9 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"
       if(k===p){ el.style.background='#26282a'; el.style.color='#fff'; }
       else { el.style.background='transparent'; el.style.color='#55585a'; }
     });
-    var SEL='2px solid #26282a', BASE='1px solid #d3d5d4', FAV='2px solid #7c2d3e', SH='0 10px 28px rgba(38,40,42,.16)';
+    var SEL='2px solid #26282a', BASE='1px solid #d3d5d4', FAV='2px solid #7c2d3e', PKG='2px solid #c9a44a', SH='0 10px 28px rgba(38,40,42,.16)';
     var c2=document.getElementById('card2'), c46=document.getElementById('card46'), c8=document.getElementById('card8'), c1012=document.getElementById('card1012');
-    c2.style.border = p==='2'?SEL:BASE; c2.style.boxShadow = p==='2'?SH:'none';
+    c2.style.border = p==='2'?SEL:PKG; c2.style.boxShadow = p==='2'?SH:'0 6px 22px rgba(201,164,74,.15)';
     c46.style.border = p==='46'?SEL:FAV; c46.style.boxShadow = p==='46'?SH:'none';
     c8.style.border = p==='8'?SEL:BASE; c8.style.boxShadow = p==='8'?SH:'none';
     c1012.style.border = p==='1012'?SEL:BASE; c1012.style.boxShadow = p==='1012'?SH:'none';

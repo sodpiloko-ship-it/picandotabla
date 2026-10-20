@@ -48,7 +48,8 @@ def render_product_card(catalog: dict, product: dict, *, home: bool = False) -> 
     featured = presentation["featured"]
     title = _escape(product["title"])
     identity = f' id="card{suffix}"' if home else ""
-    card_class = "pt-product-card" + (" pt-card-featured" if featured else "")
+    package = product.get("package")
+    card_class = "pt-product-card" + (" pt-card-featured" if featured else "") + (" pt-card-package" if package else "")
     badge = ""
     if featured or home:
         badge_id = f' id="badge{suffix}"' if home else ""
@@ -68,7 +69,7 @@ def render_product_card(catalog: dict, product: dict, *, home: bool = False) -> 
             total += premium["prices_mxn_by_product_key"][product["key"]]
         total += sum(extras[extra_key]["price_mxn"] for extra_key in package["extra_keys"])
         price = _money(total)
-        delivery_text = package["card_note"]
+        delivery_text = ""
     quote = product.get("quote")
     price_unit = "MXN"
     if quote:
@@ -88,6 +89,7 @@ def render_product_card(catalog: dict, product: dict, *, home: bool = False) -> 
         badge,
         f'  <img class="pt-card-media" data-catalog-image src="/{_escape(product["media"]["image"].lstrip("/"))}" alt="{title}" width="640" height="420" loading="lazy" decoding="async">',
         '  <div class="pt-card-body">',
+        f'    <p class="pt-card-package-label">{_escape(package["card_label"])}</p>' if package else "",
         f'    <p class="pt-card-tag" data-catalog-tag>{_escape(presentation["tag"])}</p>',
         f'    <h3 class="pt-card-title" data-catalog-title>{title}</h3>',
         f'    <p class="pt-card-people">Para {people_text} personas · {product["weight_g"]:,} g</p>',
@@ -95,7 +97,12 @@ def render_product_card(catalog: dict, product: dict, *, home: bool = False) -> 
         f'    <p class="pt-card-composition">{composition["cheeses"]} quesos · {composition["meats"]} carnes · {composition["accompaniments"]} acompañamientos</p>',
         f'    <p class="pt-card-price"><span data-catalog-price>{price_html}</span> <small>{price_unit}</small></p>',
         *gift_lines,
-        f'    <p class="pt-card-delivery">{_escape(delivery_text)}</p>',
+        (
+            '    <div class="pt-card-delivery pt-card-package-box">'
+            f'<p class="pt-card-package-title">{_escape(package["card_title"])}</p>'
+            '<ul>' + "".join(f"<li><strong>{_escape(item)}</strong></li>" for item in package["card_items"]) + '</ul>'
+            f'<p>{_escape(package["card_note"])}</p></div>'
+        ) if package else f'    <p class="pt-card-delivery">{_escape(delivery_text)}</p>',
         f'    <p class="pt-card-lead">Pide con {lead_days} días de anticipación.</p>',
         (f'    <a class="pt-card-buy" href="{_escape(quote["url"])}" aria-label="Pedir cotización de {title}">Pedir cotización</a>'
          if quote else

@@ -20,6 +20,13 @@
 .pt-card-button:hover,.pt-card-buy:hover{background:#602332;color:white}
 .pt-card-badge{position:absolute;top:12px;left:12px;padding:6px 10px;border-radius:100px;background:#7c2d3e;color:#fff;font-size:11px;font-weight:600;z-index:1}
 .pt-card-featured{border-color:#7c2d3e}
+.pt-card-package{border:2px solid #c9a44a;background:#fdf9f4;box-shadow:0 6px 22px #c9a44a26}
+.pt-card-package-label{align-self:flex-start;padding:4px 10px;border-radius:100px;background:#c9a44a;color:#fff;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.pt-card-package .pt-card-price{color:#7c2d3e}
+.pt-card-package-box{background:#fff;border:1px solid #e6d3a3;border-radius:12px;padding:12px 14px;color:#55585a}
+.pt-card-package-box .pt-card-package-title{font-size:12px;font-weight:600;color:#26282a;margin:0 0 6px}
+.pt-card-package-box ul{margin:0 0 8px;padding:0 0 0 18px;font-size:13.5px;line-height:1.6;color:#26282a}
+.pt-card-package-box strong{font-weight:700}
 .pt-product-card button:focus-visible,#ptModalBg :is(button,input,textarea,summary):focus-visible{outline:3px solid #b98e3e;outline-offset:3px}
 .pt-order-open{overflow:hidden}
 #ptModalBg{padding:0;border:0;border-radius:22px;margin:auto;width:min(100% - 32px,570px);max-width:570px;max-height:calc(100dvh - 36px);overflow:hidden;color:#26282a;background:#fbfcfc;box-shadow:0 24px 90px #0004;font-family:'Work Sans',system-ui,sans-serif}

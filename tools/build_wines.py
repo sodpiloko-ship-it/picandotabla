@@ -224,7 +224,7 @@ def page(title: str, description: str, path: str, body: str, schemas: list[dict]
   <script defer src="/seo.js"></script>
   <script defer src="/vinos/vinos.js?v=1"></script>
   {''.join(ld(s) for s in schemas)}
-<link rel="stylesheet" href="/tienda.css?v=20261011a">
+<link rel="stylesheet" href="/tienda.css?v=20261020a">
 <script defer src="/catalogo.js?v={catalog_version}"></script>
 <script defer src="/tienda.js?v=20261020d"></script>
 </head>

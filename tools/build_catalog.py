@@ -190,8 +190,12 @@ def load_and_validate() -> dict:
         package = product.get("package")
         if package is None:
             continue
-        if not isinstance(package.get("card_note"), str) or not package["card_note"].strip():
-            fail(f"package.card_note de {product['key']} es obligatorio")
+        for field in ("card_label", "card_title", "card_note"):
+            if not isinstance(package.get(field), str) or not package[field].strip():
+                fail(f"package.{field} de {product['key']} es obligatorio")
+        items = package.get("card_items")
+        if not isinstance(items, list) or not items or not all(isinstance(i, str) and i.strip() for i in items):
+            fail(f"package.card_items de {product['key']} debe listar los extras del paquete")
         if not set(package.get("extra_keys", [])) <= extra_keys:
             fail(f"package.extra_keys de {product['key']} debe usar extras existentes")
         if package.get("premium") and product["key"] not in next(
