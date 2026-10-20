@@ -49,7 +49,6 @@ for (const file of htmlFiles) {
   assert.doesNotMatch(html, /href=["']\/orden\//i, `${file}: no enlaza al configurador legado`);
   const visibleCopy = html.replace(/<script\b[\s\S]*?<\/script>/gi, " ").replace(/<style\b[\s\S]*?<\/style>/gi, " ");
   assert.doesNotMatch(visibleCopy, /\b(dip|viernes|sábado)\b/i, `${file}: copia sin regalos ni días específicos`);
-  if (file !== "eventos/index.html") assert.doesNotMatch(visibleCopy, /\bmermelada\b/i, `${file}: sin mermelada no confirmada en catálogo`);
   assert.equal((html.match(/<h1\b/gi) || []).length, 1, `${file}: exactamente un H1`);
 
   const title = html.match(/<title>([^<]+)<\/title>/i)?.[1]?.trim();
@@ -167,9 +166,10 @@ assert.match(read("llms-full.txt"), /La ruta antigua `\/orden\/` no debe usarse/
 const home = read("index.html") + read("tienda.js").replaceAll('\\"', '"');
 assert.match(home, /"@type":"Organization","@id":"https:\/\/picandotabla\.com\/#organization"/);
 assert.doesNotMatch(home, /"@type":"LocalBusiness"/);
-assert.match(home, /extra\.key==='pan'/);
+assert.match(home, /extra\.status==='active'/);
 assert.doesNotMatch(home, /data-catalog-extra="dip"/);
-assert.doesNotMatch(home, /data-catalog-extra="mermelada"/);
+assert.match(home, /data-catalog-extra="mermelada"/);
+assert.match(home, /data-catalog-extra="fresas"/);
 assert.doesNotMatch(home, /\$485|20 de septiembre/);
 assert.equal((home.match(/Caja de tapas de regalo incluida/g) || []).length, 0, "home: sin regalo promocional");
 assert.match(home, /new URLSearchParams\(window\.location\.search\)\.get\('tabla'\)/);
@@ -180,11 +180,10 @@ assert.match(home, /origen:'landing_popup_producto'/);
 
 const order = read("orden/index.html");
 assert.doesNotMatch(order, /data-v="dip"/);
-assert.doesNotMatch(order, /data-v="mermelada"/);
 assert.match(order, /var wantF = \[\]/);
 assert.doesNotMatch(order, /Dip de la casa \(incluido\)/);
 assert.doesNotMatch(order, /Mermelada de la casa \(incluida\)/);
-assert.match(order, /S\.extras = S\.extras\.filter\(function\(k\)\{ return k === 'pan'; \}\)/);
+assert.match(order, /S\.extras = S\.extras\.filter\(function\(k\)\{ return !!EXTRAS\[k\]; \}\)/);
 assert.match(order, /if\(c\.t\.regalo\) out\.push\(\{qty:1, nombre:REGALO\.title\+' \(incluida\)'/);
 assert.match(order, /eligible_product_keys\.indexOf\(product\.key\) > -1/);
 assert.match(order, /name="robots" content="noindex,follow"/);
@@ -193,7 +192,7 @@ assert.match(read(".htaccess"), /<\/llms\.txt>; rel=describedby/);
 
 const catalog = read("catalogo.js");
 assert.doesNotMatch(catalog, /regular_price_mxn/);
-assert.doesNotMatch(catalog, /["']?key["']?\s*:\s*["'](?:dip|mermelada)["']/);
+assert.doesNotMatch(catalog, /["']?key["']?\s*:\s*["']dip["']/);
 assert.match(read("seo.css"), /\.promo\{position:sticky;top:0/);
 assert.match(read("seo.css"), /\.site-header\{position:sticky;top:0/);
 assert.match(read("tablas/para-dos/index.html"), /"priceValidUntil": "2026-12-31"/);

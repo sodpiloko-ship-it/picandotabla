@@ -261,6 +261,8 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"/></
 
           <button class="card wide" data-q="premium" data-v="si" id="cardPrem">Hazla Premium<span class="m" id="premM">+ $350</span></button>
           <button class="card" data-q="extras" data-v="pan" data-multi="1">Pan y crujientes extra<span class="m" data-extra-price="pan">+ $120</span></button>
+          <button class="card" data-q="extras" data-v="mermelada" data-multi="1">Mermelada de la casa<span class="m" data-extra-price="mermelada">+ $120</span></button>
+          <button class="card" data-q="extras" data-v="fresas" data-multi="1">Fresas con chocolate Turín<span class="m" data-extra-price="fresas">+ $280</span></button>
           <!-- POND_CATALOG:ORDER_EXTRAS:END -->
           <div class="rule"></div>
           <button class="card wide" data-q="vinos" data-v="si">Que resolvamos los vinos<span class="m">Se cotiza aparte</span></button>
@@ -322,7 +324,7 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"/></
   </div>
 </div>
 
-<script src="../catalogo.js?v=b45d709ead50"></script>
+<script src="../catalogo.js?v=404075705ffe"></script>
 <script>
 // ─────────────────────────────────────────────────────────────────────────────
 // Proyección del catálogo canónico de Picando Tabla para la experiencia 3D.
@@ -383,7 +385,7 @@ try{ var raw = localStorage.getItem('pt.orden');
   if(raw){ var o = JSON.parse(raw); ['gustos','evitar','extras'].forEach(function(k){ o[k]=o[k]||[]; });
     o.tabla = TABLAS[o.tabla] ? o.tabla : 'anfitriona'; S = Object.assign(S,o); }
 }catch(e){}
-S.extras = S.extras.filter(function(k){ return k === 'pan'; });
+S.extras = S.extras.filter(function(k){ return !!EXTRAS[k]; });
 try{ var tablaUrl = new URLSearchParams(window.location.search).get('tabla'); if(TABLAS[tablaUrl]) S.tabla = tablaUrl; }catch(e){}
 var save = function(){ try{ localStorage.setItem('pt.orden', JSON.stringify(S)); }catch(e){} };
 var open_ = 'tamano', sending = false;

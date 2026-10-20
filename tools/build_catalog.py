@@ -22,7 +22,7 @@ PROMO_TARGET = ROOT / "promo.js"
 HOME = ROOT / "index.html"
 ORDER = ROOT / "orden" / "index.html"
 EXPECTED_PRODUCT_KEYS = {"dos", "anfitriona", "fiesta", "celebracion"}
-EXPECTED_EXTRA_KEYS = {"pan"}
+EXPECTED_EXTRA_KEYS = {"pan", "mermelada", "fresas"}
 PUBLIC_SOURCE_SUFFIXES = {".html", ".php", ".md", ".js"}
 PRIVATE_OR_GENERATED_DIRS = {
     ".git",

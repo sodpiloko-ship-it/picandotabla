@@ -35,7 +35,7 @@
       regalo:!!REGALO&&(PROMO_EXT||REGALO.eligible_product_keys.indexOf(product.key)>-1)
     };
   });
-  var UPSELLS=CATALOGO.extras.filter(function(extra){return extra.key==='pan';}).map(function(extra){
+  var UPSELLS=CATALOGO.extras.filter(function(extra){return extra.status==='active';}).map(function(extra){
     return {id:extra.key,n:extra.title,v:extra.price_mxn,d:extra.description};
   });
   var fmt=function(v){ return '$'+v.toLocaleString('en-US'); };

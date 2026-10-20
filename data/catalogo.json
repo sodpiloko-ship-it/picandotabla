@@ -175,6 +175,24 @@
       "title": "Pan y crujientes extra",
       "description": "Baguette, crostini y el crujiente gourmet de la temporada.",
       "price_mxn": 120
+    },
+    {
+      "id": "picandotabla:addon:mermelada",
+      "key": "mermelada",
+      "status": "active",
+      "availability": "confirmation_required",
+      "title": "Mermelada de la casa",
+      "description": "Nuestra mermelada, para acompañar los quesos.",
+      "price_mxn": 120
+    },
+    {
+      "id": "picandotabla:addon:fresas-chocolate",
+      "key": "fresas",
+      "status": "active",
+      "availability": "confirmation_required",
+      "title": "Fresas con chocolate Turín",
+      "description": "Fresas frescas cubiertas con chocolate Turín.",
+      "price_mxn": 280
     }
   ],
   "modifiers": [
@@ -191,7 +209,10 @@
         "celebracion": 900
       },
       "confirmed_product_keys": [
-        "anfitriona"
+        "dos",
+        "anfitriona",
+        "fiesta",
+        "celebracion"
       ]
     }
   ],
