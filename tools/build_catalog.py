@@ -195,6 +195,17 @@ def load_and_validate() -> dict:
         if not extra["id"].startswith("picandotabla:addon:"):
             fail(f"id global inválido: {extra['id']}")
         require_price(extra.get("price_mxn"), f"extras[{extra['key']}].price_mxn")
+        choice = extra.get("choice")
+        if choice is not None:
+            options = choice.get("options") if isinstance(choice, dict) else None
+            if (
+                not isinstance(choice.get("label"), str)
+                or not isinstance(options, list)
+                or len(options) < 2
+                or not all(isinstance(o, str) and o.strip() for o in options)
+                or len(set(options)) != len(options)
+            ):
+                fail(f"extras[{extra['key']}].choice necesita label y al menos dos opciones distintas")
 
     premium = next((item for item in modifiers if item["key"] == "premium"), None)
     if not premium or premium["id"] != "picandotabla:modifier:premium":

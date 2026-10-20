@@ -258,7 +258,7 @@ function ptpg_catalogo(): ?array {
  * intereses) o 'anticipo' (payment.deposit.pct %; el resto se liquida antes de la entrega, fuera del sitio).
  */
 function ptpg_cotizar(string $clave, bool $premium, array $extras, string $fecha, ?DateTimeImmutable $hoy = null,
-                       string $modo = 'completo'): array {
+                       string $modo = 'completo', array $opciones = []): array {
   $cat = ptpg_catalogo();
   if ($cat === null) return ['error' => 'No pudimos leer el catálogo.'];
   $hoy = $hoy ?? ptpg_hoy();
@@ -316,7 +316,17 @@ function ptpg_cotizar(string $clave, bool $premium, array $extras, string $fecha
       if (($x['key'] ?? '') === $e && ($x['status'] ?? '') === 'active') $extra = $x;
     }
     if ($extra === null) return ['error' => 'Uno de los extras ya no está disponible.'];
-    $lineas[] = ['id' => (string)$extra['id'], 'titulo' => (string)$extra['title'], 'precio' => (float)$extra['price_mxn']];
+    $tituloExtra = (string)$extra['title'];
+    // Extras con choice (p. ej. mermelada o dip): la opción elegida viaja en el título del renglón hasta la comanda.
+    if (isset($extra['choice']['options'])) {
+      $validas = array_map('strval', (array)$extra['choice']['options']);
+      $elegida = (string)($opciones[$e] ?? '');
+      if (!in_array($elegida, $validas, true)) {
+        return ['error' => 'Elige ' . strtolower(implode(' o ', $validas)) . ' en ' . $tituloExtra . '.'];
+      }
+      $tituloExtra .= ': ' . $elegida;
+    }
+    $lineas[] = ['id' => (string)$extra['id'], 'titulo' => $tituloExtra, 'precio' => (float)$extra['price_mxn']];
   }
   $envio = $cat['delivery'];
   $lineas[] = ['id' => (string)$envio['id'], 'titulo' => (string)$envio['title'], 'precio' => (float)$envio['price_mxn']];

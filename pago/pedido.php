@@ -35,13 +35,17 @@ $clave = $txt('tabla', 40);
 $premium = ($d['premium'] ?? false) === true;
 $modo = ($d['modo'] ?? 'completo') === 'anticipo' ? 'anticipo' : 'completo';
 $extras = array_values(array_filter(is_array($d['extras'] ?? null) ? $d['extras'] : [], 'is_string'));
+$opciones = [];
+foreach ((is_array($d['opciones'] ?? null) ? $d['opciones'] : []) as $k => $v) {
+  if (is_string($k) && is_string($v) && strlen($k) <= 40 && strlen($v) <= 40) $opciones[$k] = $v;
+}
 
 $digitos = preg_replace('/\D+/', '', $whatsapp) ?? '';
 if ($nombre === '' || $zona === '' || strlen($digitos) < 10 || strlen($digitos) > 15) {
   ptpg_json(400, ['ok' => false, 'error' => $nombre === '' ? 'Escribe tu nombre.' : ($zona === '' ? 'Escribe tu colonia.' : 'Revisa tu WhatsApp (10 dígitos).')]);
   exit;
 }
-$cot = ptpg_cotizar($clave, $premium, array_slice($extras, 0, 5), $fecha, null, $modo);
+$cot = ptpg_cotizar($clave, $premium, array_slice($extras, 0, 5), $fecha, null, $modo, $opciones);
 if (isset($cot['error'])) {
   ptpg_json(400, ['ok' => false, 'error' => $cot['error']]);
   exit;

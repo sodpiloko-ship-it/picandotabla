@@ -191,7 +191,14 @@
       "availability": "confirmation_required",
       "title": "Mermelada o dip de la casa",
       "description": "Tú eliges mermelada o dip. Incluye pan.",
-      "price_mxn": 120
+      "price_mxn": 120,
+      "choice": {
+        "label": "¿Cuál prefieres?",
+        "options": [
+          "Mermelada",
+          "Dip"
+        ]
+      }
     },
     {
       "id": "picandotabla:addon:fresas-chocolate",

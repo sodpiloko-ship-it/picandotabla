@@ -37,9 +37,13 @@
     };
   });
   var UPSELLS=CATALOGO.extras.filter(function(extra){return extra.status==='active';}).map(function(extra){
-    return {id:extra.key,n:extra.title,v:extra.price_mxn,d:extra.description};
+    return {id:extra.key,n:extra.title,v:extra.price_mxn,d:extra.description,c:extra.choice||null};
   });
   var fmt=function(v){ return '$'+v.toLocaleString('en-US'); };
+  // Extras con choice (mermelada o dip): opción elegida, o '' si falta.
+  function opcionDe(u){ var r=document.querySelector('input[name="ptmCh_'+u.id+'"]:checked'); return r?r.value:''; }
+  function marcado(u){ var cb=document.querySelector('input[data-up="'+u.id+'"]'); return !!(cb&&cb.checked); }
+  function nombreExtra(u){ var op=u.c?opcionDe(u):''; return u.n+(op?': '+op:''); }
   var modalId=null, returnFocus=null;
   var drafts={};
   // --- Pago en línea (Mercado Pago): se enciende solo si el servidor tiene la llave (pago/estado.php) ---
@@ -95,6 +99,10 @@
       {bad:!d.zona,id:'ptmZona',message:'Escribe tu colonia para confirmar la entrega.'},
       {bad:!!errorFecha(t,d.fecha),id:'ptmFecha',message:errorFecha(t,d.fecha)}
     ];
+    UPSELLS.forEach(function(u){
+      if(u.c&&marcado(u)) checks.unshift({bad:!opcionDe(u),id:'ptmCh_'+u.id+'_0',
+        message:'Elige si quieres '+u.c.options.join(' o ').toLowerCase()+' en '+u.n+'.'});
+    });
     var missing=checks.filter(function(c){ return c.bad; })[0];
     var error=document.getElementById('ptmError');
     if(missing){
@@ -127,7 +135,12 @@
     document.getElementById('ptmUps').innerHTML=UPSELLS.map(function(u){
       return '<label class="pt-up" id="ptmUp_'+u.id+'"><input type="checkbox" data-up="'+u.id+'" onchange="ptmRecalc()">'+
         '<div><div style="font-weight:600;font-size:14.5px;color:#26282a">'+u.n+' <span style="color:#7c2d3e">+'+fmt(u.v)+'</span></div>'+
-        '<div style="font-size:13px;color:#75797a;line-height:1.5">'+u.d+'</div></div></label>';
+        '<div style="font-size:13px;color:#75797a;line-height:1.5">'+u.d+'</div></div></label>'+
+        (u.c?'<div id="ptmCh_'+u.id+'" role="radiogroup" aria-label="'+u.c.label+'" style="display:none;flex-wrap:wrap;align-items:center;gap:8px;margin:-2px 0 2px 34px">'+
+          '<span style="font-size:13px;color:#55585a;font-weight:600">'+u.c.label+'</span>'+
+          u.c.options.map(function(o,i){ return '<label style="display:inline-flex;align-items:center;gap:6px;font-size:13.5px;color:#26282a;background:#fff;border:1px solid #d3d5d4;border-radius:999px;padding:6px 14px;cursor:pointer">'+
+            '<input type="radio" id="ptmCh_'+u.id+'_'+i+'" name="ptmCh_'+u.id+'" value="'+o+'" onchange="ptmRecalc()"> '+o+'</label>'; }).join('')+
+          '</div>':'');
     }).join('');
     ['ptmCliente','ptmWhatsapp','ptmZona','ptmFecha','ptmNotas'].forEach(function(field){ document.getElementById(field).value=(draft&&draft.fields[field])||''; });
     document.getElementById('ptmError').style.display='none';
@@ -140,7 +153,10 @@
       +', con al menos '+minDias(t)+' días de anticipación'+(t.ev?' (tabla de evento).':'.');
     var completo=document.querySelector('input[name="ptmModo"][value="completo"]'); if(completo) completo.checked=true;
     if(draft){
-      UPSELLS.forEach(function(u){document.querySelector('input[data-up="'+u.id+'"]').checked=draft.extras.indexOf(u.id)>-1;});
+      UPSELLS.forEach(function(u){
+        document.querySelector('input[data-up="'+u.id+'"]').checked=draft.extras.indexOf(u.id)>-1;
+        var r=u.c&&draft.opciones[u.id]&&document.querySelector('input[name="ptmCh_'+u.id+'"][value="'+draft.opciones[u.id]+'"]'); if(r) r.checked=true;
+      });
       document.querySelector('input[name="ptmModo"][value="'+draft.mode+'"]').checked=true;
     }
     if(!draft&&t.pkg){
@@ -163,7 +179,8 @@
     var fields={};
     ['ptmCliente','ptmWhatsapp','ptmZona','ptmFecha','ptmNotas'].forEach(function(id){ fields[id]=document.getElementById(id).value; });
     drafts[modalId]={fields:fields,premium:document.getElementById('ptmPrem').checked,
-      extras:UPSELLS.filter(function(u){return document.querySelector('input[data-up="'+u.id+'"]').checked;}).map(function(u){return u.id;}),mode:modoElegido()};
+      extras:UPSELLS.filter(function(u){return document.querySelector('input[data-up="'+u.id+'"]').checked;}).map(function(u){return u.id;}),
+      opciones:UPSELLS.reduce(function(o,u){ if(u.c&&opcionDe(u)) o[u.id]=opcionDe(u); return o; },{}),mode:modoElegido()};
   }
   window.cerrarDetalles=function(){
     if(pagando) return;
@@ -183,6 +200,7 @@
     UPSELLS.forEach(function(u){
       var cb=document.querySelector('input[data-up="'+u.id+'"]');
       document.getElementById('ptmUp_'+u.id).classList.toggle('on', !!(cb&&cb.checked));
+      if(u.c) document.getElementById('ptmCh_'+u.id).style.display=cb&&cb.checked?'flex':'none';
       if(cb&&cb.checked) total+=u.v;
     });
     document.getElementById('ptmTotal').textContent=fmt(total);
@@ -221,6 +239,8 @@
     var cobro=cobroDe(totalDe(t));
     var extras=UPSELLS.filter(function(u){ var cb=document.querySelector('input[data-up="'+u.id+'"]'); return cb&&cb.checked; })
       .map(function(u){ return u.id; });
+    var opciones={};
+    UPSELLS.forEach(function(u){ if(u.c&&marcado(u)) opciones[u.id]=opcionDe(u); });
     var utm={};
     try{ new URLSearchParams(window.location.search).forEach(function(v,k){ if(/^(utm_\w+|fbclid|gclid)$/.test(k)) utm[k]=v; }); }catch(e){}
     pagando=true; lockPayment(true); btn.disabled=true; btn.textContent='Abriendo Mercado Pago…';
@@ -230,7 +250,7 @@
     try{ if(window.fbq) fbq('track','InitiateCheckout',{content_name:t.n, value:cobro.monto, currency:'MXN'}); }catch(e){}
     fetch('/pago/pedido.php',{signal:paymentController.signal,method:'POST', headers:{'Content-Type':'application/json'},
       body:JSON.stringify({tabla:modalId, premium:d.prem, extras:extras, nombre:d.nombre, whatsapp:d.whatsapp,
-                           zona:d.zona, fecha:d.fecha, notas:d.notas, modo:modoElegido(), utm:utm})})
+                           zona:d.zona, fecha:d.fecha, notas:d.notas, modo:modoElegido(), opciones:opciones, utm:utm})})
       .then(function(r){ return r.json().catch(function(){ return {}; }); })
       .then(function(res){
         clearTimeout(paymentTimeout);
@@ -258,7 +278,7 @@
     if(t.regalo){ items.push({qty:1,nombre:REGALO.title+' (incluida)',precio:0}); lines.push('+ '+REGALO.title+' — REGALO'); }
     UPSELLS.forEach(function(u){
       var cb=document.querySelector('input[data-up="'+u.id+'"]');
-      if(cb&&cb.checked){ total+=u.v; items.push({qty:1,nombre:u.n,precio:u.v}); lines.push('+ '+u.n+' ('+fmt(u.v)+')'); }
+      if(cb&&cb.checked){ total+=u.v; items.push({qty:1,nombre:nombreExtra(u),precio:u.v}); lines.push('+ '+nombreExtra(u)+' ('+fmt(u.v)+')'); }
     });
     total+=MENSAJERIA;
     items.push({qty:1,nombre:'Mensajería CDMX',precio:MENSAJERIA});
