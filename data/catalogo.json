@@ -200,20 +200,21 @@
       "availability": "confirmation_required",
       "title": "Tabla de Quesos",
       "description": "Una tabla dedicada al queso: 4 quesos clásicos y 3 quesos raros, con fruta fresca, semillas y crocante para acompañar cada bocado.",
-      "price_mxn": 1800,
+      "price_mxn": 1900,
       "is_event": false,
       "composition": {
         "cheeses": 7,
         "meats": 0,
         "accompaniments": 3
       },
-      "composition_text": "4 quesos clásicos · 3 quesos raros · fruta, semillas y crocante",
+      "composition_text": "4 quesos clásicos · 3 quesos raros · fruta, semillas y crocante · incluye la tabla",
       "included": [
         "4 quesos clásicos",
         "3 quesos raros",
         "Fruta fresca de temporada",
         "Semillas",
-        "Crocante"
+        "Crocante",
+        "La tabla para servir, incluida"
       ],
       "modifier_ids": [
         "picandotabla:modifier:premium"
@@ -230,7 +231,7 @@
       },
       "premium_text": {
         "title": "Sube a quesos raros",
-        "description": "3 quesos clásicos y 7 quesos raros, en lugar de 4 clásicos y 3 raros.",
+        "description": "3 quesos clásicos y 7 quesos raros, en lugar de 4 clásicos y 3 raros. También incluye la tabla.",
         "line": "Quesos raros"
       }
     },
@@ -318,7 +319,7 @@
         "dos": 300,
         "anfitriona": 350,
         "fiesta": 600,
-        "quesos": 800
+        "quesos": 900
       },
       "confirmed_product_keys": [
         "dos",
