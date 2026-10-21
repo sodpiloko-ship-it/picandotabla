@@ -5,7 +5,7 @@
   var WA='525623632404';
   function open(msg){ window.open('https://wa.me/'+WA+'?text='+encodeURIComponent(msg),'_blank','noopener'); }
   function track(ev,params){try{if(window.gtag) window.gtag('event',ev,params||{});}catch(e){}}
-  document.body.insertAdjacentHTML('beforeend', "  <!-- Modal de detalles de producto -->\n  <dialog id=\"ptModalBg\" aria-labelledby=\"ptmNombre\" onclick=\"if(event.target===this)cerrarDetalles()\">\n    <div id=\"ptModal\"><header class=\"pt-sheet-header\"><span>Tu tabla, a tu gusto</span><button type=\"button\" id=\"ptmClose\" onclick=\"cerrarDetalles()\" aria-label=\"Cerrar pedido\">×</button></header>\n      <div id=\"ptmImg\" style=\"height:190px;background:#d3d5d4 center/cover no-repeat;border-radius:16px 16px 0 0;position:relative\">\n        \n      </div>\n      <div class=\"pt-sheet-body\">\n        <div id=\"ptmTag\" style=\"font-size:11px;letter-spacing:1.5px;color:#7c2d3e;font-weight:600;text-transform:uppercase;margin-bottom:6px\"></div>\n        <div style=\"display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:10px\">\n          <h2 id=\"ptmNombre\" style=\"font-family:Lora,serif;font-size:24px;font-weight:600;color:#26282a\"></h2>\n          <div id=\"ptmPrecio\" style=\"font-family:Lora,serif;font-size:22px;color:#26282a;flex:none\"></div>\n        </div>\n<details class=\"pt-includes\"><summary>Qué incluye tu tabla</summary>        <p id=\"ptmDesc\" style=\"font-size:14.5px;line-height:1.6;color:#55585a;margin:0 0 14px\"></p>\n        <div style=\"font-size:12px;letter-spacing:1.5px;color:#75797a;font-weight:600;text-transform:uppercase;margin-bottom:8px\">¿Qué lleva?</div>\n        <ul id=\"ptmInc\" style=\"margin:0 0 18px;padding:0 0 0 18px;font-size:13.5px;line-height:1.7;color:#55585a\"></ul>\n\n</details><h3 class=\"pt-step\">1. Dale tu toque <small>Opcional</small></h3>        <label class=\"pt-up\" id=\"ptmPremBox\" style=\"margin-bottom:16px;background:#fdf9f4;border-color:#c9a44a\">\n          <input type=\"checkbox\" id=\"ptmPrem\" onchange=\"ptmRecalc()\">\n          <div>\n            <div style=\"font-weight:600;font-size:14.5px;color:#26282a\">Hazla Premium <span id=\"ptmPremPrecio\" style=\"color:#7c2d3e\"></span> <span style=\"background:#c9a44a;color:#fff;font-size:10px;font-weight:700;letter-spacing:1px;padding:2px 8px;border-radius:999px;text-transform:uppercase;vertical-align:2px\">Premium</span></div>\n            <div style=\"font-size:13px;color:#75797a;line-height:1.5\">El mismo gramaje con una selección de mayor categoría (por ejemplo, quesos importados o charcutería de reserva, según disponibilidad). No es una tabla más grande.</div>\n          </div>\n        </label>\n\n        <div style=\"font-size:12px;letter-spacing:1.5px;color:#75797a;font-weight:600;text-transform:uppercase;margin-bottom:8px\">Complétala <span style=\"letter-spacing:0;text-transform:none;font-weight:500\">· si quieres algo extra</span></div>\n        <div id=\"ptmUps\" style=\"display:flex;flex-direction:column;gap:10px;margin-bottom:18px\"></div>\n\n        <div style=\"font-size:12px;letter-spacing:1.5px;color:#75797a;font-weight:600;text-transform:uppercase;margin:2px 0 10px\">2. Entrega y contacto</div>\n        <p id=\"ptmIntro\" style=\"font-size:13px;line-height:1.5;color:#75797a;margin:0 0 14px\">Déjanos tus datos y abriremos WhatsApp con la tabla y el total listos para confirmar.</p>\n        <div class=\"ptm-intake-grid\" style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px\">\n          <div>\n            <label class=\"q-lbl\" for=\"ptmCliente\">Nombre</label>\n            <input id=\"ptmCliente\" class=\"q-in\" autocomplete=\"name\" maxlength=\"120\" placeholder=\"Tu nombre\">\n          </div>\n          <div>\n            <label class=\"q-lbl\" for=\"ptmWhatsapp\">Tu WhatsApp</label>\n            <input id=\"ptmWhatsapp\" class=\"q-in\" type=\"tel\" inputmode=\"tel\" autocomplete=\"tel\" maxlength=\"25\" placeholder=\"55 0000 0000\">\n          </div>\n        </div>\n        <div class=\"ptm-intake-grid\" style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px\">\n          <div>\n            <label class=\"q-lbl\" for=\"ptmZona\">Colonia o municipio</label>\n            <input id=\"ptmZona\" class=\"q-in\" autocomplete=\"address-level3\" maxlength=\"160\" placeholder=\"Ej. Del Valle\">\n          </div>\n          <div>\n            <label class=\"q-lbl\" for=\"ptmFecha\">¿Qué día la entregamos?</label>\n            <input id=\"ptmFecha\" class=\"q-in\" type=\"date\" onchange=\"ptmRecalc()\" aria-describedby=\"ptmRegla\">\n          </div>\n        </div>\n        <div style=\"margin-bottom:14px\">\n          <label class=\"q-lbl\" for=\"ptmNotas\">Notas <span style=\"font-weight:400;color:#9a9ea0\">(opcional)</span></label>\n          <textarea id=\"ptmNotas\" class=\"q-in\" rows=\"2\" maxlength=\"600\" placeholder=\"Ocasión, restricciones o sabores que prefieres\" style=\"resize:vertical\"></textarea>\n        </div>\n        <div style=\"margin-bottom:14px\">\n          <div id=\"ptmRegla\" style=\"font-size:12px;color:#75797a;margin-top:6px;line-height:1.5\"></div>\n        </div>\n        <div style=\"display:flex;align-items:center;justify-content:space-between;border-top:1px solid #d3d5d4;padding-top:12px;margin-bottom:4px\">\n          <span style=\"font-size:13px;color:#75797a\">Mensajería a toda la CDMX y la zona oriente</span>\n          <span style=\"font-family:Lora,serif;font-size:15px;color:#55585a\" id=\"ptmEnvio\"></span>\n        </div>\n        <div id=\"ptmModo\" role=\"radiogroup\" aria-label=\"¿Cómo quieres pagar?\" style=\"display:none;flex-direction:column;gap:10px;margin:0 0 16px\">\n          <div style=\"font-size:12px;letter-spacing:1.5px;color:#75797a;font-weight:600;text-transform:uppercase\">¿Cómo quieres pagar?</div>\n          <label class=\"pt-up on\" id=\"ptmModoCompleto\"><input type=\"radio\" name=\"ptmModo\" value=\"completo\" checked onchange=\"ptmRecalc()\">\n            <div><div style=\"font-weight:600;font-size:14.5px;color:#26282a\">Pago completo <span id=\"ptmModoCompletoMonto\" style=\"color:#7c2d3e\"></span></div>\n            <div id=\"ptmModoCompletoTxt\" style=\"font-size:13px;color:#75797a;line-height:1.5\"></div></div></label>\n          <label class=\"pt-up\" id=\"ptmModoAnticipo\"><input type=\"radio\" name=\"ptmModo\" value=\"anticipo\" onchange=\"ptmRecalc()\">\n            <div><div style=\"font-weight:600;font-size:14.5px;color:#26282a\">Anticipo <span id=\"ptmModoAnticipoMonto\" style=\"color:#7c2d3e\"></span></div>\n            <div id=\"ptmModoAnticipoTxt\" style=\"font-size:13px;color:#75797a;line-height:1.5\"></div></div></label>\n        </div>\n</div><footer class=\"pt-sheet-footer\">        <div class=\"pt-total-line\" style=\"display:flex;align-items:center;justify-content:space-between;margin-bottom:14px\">\n          <span style=\"font-size:14px;color:#55585a;font-weight:600\">Total con envío</span>\n          <span id=\"ptmTotal\" aria-live=\"polite\" style=\"font-family:Lora,serif;font-size:24px;color:#26282a\"></span>\n        </div>\n        <button id=\"ptmPagar\" class=\"ptbtn\" onclick=\"pagarDetalles()\" style=\"display:none;width:100%;align-items:center;justify-content:center;gap:10px;background:#26282a;color:#fff;padding:15px;border-radius:999px;font-weight:600;font-size:16px;border:none;cursor:pointer;margin-bottom:10px\">Pagar con Mercado Pago</button>\n        <button id=\"ptmWaBtn\" class=\"ptbtn\" onclick=\"pedirDetalles()\" style=\"width:100%;display:inline-flex;align-items:center;justify-content:center;gap:10px;background:#26282a;color:#fff;padding:15px;border-radius:999px;font-weight:600;font-size:16px;border:none;cursor:pointer\">\n          <span style=\"width:18px;height:18px;border-radius:50%;background:#25D366;display:inline-block\"></span><span id=\"ptmWaTxt\">Pedirla por WhatsApp</span></button>\n        <p id=\"ptmError\" role=\"alert\" aria-live=\"polite\" style=\"display:none;text-align:center;font-size:12.5px;color:#7c2d3e;font-weight:600;margin:10px 0 0\"></p>\n        <p id=\"ptmNota\" style=\"text-align:center;font-size:12px;color:#75797a;margin:12px 0 0;line-height:1.5\"></p>\n      </footer>\n    </div>\n  </dialog>");
+  document.body.insertAdjacentHTML('beforeend', "  <!-- Modal de detalles de producto -->\n  <dialog id=\"ptModalBg\" aria-labelledby=\"ptmNombre\" onclick=\"if(event.target===this)cerrarDetalles()\">\n    <div id=\"ptModal\"><header class=\"pt-sheet-header\"><span>Tu tabla, a tu gusto</span><button type=\"button\" id=\"ptmClose\" onclick=\"cerrarDetalles()\" aria-label=\"Cerrar pedido\">×</button></header>\n      <div id=\"ptmImg\" style=\"height:190px;background:#d3d5d4 center/cover no-repeat;border-radius:16px 16px 0 0;position:relative\">\n        \n      </div>\n      <div class=\"pt-sheet-body\">\n        <div id=\"ptmTag\" style=\"font-size:11px;letter-spacing:1.5px;color:#7c2d3e;font-weight:600;text-transform:uppercase;margin-bottom:6px\"></div>\n        <div style=\"display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:10px\">\n          <h2 id=\"ptmNombre\" style=\"font-family:Lora,serif;font-size:24px;font-weight:600;color:#26282a\"></h2>\n          <div id=\"ptmPrecio\" style=\"font-family:Lora,serif;font-size:22px;color:#26282a;flex:none\"></div>\n        </div>\n<details class=\"pt-includes\"><summary>Qué incluye tu tabla</summary>        <p id=\"ptmDesc\" style=\"font-size:14.5px;line-height:1.6;color:#55585a;margin:0 0 14px\"></p>\n        <div style=\"font-size:12px;letter-spacing:1.5px;color:#75797a;font-weight:600;text-transform:uppercase;margin-bottom:8px\">¿Qué lleva?</div>\n        <ul id=\"ptmInc\" style=\"margin:0 0 18px;padding:0 0 0 18px;font-size:13.5px;line-height:1.7;color:#55585a\"></ul>\n\n</details><div id=\"ptmPersonasBox\" style=\"display:none;margin:0 0 16px\"><label class=\"q-lbl\" for=\"ptmPersonas\">¿Para cuántas personas?</label><input id=\"ptmPersonas\" class=\"q-in\" type=\"number\" inputmode=\"numeric\" step=\"1\" oninput=\"ptmRecalc()\" onchange=\"ptmRecalc()\"><div id=\"ptmPersonasNota\" style=\"font-size:12px;color:#75797a;margin-top:6px\"></div></div><h3 class=\"pt-step\" id=\"ptmToque\">1. Dale tu toque <small>Opcional</small></h3>        <label class=\"pt-up\" id=\"ptmPremBox\" style=\"margin-bottom:16px;background:#fdf9f4;border-color:#c9a44a\">\n          <input type=\"checkbox\" id=\"ptmPrem\" onchange=\"ptmRecalc()\">\n          <div>\n            <div style=\"font-weight:600;font-size:14.5px;color:#26282a\"><span id=\"ptmPremTitulo\">Hazla Premium</span> <span id=\"ptmPremPrecio\" style=\"color:#7c2d3e\"></span> <span style=\"background:#c9a44a;color:#fff;font-size:10px;font-weight:700;letter-spacing:1px;padding:2px 8px;border-radius:999px;text-transform:uppercase;vertical-align:2px\">Premium</span></div>\n            <div id=\"ptmPremDesc\" style=\"font-size:13px;color:#75797a;line-height:1.5\">La misma cantidad con una selección de mayor categoría (por ejemplo, quesos importados o charcutería de reserva, según disponibilidad). No es una tabla más grande.</div>\n          </div>\n        </label>\n\n        <div id=\"ptmUpsBox\"><div style=\"font-size:12px;letter-spacing:1.5px;color:#75797a;font-weight:600;text-transform:uppercase;margin-bottom:8px\">Complétala <span style=\"letter-spacing:0;text-transform:none;font-weight:500\">· si quieres algo extra</span></div>\n        <div id=\"ptmUps\" style=\"display:flex;flex-direction:column;gap:10px;margin-bottom:18px\"></div></div>\n\n        <div style=\"font-size:12px;letter-spacing:1.5px;color:#75797a;font-weight:600;text-transform:uppercase;margin:2px 0 10px\">2. Entrega y contacto</div>\n        <p id=\"ptmIntro\" style=\"font-size:13px;line-height:1.5;color:#75797a;margin:0 0 14px\">Déjanos tus datos y abriremos WhatsApp con la tabla y el total listos para confirmar.</p>\n        <div class=\"ptm-intake-grid\" style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px\">\n          <div>\n            <label class=\"q-lbl\" for=\"ptmCliente\">Nombre</label>\n            <input id=\"ptmCliente\" class=\"q-in\" autocomplete=\"name\" maxlength=\"120\" placeholder=\"Tu nombre\">\n          </div>\n          <div>\n            <label class=\"q-lbl\" for=\"ptmWhatsapp\">Tu WhatsApp</label>\n            <input id=\"ptmWhatsapp\" class=\"q-in\" type=\"tel\" inputmode=\"tel\" autocomplete=\"tel\" maxlength=\"25\" placeholder=\"55 0000 0000\">\n          </div>\n        </div>\n        <div class=\"ptm-intake-grid\" style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px\">\n          <div>\n            <label class=\"q-lbl\" for=\"ptmZona\">Colonia o municipio</label>\n            <input id=\"ptmZona\" class=\"q-in\" autocomplete=\"address-level3\" maxlength=\"160\" placeholder=\"Ej. Del Valle\">\n          </div>\n          <div>\n            <label class=\"q-lbl\" for=\"ptmFecha\">¿Qué día la entregamos?</label>\n            <input id=\"ptmFecha\" class=\"q-in\" type=\"date\" onchange=\"ptmRecalc()\" aria-describedby=\"ptmRegla\">\n          </div>\n        </div>\n        <div style=\"margin-bottom:14px\">\n          <label class=\"q-lbl\" for=\"ptmNotas\">Notas <span style=\"font-weight:400;color:#9a9ea0\">(opcional)</span></label>\n          <textarea id=\"ptmNotas\" class=\"q-in\" rows=\"2\" maxlength=\"600\" placeholder=\"Ocasión, restricciones o sabores que prefieres\" style=\"resize:vertical\"></textarea>\n        </div>\n        <div style=\"margin-bottom:14px\">\n          <div id=\"ptmRegla\" style=\"font-size:12px;color:#75797a;margin-top:6px;line-height:1.5\"></div>\n        </div>\n        <div style=\"display:flex;align-items:center;justify-content:space-between;border-top:1px solid #d3d5d4;padding-top:12px;margin-bottom:4px\">\n          <span style=\"font-size:13px;color:#75797a\">Mensajería a toda la CDMX y la zona oriente</span>\n          <span style=\"font-family:Lora,serif;font-size:15px;color:#55585a\" id=\"ptmEnvio\"></span>\n        </div>\n        <div id=\"ptmModo\" role=\"radiogroup\" aria-label=\"¿Cómo quieres pagar?\" style=\"display:none;flex-direction:column;gap:10px;margin:0 0 16px\">\n          <div style=\"font-size:12px;letter-spacing:1.5px;color:#75797a;font-weight:600;text-transform:uppercase\">¿Cómo quieres pagar?</div>\n          <label class=\"pt-up on\" id=\"ptmModoCompleto\"><input type=\"radio\" name=\"ptmModo\" value=\"completo\" checked onchange=\"ptmRecalc()\">\n            <div><div style=\"font-weight:600;font-size:14.5px;color:#26282a\">Pago completo <span id=\"ptmModoCompletoMonto\" style=\"color:#7c2d3e\"></span></div>\n            <div id=\"ptmModoCompletoTxt\" style=\"font-size:13px;color:#75797a;line-height:1.5\"></div></div></label>\n          <label class=\"pt-up\" id=\"ptmModoAnticipo\"><input type=\"radio\" name=\"ptmModo\" value=\"anticipo\" onchange=\"ptmRecalc()\">\n            <div><div style=\"font-weight:600;font-size:14.5px;color:#26282a\">Anticipo <span id=\"ptmModoAnticipoMonto\" style=\"color:#7c2d3e\"></span></div>\n            <div id=\"ptmModoAnticipoTxt\" style=\"font-size:13px;color:#75797a;line-height:1.5\"></div></div></label>\n        </div>\n</div><footer class=\"pt-sheet-footer\">        <div class=\"pt-total-line\" style=\"display:flex;align-items:center;justify-content:space-between;margin-bottom:14px\">\n          <span style=\"font-size:14px;color:#55585a;font-weight:600\">Total con envío</span>\n          <span id=\"ptmTotal\" aria-live=\"polite\" style=\"font-family:Lora,serif;font-size:24px;color:#26282a\"></span>\n        </div>\n        <button id=\"ptmPagar\" class=\"ptbtn\" onclick=\"pagarDetalles()\" style=\"display:none;width:100%;align-items:center;justify-content:center;gap:10px;background:#26282a;color:#fff;padding:15px;border-radius:999px;font-weight:600;font-size:16px;border:none;cursor:pointer;margin-bottom:10px\">Pagar con Mercado Pago</button>\n        <button id=\"ptmWaBtn\" class=\"ptbtn\" onclick=\"pedirDetalles()\" style=\"width:100%;display:inline-flex;align-items:center;justify-content:center;gap:10px;background:#26282a;color:#fff;padding:15px;border-radius:999px;font-weight:600;font-size:16px;border:none;cursor:pointer\">\n          <span style=\"width:18px;height:18px;border-radius:50%;background:#25D366;display:inline-block\"></span><span id=\"ptmWaTxt\">Pedirla por WhatsApp</span></button>\n        <p id=\"ptmError\" role=\"alert\" aria-live=\"polite\" style=\"display:none;text-align:center;font-size:12.5px;color:#7c2d3e;font-weight:600;margin:10px 0 0\"></p>\n        <p id=\"ptmNota\" style=\"text-align:center;font-size:12px;color:#75797a;margin:12px 0 0;line-height:1.5\"></p>\n      </footer>\n    </div>\n  </dialog>");
   function lockPayment(locked){
     document.querySelectorAll('#ptModalBg input,#ptModalBg textarea,#ptModalBg button').forEach(function(el){el.disabled=locked;});
   }
@@ -27,6 +27,12 @@
       regular:product.regular_price_mxn||null,
       prem:PREMIUM.prices_mxn_by_product_key[product.key],
       premOk:(PREMIUM.confirmed_product_keys||[]).indexOf(product.key)>-1,
+      // Premium solo donde el catálogo lo ofrece (Tabla de Quesos ya es Premium; el almuerzo no lleva).
+      premAvail:(product.modifier_ids||[]).indexOf(PREMIUM.id)>-1,
+      pp:product.per_person||null,
+      bundle:product.bundle||null,
+      premText:product.premium_text||null,
+      people:product.presentation.people_text||'',
       img:'/'+product.media.image.replace(/^\//,''),
       tag:product.presentation.tag,
       ev:product.is_event,
@@ -84,17 +90,21 @@
     var dd=LOGISTICA.payment.deposit.balance_due_days_before_delivery;
     return dd>0?'a más tardar '+dd+(dd===1?' día':' días')+' antes de la entrega':'al recibir tu tabla';
   }
+  // Productos por persona: el precio de la tabla es unitario × personas (pago/lib.php hace lo mismo).
+  function personas(){ var n=parseInt(document.getElementById('ptmPersonas').value,10); return isNaN(n)?0:n; }
+  function base(t){ return t.pp?t.v*Math.max(personas(),0):t.v; }
   function totalDe(t){
-    var prem=document.getElementById('ptmPrem').checked, total=t.v+MENSAJERIA+(prem?t.prem:0);
+    var prem=document.getElementById('ptmPrem').checked, total=base(t)+MENSAJERIA+(prem?t.prem:0);
     UPSELLS.forEach(function(u){ var cb=document.querySelector('input[data-up="'+u.id+'"]'); if(cb&&cb.checked) total+=u.v; });
     return total;
   }
   // Datos del formulario ya validados, o null (y muestra el error).
   function leerDatos(t){
     var v=function(id){ return document.getElementById(id).value.trim(); };
-    var d={prem:document.getElementById('ptmPrem').checked, nombre:v('ptmCliente'), whatsapp:v('ptmWhatsapp'),
+    var d={prem:document.getElementById('ptmPrem').checked, personas:personas(), nombre:v('ptmCliente'), whatsapp:v('ptmWhatsapp'),
            zona:v('ptmZona'), fecha:v('ptmFecha'), notas:v('ptmNotas')};
     var checks=[
+      {bad:!!t.pp&&d.personas<t.pp.min_people,id:'ptmPersonas',message:t.pp?'El '+t.n+' se pide desde '+t.pp.min_people+' personas.':''},
       {bad:!d.nombre,id:'ptmCliente',message:'Escribe tu nombre para continuar.'},
       {bad:d.whatsapp.replace(/\D/g,'').length<10||d.whatsapp.replace(/\D/g,'').length>15,id:'ptmWhatsapp',message:'Escribe tu WhatsApp (10 dígitos) para continuar.'},
       {bad:!d.zona,id:'ptmZona',message:'Escribe tu colonia para confirmar la entrega.'},
@@ -124,16 +134,31 @@
     returnFocus=document.activeElement;
     var draft=drafts[id];
     document.getElementById('ptmImg').style.background='#d3d5d4 url(\''+t.img+'\') center/cover no-repeat';
-    document.getElementById('ptmTag').textContent=t.tag;
+    document.getElementById('ptmTag').textContent=t.tag+(t.people?' · '+t.people:'');
     document.getElementById('ptmNombre').textContent=t.n;
-    document.getElementById('ptmPrecio').textContent=fmt(t.v);
+    document.getElementById('ptmPrecio').textContent=t.pp?fmt(t.v)+' por persona':fmt(t.v);
     document.getElementById('ptmDesc').textContent=t.d;
     document.getElementById('ptmInc').innerHTML=t.inc.map(function(i){return '<li>'+i+'</li>';}).join('')+
       (t.regalo?'<li><strong style="color:#7c2d3e">'+REGALO.title+' incluida sin costo</strong></li>':'');
-    document.getElementById('ptmPrem').checked=!!(draft&&draft.premium);
+    document.getElementById('ptmPrem').checked=!!(t.premAvail&&draft&&draft.premium);
+    document.getElementById('ptmPremBox').style.display=t.premAvail?'':'none';
+    // Mejora con texto propio (Tabla de Quesos: quesos raros); las demás usan el Premium genérico.
+    var premTit=document.getElementById('ptmPremTitulo'), premDesc=document.getElementById('ptmPremDesc');
+    if(!premDesc.dataset.base) premDesc.dataset.base=premDesc.textContent;
+    premTit.textContent=t.premText?t.premText.title:'Hazla Premium';
+    premDesc.textContent=t.premText?t.premText.description:premDesc.dataset.base;
+    // Paquete cerrado (Celebración): sin Premium ni extras; lo incluido ya va en el precio.
+    document.getElementById('ptmUpsBox').style.display=t.bundle?'none':'';
+    document.getElementById('ptmToque').style.display=t.bundle?'none':'';
+    document.getElementById('ptmPersonasBox').style.display=t.pp?'block':'none';
+    if(t.pp){
+      var pin=document.getElementById('ptmPersonas');
+      pin.min=t.pp.min_people; pin.value=(draft&&draft.personas)||t.pp.min_people;
+      document.getElementById('ptmPersonasNota').textContent=fmt(t.v)+' por persona · desde '+t.pp.min_people+' personas.';
+    }
     document.getElementById('ptmEnvio').textContent=fmt(MENSAJERIA);
     document.getElementById('ptmPremBox').classList.remove('on');
-    document.getElementById('ptmPremPrecio').textContent='+'+fmt(t.prem)+' · queda en '+fmt(t.v+t.prem)+(t.premOk?'':' (se confirma por WhatsApp)');
+    if(t.premAvail) document.getElementById('ptmPremPrecio').textContent='+'+fmt(t.prem)+' · queda en '+fmt(t.v+t.prem)+(t.premOk?'':' (se confirma por WhatsApp)');
     document.getElementById('ptmUps').innerHTML=UPSELLS.map(function(u){
       return '<label class="pt-up" id="ptmUp_'+u.id+'"><input type="checkbox" data-up="'+u.id+'" onchange="ptmRecalc()">'+
         '<div><div style="font-weight:600;font-size:14.5px;color:#26282a">'+u.n+' <span style="color:#7c2d3e">+'+fmt(u.v)+'</span></div>'+
@@ -161,11 +186,12 @@
       });
       document.querySelector('input[name="ptmModo"][value="'+draft.mode+'"]').checked=true;
     }
+    if(t.bundle) UPSELLS.forEach(function(u){ document.querySelector('input[data-up="'+u.id+'"]').checked=false; });
     if(!draft&&t.pkg){
       document.getElementById('ptmPrem').checked=!!t.pkg.premium;
       UPSELLS.forEach(function(u){ if(t.pkg.extra_keys.indexOf(u.id)>-1) document.querySelector('input[data-up="'+u.id+'"]').checked=true; });
     }
-    if(preset&&preset.premium) document.getElementById('ptmPrem').checked=true;
+    if(preset&&preset.premium&&t.premAvail) document.getElementById('ptmPrem').checked=true;
     ptmRecalc();
     var dialog=document.getElementById('ptModalBg');
     if(!dialog.open) dialog.showModal();
@@ -180,7 +206,7 @@
     if(!modalId) return;
     var fields={};
     ['ptmCliente','ptmWhatsapp','ptmZona','ptmFecha','ptmNotas'].forEach(function(id){ fields[id]=document.getElementById(id).value; });
-    drafts[modalId]={fields:fields,premium:document.getElementById('ptmPrem').checked,
+    drafts[modalId]={fields:fields,premium:document.getElementById('ptmPrem').checked,personas:personas(),
       extras:UPSELLS.filter(function(u){return document.querySelector('input[data-up="'+u.id+'"]').checked;}).map(function(u){return u.id;}),
       opciones:UPSELLS.reduce(function(o,u){ if(u.c&&opcionDe(u)) o[u.id]=opcionDe(u); return o; },{}),mode:modoElegido()};
   }
@@ -194,11 +220,11 @@
   };
   window.ptmRecalc=function(){
     var t=TABLAS[modalId]; if(!t) return;
-    var total=t.v+MENSAJERIA;
+    var total=base(t)+MENSAJERIA;
     var prem=document.getElementById('ptmPrem');
     document.getElementById('ptmPremBox').classList.toggle('on', prem.checked);
     if(prem.checked) total+=t.prem;
-    document.getElementById('ptmPrecio').textContent=fmt(t.v+(prem.checked?t.prem:0));
+    document.getElementById('ptmPrecio').textContent=t.pp?fmt(t.v)+' por persona':fmt(t.v+(prem.checked?t.prem:0));
     UPSELLS.forEach(function(u){
       var cb=document.querySelector('input[data-up="'+u.id+'"]');
       document.getElementById('ptmUp_'+u.id).classList.toggle('on', !!(cb&&cb.checked));
@@ -251,7 +277,7 @@
     track('begin_checkout',{origen:'pago_en_linea', tabla:modalId, value:cobro.monto, currency:'MXN'});
     try{ if(window.fbq) fbq('track','InitiateCheckout',{content_name:t.n, value:cobro.monto, currency:'MXN'}); }catch(e){}
     fetch('/pago/pedido.php',{signal:paymentController.signal,method:'POST', headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({tabla:modalId, premium:d.prem, extras:extras, nombre:d.nombre, whatsapp:d.whatsapp,
+      body:JSON.stringify({tabla:modalId, premium:d.prem, personas:d.personas, extras:extras, nombre:d.nombre, whatsapp:d.whatsapp,
                            zona:d.zona, fecha:d.fecha, notas:d.notas, modo:modoElegido(), opciones:opciones, utm:utm})})
       .then(function(r){ return r.json().catch(function(){ return {}; }); })
       .then(function(res){
@@ -272,11 +298,13 @@
     var t=TABLAS[modalId]; if(!t||pagando) return;
     var d=leerDatos(t); if(!d) return;
     var prem=d.prem, nombre=d.nombre, whatsapp=d.whatsapp, zona=d.zona, fecha=fechaLarga(d.fecha), notas=d.notas;
-    var total=t.v+(prem?t.prem:0);
+    var total=base(t)+(prem?t.prem:0);
+    var premLinea=t.premText?t.premText.line:'Premium';
+    var nombreTabla=t.n+(t.pp?' · '+d.personas+' personas':'')+(prem?' ('+premLinea+')':'');
     var items=[
-      {qty:1,nombre:t.n+(prem?' (Premium)':''),precio:t.v+(prem?t.prem:0)}
+      {qty:1,nombre:nombreTabla,precio:total}
     ];
-    var lines=['¡Hola! Quiero la '+t.n+(prem?' en versión Premium':'')+' ('+fmt(total)+')'];
+    var lines=['¡Hola! Quiero '+(t.pp?'el ':'la ')+t.n+(t.pp?' para '+d.personas+' personas':'')+(prem?(t.premText?' con '+premLinea.toLowerCase():' en versión Premium'):'')+' ('+fmt(total)+')'];
     if(t.regalo){ items.push({qty:1,nombre:REGALO.title+' (incluida)',precio:0}); lines.push('+ '+REGALO.title+' — REGALO'); }
     UPSELLS.forEach(function(u){
       var cb=document.querySelector('input[data-up="'+u.id+'"]');

@@ -53,10 +53,10 @@
         "image": "img/1.jpg"
       },
       "presentation": {
-        "tag": "340 g · Noche tranquila",
+        "tag": "Noche tranquila",
         "card_description": "Una noche en casa se vuelve cita. Porciones justas para dos, sin repetir bocado.",
         "featured": false,
-        "order_subtitle": "340 g de referencia",
+        "order_subtitle": "Para dos",
         "scale_3d": 0.74
       }
     },
@@ -93,11 +93,12 @@
         "image": "img/tabla-850g.jpg"
       },
       "presentation": {
-        "tag": "850 g · Reunión en casa",
+        "tag": "Reunión en casa",
         "card_description": "Recibes sin estrés: la pieza central que resuelve la reunión en casa.",
         "featured": true,
-        "order_subtitle": "850 g de referencia",
-        "scale_3d": 0.9
+        "order_subtitle": "Para 4 a 6 personas",
+        "scale_3d": 0.9,
+        "people_text": "Para 4–6 personas"
       }
     },
     {
@@ -111,7 +112,7 @@
       "weight_g": 1360,
       "people": {
         "min": 8,
-        "max": 8
+        "max": 10
       },
       "is_event": true,
       "composition": {
@@ -133,11 +134,12 @@
         "image": "img/3.jpg"
       },
       "presentation": {
-        "tag": "1,360 g · Tabla de evento",
+        "tag": "Tabla de evento",
         "card_description": "El festejo, resuelto con una sola pieza. Pídela con una semana de anticipación.",
         "featured": false,
-        "order_subtitle": "1,360 g de referencia",
-        "scale_3d": 1.04
+        "order_subtitle": "Para 8 a 10 personas",
+        "scale_3d": 1.04,
+        "people_text": "Para 8–10 personas"
       }
     },
     {
@@ -147,11 +149,11 @@
       "availability": "confirmation_required",
       "title": "Tabla de Celebración",
       "description": "La mesa que habla por ti: máxima variedad, curaduría pieza por pieza y un montaje pensado para la foto. Para la boda íntima, el aniversario o la celebración que merece una mesa central de verdad.",
-      "price_mxn": 2600,
-      "weight_g": 1870,
+      "price_mxn": 3200,
+      "weight_g": 2600,
       "people": {
-        "min": 10,
-        "max": 12
+        "min": 15,
+        "max": 15
       },
       "is_event": true,
       "composition": {
@@ -164,25 +166,108 @@
         "Charcutería seleccionada premium en varios cortes",
         "Fruta fresca, higos y miel",
         "Frutos secos, aceitunas y crujientes surtidos",
-        "Tarjeta de cata y montaje pensado para la foto"
+        "Tarjeta de cata y montaje pensado para la foto",
+        "Pan y crujientes",
+        "Dip de la casa",
+        "Mermelada de la casa"
       ],
-      "modifier_ids": [
-        "picandotabla:modifier:premium"
-      ],
-      "quote": {
-        "price_per_person_from_mxn": 200,
-        "min_people": 10,
-        "url": "/eventos/?personas=10#solicitud"
-      },
+      "modifier_ids": [],
       "media": {
         "image": "img/4.jpg"
       },
       "presentation": {
-        "tag": "1,870 g · Tabla de evento",
+        "tag": "Tabla de evento",
         "card_description": "Nuestra más grande, montada para lucirse. Con una semana de anticipación.",
         "featured": false,
-        "order_subtitle": "1,870 g de referencia",
+        "order_subtitle": "Paquete Celebración",
         "scale_3d": 1.16
+      },
+      "bundle": {
+        "card_label": "Paquete Celebración",
+        "card_title": "Incluye:",
+        "card_items": [
+          "Pan y crujientes",
+          "Dip de la casa",
+          "Mermelada de la casa"
+        ],
+        "card_note": "Paquete cerrado: no se modifica."
+      }
+    },
+    {
+      "id": "picandotabla:offer:tabla-quesos",
+      "key": "quesos",
+      "status": "active",
+      "availability": "confirmation_required",
+      "title": "Tabla de Quesos",
+      "description": "Una tabla dedicada al queso: 4 quesos clásicos y 3 quesos raros, con fruta fresca, semillas y crocante para acompañar cada bocado.",
+      "price_mxn": 1800,
+      "is_event": false,
+      "composition": {
+        "cheeses": 7,
+        "meats": 0,
+        "accompaniments": 3
+      },
+      "composition_text": "4 quesos clásicos · 3 quesos raros · fruta, semillas y crocante",
+      "included": [
+        "4 quesos clásicos",
+        "3 quesos raros",
+        "Fruta fresca de temporada",
+        "Semillas",
+        "Crocante"
+      ],
+      "modifier_ids": [
+        "picandotabla:modifier:premium"
+      ],
+      "media": {
+        "image": "img/4.jpg"
+      },
+      "presentation": {
+        "tag": "Solo quesos",
+        "card_description": "Clásicos y raros, con fruta, semillas y crocante.",
+        "featured": false,
+        "order_subtitle": "Solo quesos",
+        "scale_3d": 0.9
+      },
+      "premium_text": {
+        "title": "Sube a quesos raros",
+        "description": "3 quesos clásicos y 7 quesos raros, en lugar de 4 clásicos y 3 raros.",
+        "line": "Quesos raros"
+      }
+    },
+    {
+      "id": "picandotabla:offer:popup-almuerzo",
+      "key": "almuerzo",
+      "status": "active",
+      "availability": "confirmation_required",
+      "title": "Pop-up de Almuerzo",
+      "description": "Un almuerzo especial en porción individual: quesos, carnes frías, fruta y crujiente para cada invitado, listo para servir.",
+      "price_mxn": 220,
+      "is_event": false,
+      "per_person": {
+        "min_people": 10
+      },
+      "composition": {
+        "cheeses": 0,
+        "meats": 0,
+        "accompaniments": 0
+      },
+      "composition_text": "Porción individual: quesos, carnes frías, fruta y crujiente",
+      "included": [
+        "Una porción individual por persona",
+        "Quesos y carnes frías de temporada",
+        "Fruta fresca",
+        "Crujiente"
+      ],
+      "modifier_ids": [],
+      "media": {
+        "image": "img/evento-individual-referencia.png"
+      },
+      "presentation": {
+        "tag": "Pop-up especial · Porción individual",
+        "card_description": "Un almuerzo para cada invitado, en porción individual. Desde 10 personas.",
+        "featured": false,
+        "order_subtitle": "Por persona · desde 10 personas",
+        "scale_3d": 0.9
       }
     }
   ],
@@ -228,18 +313,18 @@
       "key": "premium",
       "status": "active",
       "title": "Hazla Premium",
-      "description": "Mismo gramaje con una selección de mayor categoría; no es una tabla más grande.",
+      "description": "Misma cantidad con una selección de mayor categoría; no es una tabla más grande.",
       "prices_mxn_by_product_key": {
         "dos": 300,
         "anfitriona": 350,
         "fiesta": 600,
-        "celebracion": 900
+        "quesos": 800
       },
       "confirmed_product_keys": [
         "dos",
         "anfitriona",
         "fiesta",
-        "celebracion"
+        "quesos"
       ]
     }
   ],
@@ -300,13 +385,25 @@
     "url": "/eventos/#solicitud",
     "note": "Precios de referencia por persona en alimentos; aplican a porciones individuales o a presentación para evento. Entrega y servicios adicionales se cotizan.",
     "tiers": [
-      {"key": "clasica", "title": "Clásica", "price_per_person_from_mxn": 200},
-      {"key": "premium", "title": "Premium", "price_per_person_from_mxn": 245},
-      {"key": "reserva", "title": "Reserva", "price_per_person_from_mxn": 385}
+      {
+        "key": "clasica",
+        "title": "Clásica",
+        "price_per_person_from_mxn": 200
+      },
+      {
+        "key": "premium",
+        "title": "Premium",
+        "price_per_person_from_mxn": 245
+      },
+      {
+        "key": "reserva",
+        "title": "Reserva",
+        "price_per_person_from_mxn": 385
+      }
     ]
   },
   "portioning": {
     "grams_per_person": 170,
-    "note": "Gramajes de referencia."
+    "note": "Gramajes internos; en la web se muestra la recomendación de personas."
   }
 }

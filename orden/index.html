@@ -208,7 +208,7 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"/></
     <div class="eyebrow">Nunca la misma tabla dos veces</div>
     <!-- POND_CATALOG:ORDER_HERO:START -->
     <h1 id="hName">Tabla de la Anfitriona</h1>
-    <div class="sub" id="hSub">850 g de referencia · $950</div>
+    <div class="sub" id="hSub">Para 4 a 6 personas · $950</div>
     <div class="comp" id="hComp">3 quesos · 3 carnes · 7 acompañamientos</div>
     <!-- POND_CATALOG:ORDER_HERO:END -->
   </div>
@@ -324,7 +324,7 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"/></
   </div>
 </div>
 
-<script src="../catalogo.js?v=a092aba36abf"></script>
+<script src="../catalogo.js?v=be9771df62e9"></script>
 <script>
 // ─────────────────────────────────────────────────────────────────────────────
 // Proyección del catálogo canónico de Picando Tabla para la experiencia 3D.
@@ -416,7 +416,7 @@ function chip(q,v,label,multi,extra){
 function pintarEstaticos(){
   $('#secTamano').innerHTML = Object.keys(TABLAS).map(function(k){
     var t = TABLAS[k];
-    return '<button class="card" data-q="tabla" data-v="'+k+'">'+t.n+'<span class="m">'+t.g.toLocaleString('en-US')+' g · '+t.q+' quesos · '+t.c+' carnes<br>'+money(t.p)+(t.regalo?' · caja de tapas de regalo':'')+'</span></button>';
+    return '<button class="card" data-q="tabla" data-v="'+k+'">'+t.n+'<span class="m">'+t.s+' · '+t.q+' quesos · '+t.c+' carnes<br>'+money(t.p)+(t.regalo?' · caja de tapas de regalo':'')+'</span></button>';
   }).join('') + '<div class="ficha" id="ficha"></div>'
     + '<div class="note">Las tablas de evento requieren '+LOGISTICA.event_lead_time_days+' días de anticipación.</div>';
   $('#rowPerfil').innerHTML = Object.keys(PERFILES).map(function(k){ return chip('perfil',k,PERFILES[k].n); }).join('');

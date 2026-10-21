@@ -89,7 +89,7 @@ const productFiles = [
   ["tablas/para-dos/index.html", 650],
   ["tablas/anfitriona/index.html", 950],
   ["tablas/fiesta/index.html", 1600],
-  ["tablas/celebracion/index.html", 200],
+  ["tablas/celebracion/index.html", 3200],
 ];
 const productSchema = (html) => [...html.matchAll(/<script[^>]*application\/ld\+json[^>]*>([\s\S]*?)<\/script>/gi)]
   .map((match) => JSON.parse(match[1]))
@@ -107,7 +107,7 @@ const anfitriona = read("tablas/anfitriona/index.html");
 const anfitrionaOffers = [].concat(productSchema(anfitriona)?.offers || []);
 assert.deepEqual(anfitrionaOffers.map((offer) => offer.price), [950, 1300], "anfitriona: ofertas estándar y premium en schema");
 assert.match(anfitriona, /\$1,300 MXN/, "anfitriona: premium visible");
-assert.match(anfitriona, /mismo gramaje|mismos 850 g/i, "anfitriona: premium no cambia el gramaje");
+assert.match(anfitriona, /mismo gramaje|mismos 850 g|misma cantidad/i, "anfitriona: premium no cambia el gramaje");
 assert.match(read("catalogo.js"), /"anfitriona":350/, "catálogo: premium de Anfitriona +$350");
 
 // Promoción por gramaje, una por pedido; sin el criterio anterior por personas.

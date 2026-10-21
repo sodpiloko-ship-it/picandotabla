@@ -258,7 +258,7 @@ function ptpg_catalogo(): ?array {
  * intereses) o 'anticipo' (payment.deposit.pct %; el resto se liquida antes de la entrega, fuera del sitio).
  */
 function ptpg_cotizar(string $clave, bool $premium, array $extras, string $fecha, ?DateTimeImmutable $hoy = null,
-                       string $modo = 'completo', array $opciones = []): array {
+                       string $modo = 'completo', array $opciones = [], int $personas = 0): array {
   $cat = ptpg_catalogo();
   if ($cat === null) return ['error' => 'No pudimos leer el catálogo.'];
   $hoy = $hoy ?? ptpg_hoy();
@@ -288,6 +288,18 @@ function ptpg_cotizar(string $clave, bool $premium, array $extras, string $fecha
 
   $precio = (float)$producto['price_mxn'];
   $titulo = (string)$producto['title'];
+  // Paquete cerrado (Celebración): lo incluido ya está en el precio; no admite Premium ni extras.
+  if (!empty($producto['bundle']) && ($premium || $extras)) {
+    return ['error' => 'El ' . $titulo . ' es un paquete cerrado: no se modifica.'];
+  }
+  // Productos por persona (p. ej. el almuerzo): precio unitario × personas, con su mínimo.
+  if (!empty($producto['per_person'])) {
+    $minPersonas = (int)$producto['per_person']['min_people'];
+    if ($personas < $minPersonas) return ['error' => 'El ' . $titulo . ' se pide desde ' . $minPersonas . ' personas.'];
+    if ($personas > 300) return ['error' => 'Para más de 300 personas escríbenos por WhatsApp.'];
+    $precio *= $personas;
+    $titulo .= ' · ' . $personas . ' personas';
+  }
   if ($premium) {
     $mod = null;
     foreach ((array)$cat['modifiers'] as $m) {
@@ -297,7 +309,7 @@ function ptpg_cotizar(string $clave, bool $premium, array $extras, string $fecha
       return ['error' => 'La versión Premium de esta tabla se confirma por WhatsApp.'];
     }
     $precio += (float)$mod['prices_mxn_by_product_key'][$clave];
-    $titulo .= ' (Premium)';
+    $titulo .= ' (' . (string)($producto['premium_text']['line'] ?? 'Premium') . ')';
   }
   $lineas = [['id' => (string)$producto['id'], 'titulo' => $titulo, 'precio' => $precio]];
 

@@ -21,7 +21,7 @@ TARGET = ROOT / "catalogo.js"
 PROMO_TARGET = ROOT / "promo.js"
 HOME = ROOT / "index.html"
 ORDER = ROOT / "orden" / "index.html"
-EXPECTED_PRODUCT_KEYS = {"dos", "anfitriona", "fiesta", "celebracion"}
+EXPECTED_PRODUCT_KEYS = {"dos", "anfitriona", "quesos", "fiesta", "celebracion", "almuerzo"}
 EXPECTED_EXTRA_KEYS = {"pan", "mermelada", "fresas"}
 PUBLIC_SOURCE_SUFFIXES = {".html", ".php", ".md", ".js"}
 PRIVATE_OR_GENERATED_DIRS = {
@@ -154,13 +154,26 @@ def load_and_validate() -> dict:
                 fail(f"promotion.valid_for_paid_orders_before inválido en {product['key']}")
             if not isinstance(promotion.get("display_deadline"), str):
                 fail(f"promotion.display_deadline inválido en {product['key']}")
-        if not isinstance(product.get("weight_g"), int) or product["weight_g"] < 100:
+        # Gramaje y personas son opcionales (Tabla de Quesos y el almuerzo no los publican);
+        # si vienen, deben ser coherentes. Las personas nunca se muestran: son dato interno.
+        if "weight_g" in product and (not isinstance(product["weight_g"], int) or product["weight_g"] < 100):
             fail(f"products[{product['key']}].weight_g requiere gramos enteros")
-        people = product.get("people", {})
-        if not isinstance(people.get("min"), int) or not isinstance(people.get("max"), int):
-            fail(f"products[{product['key']}].people requiere min y max enteros")
-        if people["min"] < 1 or people["min"] > people["max"]:
-            fail(f"rango de personas inválido en {product['key']}")
+        if "people" in product:
+            people = product["people"]
+            if not isinstance(people.get("min"), int) or not isinstance(people.get("max"), int):
+                fail(f"products[{product['key']}].people requiere min y max enteros")
+            if people["min"] < 1 or people["min"] > people["max"]:
+                fail(f"rango de personas inválido en {product['key']}")
+        per_person = product.get("per_person")
+        if per_person is not None:
+            if not isinstance(per_person.get("min_people"), int) or per_person["min_people"] < 1:
+                fail(f"products[{product['key']}].per_person.min_people requiere un entero")
+            if product.get("package") or product.get("quote"):
+                fail(f"{product['key']}: un producto por persona no lleva paquete ni cotización")
+        if "composition_text" in product and (
+            not isinstance(product["composition_text"], str) or not product["composition_text"].strip()
+        ):
+            fail(f"products[{product['key']}].composition_text debe ser texto")
         composition = product.get("composition", {})
         for field in ("cheeses", "meats", "accompaniments"):
             if not isinstance(composition.get(field), int) or composition[field] < 0:
@@ -186,6 +199,29 @@ def load_and_validate() -> dict:
                 fail(f"{product['key']}.quote.url debe llevar a /eventos/")
             if product.get("package"):
                 fail(f"{product['key']}: una tabla que se cotiza no puede tener paquete")
+    for product in products:
+        # bundle = paquete cerrado con precio fijo (Celebración): lo incluido ya está en price_mxn,
+        # no admite Premium ni extras (pago/lib.php los rechaza).
+        bundle = product.get("bundle")
+        if bundle is None:
+            continue
+        for field in ("card_label", "card_title", "card_note"):
+            if not isinstance(bundle.get(field), str) or not bundle[field].strip():
+                fail(f"bundle.{field} de {product['key']} es obligatorio")
+        items = bundle.get("card_items")
+        if not isinstance(items, list) or not items or not all(isinstance(i, str) and i.strip() for i in items):
+            fail(f"bundle.card_items de {product['key']} debe listar lo incluido")
+        if product.get("package") or product.get("quote") or product.get("modifier_ids"):
+            fail(f"{product['key']}: un paquete cerrado no lleva paquete, cotización ni Premium")
+    for product in products:
+        premium_text = product.get("premium_text")
+        if premium_text is not None and not all(
+            isinstance(premium_text.get(f), str) and premium_text[f].strip() for f in ("title", "description", "line")
+        ):
+            fail(f"premium_text de {product['key']} necesita title, description y line")
+        people_text = product["presentation"].get("people_text")
+        if people_text is not None and (not isinstance(people_text, str) or not people_text.strip()):
+            fail(f"presentation.people_text de {product['key']} debe ser texto")
     for product in products:
         package = product.get("package")
         if package is None:
@@ -223,11 +259,15 @@ def load_and_validate() -> dict:
     if not premium or premium["id"] != "picandotabla:modifier:premium":
         fail("falta el modificador global Premium")
     premium_prices = premium.get("prices_mxn_by_product_key", {})
-    if set(premium_prices) != product_keys:
-        fail("Premium necesita un precio para cada producto")
+    premium_keys = {product["key"] for product in products if premium["id"] in product.get("modifier_ids", [])}
+    if set(premium_prices) != premium_keys:
+        fail("Premium necesita un precio para cada producto que lo ofrece (modifier_ids)")
+    for product in products:
+        if product.get("premium_included") and product["key"] in premium_keys:
+            fail(f"{product['key']} ya es Premium: no puede ofrecer el modificador")
     for key, value in premium_prices.items():
         require_price(value, f"modifiers[premium].prices_mxn_by_product_key[{key}]")
-    if not set(premium.get("confirmed_product_keys", [])) <= product_keys:
+    if not set(premium.get("confirmed_product_keys", [])) <= premium_keys:
         fail("confirmed_product_keys de Premium debe usar llaves de producto existentes")
 
     delivery = catalog.get("delivery", {})
@@ -396,9 +436,7 @@ def render_order_extras(catalog: dict) -> str:
 
 def render_html_blocks(catalog: dict) -> dict[Path, dict[str, str]]:
     products = catalog["products"]
-    standard = [product for product in products if not product["is_event"]]
     events = [product for product in products if product["is_event"]]
-    standard_names = join_names(standard)
     event_names = join_names(events)
     featured = next(product for product in products if product["presentation"]["featured"])
     promotional = next((product for product in products if product.get("promotion")), None)
@@ -407,7 +445,7 @@ def render_html_blocks(catalog: dict) -> dict[Path, dict[str, str]]:
     delivery = catalog["delivery"]
     logistics = catalog["logistics"]
     days = " y ".join(logistics["delivery_days_labels"])
-    min_price = min(product["price_mxn"] for product in products)
+    min_price = min(product["price_mxn"] for product in products if not product.get("per_person"))
     total = featured["price_mxn"] + delivery["price_mxn"]
     composition = featured["composition"]
 
@@ -435,7 +473,7 @@ def render_html_blocks(catalog: dict) -> dict[Path, dict[str, str]]:
             "HOME_PRODUCTS": render_home_products(catalog),
             "HOME_PRODUCTS_NOTE": (
                 '      <p style="font-size:12.5px;color:#75797a;margin:16px 0 0;text-align:center">'
-                f'Gramajes de referencia · Precios en MXN · Mensajería {money(delivery["price_mxn"])} a toda la CDMX y la zona oriente (se suma a tu pedido) '
+                f'Precios en MXN · Mensajería {money(delivery["price_mxn"])} a toda la CDMX y la zona oriente (se suma a tu pedido) '
                 f'· Tablas de evento ({event_names}): '
                 f'{logistics["event_lead_time_days"]} días de anticipación</p>'
             ),
@@ -446,9 +484,8 @@ def render_html_blocks(catalog: dict) -> dict[Path, dict[str, str]]:
             ),
             "HOME_DELIVERY_SUMMARY": (
                 '      <p style="font-size:13px;color:#75797a;margin:16px 0 0">'
-                f'{standard_names}: pide con al menos '
-                f'{logistics["standard_lead_time_hours"] // 24} días de anticipación. Tablas de evento '
-                f'({event_names}): con {logistics["event_lead_time_days"]} días de anticipación. '
+                f'Pide con al menos {logistics["standard_lead_time_hours"] // 24} días de anticipación; '
+                f'tablas de evento ({event_names}): {logistics["event_lead_time_days"]} días. '
                 f'Entregamos todos los días. Mensajería {money(delivery["price_mxn"])} a toda la CDMX y la zona oriente.</p>'
             ),
             "HOME_QUOTE_NOTE": (
