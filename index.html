@@ -63,6 +63,12 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"
   .q-in:focus{outline:2px solid #7c2d3e;outline-offset:1px;border-color:#7c2d3e}
   .pt-grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
   .pt-nav-links > *{white-space:nowrap}
+  .pt-ingredientes{margin:0;border-top:1px solid #d3d5d4}
+  .pt-ingredientes > div{display:grid;grid-template-columns:180px 1fr;gap:20px;padding:16px 0;border-bottom:1px solid #d3d5d4}
+  .pt-ingredientes dt{font-family:Lora,serif;font-size:19px;font-weight:600;color:#26282a}
+  .pt-ingredientes dd{margin:0;font-size:15px;line-height:1.65;color:#55585a}
+  .pt-galeria{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .pt-galeria img{display:block;width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;border-radius:14px;background:#d3d5d4}
   @media(max-width:1100px){ .pt-grid4{grid-template-columns:repeat(2,1fr)} .pt-nav-links .pt-nav-sec{display:none} }
   @media(max-width:820px){
     .pt-hero{grid-template-columns:1fr !important}
@@ -74,12 +80,15 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"
     .pt-hero-pad{padding:48px 22px !important}
     .pt-pad{padding:44px 22px !important}
     .ptm-intake-grid{grid-template-columns:1fr !important}
+    .pt-hero-photo{min-height:300px !important}
+    .pt-ingredientes > div{grid-template-columns:1fr !important;gap:4px !important}
+    .pt-galeria{grid-template-columns:repeat(2,1fr) !important}
   }
   @media(max-width:760px){.promo{font-size:12px!important;line-height:1.25!important;height:64px!important;min-height:64px!important;padding:7px 12px!important}#ptHeader{top:0!important}}
 </style>
 <script defer src="/promo.js?v=20261008"></script>
-<link rel="stylesheet" href="/tienda.css?v=20261020a">
-<script defer src="/catalogo.js?v=6ddf94ecac61"></script>
+<link rel="stylesheet" href="/tienda.css?v=20261021a">
+<script defer src="/catalogo.js?v=4c3792a7fc43"></script>
 <script defer src="/tienda.js?v=20261020d"></script>
 <link rel="stylesheet" href="/newsletter/community.css?v=20261010b">
 <script defer src="/newsletter/community.js?v=20261010b"></script>
@@ -128,7 +137,7 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"
       </div>
       <!-- POND_CATALOG:HOME_HERO_FACTS:END -->
     </div>
-    <div style="background:#d3d5d4 url('img/tabla-850g.jpg') center/cover no-repeat;min-height:440px"></div>
+    <div class="pt-hero-photo" role="img" aria-label="Dos tablas de Picando Tabla con quesos, jamón serrano, salami, higos, uvas, fresas y miel; una lista para regalo con moño" style="background:#d3d5d4 url('img/portada-tablas.jpg') center/cover no-repeat;min-height:440px"></div>
   </div>
 
 
@@ -138,27 +147,17 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"
   <div id="tablas" style="background:#fbfcfc;border-top:1px solid #d3d5d4">
     <div class="revealable pt-pad" style="max-width:1200px;margin:0 auto;padding:56px 32px 30px">
       <div style="display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:30px">
-        <h2 style="font-family:Lora,serif;font-size:30px;font-weight:600;margin:0;color:#26282a">¿Cuántos son?</h2>
-        <!-- POND_CATALOG:HOME_PEOPLE_SELECTOR:START -->
-        <div style="display:flex;background:#e9eaea;border:1px solid #d3d5d4;border-radius:999px;padding:4px;gap:4px;flex-wrap:wrap">
-          <button id="seg2" onclick="pickPeople('2')" style="border:none;cursor:pointer;font-size:14px;font-weight:600;padding:9px 20px;border-radius:999px;transition:all .2s;background:transparent;color:#55585a">2 personas</button>
-          <button id="seg46" onclick="pickPeople('46')" style="border:none;cursor:pointer;font-size:14px;font-weight:600;padding:9px 20px;border-radius:999px;transition:all .2s;background:#26282a;color:#fff">4–6</button>
-          <button id="seg8" onclick="pickPeople('8')" style="border:none;cursor:pointer;font-size:14px;font-weight:600;padding:9px 20px;border-radius:999px;transition:all .2s;background:transparent;color:#55585a">8</button>
-          <button id="seg1012" onclick="pickPeople('1012')" style="border:none;cursor:pointer;font-size:14px;font-weight:600;padding:9px 20px;border-radius:999px;transition:all .2s;background:transparent;color:#55585a">10–12</button>
-        </div>
-        <!-- POND_CATALOG:HOME_PEOPLE_SELECTOR:END -->
+        <h2 style="font-family:Lora,serif;font-size:30px;font-weight:600;margin:0;color:#26282a">Nuestras tablas</h2>
+        <p style="font-size:14px;color:#55585a;margin:0">Elige tu tabla, dale tu toque y paga en línea.</p>
       </div>
 
       <!-- POND_CATALOG:HOME_PRODUCTS:START -->
       <div class="pt-grid4 pt-card-grid" data-pt-columns="4">
-        <article class="pt-product-card pt-card-package" id="card2" data-pt-product="dos" data-catalog-product="dos">
-          <span class="pt-card-badge" id="badge2" style="display:none">Para ti</span>
-          <img class="pt-card-media" data-catalog-image src="/img/1.jpg" alt="Para Dos" width="640" height="420" loading="lazy" decoding="async">
+        <article class="pt-product-card pt-card-package pt-card-nomedia" data-pt-product="dos" data-catalog-product="dos">
           <div class="pt-card-body">
             <p class="pt-card-package-label">Paquete Para Dos</p>
             <p class="pt-card-tag" data-catalog-tag>340 g · Noche tranquila</p>
             <h3 class="pt-card-title" data-catalog-title>Para Dos</h3>
-            <p class="pt-card-people">Para 2 personas · 340 g</p>
             <p class="pt-card-description">Una noche en casa se vuelve cita. Porciones justas para dos, sin repetir bocado.</p>
             <p class="pt-card-composition">2 quesos · 2 carnes · 5 acompañamientos</p>
             <p class="pt-card-price"><span data-catalog-price>$1,470</span> <small>MXN</small></p>
@@ -168,14 +167,12 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"
             <noscript><a class="pt-card-fallback" href="/?tabla=dos#tablas">Elegir y pedir Para Dos</a></noscript>
           </div>
         </article>
-        <article class="pt-product-card pt-card-featured" id="card46" data-pt-product="anfitriona" data-catalog-product="anfitriona">
-          <span class="pt-card-badge" id="badge46">La favorita</span>
-          <img class="pt-card-media" data-catalog-image src="/img/tabla-850g.jpg" alt="Tabla de la Anfitriona" width="640" height="420" loading="lazy" decoding="async">
+        <article class="pt-product-card pt-card-featured pt-card-nomedia" data-pt-product="anfitriona" data-catalog-product="anfitriona">
+          <span class="pt-card-badge">La favorita</span>
           <div class="pt-card-body">
             <p class="pt-card-tag" data-catalog-tag>850 g · Reunión en casa</p>
             <h3 class="pt-card-title" data-catalog-title>Tabla de la Anfitriona</h3>
-            <p class="pt-card-people">Para 4–6 personas · 850 g</p>
-            <p class="pt-card-description">Recibes sin estrés: la pieza central que resuelve la reunión de 4 a 6.</p>
+            <p class="pt-card-description">Recibes sin estrés: la pieza central que resuelve la reunión en casa.</p>
             <p class="pt-card-composition">3 quesos · 3 carnes · 7 acompañamientos</p>
             <p class="pt-card-price"><span data-catalog-price>$950</span> <small>MXN</small></p>
             <p class="pt-card-delivery">Envío +$120 MXN · CDMX y zona oriente</p>
@@ -184,14 +181,11 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"
             <noscript><a class="pt-card-fallback" href="/?tabla=anfitriona#tablas">Elegir y pedir Tabla de la Anfitriona</a></noscript>
           </div>
         </article>
-        <article class="pt-product-card" id="card8" data-pt-product="fiesta" data-catalog-product="fiesta">
-          <span class="pt-card-badge" id="badge8" style="display:none">Para ti</span>
-          <img class="pt-card-media" data-catalog-image src="/img/3.jpg" alt="Tabla de Fiesta" width="640" height="420" loading="lazy" decoding="async">
+        <article class="pt-product-card pt-card-nomedia" data-pt-product="fiesta" data-catalog-product="fiesta">
           <div class="pt-card-body">
             <p class="pt-card-tag" data-catalog-tag>1,360 g · Tabla de evento</p>
             <h3 class="pt-card-title" data-catalog-title>Tabla de Fiesta</h3>
-            <p class="pt-card-people">Para 8 personas · 1,360 g</p>
-            <p class="pt-card-description">El festejo de 8, resuelto con una sola pieza. Pídela con una semana de anticipación.</p>
+            <p class="pt-card-description">El festejo, resuelto con una sola pieza. Pídela con una semana de anticipación.</p>
             <p class="pt-card-composition">4 quesos · 4 carnes · 11 acompañamientos</p>
             <p class="pt-card-price"><span data-catalog-price>$1,600</span> <small>MXN</small></p>
             <p class="pt-card-delivery">Envío +$120 MXN · CDMX y zona oriente</p>
@@ -200,14 +194,11 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"
             <noscript><a class="pt-card-fallback" href="/?tabla=fiesta#tablas">Elegir y pedir Tabla de Fiesta</a></noscript>
           </div>
         </article>
-        <article class="pt-product-card" id="card1012" data-pt-product="celebracion" data-catalog-product="celebracion">
-          <span class="pt-card-badge" id="badge1012" style="display:none">Para ti</span>
-          <img class="pt-card-media" data-catalog-image src="/img/4.jpg" alt="Tabla de Celebración" width="640" height="420" loading="lazy" decoding="async">
+        <article class="pt-product-card pt-card-nomedia" data-pt-product="celebracion" data-catalog-product="celebracion">
           <div class="pt-card-body">
             <p class="pt-card-tag" data-catalog-tag>1,870 g · Tabla de evento</p>
             <h3 class="pt-card-title" data-catalog-title>Tabla de Celebración</h3>
-            <p class="pt-card-people">Para 10–12 personas · 1,870 g</p>
-            <p class="pt-card-description">Nuestra más grande, montada para lucirse ante 10 a 12. Con una semana de anticipación.</p>
+            <p class="pt-card-description">Nuestra más grande, montada para lucirse. Con una semana de anticipación.</p>
             <p class="pt-card-composition">5 quesos · 7 carnes · 15 acompañamientos</p>
             <p class="pt-card-price"><span data-catalog-price>Desde $200</span> <small>MXN por persona</small></p>
             <p class="pt-card-delivery">Para 10 personas o más preparamos una cotización.</p>
@@ -218,7 +209,7 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"
       </div>
       <!-- POND_CATALOG:HOME_PRODUCTS:END -->
       <!-- POND_CATALOG:HOME_PRODUCTS_NOTE:START -->
-      <p style="font-size:12.5px;color:#75797a;margin:16px 0 0;text-align:center">Gramajes de referencia: calculamos unos 170 g por persona; el número de personas es una recomendación. Precios en MXN · Mensajería $120 a toda la CDMX y la zona oriente (se suma a tu pedido) · Tablas de evento (8–12): 7 días de anticipación</p>
+      <p style="font-size:12.5px;color:#75797a;margin:16px 0 0;text-align:center">Gramajes de referencia · Precios en MXN · Mensajería $120 a toda la CDMX y la zona oriente (se suma a tu pedido) · Tablas de evento (Fiesta y Celebración): 7 días de anticipación</p>
       <!-- POND_CATALOG:HOME_PRODUCTS_NOTE:END -->
     </div>
 
@@ -244,6 +235,39 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"
       <p style="text-align:center;font-size:13px;color:#75797a;margin:26px 0 0">¿Algo a tu medida — sin cerdo, más queso, un evento grande? <button onclick="waCustom()" style="background:none;border:none;padding:0;color:#7c2d3e;font-weight:600;font-size:13px;cursor:pointer;text-decoration:underline">Escríbenos y lo armamos</button></p>
     </div>
   </div>
+
+  <!-- Ingredientes: opciones generales con las que armamos las tablas (no cambian el producto) -->
+  <section id="ingredientes" style="background:#fbfcfc;border-top:1px solid #d3d5d4">
+    <div class="revealable pt-pad" style="max-width:1000px;margin:0 auto;padding:56px 32px">
+      <div style="text-align:center;margin-bottom:26px">
+        <div style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#7c2d3e;font-weight:600;margin-bottom:10px">Ingredientes</div>
+        <h2 style="font-family:Lora,serif;font-size:30px;font-weight:600;margin:0 0 8px;color:#26282a">Con esto armamos tu tabla</h2>
+        <p style="font-size:15px;color:#55585a;margin:0;line-height:1.6">Opciones de quesos, carnes frías y acompañantes que rotamos según la temporada.</p>
+      </div>
+      <dl class="pt-ingredientes">
+        <div><dt>Quesos</dt><dd>Manchego · gouda · edam · queso de cabra · queso azul · queso de oveja · provolone ahumado · manchego curado · cheddar maduro</dd></div>
+        <div><dt>Carnes frías</dt><dd>Salami · jamón serrano (10 y 18 meses) · chorizo pamplona · chorizo ibérico · lomo embuchado · jamón Selva Negra · mortadela con pistache · salami genova</dd></div>
+        <div><dt>Acompañantes</dt><dd>Uva · fresa · higo · frutos rojos · nueces · almendra · miel · galletas</dd></div>
+      </dl>
+      <p style="text-align:right;font-size:12.5px;font-style:italic;color:#75797a;margin:12px 0 0">*Ingredientes sujetos a disponibilidad</p>
+    </div>
+  </section>
+
+  <!-- Galería -->
+  <section id="galeria" style="background:#e9eaea;border-top:1px solid #d3d5d4">
+    <div class="revealable pt-pad" style="max-width:1200px;margin:0 auto;padding:56px 32px">
+      <div style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#7c2d3e;font-weight:600;margin-bottom:10px">Galería</div>
+      <h2 style="font-family:Lora,serif;font-size:30px;font-weight:600;margin:0 0 24px;color:#26282a">Así llegan a tu mesa</h2>
+      <div class="pt-galeria">
+        <img src="/img/tabla-850g.jpg" alt="Tabla de 850 g con quesos, carnes frías, uvas y frutos secos" width="1600" height="1200" loading="lazy" decoding="async">
+        <img src="/img/1.jpg" alt="Tabla de quesos y salami con higos y vino tinto" width="960" height="960" loading="lazy" decoding="async">
+        <img src="/img/2.jpg" alt="Tabla redonda de quesos, charcutería e higos vista desde arriba" width="960" height="960" loading="lazy" decoding="async">
+        <img src="/img/3.jpg" alt="Quesos curados y jamón con higos sobre madera" width="960" height="960" loading="lazy" decoding="async">
+        <img src="/img/4.jpg" alt="Quesos madurados con higos y charcutería" width="960" height="960" loading="lazy" decoding="async">
+        <img src="/img/5.jpg" alt="Quesos azules y de corteza con higos y jamón" width="960" height="960" loading="lazy" decoding="async">
+      </div>
+    </div>
+  </section>
 
   <!-- Ocasiones: enlaces comerciales internos -->
   <div style="background:#e9eaea;border-top:1px solid #d3d5d4">
@@ -377,7 +401,7 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"
         <span style="background:#fbfcfc;border:1px solid #d3d5d4;border-radius:999px;padding:7px 16px;font-size:13px;color:#55585a">Chicoloapan</span>
       </div>
       <!-- POND_CATALOG:HOME_DELIVERY_SUMMARY:START -->
-      <p style="font-size:13px;color:#75797a;margin:16px 0 0">Tablas de 2 a 6: pide con al menos 3 días de anticipación. Tablas de evento de 8 a 12: con 7 días de anticipación. Entregamos todos los días. Mensajería $120 a toda la CDMX y la zona oriente.</p>
+      <p style="font-size:13px;color:#75797a;margin:16px 0 0">Para Dos y Anfitriona: pide con al menos 3 días de anticipación. Tablas de evento (Fiesta y Celebración): con 7 días de anticipación. Entregamos todos los días. Mensajería $120 a toda la CDMX y la zona oriente.</p>
       <!-- POND_CATALOG:HOME_DELIVERY_SUMMARY:END -->
     </div>
   </div>
@@ -500,26 +524,6 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"
     track('click_whatsapp',{origen:'cotizacion'});
     track('whatsapp_click',{origen:'cotizacion'});
     try{if(window.fbq)fbq('track','Lead',{origen:'cotizacion'});}catch(e){}
-  };
-
-  // --- Selector "¿Cuántos son?" ---
-  window.pickPeople=function(p){
-    var segs={'2':'seg2','46':'seg46','8':'seg8','1012':'seg1012'};
-    Object.keys(segs).forEach(function(k){
-      var el=document.getElementById(segs[k]);
-      if(!el) return;
-      if(k===p){ el.style.background='#26282a'; el.style.color='#fff'; }
-      else { el.style.background='transparent'; el.style.color='#55585a'; }
-    });
-    var SEL='2px solid #26282a', BASE='1px solid #d3d5d4', FAV='2px solid #7c2d3e', PKG='2px solid #c9a44a', SH='0 10px 28px rgba(38,40,42,.16)';
-    var c2=document.getElementById('card2'), c46=document.getElementById('card46'), c8=document.getElementById('card8'), c1012=document.getElementById('card1012');
-    c2.style.border = p==='2'?SEL:PKG; c2.style.boxShadow = p==='2'?SH:'0 6px 22px rgba(201,164,74,.15)';
-    c46.style.border = p==='46'?SEL:FAV; c46.style.boxShadow = p==='46'?SH:'none';
-    c8.style.border = p==='8'?SEL:BASE; c8.style.boxShadow = p==='8'?SH:'none';
-    c1012.style.border = p==='1012'?SEL:BASE; c1012.style.boxShadow = p==='1012'?SH:'none';
-    document.getElementById('badge2').style.display = p==='2'?'block':'none';
-    document.getElementById('badge8').style.display = p==='8'?'block':'none';
-    document.getElementById('badge1012').style.display = p==='1012'?'block':'none';
   };
 
   // --- Header shadow + FAB al hacer scroll ---

@@ -20,6 +20,8 @@
 .pt-card-button:hover,.pt-card-buy:hover{background:#602332;color:white}
 .pt-card-badge{position:absolute;top:12px;left:12px;padding:6px 10px;border-radius:100px;background:#7c2d3e;color:#fff;font-size:11px;font-weight:600;z-index:1}
 .pt-card-featured{border-color:#7c2d3e}
+.pt-card-nomedia .pt-card-badge{position:static;align-self:flex-start;margin:20px 20px -8px}
+.pt-grid4.pt-card-grid{align-items:start}
 .pt-card-package{border:2px solid #c9a44a;background:#fdf9f4;box-shadow:0 6px 22px #c9a44a26}
 .pt-card-package-label{align-self:flex-start;padding:4px 10px;border-radius:100px;background:#c9a44a;color:#fff;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
 .pt-card-package .pt-card-price{color:#7c2d3e}

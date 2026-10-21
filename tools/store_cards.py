@@ -2,13 +2,14 @@
 
 Contrato de la interfaz (los estilos viven en /tienda.css):
   .pt-product-card[data-pt-product] contiene .pt-card-media, .pt-card-body,
-  .pt-card-tag, .pt-card-title, .pt-card-people, .pt-card-description,
+  .pt-card-tag, .pt-card-title, .pt-card-description,
   .pt-card-composition, .pt-card-price, .pt-card-delivery, .pt-card-lead y
   .pt-card-buy[data-pt-buy]. El único control es «Elegir y pedir»; tienda.js
   abre el mismo panel de compra desde cualquier página.
   .pt-card-badge, .pt-card-regular-price y .pt-card-gift son opcionales.
   .pt-card-grid usa data-pt-columns="3" en las selecciones de tres tablas.
-  home=True conserva card2/card46/card8/card1012 y sus badges para el selector.
+  home=True es el menú de la portada: tarjetas sin foto (las fotos viven en la
+  galería de la portada). Ninguna tarjeta muestra recomendación de personas.
 
 No modifica archivos. update_seo_cards devuelve una transformación idempotente
 del HTML y preserva el contenido ajeno al bloque de tarjetas.
@@ -41,20 +42,17 @@ def _money(value: int) -> str:
 def render_product_card(catalog: dict, product: dict, *, home: bool = False) -> str:
     """Renderiza la misma tarjeta en portada, catálogo y páginas de ocasión."""
     key = _escape(product["key"])
-    people = product["people"]
-    suffix = str(people["min"]) if people["min"] == people["max"] else f'{people["min"]}{people["max"]}'
-    people_text = str(people["min"]) if people["min"] == people["max"] else f'{people["min"]}–{people["max"]}'
     presentation = product["presentation"]
     featured = presentation["featured"]
     title = _escape(product["title"])
-    identity = f' id="card{suffix}"' if home else ""
     package = product.get("package")
-    card_class = "pt-product-card" + (" pt-card-featured" if featured else "") + (" pt-card-package" if package else "")
-    badge = ""
-    if featured or home:
-        badge_id = f' id="badge{suffix}"' if home else ""
-        hidden = ' style="display:none"' if not featured else ""
-        badge = f'  <span class="pt-card-badge"{badge_id}{hidden}>{"La favorita" if featured else "Para ti"}</span>'
+    card_class = (
+        "pt-product-card"
+        + (" pt-card-featured" if featured else "")
+        + (" pt-card-package" if package else "")
+        + (" pt-card-nomedia" if home else "")
+    )
+    badge = '  <span class="pt-card-badge">La favorita</span>' if featured else ""
     composition = product["composition"]
     logistics = catalog["logistics"]
     lead_days = logistics["event_lead_time_days"] if product["is_event"] else logistics["standard_lead_time_hours"] // 24
@@ -85,14 +83,13 @@ def render_product_card(catalog: dict, product: dict, *, home: bool = False) -> 
         if gift.get("type") == "gift" and product["key"] in gift.get("eligible_product_keys", [])
     ]
     lines = [
-        f'<article class="{card_class}"{identity} data-pt-product="{key}" data-catalog-product="{key}">',
+        f'<article class="{card_class}" data-pt-product="{key}" data-catalog-product="{key}">',
         badge,
-        f'  <img class="pt-card-media" data-catalog-image src="/{_escape(product["media"]["image"].lstrip("/"))}" alt="{title}" width="640" height="420" loading="lazy" decoding="async">',
+        "" if home else f'  <img class="pt-card-media" data-catalog-image src="/{_escape(product["media"]["image"].lstrip("/"))}" alt="{title}" width="640" height="420" loading="lazy" decoding="async">',
         '  <div class="pt-card-body">',
         f'    <p class="pt-card-package-label">{_escape(package["card_label"])}</p>' if package else "",
         f'    <p class="pt-card-tag" data-catalog-tag>{_escape(presentation["tag"])}</p>',
         f'    <h3 class="pt-card-title" data-catalog-title>{title}</h3>',
-        f'    <p class="pt-card-people">Para {people_text} personas · {product["weight_g"]:,} g</p>',
         f'    <p class="pt-card-description">{_escape(presentation["card_description"])}</p>',
         f'    <p class="pt-card-composition">{composition["cheeses"]} quesos · {composition["meats"]} carnes · {composition["accompaniments"]} acompañamientos</p>',
         f'    <p class="pt-card-price"><span data-catalog-price>{price_html}</span> <small>{price_unit}</small></p>',

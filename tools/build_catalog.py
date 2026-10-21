@@ -307,13 +307,6 @@ def money(value: int) -> str:
     return f"${value:,}"
 
 
-def selector_suffix(product: dict) -> str:
-    people = product["people"]
-    if people["min"] == people["max"]:
-        return str(people["min"])
-    return f"{people['min']}{people['max']}"
-
-
 def recommended_people(product: dict) -> str:
     people = product["people"]
     if people["min"] == people["max"]:
@@ -321,40 +314,14 @@ def recommended_people(product: dict) -> str:
     return f"Recomendada para {people['min']}–{people['max']} personas"
 
 
-def people_range(products: list[dict]) -> tuple[int, int]:
-    return (
-        min(product["people"]["min"] for product in products),
-        max(product["people"]["max"] for product in products),
-    )
+def join_names(products: list[dict]) -> str:
+    names = [product["title"].replace("Tabla de la ", "").replace("Tabla de ", "") for product in products]
+    return ", ".join(names[:-1]) + " y " + names[-1] if len(names) > 1 else names[0]
 
 
 def render_home_products(catalog: dict) -> str:
     keys = tuple(product["key"] for product in catalog["products"])
     return indent(render_card_grid(catalog, keys, home=True), "      ")
-
-
-def render_home_people_selector(catalog: dict) -> str:
-    buttons = []
-    for product in catalog["products"]:
-        suffix = selector_suffix(product)
-        people = product["people"]
-        if people["min"] == people["max"]:
-            label = f"{people['min']} personas" if people["min"] == 2 else str(people["min"])
-        else:
-            label = f"{people['min']}–{people['max']}"
-        active = product["presentation"]["featured"]
-        background = "#26282a" if active else "transparent"
-        color = "#fff" if active else "#55585a"
-        buttons.append(
-            f'          <button id="seg{suffix}" onclick="pickPeople(\'{suffix}\')" style="border:none;cursor:pointer;font-size:14px;font-weight:600;padding:9px 20px;border-radius:999px;transition:all .2s;background:{background};color:{color}">{label}</button>'
-        )
-    return "\n".join(
-        [
-            '        <div style="display:flex;background:#e9eaea;border:1px solid #d3d5d4;border-radius:999px;padding:4px;gap:4px;flex-wrap:wrap">',
-            *buttons,
-            "        </div>",
-        ]
-    )
 
 
 def render_home_extras(catalog: dict) -> str:
@@ -438,8 +405,8 @@ def render_html_blocks(catalog: dict) -> dict[Path, dict[str, str]]:
     products = catalog["products"]
     standard = [product for product in products if not product["is_event"]]
     events = [product for product in products if product["is_event"]]
-    standard_min, standard_max = people_range(standard)
-    event_min, event_max = people_range(events)
+    standard_names = join_names(standard)
+    event_names = join_names(events)
     featured = next(product for product in products if product["presentation"]["featured"])
     promotional = next((product for product in products if product.get("promotion")), None)
     promotion = promotional["promotion"] if promotional else None
@@ -472,13 +439,11 @@ def render_html_blocks(catalog: dict) -> dict[Path, dict[str, str]]:
                     "      </div>",
                 ]
             ),
-            "HOME_PEOPLE_SELECTOR": render_home_people_selector(catalog),
             "HOME_PRODUCTS": render_home_products(catalog),
             "HOME_PRODUCTS_NOTE": (
                 '      <p style="font-size:12.5px;color:#75797a;margin:16px 0 0;text-align:center">'
-f'Gramajes de referencia: calculamos unos {catalog["portioning"]["grams_per_person"]} g por persona; el número de personas es una recomendación. '
-                f'Precios en MXN · Mensajería {money(delivery["price_mxn"])} a toda la CDMX y la zona oriente (se suma a tu pedido) '
-                f'· Tablas de evento ({event_min}–{event_max}): '
+                f'Gramajes de referencia · Precios en MXN · Mensajería {money(delivery["price_mxn"])} a toda la CDMX y la zona oriente (se suma a tu pedido) '
+                f'· Tablas de evento ({event_names}): '
                 f'{logistics["event_lead_time_days"]} días de anticipación</p>'
             ),
             "HOME_EXTRAS": render_home_extras(catalog),
@@ -488,9 +453,9 @@ f'Gramajes de referencia: calculamos unos {catalog["portioning"]["grams_per_pers
             ),
             "HOME_DELIVERY_SUMMARY": (
                 '      <p style="font-size:13px;color:#75797a;margin:16px 0 0">'
-                f'Tablas de {standard_min} a {standard_max}: pide con al menos '
-                f'{logistics["standard_lead_time_hours"] // 24} días de anticipación. Tablas de evento de '
-                f'{event_min} a {event_max}: con {logistics["event_lead_time_days"]} días de anticipación. '
+                f'{standard_names}: pide con al menos '
+                f'{logistics["standard_lead_time_hours"] // 24} días de anticipación. Tablas de evento '
+                f'({event_names}): con {logistics["event_lead_time_days"]} días de anticipación. '
                 f'Entregamos todos los días. Mensajería {money(delivery["price_mxn"])} a toda la CDMX y la zona oriente.</p>'
             ),
             "HOME_QUOTE_NOTE": (
