@@ -208,7 +208,7 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"/></
     <div class="eyebrow">Nunca la misma tabla dos veces</div>
     <!-- POND_CATALOG:ORDER_HERO:START -->
     <h1 id="hName">Tabla de la Anfitriona</h1>
-    <div class="sub" id="hSub">850 g · recomendada para 4 a 6 personas · $950</div>
+    <div class="sub" id="hSub">850 g de referencia · $950</div>
     <div class="comp" id="hComp">3 quesos · 3 carnes · 7 acompañamientos</div>
     <!-- POND_CATALOG:ORDER_HERO:END -->
   </div>
@@ -232,7 +232,7 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"/></
         <button data-sec="datos"><span class="k">Tus datos</span><span class="v" id="vDatos">Por completar</span></button>
       </div>
 
-      <div class="qrow"><div class="q" id="q">¿Para cuántas personas?</div><div class="n" id="stepN">Paso 1 de 5</div></div>
+      <div class="qrow"><div class="q" id="q">¿Qué tabla quieres?</div><div class="n" id="stepN">Paso 1 de 5</div></div>
 
       <div class="body" data-scroll>
 
@@ -324,7 +324,7 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"/></
   </div>
 </div>
 
-<script src="../catalogo.js?v=4c3792a7fc43"></script>
+<script src="../catalogo.js?v=a092aba36abf"></script>
 <script>
 // ─────────────────────────────────────────────────────────────────────────────
 // Proyección del catálogo canónico de Picando Tabla para la experiencia 3D.
@@ -350,7 +350,7 @@ CATALOGO.products.forEach(function(product){
     c:product.composition.meats,
     a:product.composition.accompaniments,
     evento:product.is_event,
-    people:product.people,
+    g:product.weight_g,
     d:product.description,
     inc:product.included,
     regalo:REGALO && REGALO.eligible_product_keys.indexOf(product.key) > -1
@@ -373,7 +373,7 @@ var EVITAR = {sincerdo:'Sin cerdo',sinsecos:'Sin frutos secos',pocaazucar:'Poca 
 var COLONIAS = {condesa:'Condesa',roma:'Roma',delvalle:'Del Valle',coyoacan:'Coyoacán',polanco:'Polanco',napoles:'Nápoles',otra:'Otra colonia'};
 var QUESOS = ['cremoso','semiduro','maduro'], CARNES = ['serrano','salami','prosciutto'], ACOMP = ['uvas','fruta','secos','aceitunas','miel','pan'];
 var SECS = ['tamano','curaduria','extras','entrega','datos'];
-var PREG = {tamano:'¿Para cuántas personas?', curaduria:'¿Cómo la quieres?', extras:'¿Quieres agregar algo más?', entrega:'¿Cuándo y dónde la entregamos?', datos:'¿A nombre de quién?'};
+var PREG = {tamano:'¿Qué tabla quieres?', curaduria:'¿Cómo la quieres?', extras:'¿Quieres agregar algo más?', entrega:'¿Cuándo y dónde la entregamos?', datos:'¿A nombre de quién?'};
 
 var money = function(n){ return '$' + Math.round(n).toLocaleString('en-US'); };
 var $ = function(s){ return document.querySelector(s); };
@@ -391,7 +391,7 @@ var save = function(){ try{ localStorage.setItem('pt.orden', JSON.stringify(S));
 var open_ = 'tamano', sending = false;
 
 // ── Fechas válidas: SOLO viernes y sábado, con la anticipación de cada tabla ──
-// 2 a 6 personas: 48 h · tablas de evento (8 a 12): una semana.
+// Para Dos y Anfitriona: 48 h · tablas de evento (Fiesta y Celebración): una semana.
 var DIAS = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
 var MESES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
 function fechasValidas(){
@@ -416,8 +416,7 @@ function chip(q,v,label,multi,extra){
 function pintarEstaticos(){
   $('#secTamano').innerHTML = Object.keys(TABLAS).map(function(k){
     var t = TABLAS[k];
-    var per = t.people.min === t.people.max ? t.people.min+' personas' : t.people.min+' a '+t.people.max;
-    return '<button class="card" data-q="tabla" data-v="'+k+'">'+t.n+'<span class="m">'+per+' · '+t.q+' quesos · '+t.c+' carnes<br>'+money(t.p)+(t.regalo?' · caja de tapas de regalo':'')+'</span></button>';
+    return '<button class="card" data-q="tabla" data-v="'+k+'">'+t.n+'<span class="m">'+t.g.toLocaleString('en-US')+' g · '+t.q+' quesos · '+t.c+' carnes<br>'+money(t.p)+(t.regalo?' · caja de tapas de regalo':'')+'</span></button>';
   }).join('') + '<div class="ficha" id="ficha"></div>'
     + '<div class="note">Las tablas de evento requieren '+LOGISTICA.event_lead_time_days+' días de anticipación.</div>';
   $('#rowPerfil').innerHTML = Object.keys(PERFILES).map(function(k){ return chip('perfil',k,PERFILES[k].n); }).join('');

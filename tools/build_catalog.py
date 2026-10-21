@@ -307,13 +307,6 @@ def money(value: int) -> str:
     return f"${value:,}"
 
 
-def recommended_people(product: dict) -> str:
-    people = product["people"]
-    if people["min"] == people["max"]:
-        return f"Recomendada para {people['min']} personas"
-    return f"Recomendada para {people['min']}–{people['max']} personas"
-
-
 def join_names(products: list[dict]) -> str:
     names = [product["title"].replace("Tabla de la ", "").replace("Tabla de ", "") for product in products]
     return ", ".join(names[:-1]) + " y " + names[-1] if len(names) > 1 else names[0]

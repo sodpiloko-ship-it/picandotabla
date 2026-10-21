@@ -56,7 +56,7 @@
         "tag": "340 g · Noche tranquila",
         "card_description": "Una noche en casa se vuelve cita. Porciones justas para dos, sin repetir bocado.",
         "featured": false,
-        "order_subtitle": "340 g · recomendada para 2 personas",
+        "order_subtitle": "340 g de referencia",
         "scale_3d": 0.74
       }
     },
@@ -96,7 +96,7 @@
         "tag": "850 g · Reunión en casa",
         "card_description": "Recibes sin estrés: la pieza central que resuelve la reunión en casa.",
         "featured": true,
-        "order_subtitle": "850 g · recomendada para 4 a 6 personas",
+        "order_subtitle": "850 g de referencia",
         "scale_3d": 0.9
       }
     },
@@ -136,7 +136,7 @@
         "tag": "1,360 g · Tabla de evento",
         "card_description": "El festejo, resuelto con una sola pieza. Pídela con una semana de anticipación.",
         "featured": false,
-        "order_subtitle": "1,360 g · recomendada para 8 personas",
+        "order_subtitle": "1,360 g de referencia",
         "scale_3d": 1.04
       }
     },
@@ -181,7 +181,7 @@
         "tag": "1,870 g · Tabla de evento",
         "card_description": "Nuestra más grande, montada para lucirse. Con una semana de anticipación.",
         "featured": false,
-        "order_subtitle": "1,870 g · recomendada para 10 a 12 personas",
+        "order_subtitle": "1,870 g de referencia",
         "scale_3d": 1.16
       }
     }
@@ -307,6 +307,6 @@
   },
   "portioning": {
     "grams_per_person": 170,
-    "note": "Gramajes de referencia; el número de personas es una recomendación."
+    "note": "Gramajes de referencia."
   }
 }
