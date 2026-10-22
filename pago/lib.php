@@ -292,6 +292,9 @@ function ptpg_cotizar(string $clave, bool $premium, array $extras, string $fecha
   if (!empty($producto['bundle']) && ($premium || $extras)) {
     return ['error' => 'El ' . $titulo . ' es un paquete cerrado: no se modifica.'];
   }
+  if (($producto['addons'] ?? true) === false && $extras) {
+    return ['error' => 'La ' . $titulo . ' ya incluye todo: no lleva complementos.'];
+  }
   // Productos por persona (p. ej. el almuerzo): precio unitario × personas, con su mínimo.
   if (!empty($producto['per_person'])) {
     $minPersonas = (int)$producto['per_person']['min_people'];

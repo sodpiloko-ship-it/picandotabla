@@ -32,6 +32,7 @@
       pp:product.per_person||null,
       bundle:product.bundle||null,
       premText:product.premium_text||null,
+      addons:product.addons!==false&&!product.bundle,
       people:product.presentation.people_text||'',
       img:'/'+product.media.image.replace(/^\//,''),
       tag:product.presentation.tag,
@@ -148,7 +149,8 @@
     premTit.textContent=t.premText?t.premText.title:'Hazla Premium';
     premDesc.textContent=t.premText?t.premText.description:premDesc.dataset.base;
     // Paquete cerrado (Celebración): sin Premium ni extras; lo incluido ya va en el precio.
-    document.getElementById('ptmUpsBox').style.display=t.bundle?'none':'';
+    // Sin complementos: paquete cerrado (Celebración) o producto que ya incluye todo (Tabla de Quesos).
+    document.getElementById('ptmUpsBox').style.display=t.addons?'':'none';
     document.getElementById('ptmToque').style.display=t.bundle?'none':'';
     document.getElementById('ptmPersonasBox').style.display=t.pp?'block':'none';
     if(t.pp){
@@ -186,7 +188,7 @@
       });
       document.querySelector('input[name="ptmModo"][value="'+draft.mode+'"]').checked=true;
     }
-    if(t.bundle) UPSELLS.forEach(function(u){ document.querySelector('input[data-up="'+u.id+'"]').checked=false; });
+    if(!t.addons) UPSELLS.forEach(function(u){ document.querySelector('input[data-up="'+u.id+'"]').checked=false; });
     if(!draft&&t.pkg){
       document.getElementById('ptmPrem').checked=!!t.pkg.premium;
       UPSELLS.forEach(function(u){ if(t.pkg.extra_keys.indexOf(u.id)>-1) document.querySelector('input[data-up="'+u.id+'"]').checked=true; });
@@ -304,7 +306,7 @@
     var items=[
       {qty:1,nombre:nombreTabla,precio:total}
     ];
-    var lines=['¡Hola! Quiero '+(t.pp?'el ':'la ')+t.n+(t.pp?' para '+d.personas+' personas':'')+(prem?(t.premText?' con '+premLinea.toLowerCase():' en versión Premium'):'')+' ('+fmt(total)+')'];
+    var lines=['¡Hola! Quiero '+(t.pp?'el ':'la ')+t.n+(t.pp?' para '+d.personas+' personas':'')+(prem?' en versión '+premLinea:'')+' ('+fmt(total)+')'];
     if(t.regalo){ items.push({qty:1,nombre:REGALO.title+' (incluida)',precio:0}); lines.push('+ '+REGALO.title+' — REGALO'); }
     UPSELLS.forEach(function(u){
       var cb=document.querySelector('input[data-up="'+u.id+'"]');

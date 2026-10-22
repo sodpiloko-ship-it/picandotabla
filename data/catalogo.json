@@ -96,9 +96,9 @@
         "tag": "Reunión en casa",
         "card_description": "Recibes sin estrés: la pieza central que resuelve la reunión en casa.",
         "featured": true,
-        "order_subtitle": "Para 4 a 6 personas",
+        "order_subtitle": "Para aprox. 5 personas",
         "scale_3d": 0.9,
-        "people_text": "Para 4–6 personas"
+        "people_text": "Aprox. 5 personas"
       }
     },
     {
@@ -137,9 +137,9 @@
         "tag": "Tabla de evento",
         "card_description": "El festejo, resuelto con una sola pieza. Pídela con una semana de anticipación.",
         "featured": false,
-        "order_subtitle": "Para 8 a 10 personas",
+        "order_subtitle": "Para aprox. 9 personas",
         "scale_3d": 1.04,
-        "people_text": "Para 8–10 personas"
+        "people_text": "Aprox. 9 personas"
       }
     },
     {
@@ -179,12 +179,13 @@
         "tag": "Tabla de evento",
         "card_description": "Nuestra más grande, montada para lucirse. Con una semana de anticipación.",
         "featured": false,
-        "order_subtitle": "Paquete Celebración",
-        "scale_3d": 1.16
+        "order_subtitle": "Para aprox. 15 personas",
+        "scale_3d": 1.16,
+        "people_text": "Aprox. 15 personas"
       },
       "bundle": {
         "card_label": "Paquete Celebración",
-        "card_title": "Incluye:",
+        "card_title": "Incluye, para que rinda más:",
         "card_items": [
           "Pan y crujientes",
           "Dip de la casa",
@@ -224,16 +225,17 @@
       },
       "presentation": {
         "tag": "Solo quesos",
-        "card_description": "Clásicos y raros, con fruta, semillas y crocante.",
+        "card_description": "Clásicos y raros, con fruta, semillas y crocante. Ya incluye todo.",
         "featured": false,
         "order_subtitle": "Solo quesos",
         "scale_3d": 0.9
       },
       "premium_text": {
-        "title": "Sube a quesos raros",
+        "title": "Hazla Premium",
         "description": "3 quesos clásicos y 7 quesos raros, en lugar de 4 clásicos y 3 raros. También incluye la tabla.",
-        "line": "Quesos raros"
-      }
+        "line": "Premium con quesos raros"
+      },
+      "addons": false
     },
     {
       "id": "picandotabla:offer:popup-almuerzo",

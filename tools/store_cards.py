@@ -57,7 +57,7 @@ def render_product_card(catalog: dict, product: dict, *, home: bool = False) -> 
     badge = '  <span class="pt-card-badge">La favorita</span>' if featured else ""
     composition = product["composition"]
     composition_text = product.get("composition_text") or (
-        f'{composition["cheeses"]} quesos · {composition["meats"]} carnes · {composition["accompaniments"]} acompañamientos'
+        f'{composition["cheeses"]} quesos · {composition["meats"]} carnes'
     )
     logistics = catalog["logistics"]
     lead_days = logistics["event_lead_time_days"] if product["is_event"] else logistics["standard_lead_time_hours"] // 24

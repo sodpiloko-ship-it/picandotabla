@@ -214,6 +214,9 @@ def load_and_validate() -> dict:
         if product.get("package") or product.get("quote") or product.get("modifier_ids"):
             fail(f"{product['key']}: un paquete cerrado no lleva paquete, cotización ni Premium")
     for product in products:
+        # addons=false: el producto ya incluye todo y no ofrece complementos (Tabla de Quesos).
+        if "addons" in product and product["addons"] is not False:
+            fail(f"{product['key']}.addons solo admite false")
         premium_text = product.get("premium_text")
         if premium_text is not None and not all(
             isinstance(premium_text.get(f), str) and premium_text[f].strip() for f in ("title", "description", "line")
@@ -511,7 +514,7 @@ def render_html_blocks(catalog: dict) -> dict[Path, dict[str, str]]:
                 [
                     f'    <h1 id="hName">{escaped(featured["title"])}</h1>',
                     f'    <div class="sub" id="hSub">{escaped(featured["presentation"]["order_subtitle"])} · {money(featured["price_mxn"])}</div>',
-                    f'    <div class="comp" id="hComp">{composition["cheeses"]} quesos · {composition["meats"]} carnes · {composition["accompaniments"]} acompañamientos</div>',
+                    f'    <div class="comp" id="hComp">{composition["cheeses"]} quesos · {composition["meats"]} carnes</div>',
                 ]
             ),
             "ORDER_STEP_DEFAULT": (
