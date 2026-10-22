@@ -56,6 +56,7 @@
         "tag": "Noche tranquila",
         "card_description": "Una noche en casa se vuelve cita. Porciones justas para dos, sin repetir bocado.",
         "featured": false,
+        "special": true,
         "order_subtitle": "Para dos",
         "scale_3d": 0.74
       }
@@ -227,6 +228,7 @@
         "tag": "Solo quesos",
         "card_description": "Clásicos y raros, con fruta, semillas y crocante. Ya incluye todo.",
         "featured": false,
+        "special": true,
         "order_subtitle": "Solo quesos",
         "scale_3d": 0.9
       },

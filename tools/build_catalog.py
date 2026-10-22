@@ -12,7 +12,7 @@ import re
 from pathlib import Path
 from textwrap import indent
 
-from store_cards import SEO_CARD_PRODUCTS, render_card_grid, update_seo_cards
+from store_cards import SEO_CARD_PRODUCTS, home_order, render_card_grid, update_seo_cards
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -184,6 +184,8 @@ def load_and_validate() -> dict:
                 fail(f"presentation.{field} inválido en {product['key']}")
         if not isinstance(presentation.get("featured"), bool):
             fail(f"presentation.featured debe ser booleano en {product['key']}")
+        if not isinstance(presentation.get("special", False), bool):
+            fail(f"presentation.special debe ser booleano en {product['key']}")
         if not isinstance(presentation.get("scale_3d"), (int, float)) or presentation["scale_3d"] <= 0:
             fail(f"presentation.scale_3d inválido en {product['key']}")
         if not isinstance(product.get("media", {}).get("image"), str):
@@ -356,8 +358,7 @@ def join_names(products: list[dict]) -> str:
 
 
 def render_home_products(catalog: dict) -> str:
-    keys = tuple(product["key"] for product in catalog["products"])
-    return indent(render_card_grid(catalog, keys, home=True), "      ")
+    return indent(render_card_grid(catalog, home_order(catalog), home=True), "      ")
 
 
 def render_home_extras(catalog: dict) -> str:
@@ -368,24 +369,24 @@ def render_home_extras(catalog: dict) -> str:
         key = extra["key"]
         cards.extend(
             [
-                f'        <div data-catalog-extra="{escaped(key)}" style="display:flex;align-items:center;justify-content:space-between;gap:14px;background:#fff;border:1px solid #d3d5d4;border-radius:12px;padding:16px 20px">',
-                f'          <div><div data-catalog-extra-title style="font-weight:600;font-size:15px;color:#26282a;margin-bottom:2px">{escaped(extra["title"])}</div><div data-catalog-extra-description style="font-size:13px;color:#75797a">{escaped(extra["description"])}</div></div>',
-                f'          <span data-catalog-extra-price style="font-family:Lora,serif;font-size:17px;color:#26282a;flex:none">{money(extra["price_mxn"])}</span>',
+                f'        <div class="rd-extra" data-catalog-extra="{escaped(key)}">',
+                f'          <div><div class="rd-extra-title" data-catalog-extra-title>{escaped(extra["title"])}</div><div class="rd-extra-desc" data-catalog-extra-description>{escaped(extra["description"])}</div></div>',
+                f'          <span class="rd-extra-price" data-catalog-extra-price>+{money(extra["price_mxn"])}</span>',
                 "        </div>",
             ]
         )
     if promotional:
         cards.extend(
             [
-                '        <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;background:#faf5f6;border:2px solid #7c2d3e;border-radius:12px;padding:16px 20px">',
-                f'          <div><div style="font-weight:700;font-size:15px;color:#7c2d3e;margin-bottom:2px">{escaped(promotional["title"])} en promoción</div><div style="font-size:13px;color:#55585a">{money(promotional["price_mxn"])} en lugar de {money(promotional["regular_price_mxn"])} para pedidos pagados antes del {escaped(promotion["display_deadline"])}.</div></div>',
-                f'          <span style="font-family:Lora,serif;font-size:20px;font-weight:700;color:#7c2d3e;flex:none">{money(promotional["price_mxn"])}</span>',
+                '        <div class="rd-extra rd-extra-promo">',
+                f'          <div><div class="rd-extra-title">{escaped(promotional["title"])} en promoción</div><div class="rd-extra-desc">{money(promotional["price_mxn"])} en lugar de {money(promotional["regular_price_mxn"])} para pedidos pagados antes del {escaped(promotion["display_deadline"])}.</div></div>',
+                f'          <span class="rd-extra-price">{money(promotional["price_mxn"])}</span>',
                 "        </div>",
             ]
         )
     return "\n".join(
         [
-            '      <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px">',
+            '      <div class="rd-extras">',
             *cards,
             "      </div>",
         ]
@@ -464,7 +465,7 @@ def render_html_blocks(catalog: dict) -> dict[Path, dict[str, str]]:
             ),
             "HOME_HERO_FACTS": "\n".join(
                 [
-                    '      <div style="display:flex;gap:22px;font-size:13px;color:#75797a;flex-wrap:wrap">',
+                    '      <div class="rd-hero-facts">',
                     (
                         f"        <span>✓ Lista para servir</span><span>✓ Precio anterior {money(promotional['regular_price_mxn'])}</span><span>✓ Promoción {money(promotional['price_mxn'])}</span><span>✓ Pago antes del 20 de septiembre</span>"
                         if promotional
@@ -475,28 +476,28 @@ def render_html_blocks(catalog: dict) -> dict[Path, dict[str, str]]:
             ),
             "HOME_PRODUCTS": render_home_products(catalog),
             "HOME_PRODUCTS_NOTE": (
-                '      <p style="font-size:12.5px;color:#75797a;margin:16px 0 0;text-align:center">'
+                '      <p class="rd-note">'
                 f'Precios en MXN · Mensajería {money(delivery["price_mxn"])} a toda la CDMX y la zona oriente (se suma a tu pedido) '
                 f'· Tablas de evento ({event_names}): '
                 f'{logistics["event_lead_time_days"]} días de anticipación</p>'
             ),
             "HOME_EXTRAS": render_home_extras(catalog),
             "HOME_PAYMENT_STEP": (
-                '          <div style="font-size:13.5px;color:#55585a;line-height:1.5">'
+                '          <div class="rd-step-text">'
                 f"{escaped(payment_rule_text(catalog))}</div>"
             ),
             "HOME_DELIVERY_SUMMARY": (
-                '      <p style="font-size:13px;color:#75797a;margin:16px 0 0">'
+                '      <p class="rd-note">'
                 f'Pide con al menos {logistics["standard_lead_time_hours"] // 24} días de anticipación; '
                 f'tablas de evento ({event_names}): {logistics["event_lead_time_days"]} días. '
                 f'Entregamos todos los días. Mensajería {money(delivery["price_mxn"])} a toda la CDMX y la zona oriente.</p>'
             ),
             "HOME_QUOTE_NOTE": (
-                '        <p style="text-align:center;font-size:12.5px;color:#75797a;margin:14px 0 0">'
+                '        <p class="rd-note">'
                 f'Te respondemos por WhatsApp con el precio y la disponibilidad. Mensajería {money(delivery["price_mxn"])} a toda la CDMX y la zona oriente.</p>'
             ),
             "HOME_FOOTER_NOTE": (
-                '    <div style="border-top:1px solid #3a3d40;text-align:center;padding:18px;font-size:12.5px;color:#75797a">'
+                '    <div class="rd-footer-note">'
                 f'Picando Tabla · CDMX · Tablas de evento bajo agenda · '
                 f'Mensajería {money(delivery["price_mxn"])} a toda la CDMX y la zona oriente</div>'
             ),

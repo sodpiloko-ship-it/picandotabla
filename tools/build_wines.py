@@ -218,15 +218,15 @@ def page(title: str, description: str, path: str, body: str, schemas: list[dict]
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&amp;family=Work+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/seo.css">
   <link rel="stylesheet" href="/vinos/vinos.css?v=1">
   <script defer src="/seo.js"></script>
   <script defer src="/vinos/vinos.js?v=1"></script>
   {''.join(ld(s) for s in schemas)}
-<link rel="stylesheet" href="/tienda.css?v=20261020a">
+<link rel="stylesheet" href="/tienda.css?v=20261021c">
 <script defer src="/catalogo.js?v={catalog_version}"></script>
-<script defer src="/tienda.js?v=20261020d"></script>
+<script defer src="/tienda.js?v=20261021c"></script>
 </head>
 {MARKER}
 <body class="wine-site" data-wine-page="{kind}" data-wine-slug="{esc(slug)}">

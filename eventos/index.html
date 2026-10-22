@@ -132,9 +132,9 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"¿Es un servicio de banquete completo?","acceptedAnswer":{"@type":"Answer","text":"Nuestra especialidad son los quesos, la charcutería y sus acompañamientos. La propuesta indica el alcance contratado; no es un banquete completo ni incluye personal permanente durante el evento."}},{"@type":"Question","name":"¿Cuánto cuesta el catering?","acceptedAnswer":{"@type":"Answer","text":"Para eventos desde 10 personas cotizamos por persona en alimentos: Clásica desde $200, Premium desde $245 y Reserva desde $385 MXN, en porciones individuales o en presentación para evento; el importe final, la entrega y cualquier servicio adicional se confirman en una cotización según tu evento."}},{"@type":"Question","name":"¿Puedo llevar mis propios vinos?","acceptedAnswer":{"@type":"Answer","text":"Sí. Compártenos las etiquetas previstas para preparar una selección que las acompañe. La compra o coordinación de vinos, cuando la solicitas, se cotiza por separado."}},{"@type":"Question","name":"¿El precio incluye montaje o meseros?","acceptedAnswer":{"@type":"Answer","text":"No por defecto. La propuesta identifica cualquier servicio adicional y su costo antes de confirmar."}},{"@type":"Question","name":"¿Puedo indicar preferencias alimentarias?","acceptedAnswer":{"@type":"Answer","text":"Sí. Compártelas al solicitar la propuesta para revisar qué ajustes son viables. Una solicitud especial no equivale a una garantía de ausencia de alérgenos."}},{"@type":"Question","name":"¿Atienden cualquier cantidad de invitados?","acceptedAnswer":{"@type":"Answer","text":"Atendemos eventos desde 10 personas. Comparte el número estimado, la fecha y el formato; la disponibilidad y capacidad se confirman antes de reservar."}},{"@type":"Question","name":"¿Con cuánta anticipación debo pedirlo?","acceptedAnswer":{"@type":"Answer","text":"Con al menos 7 días de anticipación; para grupos grandes o fechas de alta demanda, con más tiempo. La fecha queda sujeta a confirmación."}},{"@type":"Question","name":"¿Cómo se aparta la fecha?","acceptedAnswer":{"@type":"Answer","text":"Con un anticipo del 50 % sobre la propuesta aprobada. La liquidación, los cambios de asistentes y la vigencia de la cotización quedan establecidos en tu propuesta."}},{"@type":"Question","name":"¿La caja de tapas de regalo aplica a eventos?","acceptedAnswer":{"@type":"Answer","text":"La caja de tapas es una promoción de las tablas del catálogo de 850 g o más, una por pedido. Las propuestas para eventos se cotizan con su propio alcance."}}]}</script>
 <!-- LLM_SEO:FAQ:END -->
 <script defer src="/promo.js?v=20261008"></script>
-<link rel="stylesheet" href="/tienda.css?v=20261021b">
-<script defer src="/catalogo.js?v=e06e58668821"></script>
-<script defer src="/tienda.js?v=20261021b"></script>
+<link rel="stylesheet" href="/tienda.css?v=20261021c">
+<script defer src="/catalogo.js?v=e5e336f62d6f"></script>
+<script defer src="/tienda.js?v=20261021c"></script>
 <link rel="stylesheet" href="/newsletter/community.css?v=20261010b">
 <script defer src="/newsletter/community.js?v=20261010b"></script>
 </head>
@@ -664,10 +664,13 @@ function elegirIndividual(opcion){
     campo.value='Nivel solicitado: '+opcion+'.'+(anterior?'\n'+anterior:'');
   }
 }
-// Desde una tabla que se cotiza (?personas=10): precarga el número de asistentes.
+// Desde una tabla que se cotiza o el cotizador (?personas=10): precarga el número de asistentes.
 (function(){
   var n=new URLSearchParams(location.search).get('personas'), campo=document.getElementById('e_personas');
   if(campo&&/^\d{1,4}$/.test(n||'')&&!campo.value) campo.value=n;
+  // Desde el cotizador de la portada (?nivel=clasica|premium|reserva): deja el nivel en los detalles.
+  var nivel={clasica:'Clásica',premium:'Premium',reserva:'Reserva'}[new URLSearchParams(location.search).get('nivel')||''];
+  if(nivel) elegirIndividual(nivel);
 })();
 </script>
 </body>

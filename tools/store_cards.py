@@ -1,16 +1,17 @@
 """Tarjetas comerciales compartidas, derivadas de data/catalogo.json.
 
 Contrato de la interfaz (los estilos viven en /tienda.css):
-  .pt-product-card[data-pt-product] contiene .pt-card-media, .pt-card-body,
-  .pt-card-tag, .pt-card-title, .pt-card-people (opcional), .pt-card-description,
-  .pt-card-composition, .pt-card-price, .pt-card-delivery, .pt-card-lead y
-  .pt-card-buy[data-pt-buy]. El único control es «Elegir y pedir»; tienda.js
-  abre el mismo panel de compra desde cualquier página.
-  .pt-card-badge, .pt-card-regular-price y .pt-card-gift son opcionales.
-  .pt-card-grid usa data-pt-columns="3" en las selecciones de tres tablas.
-  home=True es el menú de la portada: tarjetas sin foto (las fotos viven en la
-  galería de la portada). Las tarjetas no muestran gramaje; la recomendación de
-  personas sale de presentation.people_text cuando el catálogo la declara.
+  .pt-product-card[data-pt-product] contiene .pt-card-photo (foto 4:3 con
+  .pt-card-badge), .pt-card-body, .pt-card-title, .pt-card-people (opcional),
+  .pt-card-price, .pt-card-delivery, .pt-card-description, .pt-card-includes
+  («Incluye» con palomitas), .pt-card-lead (tienda.js escribe ahí la entrega
+  más pronta) y .pt-card-buy[data-pt-buy]. Tocar la tarjeta abre el detalle; el
+  botón «Elegir y pedir» abre directo el pedido en tres pasos (tienda.js).
+  presentation.special pone el marco vino de los especiales y los manda
+  primero en la portada (home_order). .pt-card-regular-price, .pt-card-gift y
+  .pt-card-note son opcionales. .pt-card-grid usa data-pt-columns="3" en las
+  selecciones de tres tablas. Las tarjetas no muestran gramaje; la
+  recomendación de personas sale de presentation.people_text.
 
 No modifica archivos. update_seo_cards devuelve una transformación idempotente
 del HTML y preserva el contenido ajeno al bloque de tarjetas.
@@ -40,6 +41,27 @@ def _money(value: int) -> str:
     return f"${value:,}"
 
 
+def _badge(product: dict) -> str:
+    """Etiqueta sobre la foto: paquete, la favorita o la etiqueta del catálogo."""
+    package = product.get("package") or product.get("bundle")
+    if package:
+        return package["card_label"]
+    if product["presentation"]["featured"]:
+        return "La favorita"
+    return product["presentation"]["tag"]
+
+
+def _includes(product: dict) -> tuple[str, list[str], str]:
+    """Bloque «Incluye» de la tarjeta: título, renglones y nota opcional."""
+    package = product.get("package") or product.get("bundle")
+    if package:
+        return package["card_title"], list(package["card_items"]), package["card_note"]
+    if product.get("composition_text"):
+        return "Incluye", [part.strip() for part in product["composition_text"].split("·") if part.strip()], ""
+    composition = product["composition"]
+    return "Incluye", [f'{composition["cheeses"]} quesos', f'{composition["meats"]} carnes'], ""
+
+
 def render_product_card(catalog: dict, product: dict, *, home: bool = False) -> str:
     """Renderiza la misma tarjeta en portada, catálogo y páginas de ocasión."""
     key = _escape(product["key"])
@@ -47,23 +69,15 @@ def render_product_card(catalog: dict, product: dict, *, home: bool = False) -> 
     featured = presentation["featured"]
     title = _escape(product["title"])
     package = product.get("package")
-    bundle = product.get("bundle")
     card_class = (
         "pt-product-card"
         + (" pt-card-featured" if featured else "")
-        + (" pt-card-package" if package or bundle else "")
-        + (" pt-card-nomedia" if home else "")
-    )
-    badge = '  <span class="pt-card-badge">La favorita</span>' if featured else ""
-    composition = product["composition"]
-    composition_text = product.get("composition_text") or (
-        f'{composition["cheeses"]} quesos · {composition["meats"]} carnes'
+        + (" pt-card-special" if presentation.get("special") else "")
     )
     logistics = catalog["logistics"]
     lead_days = logistics["event_lead_time_days"] if product["is_event"] else logistics["standard_lead_time_hours"] // 24
     price = _money(product["price_mxn"])
-    package = product.get("package")
-    delivery_text = f'Envío +{_money(catalog["delivery"]["price_mxn"])} MXN · {catalog["delivery"]["area"]}'
+    delivery_text = f'+ envío {_money(catalog["delivery"]["price_mxn"])}'
     if package:
         extras = {extra["key"]: extra for extra in catalog["extras"]}
         premium = next(modifier for modifier in catalog["modifiers"] if modifier["key"] == "premium")
@@ -72,17 +86,18 @@ def render_product_card(catalog: dict, product: dict, *, home: bool = False) -> 
             total += premium["prices_mxn_by_product_key"][product["key"]]
         total += sum(extras[extra_key]["price_mxn"] for extra_key in package["extra_keys"])
         price = _money(total)
-        delivery_text = ""
+        delivery_text = "envío incluido"
     quote = product.get("quote")
     per_person = product.get("per_person")
     price_unit = "MXN"
+    meta = [presentation["people_text"]] if presentation.get("people_text") else []
     if per_person:
-        price_unit = "MXN por persona"
-        delivery_text = f'Desde {per_person["min_people"]} personas · ' + delivery_text
+        price_unit = "por persona"
+        meta.append(f'Desde {per_person["min_people"]} personas')
     if quote:
         price = "Desde " + _money(quote["price_per_person_from_mxn"])
-        price_unit = "MXN por persona"
-        delivery_text = f'Para {quote.get("min_people", 10)} personas o más preparamos una cotización.'
+        price_unit = "por persona"
+        delivery_text = f'desde {quote.get("min_people", 10)} personas'
     regular = product.get("regular_price_mxn")
     price_html = f'<s class="pt-card-regular-price">{_money(regular)}</s> ' if regular else ""
     price_html += price
@@ -91,39 +106,45 @@ def render_product_card(catalog: dict, product: dict, *, home: bool = False) -> 
         for gift in catalog.get("promotions", [])
         if gift.get("type") == "gift" and product["key"] in gift.get("eligible_product_keys", [])
     ]
+    includes_title, includes, includes_note = _includes(product)
+    premium_line = ""
+    if product.get("premium_text"):
+        premium = next(m for m in catalog["modifiers"] if m["key"] == "premium")
+        premium_line = (
+            f'    <p class="pt-card-note"><strong>{_escape(product["premium_text"]["line"])}:</strong> '
+            f'{_money(product["price_mxn"] + premium["prices_mxn_by_product_key"][product["key"]])} MXN</p>'
+        )
+    image = _escape(product["media"]["image"].lstrip("/"))
     lines = [
         f'<article class="{card_class}" data-pt-product="{key}" data-catalog-product="{key}">',
-        badge,
-        "" if home else f'  <img class="pt-card-media" data-catalog-image src="/{_escape(product["media"]["image"].lstrip("/"))}" alt="{title}" width="640" height="420" loading="lazy" decoding="async">',
+        '  <div class="pt-card-photo">',
+        f'    <img class="pt-card-media" data-catalog-image src="/{image}" alt="{title}" width="640" height="480" loading="lazy" decoding="async">',
+        f'    <span class="pt-card-badge">{_escape(_badge(product))}</span>',
+        '  </div>',
         '  <div class="pt-card-body">',
-        f'    <p class="pt-card-package-label">{_escape((package or bundle)["card_label"])}</p>' if package or bundle else "",
-        '    <p class="pt-card-package-label">Versión Premium</p>' if product.get("premium_included") else "",
-        f'    <p class="pt-card-tag" data-catalog-tag>{_escape(presentation["tag"])}</p>',
-        f'    <h3 class="pt-card-title" data-catalog-title>{title}</h3>',
-        f'    <p class="pt-card-people">{_escape(presentation["people_text"])}</p>' if presentation.get("people_text") else "",
+        '    <div class="pt-card-head">',
+        '      <div class="pt-card-name">',
+        f'        <h3 class="pt-card-title" data-catalog-title>{title}</h3>',
+        f'        <p class="pt-card-people">{_escape(" · ".join(meta))}</p>' if meta else "",
+        '      </div>',
+        '      <div class="pt-card-pricebox">',
+        f'        <p class="pt-card-price"><span data-catalog-price>{price_html}</span> <small>{price_unit}</small></p>',
+        f'        <p class="pt-card-delivery">{_escape(delivery_text)}</p>',
+        '      </div>',
+        '    </div>',
         f'    <p class="pt-card-description">{_escape(presentation["card_description"])}</p>',
-        f'    <p class="pt-card-composition">{_escape(composition_text)}</p>',
-        f'    <p class="pt-card-price"><span data-catalog-price>{price_html}</span> <small>{price_unit}</small></p>',
+        '    <div class="pt-card-includes">',
+        f'      <p class="pt-card-includes-title">{_escape(includes_title)}</p>',
+        '      <ul>' + "".join(f"<li>{_escape(item)}</li>" for item in includes) + '</ul>',
+        f'      <p class="pt-card-includes-note">{_escape(includes_note)}</p>' if includes_note else "",
+        '    </div>',
         *gift_lines,
-        (
-            '    <div class="pt-card-delivery pt-card-package-box">'
-            f'<p class="pt-card-package-title">{_escape(package["card_title"])}</p>'
-            '<ul>' + "".join(f"<li><strong>{_escape(item)}</strong></li>" for item in package["card_items"]) + '</ul>'
-            f'<p>{_escape(package["card_note"])}</p></div>'
-        ) if package else (
-            '    <div class="pt-card-delivery pt-card-package-box">'
-            f'<p class="pt-card-package-title">{_escape(bundle["card_title"])}</p>'
-            '<ul>' + "".join(f"<li><strong>{_escape(item)}</strong></li>" for item in bundle["card_items"]) + '</ul>'
-            f'<p>{_escape(bundle["card_note"])} {_escape(delivery_text)}</p></div>'
-        ) if bundle else f'    <p class="pt-card-delivery">{_escape(delivery_text)}</p>',
-        (
-            f'    <p class="pt-card-note"><strong>{_escape(product["premium_text"]["line"])}:</strong> '
-            f'{_money(product["price_mxn"] + next(m for m in catalog["modifiers"] if m["key"] == "premium")["prices_mxn_by_product_key"][product["key"]])} MXN</p>'
-        ) if product.get("premium_text") else "",
-        f'    <p class="pt-card-lead">Pide con {lead_days} días de anticipación.</p>',
+        premium_line,
+        ('    <p class="pt-card-lead">Cotización por WhatsApp</p>' if quote else
+         f'    <p class="pt-card-lead" data-pt-lead="{lead_days}">Pide con {lead_days} días de anticipación</p>'),
         (f'    <a class="pt-card-buy" href="{_escape(quote["url"])}" aria-label="Pedir cotización de {title}">Pedir cotización</a>'
          if quote else
-         f'    <button class="pt-card-buy" type="button" data-pt-buy="{key}" aria-label="Elegir y pedir {title}" aria-haspopup="dialog">Elegir y pedir <span aria-hidden="true">⌄</span></button>'),
+         f'    <button class="pt-card-buy" type="button" data-pt-buy="{key}" aria-label="Elegir y pedir {title}" aria-haspopup="dialog">Elegir y pedir</button>'),
         "" if quote else f'    <noscript><a class="pt-card-fallback" href="/?tabla={key}#tablas">Elegir y pedir {title}</a></noscript>',
         '  </div>',
         '</article>',
@@ -131,9 +152,17 @@ def render_product_card(catalog: dict, product: dict, *, home: bool = False) -> 
     return "\n".join(line for line in lines if line)
 
 
+def home_order(catalog: dict) -> tuple[str, ...]:
+    """Portada: los especiales (marco vino) primero; el resto en orden de catálogo."""
+    products = catalog["products"]
+    return tuple(p["key"] for p in products if p["presentation"].get("special")) + tuple(
+        p["key"] for p in products if not p["presentation"].get("special")
+    )
+
+
 def render_card_grid(catalog: dict, keys: tuple[str, ...], *, home: bool = False) -> str:
     products = {product["key"]: product for product in catalog["products"]}
-    classes = "pt-grid4 pt-card-grid" if home else "product-grid pt-card-grid"
+    classes = "pt-shop pt-card-grid" if home else "product-grid pt-card-grid"
     lines = [f'<div class="{classes}" data-pt-columns="{len(keys)}">']
     lines.extend(indent(render_product_card(catalog, products[key], home=home), "  ") for key in keys)
     lines.append("</div>")

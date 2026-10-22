@@ -38,7 +38,7 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"
 <meta name="theme-color" content="#26282a">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Tablas de Quesos a Domicilio en CDMX | Picando Tabla">
 <meta property="og:description" content="Tablas de quesos y charcutería armadas a mano, listas para compartir y con entrega en CDMX.">
@@ -48,248 +48,561 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","@id":"https://picandotabla.com/#organization","name":"Picando Tabla","url":"https://picandotabla.com/","logo":{"@type":"ImageObject","url":"https://picandotabla.com/favicon.svg"},"description":"Tablas de quesos, charcutería, fruta y crujientes armadas a mano y entregadas listas para servir en Ciudad de México.","areaServed":{"@type":"City","name":"Ciudad de México"},"contactPoint":{"@type":"ContactPoint","telephone":"+52-56-2363-2404","email":"contacto@picandotabla.com","contactType":"sales","areaServed":"MX","availableLanguage":["es"]},"knowsAbout":["Tablas de quesos y charcutería","Catering de quesos y charcutería para eventos","Maridaje de quesos y vino"]}</script>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
-  body{background:#e9eaea;color:#26282a;font-family:'Work Sans',system-ui,sans-serif}
-  a{color:#7c2d3e}a:hover{color:#5e1f2e}
-  html{scroll-behavior:smooth}
-  button{font-family:inherit}
-  @keyframes pt-fade-up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-  @keyframes pt-pulse{0%,100%{box-shadow:0 6px 22px rgba(38,40,42,.28)}50%{box-shadow:0 6px 30px rgba(38,40,42,.45)}}
-  .ptbtn{transition:transform .15s,background .15s,box-shadow .15s}
-  .ptbtn:hover{transform:translateY(-1px)}
-  .revealable{opacity:0;transform:translateY(20px);transition:opacity .6s ease, transform .6s ease}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{background:var(--crema,#f4ede2);color:var(--texto,#26282a);font-family:var(--sans,'Helvetica Neue',Helvetica,Arial,sans-serif);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  a{color:var(--vino,#7a2434);text-decoration:none}a:hover{color:var(--vino-hover,#5a1826)}
+  button,input,textarea{font-family:inherit}
+  img{max-width:100%}
+  h1,h2,h3{font-family:var(--serif);font-weight:500;line-height:1.05;letter-spacing:-.01em;text-wrap:pretty}
+  .rd-wrap{max-width:1200px;margin:0 auto;padding:0 20px}
+  .rd-eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--vino);font-weight:600}
+  .rd-eyebrow--oro{color:var(--oro)}
+  .rd-h2{font-size:32px}
+  .rd-lead{font-size:15px;color:var(--texto-3);margin-top:8px}
+  .rd-section{padding:48px 0}
+  .rd-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:0 22px;border:0;border-radius:var(--r-btn);font:600 16px var(--sans);cursor:pointer;text-decoration:none;transition:background .15s,transform .15s}
+  .rd-btn:hover{transform:translateY(-1px)}
+  .rd-btn--vino{background:var(--vino);color:#fff}.rd-btn--vino:hover{background:var(--vino-hover);color:#fff}
+  .rd-btn--carbon{background:var(--carbon);color:#fff;min-height:50px;font-size:15px}.rd-btn--carbon:hover{color:#fff;background:#000}
+  .rd-btn--borde{background:transparent;border:1px solid var(--borde-fuerte);color:var(--texto);min-height:48px;font-weight:400;font-size:15px}
+  .rd-btn--claro{background:transparent;border:1px solid rgba(244,237,226,.3);color:var(--crema);min-height:48px;font-weight:400;font-size:15px}.rd-btn--claro:hover{color:#fff;border-color:rgba(244,237,226,.6)}
+  .rd-dot{width:8px;height:8px;border-radius:50%;background:var(--ok);display:inline-block;flex:none}
+  /* header */
+  .rd-header{position:sticky;top:0;z-index:50;background:var(--carbon);color:var(--crema);transition:box-shadow .3s}
+  .rd-header-in{max-width:1200px;margin:0 auto;height:64px;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 20px}
+  .rd-marca{display:flex;flex-direction:column;gap:2px;color:var(--crema);flex:none}.rd-marca:hover{color:var(--crema)}
+  .rd-marca b{font:600 22px/1 var(--serif);letter-spacing:.01em}
+  .rd-marca small{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--oro);white-space:nowrap}
+  .rd-nav{display:flex;gap:2px;margin-left:auto;flex-wrap:wrap;justify-content:flex-end}
+  .rd-nav a{color:var(--crema);font-size:13px;padding:0 10px;height:36px;display:inline-flex;align-items:center;border-radius:999px;white-space:nowrap}
+  .rd-nav a:hover{background:rgba(244,237,226,.12);color:var(--oro-claro)}
+  .rd-header-acc{display:flex;gap:8px;align-items:center;flex:none}
+  .rd-wa{display:flex;align-items:center;gap:6px;height:40px;padding:0 12px;border:1px solid rgba(244,237,226,.3);border-radius:999px;background:transparent;color:var(--crema);font-size:12px;font-weight:500;cursor:pointer}
+  .rd-tienda{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 16px;border-radius:999px;background:var(--vino);color:#fff;font:700 14px var(--sans);box-shadow:0 6px 16px rgba(122,36,52,.35);white-space:nowrap}
+  .rd-tienda:hover{color:#fff;background:var(--vino-hover)}
+  .rd-tienda::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--oro-claro)}
+  .rd-menu-btn{display:none;width:40px;height:40px;border-radius:50%;border:1px solid rgba(244,237,226,.3);background:transparent;color:var(--crema);cursor:pointer;font-size:17px;align-items:center;justify-content:center}
+  .rd-menu{display:none;flex-direction:column;gap:2px;padding:8px 20px 20px;border-top:1px solid rgba(244,237,226,.12)}
+  .rd-menu.open{display:flex}
+  .rd-menu a,.rd-menu button{display:flex;align-items:center;gap:8px;min-height:48px;color:var(--crema);font-size:15px;border:0;background:transparent;text-align:left;cursor:pointer;border-bottom:1px solid rgba(244,237,226,.08)}
+  /* hero */
+  .rd-hero{background:var(--carbon);color:var(--crema)}
+  .rd-hero-in{max-width:1200px;margin:0 auto;padding:36px 20px 44px;display:grid;grid-template-columns:minmax(0,1fr);gap:32px;align-items:center}
+  .rd-hero-copy{display:flex;flex-direction:column;gap:18px}
+  .rd-hero h1{font-size:44px;color:var(--crema)}
+  .rd-hero h1 em{color:var(--oro-claro)}
+  .rd-hero p{font-size:15px;color:rgba(244,237,226,.82);max-width:52ch}
+  .rd-hero p strong{color:var(--crema);font-weight:600}
+  .rd-hero-ctas{display:flex;flex-direction:column;gap:10px}
+  .rd-hero-facts{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:rgba(244,237,226,.75)}
+  .rd-hero-foto{display:none;width:100%;min-height:420px;max-height:520px;border-radius:18px;object-fit:cover;background:#323436}
+  /* tienda */
+  .rd-tienda-sec{padding:40px 0 28px}
+  .rd-tienda-head{margin-bottom:22px}
+  .pt-shop{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
+  .rd-note{font-size:12px;color:var(--texto-3);line-height:1.5;margin-top:14px}
+  .rd-eventos{display:grid;grid-template-columns:minmax(0,1fr);background:var(--carbon);color:var(--crema);border-radius:var(--r-card);overflow:hidden;box-shadow:0 10px 30px rgba(38,40,42,.12);margin-top:20px}
+  .rd-eventos-foto{position:relative;min-height:220px;background:#323436}
+  .rd-eventos-foto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .rd-eventos-cuerpo{padding:24px;display:flex;flex-direction:column;gap:12px;justify-content:center}
+  .rd-eventos h3{font-size:34px;color:var(--crema)}
+  .rd-eventos p{font-size:14px;color:rgba(244,237,226,.8)}
+  .rd-eventos-precio{display:flex;align-items:baseline;gap:8px}
+  .rd-eventos-precio b{font-size:28px;font-weight:600}
+  .rd-eventos-precio span{font-size:13px;color:rgba(244,237,226,.7)}
+  .rd-ctas{display:flex;gap:10px;flex-wrap:wrap}
+  .rd-checks{display:flex;flex-direction:column;gap:6px;font-size:13px;color:rgba(244,237,226,.85)}
+  .rd-checks b{color:var(--oro-claro);margin-right:6px}
+  .rd-extras{display:grid;grid-template-columns:minmax(0,1fr);gap:10px}
+  .rd-extra{display:flex;align-items:center;justify-content:space-between;gap:14px;background:#fff;border:1px solid var(--borde);border-radius:14px;padding:14px 16px}
+  .rd-extra-title{font-weight:600;font-size:15px}
+  .rd-extra-desc{font-size:13px;color:var(--texto-3);margin-top:2px}
+  .rd-extra-price{font-weight:600;white-space:nowrap;color:var(--vino)}
+  .rd-extra-promo{border:2px solid var(--vino)}
+  .rd-h3{font:600 24px/1.1 var(--serif);margin-bottom:14px}
+  /* pasos + zonas */
+  .rd-pasos{display:flex;flex-direction:column;gap:14px;margin-top:20px}
+  .rd-paso{display:grid;grid-template-columns:36px minmax(0,1fr);gap:12px;align-items:start}
+  .rd-paso>span{width:36px;height:36px;border-radius:50%;background:var(--carbon);color:var(--oro-claro);display:flex;align-items:center;justify-content:center;font:20px var(--serif)}
+  .rd-paso strong{display:block;font-size:15px}
+  .rd-paso div,.rd-step-text{font-size:14px;line-height:1.45;color:var(--texto-2)}
+  .rd-chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+  .rd-chips span,.rd-chips button{font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid var(--borde);color:var(--texto-2);background:transparent}
+  .rd-chips button{background:var(--carbon);border-color:var(--carbon);color:var(--crema);cursor:pointer}
+  .rd-sub{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--texto-3);margin-top:16px}
+  /* cotizador de eventos */
+  .rd-oscuro{background:var(--carbon);color:var(--crema)}
+  .rd-cotiza{display:grid;grid-template-columns:minmax(0,1fr);gap:28px;padding:48px 20px}
+  .rd-cotiza h2{font-size:40px;color:var(--crema)}
+  .rd-cotiza p{font-size:15px;color:rgba(244,237,226,.78)}
+  .rd-cotiza figure img{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:14px;display:block;background:#323436}
+  .rd-cotiza figcaption{font-size:11px;color:rgba(244,237,226,.55);margin-top:6px}
+  .rd-cot-box{display:flex;flex-direction:column;gap:14px}
+  .rd-cot-q{font:600 26px/1 var(--serif)}
+  .rd-contador{display:flex;align-items:center;justify-content:space-between;gap:12px;background:rgba(244,237,226,.06);border:1px solid rgba(244,237,226,.14);border-radius:14px;padding:10px 10px 10px 16px}
+  .rd-contador b{display:block;font:600 34px/1 var(--serif)}
+  .rd-contador small{font-size:11px;color:rgba(244,237,226,.6);letter-spacing:.08em;text-transform:uppercase}
+  .rd-contador button{width:44px;height:44px;border-radius:10px;border:1px solid rgba(244,237,226,.3);background:transparent;color:var(--crema);font-size:20px;cursor:pointer}
+  .rd-contador button+button{border:0;background:var(--crema);color:var(--carbon)}
+  .rd-niveles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .rd-nivel{display:flex;flex-direction:column;align-items:center;gap:2px;min-height:56px;justify-content:center;border-radius:12px;border:1px solid rgba(244,237,226,.25);background:transparent;color:var(--crema);cursor:pointer}
+  .rd-nivel b{font-size:14px}.rd-nivel span{font-size:11px;opacity:.75}
+  .rd-nivel.on{background:var(--crema);color:var(--carbon);border-color:var(--crema)}
+  .rd-estimado{display:flex;justify-content:space-between;align-items:flex-end;gap:12px}
+  .rd-estimado div:first-child{font-size:12px;color:rgba(244,237,226,.65);line-height:1.4}
+  .rd-estimado div:last-child{text-align:right}
+  .rd-estimado small{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--oro)}
+  .rd-estimado b{font-size:28px;font-weight:600;line-height:1}
+  /* ocasiones, ingredientes, galería, vinos, curaduría */
+  .rd-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;margin-top:20px}
+  .rd-card{display:flex;flex-direction:column;gap:6px;padding:18px;border-radius:16px;background:#fff;border:1px solid var(--borde);color:var(--texto)}
+  .rd-card:hover{color:var(--texto);box-shadow:var(--sombra)}
+  .rd-card small{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--vino)}
+  .rd-card h3{font-size:24px;font-weight:600}
+  .rd-card p{font-size:13.5px;color:var(--texto-3);line-height:1.45}
+  .rd-card b{margin-top:auto;font-size:13px;color:var(--vino)}
+  .pt-ingredientes{margin:20px 0 0;border-top:1px solid var(--borde)}
+  .pt-ingredientes>div{display:grid;grid-template-columns:minmax(0,1fr);gap:4px;padding:14px 0;border-bottom:1px solid var(--borde)}
+  .pt-ingredientes dt{font:600 21px var(--serif)}
+  .pt-ingredientes dd{margin:0;font-size:14.5px;line-height:1.6;color:var(--texto-2)}
+  .pt-galeria{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:20px}
+  .pt-galeria img{display:block;width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;border-radius:14px;background:var(--borde)}
+  .rd-2col{display:grid;grid-template-columns:minmax(0,1fr);gap:28px;align-items:start}
+  .rd-p{font-size:15px;line-height:1.6;color:var(--texto-2);margin-top:14px}
+  .rd-lista{display:flex;flex-direction:column;gap:10px}
+  .rd-item{padding:16px 18px;border-radius:14px;background:#fff;border:1px solid var(--borde)}
+  .rd-item b{display:block;font-size:15px}
+  .rd-item em{display:block;font-style:normal;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--vino);margin-top:2px}
+  .rd-item span{display:block;font-size:13.5px;color:var(--texto-3);margin-top:4px;line-height:1.45}
+  .rd-links{display:flex;flex-direction:column;gap:10px;margin-top:20px;align-items:flex-start}
+  .rd-link{font-weight:600;font-size:14px}
+  .rd-pill{font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:5px 10px;border-radius:999px;background:var(--borde);color:var(--texto-2)}
+  /* formulario a la medida */
+  .q-lbl{display:block;font-size:13px;font-weight:600;color:var(--texto);margin-bottom:6px}
+  .q-in{width:100%;min-height:48px;background:#fff;border:1px solid var(--borde);border-radius:12px;padding:11px 14px;font-size:16px;color:var(--texto)}
+  .q-in:focus{outline:2px solid var(--vino);outline-offset:1px;border-color:var(--vino)}
+  .rd-form{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;padding:20px;border-radius:18px;background:#fff;box-shadow:var(--sombra)}
+  .rd-form .rd-btn{width:100%}
+  /* footer */
+  .rd-footer{background:var(--carbon);color:var(--crema);padding-bottom:92px}
+  .rd-footer-in{max-width:1200px;margin:0 auto;padding:40px 20px 24px;display:flex;flex-direction:column;gap:18px}
+  .rd-footer h2{font-size:30px;color:var(--crema)}
+  .rd-footer p{color:rgba(244,237,226,.75);font-size:14px}
+  .rd-footer-links{display:flex;gap:6px 16px;flex-wrap:wrap;font-size:13px}
+  .rd-footer-links a{color:var(--oro-claro)}
+  .rd-footer-note{border-top:1px solid #3a3d40;text-align:center;padding:18px 20px;font-size:12.5px;color:rgba(244,237,226,.6)}
+  .rd-credit{display:block;text-align:center;font-size:12px;padding:0 24px 16px;color:rgba(244,237,226,.6)}
+  .rd-credit a{color:inherit;text-decoration:underline;text-underline-offset:3px}
+  /* barra inferior y botón flotante */
+  .rd-barra{position:fixed;left:0;right:0;bottom:0;z-index:40;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:linear-gradient(to top,var(--crema) 70%,rgba(244,237,226,0));transition:transform .25s}
+  .rd-barra a{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:54px;padding:0 18px;border-radius:14px;background:var(--vino);color:#fff;font-weight:600;font-size:16px;box-shadow:0 10px 24px rgba(122,36,52,.3)}
+  .rd-barra a span:last-child{font-weight:500;opacity:.9}
+  .rd-barra.oculta{transform:translateY(110%)}
+  #ptFab{display:none}
+  .revealable{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
   .revealed{opacity:1;transform:translateY(0)}
-  .q-lbl{display:block;font-size:13px;font-weight:600;color:#26282a;margin-bottom:6px}
-  .q-in{width:100%;background:#fbfcfc;border:1px solid #d3d5d4;border-radius:10px;padding:11px 13px;font-size:15px;font-family:inherit;color:#26282a}
-  .q-in:focus{outline:2px solid #7c2d3e;outline-offset:1px;border-color:#7c2d3e}
-  .pt-grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
-  .pt-nav-links > *{white-space:nowrap}
-  .pt-ingredientes{margin:0;border-top:1px solid #d3d5d4}
-  .pt-ingredientes > div{display:grid;grid-template-columns:180px 1fr;gap:20px;padding:16px 0;border-bottom:1px solid #d3d5d4}
-  .pt-ingredientes dt{font-family:Lora,serif;font-size:19px;font-weight:600;color:#26282a}
-  .pt-ingredientes dd{margin:0;font-size:15px;line-height:1.65;color:#55585a}
-  .pt-galeria{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-  .pt-galeria img{display:block;width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;border-radius:14px;background:#d3d5d4}
-  @media(max-width:1100px){ .pt-grid4{grid-template-columns:repeat(2,1fr)} .pt-nav-links .pt-nav-sec{display:none} }
-  @media(max-width:820px){
-    .pt-hero{grid-template-columns:1fr !important}
-    .pt-grid3{grid-template-columns:1fr !important}
-    .pt-grid4{grid-template-columns:1fr}
-    .pt-2col{grid-template-columns:1fr !important}
-    .pt-qgrid{grid-template-columns:1fr !important}
-    .pt-nav-links{display:none !important}
-    .pt-hero-pad{padding:48px 22px !important}
-    .pt-pad{padding:44px 22px !important}
-    .ptm-intake-grid{grid-template-columns:1fr !important}
-    .pt-hero-photo{min-height:300px !important}
-    .pt-ingredientes > div{grid-template-columns:1fr !important;gap:4px !important}
-    .pt-galeria{grid-template-columns:repeat(2,1fr) !important}
+  @media(max-width:999px){.rd-nav,.rd-wa{display:none}.rd-menu-btn{display:flex}}
+  @media(max-width:420px){.rd-header-in{gap:8px;padding:0 14px}.rd-marca{min-width:0}.rd-marca small{font-size:9px;letter-spacing:.08em}.rd-tienda{padding:0 13px}}
+  @media(min-width:640px){.rd-extras{grid-template-columns:repeat(2,minmax(0,1fr))}.rd-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.pt-galeria{grid-template-columns:repeat(3,minmax(0,1fr))}.rd-form{grid-template-columns:repeat(2,minmax(0,1fr))}.rd-form .rd-full{grid-column:1/-1}}
+  @media(min-width:1000px){
+    .rd-wrap{padding:0 40px}
+    .rd-header-in{padding:0 40px}
+    .rd-hero-in{grid-template-columns:minmax(0,1fr) minmax(0,1fr);padding:56px 40px;gap:48px}
+    .rd-hero h1{font-size:68px}
+    .rd-hero-ctas{flex-direction:row}
+    .rd-hero-foto{display:block}
+    .rd-section{padding:72px 0}
+    .rd-tienda-sec{padding:64px 0 36px}
+    .pt-shop{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+    .rd-eventos{grid-template-columns:minmax(0,5fr) minmax(0,7fr)}
+    .rd-eventos-cuerpo{padding:36px}
+    .rd-cotiza{grid-template-columns:minmax(0,1fr) minmax(0,1fr);padding:72px 40px;gap:56px}
+    .rd-cotiza h2{font-size:52px}
+    .rd-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+    .rd-pasos-wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px}
+    .rd-2col{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px}
+    .pt-ingredientes>div{grid-template-columns:180px minmax(0,1fr);gap:20px}
+    .rd-footer{padding-bottom:0}
+    .rd-footer-in{flex-direction:row;justify-content:space-between;align-items:center;padding:48px 40px 28px}
+    .rd-barra{display:none}
+    #ptFab{display:inline-flex;position:fixed;right:24px;bottom:24px;z-index:40;align-items:center;gap:9px;background:var(--carbon);color:#fff;border:0;padding:14px 20px;border-radius:999px;font:600 14px var(--sans);cursor:pointer;box-shadow:0 6px 22px rgba(38,40,42,.28);opacity:0;transform:translateY(16px);pointer-events:none;transition:opacity .3s,transform .3s}
   }
-  @media(max-width:760px){.promo{font-size:12px!important;line-height:1.25!important;height:64px!important;min-height:64px!important;padding:7px 12px!important}#ptHeader{top:0!important}}
+  @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}.revealable{opacity:1;transform:none;transition:none}}
 </style>
 <script defer src="/promo.js?v=20261008"></script>
-<link rel="stylesheet" href="/tienda.css?v=20261021b">
-<script defer src="/catalogo.js?v=e06e58668821"></script>
-<script defer src="/tienda.js?v=20261021b"></script>
+<link rel="stylesheet" href="/tienda.css?v=20261021c">
+<script defer src="/catalogo.js?v=e5e336f62d6f"></script>
+<script defer src="/tienda.js?v=20261021c"></script>
 <link rel="stylesheet" href="/newsletter/community.css?v=20261010b">
 <script defer src="/newsletter/community.js?v=20261010b"></script>
 </head>
 <body>
-<div style="background:#e9eaea;color:#26282a;min-height:100vh">
+<div id="top">
 
-  <!-- Banner -->
-
-
-  <!-- Header sticky -->
-  <div id="ptHeader" style="position:sticky;top:0;z-index:50;background:#e9eaeaf2;backdrop-filter:blur(8px);border-bottom:1px solid #d3d5d4;transition:box-shadow .3s">
-    <div style="max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 32px">
-      <a href="#top" style="text-decoration:none">
-        <div style="font-family:Lora,serif;font-weight:700;font-size:22px;color:#26282a">Picando Tabla</div>
-        <div style="font-size:10px;letter-spacing:2.5px;color:#75797a;text-transform:uppercase">Quesos · Charcutería · CDMX</div>
-      </a>
-      <div class="pt-nav-links" style="display:flex;align-items:center;gap:16px;font-size:14px;color:#55585a">
-        <a href="/tablas/" style="color:#55585a;text-decoration:none">Tablas</a>
-        <a href="/reuniones/" class="pt-nav-sec" style="color:#55585a;text-decoration:none">Reuniones</a>
-        <a href="/regalos/" class="pt-nav-sec" style="color:#55585a;text-decoration:none">Regalos</a>
-        <a href="/eventos/" style="color:#55585a;text-decoration:none">Catering y eventos</a>
-        <a href="/empresas/" class="pt-nav-sec" style="color:#55585a;text-decoration:none">Empresas</a>
-        <a href="/vinos/" style="color:#55585a;text-decoration:none">Vinos</a>
-        <a href="/blog/" class="pt-nav-sec" style="color:#55585a;text-decoration:none">Blog</a>
-        <a href="/#tablas" class="ptbtn" style="display:inline-flex;align-items:center;text-decoration:none;background:#26282a;color:#fff;padding:10px 20px;border-radius:999px;font-weight:600;font-size:14px">Comprar en línea</a>
+  <!-- Header: marca + menú + botón Tienda siempre visible; hamburguesa en móvil -->
+  <header id="ptHeader" class="rd-header">
+    <div class="rd-header-in">
+      <a href="#top" class="rd-marca"><b>Picando Tabla</b><small>Quesos · Charcutería · CDMX</small></a>
+      <nav class="rd-nav" aria-label="Navegación principal">
+        <a href="/tablas/">Tablas</a>
+        <a href="/reuniones/">Reuniones</a>
+        <a href="/regalos/">Regalos</a>
+        <a href="/eventos/">Catering y eventos</a>
+        <a href="/empresas/">Empresas</a>
+        <a href="/vinos/">Vinos</a>
+        <a href="/blog/">Blog</a>
+      </nav>
+      <div class="rd-header-acc">
+        <button type="button" class="rd-wa" onclick="waGeneral('header')"><span class="rd-dot"></span>WhatsApp</button>
+        <a href="/#tablas" class="rd-tienda">Tienda</a>
+        <button type="button" class="rd-menu-btn" id="rdMenuBtn" aria-expanded="false" aria-controls="rdMenu" aria-label="Abrir menú">☰</button>
       </div>
     </div>
-  </div>
+    <nav class="rd-menu" id="rdMenu" aria-label="Menú">
+      <a href="/tablas/">Tablas</a>
+      <a href="/reuniones/">Reuniones</a>
+      <a href="/regalos/">Regalos</a>
+      <a href="/eventos/">Catering y eventos</a>
+      <a href="/empresas/">Empresas</a>
+      <a href="/vinos/">Vinos</a>
+      <a href="/blog/">Blog</a>
+      <button type="button" onclick="waGeneral('menu')"><span class="rd-dot"></span>¿Dudas? WhatsApp</button>
+    </nav>
+  </header>
 
-  <span id="top"></span>
   <!-- Hero -->
-  <div class="pt-hero" style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.05fr 1fr;align-items:stretch">
-    <div class="pt-hero-pad" style="padding:72px 32px 64px;animation:pt-fade-up .7s ease both">
-      <div style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#7c2d3e;font-weight:600;margin-bottom:16px">Tablas de quesos a domicilio · CDMX</div>
-      <h1 style="font-family:Lora,serif;font-size:clamp(34px,5.4vw,48px);line-height:1.1;font-weight:600;margin:0 0 18px;color:#26282a">Tú pones la mesa.<br>Nosotros ponemos la tabla.</h1>
-      <p style="font-size:17px;line-height:1.6;color:#55585a;margin:0 0 28px;max-width:48ch"><strong style="color:#26282a">Tablas de quesos y charcutería a domicilio en CDMX.</strong> Para reuniones, regalos, celebraciones y eventos; armadas a mano y entregadas listas para servir.</p>
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:22px;flex-wrap:wrap">
-        <a href="/#tablas" class="ptbtn" style="display:inline-flex;align-items:center;background:#26282a;color:#fff;padding:15px 28px;border-radius:999px;font-weight:600;font-size:16px;text-decoration:none;box-shadow:0 3px 12px rgba(38,40,42,.25)">Elegir y pagar con Mercado Pago</a>
-        <button class="ptbtn" onclick="waGeneral('hero')" style="display:inline-flex;align-items:center;gap:9px;background:transparent;color:#7c2d3e;padding:14px 24px;border-radius:999px;font-weight:600;font-size:15px;border:1.5px solid #7c2d3e;cursor:pointer"><span style="width:16px;height:16px;border-radius:50%;background:#25D366;display:inline-block"></span>¿Dudas? WhatsApp</button>
-      </div>
-      <p style="font-size:14.5px;line-height:1.5;color:#55585a;margin:0 0 20px">¿Organizas un evento? <a href="/eventos/" style="color:#7c2d3e;font-weight:600">Conoce el catering de quesos y charcutería →</a></p>
+  <section class="rd-hero">
+    <div class="rd-hero-in">
+      <div class="rd-hero-copy">
+        <div class="rd-eyebrow rd-eyebrow--oro">Tablas de quesos a domicilio · CDMX</div>
+        <h1>Tú pones la mesa.<br><em>Nosotros ponemos la tabla.</em></h1>
+        <p><strong>Tablas de quesos y charcutería a domicilio en CDMX.</strong> Para reuniones, regalos, celebraciones y eventos; armadas a mano y entregadas listas para servir.</p>
+        <div class="rd-hero-ctas">
+          <a href="/#tablas" class="rd-btn rd-btn--vino">Ir a la tienda</a>
+          <a href="/eventos/" class="rd-btn rd-btn--claro">Catering y eventos</a>
+        </div>
       <!-- POND_CATALOG:HOME_HERO_FACTS:START -->
-      <div style="display:flex;gap:22px;font-size:13px;color:#75797a;flex-wrap:wrap">
+      <div class="rd-hero-facts">
         <span>✓ Lista para servir</span><span>✓ Entrega en CDMX</span><span>✓ Desde $650</span>
       </div>
       <!-- POND_CATALOG:HOME_HERO_FACTS:END -->
-    </div>
-    <div class="pt-hero-photo" role="img" aria-label="Dos tablas de Picando Tabla con quesos, jamón serrano, salami, higos, uvas, fresas y miel; una lista para regalo con moño" style="background:#d3d5d4 url('img/portada-tablas.jpg') center/cover no-repeat;min-height:440px"></div>
-  </div>
-
-
-
-
-  <!-- Selector + tablas -->
-  <div id="tablas" style="background:#fbfcfc;border-top:1px solid #d3d5d4">
-    <div class="revealable pt-pad" style="max-width:1200px;margin:0 auto;padding:56px 32px 30px">
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:30px">
-        <h2 style="font-family:Lora,serif;font-size:30px;font-weight:600;margin:0;color:#26282a">Nuestras tablas</h2>
-        <p style="font-size:14px;color:#55585a;margin:0">Elige tu tabla, dale tu toque y paga en línea.</p>
       </div>
+      <img class="rd-hero-foto" src="/img/portada-tablas.jpg" alt="Dos tablas de Picando Tabla con quesos, jamón serrano, salami, higos, uvas, fresas y miel; una lista para regalo con moño" width="1600" height="1200" fetchpriority="high">
+    </div>
+  </section>
 
+  <!-- Tienda: la única tienda del sitio -->
+  <section id="tablas" class="rd-tienda-sec">
+    <div class="rd-wrap">
+      <div class="rd-tienda-head">
+        <div class="rd-eyebrow">Tienda</div>
+        <h2 class="rd-h2" style="margin-top:6px">Nuestras tablas</h2>
+        <p class="rd-lead">Elige tu tabla, dale tu toque y paga en línea. Toca una tabla para ver qué lleva.</p>
+      </div>
       <!-- POND_CATALOG:HOME_PRODUCTS:START -->
-      <div class="pt-grid4 pt-card-grid" data-pt-columns="6">
-        <article class="pt-product-card pt-card-package pt-card-nomedia" data-pt-product="dos" data-catalog-product="dos">
+      <div class="pt-shop pt-card-grid" data-pt-columns="6">
+        <article class="pt-product-card pt-card-special" data-pt-product="dos" data-catalog-product="dos">
+          <div class="pt-card-photo">
+            <img class="pt-card-media" data-catalog-image src="/img/1.jpg" alt="Para Dos" width="640" height="480" loading="lazy" decoding="async">
+            <span class="pt-card-badge">Paquete Para Dos</span>
+          </div>
           <div class="pt-card-body">
-            <p class="pt-card-package-label">Paquete Para Dos</p>
-            <p class="pt-card-tag" data-catalog-tag>Noche tranquila</p>
-            <h3 class="pt-card-title" data-catalog-title>Para Dos</h3>
+            <div class="pt-card-head">
+              <div class="pt-card-name">
+                <h3 class="pt-card-title" data-catalog-title>Para Dos</h3>
+              </div>
+              <div class="pt-card-pricebox">
+                <p class="pt-card-price"><span data-catalog-price>$1,470</span> <small>MXN</small></p>
+                <p class="pt-card-delivery">envío incluido</p>
+              </div>
+            </div>
             <p class="pt-card-description">Una noche en casa se vuelve cita. Porciones justas para dos, sin repetir bocado.</p>
-            <p class="pt-card-composition">2 quesos · 2 carnes</p>
-            <p class="pt-card-price"><span data-catalog-price>$1,470</span> <small>MXN</small></p>
-            <div class="pt-card-delivery pt-card-package-box"><p class="pt-card-package-title">Incluye, con envío:</p><ul><li><strong>Versión Premium</strong></li><li><strong>Mermelada o dip con pan</strong></li><li><strong>Fresas con chocolate Turín</strong></li></ul><p>Quita lo que no quieras al pedir.</p></div>
-            <p class="pt-card-lead">Pide con 3 días de anticipación.</p>
-            <button class="pt-card-buy" type="button" data-pt-buy="dos" aria-label="Elegir y pedir Para Dos" aria-haspopup="dialog">Elegir y pedir <span aria-hidden="true">⌄</span></button>
+            <div class="pt-card-includes">
+              <p class="pt-card-includes-title">Incluye, con envío:</p>
+              <ul><li>Versión Premium</li><li>Mermelada o dip con pan</li><li>Fresas con chocolate Turín</li></ul>
+              <p class="pt-card-includes-note">Quita lo que no quieras al pedir.</p>
+            </div>
+            <p class="pt-card-lead" data-pt-lead="3">Pide con 3 días de anticipación</p>
+            <button class="pt-card-buy" type="button" data-pt-buy="dos" aria-label="Elegir y pedir Para Dos" aria-haspopup="dialog">Elegir y pedir</button>
             <noscript><a class="pt-card-fallback" href="/?tabla=dos#tablas">Elegir y pedir Para Dos</a></noscript>
           </div>
         </article>
-        <article class="pt-product-card pt-card-featured pt-card-nomedia" data-pt-product="anfitriona" data-catalog-product="anfitriona">
-          <span class="pt-card-badge">La favorita</span>
-          <div class="pt-card-body">
-            <p class="pt-card-tag" data-catalog-tag>Reunión en casa</p>
-            <h3 class="pt-card-title" data-catalog-title>Tabla de la Anfitriona</h3>
-            <p class="pt-card-people">Aprox. 5 personas</p>
-            <p class="pt-card-description">Recibes sin estrés: la pieza central que resuelve la reunión en casa.</p>
-            <p class="pt-card-composition">3 quesos · 3 carnes</p>
-            <p class="pt-card-price"><span data-catalog-price>$950</span> <small>MXN</small></p>
-            <p class="pt-card-delivery">Envío +$120 MXN · CDMX y zona oriente</p>
-            <p class="pt-card-lead">Pide con 3 días de anticipación.</p>
-            <button class="pt-card-buy" type="button" data-pt-buy="anfitriona" aria-label="Elegir y pedir Tabla de la Anfitriona" aria-haspopup="dialog">Elegir y pedir <span aria-hidden="true">⌄</span></button>
-            <noscript><a class="pt-card-fallback" href="/?tabla=anfitriona#tablas">Elegir y pedir Tabla de la Anfitriona</a></noscript>
+        <article class="pt-product-card pt-card-special" data-pt-product="quesos" data-catalog-product="quesos">
+          <div class="pt-card-photo">
+            <img class="pt-card-media" data-catalog-image src="/img/4.jpg" alt="Tabla de Quesos" width="640" height="480" loading="lazy" decoding="async">
+            <span class="pt-card-badge">Solo quesos</span>
           </div>
-        </article>
-        <article class="pt-product-card pt-card-nomedia" data-pt-product="fiesta" data-catalog-product="fiesta">
           <div class="pt-card-body">
-            <p class="pt-card-tag" data-catalog-tag>Tabla de evento</p>
-            <h3 class="pt-card-title" data-catalog-title>Tabla de Fiesta</h3>
-            <p class="pt-card-people">Aprox. 9 personas</p>
-            <p class="pt-card-description">El festejo, resuelto con una sola pieza. Pídela con una semana de anticipación.</p>
-            <p class="pt-card-composition">4 quesos · 4 carnes</p>
-            <p class="pt-card-price"><span data-catalog-price>$1,600</span> <small>MXN</small></p>
-            <p class="pt-card-delivery">Envío +$120 MXN · CDMX y zona oriente</p>
-            <p class="pt-card-lead">Pide con 7 días de anticipación.</p>
-            <button class="pt-card-buy" type="button" data-pt-buy="fiesta" aria-label="Elegir y pedir Tabla de Fiesta" aria-haspopup="dialog">Elegir y pedir <span aria-hidden="true">⌄</span></button>
-            <noscript><a class="pt-card-fallback" href="/?tabla=fiesta#tablas">Elegir y pedir Tabla de Fiesta</a></noscript>
-          </div>
-        </article>
-        <article class="pt-product-card pt-card-package pt-card-nomedia" data-pt-product="celebracion" data-catalog-product="celebracion">
-          <div class="pt-card-body">
-            <p class="pt-card-package-label">Paquete Celebración</p>
-            <p class="pt-card-tag" data-catalog-tag>Tabla de evento</p>
-            <h3 class="pt-card-title" data-catalog-title>Tabla de Celebración</h3>
-            <p class="pt-card-people">Aprox. 15 personas</p>
-            <p class="pt-card-description">Nuestra más grande, montada para lucirse. Con una semana de anticipación.</p>
-            <p class="pt-card-composition">5 quesos · 7 carnes</p>
-            <p class="pt-card-price"><span data-catalog-price>$3,200</span> <small>MXN</small></p>
-            <div class="pt-card-delivery pt-card-package-box"><p class="pt-card-package-title">Incluye, para que rinda más:</p><ul><li><strong>Pan y crujientes</strong></li><li><strong>Dip de la casa</strong></li><li><strong>Mermelada de la casa</strong></li></ul><p>Paquete cerrado: no se modifica. Envío +$120 MXN · CDMX y zona oriente</p></div>
-            <p class="pt-card-lead">Pide con 7 días de anticipación.</p>
-            <button class="pt-card-buy" type="button" data-pt-buy="celebracion" aria-label="Elegir y pedir Tabla de Celebración" aria-haspopup="dialog">Elegir y pedir <span aria-hidden="true">⌄</span></button>
-            <noscript><a class="pt-card-fallback" href="/?tabla=celebracion#tablas">Elegir y pedir Tabla de Celebración</a></noscript>
-          </div>
-        </article>
-        <article class="pt-product-card pt-card-nomedia" data-pt-product="quesos" data-catalog-product="quesos">
-          <div class="pt-card-body">
-            <p class="pt-card-tag" data-catalog-tag>Solo quesos</p>
-            <h3 class="pt-card-title" data-catalog-title>Tabla de Quesos</h3>
+            <div class="pt-card-head">
+              <div class="pt-card-name">
+                <h3 class="pt-card-title" data-catalog-title>Tabla de Quesos</h3>
+              </div>
+              <div class="pt-card-pricebox">
+                <p class="pt-card-price"><span data-catalog-price>$1,900</span> <small>MXN</small></p>
+                <p class="pt-card-delivery">+ envío $120</p>
+              </div>
+            </div>
             <p class="pt-card-description">Clásicos y raros, con fruta, semillas y crocante. Ya incluye todo.</p>
-            <p class="pt-card-composition">4 quesos clásicos · 3 quesos raros · fruta, semillas y crocante · incluye la tabla</p>
-            <p class="pt-card-price"><span data-catalog-price>$1,900</span> <small>MXN</small></p>
-            <p class="pt-card-delivery">Envío +$120 MXN · CDMX y zona oriente</p>
+            <div class="pt-card-includes">
+              <p class="pt-card-includes-title">Incluye</p>
+              <ul><li>4 quesos clásicos</li><li>3 quesos raros</li><li>fruta, semillas y crocante</li><li>incluye la tabla</li></ul>
+            </div>
             <p class="pt-card-note"><strong>Premium con quesos raros:</strong> $2,800 MXN</p>
-            <p class="pt-card-lead">Pide con 3 días de anticipación.</p>
-            <button class="pt-card-buy" type="button" data-pt-buy="quesos" aria-label="Elegir y pedir Tabla de Quesos" aria-haspopup="dialog">Elegir y pedir <span aria-hidden="true">⌄</span></button>
+            <p class="pt-card-lead" data-pt-lead="3">Pide con 3 días de anticipación</p>
+            <button class="pt-card-buy" type="button" data-pt-buy="quesos" aria-label="Elegir y pedir Tabla de Quesos" aria-haspopup="dialog">Elegir y pedir</button>
             <noscript><a class="pt-card-fallback" href="/?tabla=quesos#tablas">Elegir y pedir Tabla de Quesos</a></noscript>
           </div>
         </article>
-        <article class="pt-product-card pt-card-nomedia" data-pt-product="almuerzo" data-catalog-product="almuerzo">
+        <article class="pt-product-card pt-card-featured" data-pt-product="anfitriona" data-catalog-product="anfitriona">
+          <div class="pt-card-photo">
+            <img class="pt-card-media" data-catalog-image src="/img/tabla-850g.jpg" alt="Tabla de la Anfitriona" width="640" height="480" loading="lazy" decoding="async">
+            <span class="pt-card-badge">La favorita</span>
+          </div>
           <div class="pt-card-body">
-            <p class="pt-card-tag" data-catalog-tag>Pop-up especial · Porción individual</p>
-            <h3 class="pt-card-title" data-catalog-title>Pop-up de Almuerzo</h3>
+            <div class="pt-card-head">
+              <div class="pt-card-name">
+                <h3 class="pt-card-title" data-catalog-title>Tabla de la Anfitriona</h3>
+                <p class="pt-card-people">Aprox. 5 personas</p>
+              </div>
+              <div class="pt-card-pricebox">
+                <p class="pt-card-price"><span data-catalog-price>$950</span> <small>MXN</small></p>
+                <p class="pt-card-delivery">+ envío $120</p>
+              </div>
+            </div>
+            <p class="pt-card-description">Recibes sin estrés: la pieza central que resuelve la reunión en casa.</p>
+            <div class="pt-card-includes">
+              <p class="pt-card-includes-title">Incluye</p>
+              <ul><li>3 quesos</li><li>3 carnes</li></ul>
+            </div>
+            <p class="pt-card-lead" data-pt-lead="3">Pide con 3 días de anticipación</p>
+            <button class="pt-card-buy" type="button" data-pt-buy="anfitriona" aria-label="Elegir y pedir Tabla de la Anfitriona" aria-haspopup="dialog">Elegir y pedir</button>
+            <noscript><a class="pt-card-fallback" href="/?tabla=anfitriona#tablas">Elegir y pedir Tabla de la Anfitriona</a></noscript>
+          </div>
+        </article>
+        <article class="pt-product-card" data-pt-product="fiesta" data-catalog-product="fiesta">
+          <div class="pt-card-photo">
+            <img class="pt-card-media" data-catalog-image src="/img/3.jpg" alt="Tabla de Fiesta" width="640" height="480" loading="lazy" decoding="async">
+            <span class="pt-card-badge">Tabla de evento</span>
+          </div>
+          <div class="pt-card-body">
+            <div class="pt-card-head">
+              <div class="pt-card-name">
+                <h3 class="pt-card-title" data-catalog-title>Tabla de Fiesta</h3>
+                <p class="pt-card-people">Aprox. 9 personas</p>
+              </div>
+              <div class="pt-card-pricebox">
+                <p class="pt-card-price"><span data-catalog-price>$1,600</span> <small>MXN</small></p>
+                <p class="pt-card-delivery">+ envío $120</p>
+              </div>
+            </div>
+            <p class="pt-card-description">El festejo, resuelto con una sola pieza. Pídela con una semana de anticipación.</p>
+            <div class="pt-card-includes">
+              <p class="pt-card-includes-title">Incluye</p>
+              <ul><li>4 quesos</li><li>4 carnes</li></ul>
+            </div>
+            <p class="pt-card-lead" data-pt-lead="7">Pide con 7 días de anticipación</p>
+            <button class="pt-card-buy" type="button" data-pt-buy="fiesta" aria-label="Elegir y pedir Tabla de Fiesta" aria-haspopup="dialog">Elegir y pedir</button>
+            <noscript><a class="pt-card-fallback" href="/?tabla=fiesta#tablas">Elegir y pedir Tabla de Fiesta</a></noscript>
+          </div>
+        </article>
+        <article class="pt-product-card" data-pt-product="celebracion" data-catalog-product="celebracion">
+          <div class="pt-card-photo">
+            <img class="pt-card-media" data-catalog-image src="/img/4.jpg" alt="Tabla de Celebración" width="640" height="480" loading="lazy" decoding="async">
+            <span class="pt-card-badge">Paquete Celebración</span>
+          </div>
+          <div class="pt-card-body">
+            <div class="pt-card-head">
+              <div class="pt-card-name">
+                <h3 class="pt-card-title" data-catalog-title>Tabla de Celebración</h3>
+                <p class="pt-card-people">Aprox. 15 personas</p>
+              </div>
+              <div class="pt-card-pricebox">
+                <p class="pt-card-price"><span data-catalog-price>$3,200</span> <small>MXN</small></p>
+                <p class="pt-card-delivery">+ envío $120</p>
+              </div>
+            </div>
+            <p class="pt-card-description">Nuestra más grande, montada para lucirse. Con una semana de anticipación.</p>
+            <div class="pt-card-includes">
+              <p class="pt-card-includes-title">Incluye, para que rinda más:</p>
+              <ul><li>Pan y crujientes</li><li>Dip de la casa</li><li>Mermelada de la casa</li></ul>
+              <p class="pt-card-includes-note">Paquete cerrado: no se modifica.</p>
+            </div>
+            <p class="pt-card-lead" data-pt-lead="7">Pide con 7 días de anticipación</p>
+            <button class="pt-card-buy" type="button" data-pt-buy="celebracion" aria-label="Elegir y pedir Tabla de Celebración" aria-haspopup="dialog">Elegir y pedir</button>
+            <noscript><a class="pt-card-fallback" href="/?tabla=celebracion#tablas">Elegir y pedir Tabla de Celebración</a></noscript>
+          </div>
+        </article>
+        <article class="pt-product-card" data-pt-product="almuerzo" data-catalog-product="almuerzo">
+          <div class="pt-card-photo">
+            <img class="pt-card-media" data-catalog-image src="/img/evento-individual-referencia.png" alt="Pop-up de Almuerzo" width="640" height="480" loading="lazy" decoding="async">
+            <span class="pt-card-badge">Pop-up especial · Porción individual</span>
+          </div>
+          <div class="pt-card-body">
+            <div class="pt-card-head">
+              <div class="pt-card-name">
+                <h3 class="pt-card-title" data-catalog-title>Pop-up de Almuerzo</h3>
+                <p class="pt-card-people">Desde 10 personas</p>
+              </div>
+              <div class="pt-card-pricebox">
+                <p class="pt-card-price"><span data-catalog-price>$220</span> <small>por persona</small></p>
+                <p class="pt-card-delivery">+ envío $120</p>
+              </div>
+            </div>
             <p class="pt-card-description">Un almuerzo para cada invitado, en porción individual. Desde 10 personas.</p>
-            <p class="pt-card-composition">Porción individual: quesos, carnes frías, fruta y crujiente</p>
-            <p class="pt-card-price"><span data-catalog-price>$220</span> <small>MXN por persona</small></p>
-            <p class="pt-card-delivery">Desde 10 personas · Envío +$120 MXN · CDMX y zona oriente</p>
-            <p class="pt-card-lead">Pide con 3 días de anticipación.</p>
-            <button class="pt-card-buy" type="button" data-pt-buy="almuerzo" aria-label="Elegir y pedir Pop-up de Almuerzo" aria-haspopup="dialog">Elegir y pedir <span aria-hidden="true">⌄</span></button>
+            <div class="pt-card-includes">
+              <p class="pt-card-includes-title">Incluye</p>
+              <ul><li>Porción individual: quesos, carnes frías, fruta y crujiente</li></ul>
+            </div>
+            <p class="pt-card-lead" data-pt-lead="3">Pide con 3 días de anticipación</p>
+            <button class="pt-card-buy" type="button" data-pt-buy="almuerzo" aria-label="Elegir y pedir Pop-up de Almuerzo" aria-haspopup="dialog">Elegir y pedir</button>
             <noscript><a class="pt-card-fallback" href="/?tabla=almuerzo#tablas">Elegir y pedir Pop-up de Almuerzo</a></noscript>
           </div>
         </article>
       </div>
       <!-- POND_CATALOG:HOME_PRODUCTS:END -->
       <!-- POND_CATALOG:HOME_PRODUCTS_NOTE:START -->
-      <p style="font-size:12.5px;color:#75797a;margin:16px 0 0;text-align:center">Precios en MXN · Mensajería $120 a toda la CDMX y la zona oriente (se suma a tu pedido) · Tablas de evento (Fiesta y Celebración): 7 días de anticipación</p>
+      <p class="rd-note">Precios en MXN · Mensajería $120 a toda la CDMX y la zona oriente (se suma a tu pedido) · Tablas de evento (Fiesta y Celebración): 7 días de anticipación</p>
       <!-- POND_CATALOG:HOME_PRODUCTS_NOTE:END -->
-    </div>
 
-    <!-- Complementos -->
-    <div class="revealable pt-pad" style="max-width:1200px;margin:0 auto;padding:26px 32px 60px">
-      <h3 style="font-family:Lora,serif;font-size:21px;font-weight:600;margin:0 0 18px;color:#26282a">Complementos opcionales</h3>
+      <!-- Catering y eventos: cuadro oscuro a lo ancho del listado -->
+      <div id="catering" class="rd-eventos">
+        <div class="rd-eventos-foto"><img src="/img/evento-individual-referencia.png" alt="Referencia de presentación individual con quesos, carnes, frutas y crujientes" width="2172" height="724" loading="lazy"></div>
+        <div class="rd-eventos-cuerpo">
+          <div class="rd-eyebrow rd-eyebrow--oro">Catering y eventos · <span data-rd-min-personas>desde 10 personas</span></div>
+          <h3>Un detalle para cada invitado.</h3>
+          <p>Quesos, carnes, frutas y crujientes en porciones individuales o en presentación para evento. Elige Clásica, Premium o Reserva para tu encuentro de empresa, recepción o celebración.</p>
+          <div class="rd-eventos-precio"><b data-rd-desde-pp>desde $200</b><span>MXN por persona</span></div>
+          <div class="rd-checks">
+            <span><b>✓</b>Eventos privados, recepciones y celebraciones</span>
+            <span><b>✓</b>Juntas, networking y eventos de marca</span>
+            <span><b>✓</b>Catas y maridajes alrededor de tus vinos</span>
+          </div>
+          <div class="rd-ctas">
+            <a href="#cotizador" class="rd-btn rd-btn--vino">Cotizar mi evento</a>
+            <a href="/eventos/" class="rd-btn rd-btn--claro">Ver los tres niveles</a>
+          </div>
+          <p style="font-size:12px;color:rgba(244,237,226,.6)">Referencia de alimentos; entrega y servicios adicionales se cotizan según el evento.</p>
+        </div>
+      </div>
+
+      <!-- Complementos -->
+      <div style="margin-top:36px">
+        <h3 class="rd-h3">Complementos opcionales</h3>
       <!-- POND_CATALOG:HOME_EXTRAS:START -->
-      <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px">
-        <div data-catalog-extra="pan" style="display:flex;align-items:center;justify-content:space-between;gap:14px;background:#fff;border:1px solid #d3d5d4;border-radius:12px;padding:16px 20px">
-          <div><div data-catalog-extra-title style="font-weight:600;font-size:15px;color:#26282a;margin-bottom:2px">Pan y crujientes extra</div><div data-catalog-extra-description style="font-size:13px;color:#75797a">Baguette, crostini y el crujiente gourmet de la temporada.</div></div>
-          <span data-catalog-extra-price style="font-family:Lora,serif;font-size:17px;color:#26282a;flex:none">$120</span>
+      <div class="rd-extras">
+        <div class="rd-extra" data-catalog-extra="pan">
+          <div><div class="rd-extra-title" data-catalog-extra-title>Pan y crujientes extra</div><div class="rd-extra-desc" data-catalog-extra-description>Baguette, crostini y el crujiente gourmet de la temporada.</div></div>
+          <span class="rd-extra-price" data-catalog-extra-price>+$120</span>
         </div>
-        <div data-catalog-extra="mermelada" style="display:flex;align-items:center;justify-content:space-between;gap:14px;background:#fff;border:1px solid #d3d5d4;border-radius:12px;padding:16px 20px">
-          <div><div data-catalog-extra-title style="font-weight:600;font-size:15px;color:#26282a;margin-bottom:2px">Mermelada o dip de la casa</div><div data-catalog-extra-description style="font-size:13px;color:#75797a">Tú eliges mermelada o dip. Incluye pan.</div></div>
-          <span data-catalog-extra-price style="font-family:Lora,serif;font-size:17px;color:#26282a;flex:none">$120</span>
+        <div class="rd-extra" data-catalog-extra="mermelada">
+          <div><div class="rd-extra-title" data-catalog-extra-title>Mermelada o dip de la casa</div><div class="rd-extra-desc" data-catalog-extra-description>Tú eliges mermelada o dip. Incluye pan.</div></div>
+          <span class="rd-extra-price" data-catalog-extra-price>+$120</span>
         </div>
-        <div data-catalog-extra="fresas" style="display:flex;align-items:center;justify-content:space-between;gap:14px;background:#fff;border:1px solid #d3d5d4;border-radius:12px;padding:16px 20px">
-          <div><div data-catalog-extra-title style="font-weight:600;font-size:15px;color:#26282a;margin-bottom:2px">Fresas con chocolate Turín</div><div data-catalog-extra-description style="font-size:13px;color:#75797a">Fresas frescas cubiertas con chocolate Turín.</div></div>
-          <span data-catalog-extra-price style="font-family:Lora,serif;font-size:17px;color:#26282a;flex:none">$280</span>
+        <div class="rd-extra" data-catalog-extra="fresas">
+          <div><div class="rd-extra-title" data-catalog-extra-title>Fresas con chocolate Turín</div><div class="rd-extra-desc" data-catalog-extra-description>Fresas frescas cubiertas con chocolate Turín.</div></div>
+          <span class="rd-extra-price" data-catalog-extra-price>+$280</span>
         </div>
       </div>
       <!-- POND_CATALOG:HOME_EXTRAS:END -->
-      <p style="text-align:center;font-size:13px;color:#75797a;margin:26px 0 0">¿Algo a tu medida — sin cerdo, más queso, un evento grande? <button onclick="waCustom()" style="background:none;border:none;padding:0;color:#7c2d3e;font-weight:600;font-size:13px;cursor:pointer;text-decoration:underline">Escríbenos y lo armamos</button></p>
+      </div>
     </div>
-  </div>
+  </section>
+
+  <!-- Cómo funciona + zonas -->
+  <section id="zonas" class="rd-section" style="padding-top:28px">
+    <div class="rd-wrap rd-pasos-wrap">
+      <div class="revealable">
+        <h2 class="rd-h2">Pedir es así de fácil</h2>
+        <div class="rd-pasos">
+          <div class="rd-paso"><span>1</span><div><strong>Eliges tu tabla y tu día</strong>Eliges el día de entrega y pagas en línea. ¿Algo a la medida o un evento? Cuéntanos por WhatsApp.</div></div>
+          <div class="rd-paso"><span>2</span><div><strong>Confirmas con tu pago</strong>
+          <!-- POND_CATALOG:HOME_PAYMENT_STEP:START -->
+          <div class="rd-step-text">Pagas en línea con Mercado Pago (tarjeta, OXXO o transferencia) y tú eliges: completo, con tarjeta de crédito hasta 12 meses con intereses, o un anticipo del 50 % para apartar tu fecha y el resto a más tardar 1 día antes de la entrega.</div>
+          <!-- POND_CATALOG:HOME_PAYMENT_STEP:END -->
+          </div></div>
+          <div class="rd-paso"><span>3</span><div><strong>La armamos y te llega</strong>Fresca, hecha a mano el mismo día y entregada en tu colonia.</div></div>
+        </div>
+      </div>
+      <div class="revealable">
+        <h3 class="rd-h3" style="margin-top:8px">Entregamos en</h3>
+        <div class="rd-chips">
+          <span>Condesa</span><span>Roma</span><span>Del Valle</span><span>Coyoacán</span><span>San Ángel</span><span>Polanco</span><span>Nápoles</span><span>Lindavista</span>
+          <button type="button" onclick="waZona()">¿Tu colonia? Pregúntanos →</button>
+        </div>
+        <div class="rd-sub">Zona oriente · Estado de México</div>
+        <div class="rd-chips">
+          <span>Nezahualcóyotl</span><span>La Paz</span><span>Chimalhuacán</span><span>Ixtapaluca</span><span>Chalco</span><span>Valle de Chalco</span><span>Texcoco</span><span>Chicoloapan</span>
+        </div>
+      <!-- POND_CATALOG:HOME_DELIVERY_SUMMARY:START -->
+      <p class="rd-note">Pide con al menos 3 días de anticipación; tablas de evento (Fiesta y Celebración): 7 días. Entregamos todos los días. Mensajería $120 a toda la CDMX y la zona oriente.</p>
+      <!-- POND_CATALOG:HOME_DELIVERY_SUMMARY:END -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Cotizador de eventos -->
+  <section id="cotizador" class="rd-oscuro">
+    <div class="rd-cotiza" style="max-width:1200px;margin:0 auto">
+      <div style="display:flex;flex-direction:column;gap:14px;justify-content:center">
+        <div class="rd-eyebrow rd-eyebrow--oro">Eventos y empresas · <span data-rd-min-personas>desde 10 personas</span></div>
+        <h2>Un detalle para cada invitado.</h2>
+        <p>Porciones individuales o presentación para evento, en tres niveles: Clásica, Premium y Reserva. Para eventos privados, recepciones, juntas, networking y eventos de marca. Los vinos se seleccionan y cotizan aparte.</p>
+        <figure><img src="/img/evento-individual-referencia.png" alt="Presentación individual para evento" width="2172" height="724" loading="lazy"><figcaption>Imagen de referencia; contenido según la opción elegida.</figcaption></figure>
+      </div>
+      <div class="rd-cot-box">
+        <div class="rd-cot-q">¿Cuántos invitados?</div>
+        <div class="rd-contador">
+          <div><b id="rdPersonas">10</b><small>personas</small></div>
+          <div style="display:flex;gap:6px">
+            <button type="button" id="rdMenos" aria-label="Menos personas">−</button>
+            <button type="button" id="rdMas" aria-label="Más personas">+</button>
+          </div>
+        </div>
+        <div class="rd-niveles" id="rdNiveles" role="group" aria-label="Nivel"></div>
+        <div class="rd-estimado">
+          <div id="rdDetalle">Referencia de alimentos.<br>Entrega y servicios adicionales se cotizan según el evento.</div>
+          <div><small>Estimado desde</small><b id="rdTotal">—</b></div>
+        </div>
+        <a href="/eventos/#solicitud" id="rdCotizar" class="rd-btn rd-btn--vino">Cotizar mi evento</a>
+        <div style="font-size:12px;color:rgba(244,237,226,.6);text-align:center">Te enviamos una propuesta con cantidades, presentación y logística antes de reservar.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ocasiones: enlaces comerciales internos -->
+  <section class="rd-section">
+    <div class="rd-wrap revealable">
+      <div class="rd-eyebrow">Elige por ocasión</div>
+      <h2 class="rd-h2" style="margin-top:6px">¿Qué necesitas resolver?</h2>
+      <div class="rd-grid">
+        <a class="rd-card" href="/reuniones/"><small>Para recibir</small><h3>Una reunión en casa</h3><p>Algo completo sobre la mesa sin pasar el día en la cocina.</p><b>Ver reuniones →</b></a>
+        <a class="rd-card" href="/regalos/"><small>Para sorprender</small><h3>Un regalo gourmet</h3><p>Una experiencia que se abre, se comparte y sí se disfruta.</p><b>Ver regalos →</b></a>
+        <a class="rd-card" href="/eventos/"><small>Catering y eventos</small><h3>Un evento privado</h3><p>Quesos y charcutería con una propuesta a la medida de tu ocasión.</p><b>Conocer el catering →</b></a>
+        <a class="rd-card" href="/empresas/"><small>Para equipos</small><h3>Una ocasión corporativa</h3><p>Juntas, networking, inauguraciones y regalos de empresa.</p><b>Ver empresas →</b></a>
+      </div>
+    </div>
+  </section>
 
   <!-- Ingredientes: opciones generales con las que armamos las tablas (no cambian el producto) -->
-  <section id="ingredientes" style="background:#fbfcfc;border-top:1px solid #d3d5d4">
-    <div class="revealable pt-pad" style="max-width:1000px;margin:0 auto;padding:56px 32px">
-      <div style="text-align:center;margin-bottom:26px">
-        <div style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#7c2d3e;font-weight:600;margin-bottom:10px">Ingredientes</div>
-        <h2 style="font-family:Lora,serif;font-size:30px;font-weight:600;margin:0 0 8px;color:#26282a">Con esto armamos tu tabla</h2>
-        <p style="font-size:15px;color:#55585a;margin:0;line-height:1.6">Opciones de quesos, carnes frías y acompañantes que rotamos según la temporada.</p>
-      </div>
+  <section id="ingredientes" class="rd-section" style="padding-top:0">
+    <div class="rd-wrap revealable">
+      <div class="rd-eyebrow">Ingredientes</div>
+      <h2 class="rd-h2" style="margin-top:6px">Con esto armamos tu tabla</h2>
+      <p class="rd-lead">Opciones de quesos, carnes frías y acompañantes que rotamos según la temporada.</p>
       <dl class="pt-ingredientes">
         <div><dt>Quesos</dt><dd>Manchego · gouda · edam · queso de cabra · queso azul · queso de oveja · provolone ahumado · manchego curado · cheddar maduro</dd></div>
         <div><dt>Carnes frías</dt><dd>Salami · jamón serrano (10 y 18 meses) · chorizo pamplona · chorizo ibérico · lomo embuchado · jamón Selva Negra · mortadela con pistache · salami genova</dd></div>
         <div><dt>Acompañantes</dt><dd>Uva · fresa · higo · frutos rojos · nueces · almendra · miel · galletas</dd></div>
       </dl>
-      <p style="text-align:right;font-size:12.5px;font-style:italic;color:#75797a;margin:12px 0 0">*Ingredientes sujetos a disponibilidad</p>
+      <p class="rd-note">*Ingredientes sujetos a disponibilidad</p>
     </div>
   </section>
 
   <!-- Galería -->
-  <section id="galeria" style="background:#e9eaea;border-top:1px solid #d3d5d4">
-    <div class="revealable pt-pad" style="max-width:1200px;margin:0 auto;padding:56px 32px">
-      <div style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#7c2d3e;font-weight:600;margin-bottom:10px">Galería</div>
-      <h2 style="font-family:Lora,serif;font-size:30px;font-weight:600;margin:0 0 24px;color:#26282a">Así llegan a tu mesa</h2>
+  <section id="galeria" class="rd-section" style="padding-top:0">
+    <div class="rd-wrap revealable">
+      <div class="rd-eyebrow">Galería</div>
+      <h2 class="rd-h2" style="margin-top:6px">Así llegan a tu mesa</h2>
       <div class="pt-galeria">
         <img src="/img/tabla-850g.jpg" alt="Tabla de 850 g con quesos, carnes frías, uvas y frutos secos" width="1600" height="1200" loading="lazy" decoding="async">
         <img src="/img/1.jpg" alt="Tabla de quesos y salami con higos y vino tinto" width="960" height="960" loading="lazy" decoding="async">
@@ -301,179 +614,80 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"
     </div>
   </section>
 
-  <!-- Ocasiones: enlaces comerciales internos -->
-  <div style="background:#e9eaea;border-top:1px solid #d3d5d4">
-    <div class="revealable pt-pad" style="max-width:1200px;margin:0 auto;padding:60px 32px">
-      <div style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#7c2d3e;font-weight:600;margin-bottom:10px">Elige por ocasión</div>
-      <h2 style="font-family:Lora,serif;font-size:32px;font-weight:600;margin:0 0 26px;color:#26282a">¿Qué necesitas resolver?</h2>
-      <div class="pt-grid4">
-        <a href="/reuniones/" style="display:block;padding:25px 22px;border-radius:14px;background:#26282a;color:#fff;text-decoration:none"><small style="color:#d5aab4;font-weight:700;text-transform:uppercase">Para recibir</small><h3 style="font-family:Lora,serif;font-size:22px;margin:18px 0 8px">Una reunión en casa</h3><p style="color:#c9cccd;font-size:13px;line-height:1.5">Algo completo sobre la mesa sin pasar el día en la cocina.</p><b style="display:block;margin-top:18px;font-size:13px">Ver reuniones →</b></a>
-        <a href="/regalos/" style="display:block;padding:25px 22px;border-radius:14px;background:#26282a;color:#fff;text-decoration:none"><small style="color:#d5aab4;font-weight:700;text-transform:uppercase">Para sorprender</small><h3 style="font-family:Lora,serif;font-size:22px;margin:18px 0 8px">Un regalo gourmet</h3><p style="color:#c9cccd;font-size:13px;line-height:1.5">Una experiencia que se abre, se comparte y sí se disfruta.</p><b style="display:block;margin-top:18px;font-size:13px">Ver regalos →</b></a>
-        <a href="/eventos/" style="display:block;padding:25px 22px;border-radius:14px;background:#26282a;color:#fff;text-decoration:none"><small style="color:#d5aab4;font-weight:700;text-transform:uppercase">Catering y eventos</small><h3 style="font-family:Lora,serif;font-size:22px;margin:18px 0 8px">Un evento privado</h3><p style="color:#c9cccd;font-size:13px;line-height:1.5">Quesos y charcutería con una propuesta a la medida de tu ocasión.</p><b style="display:block;margin-top:18px;font-size:13px">Conocer el catering →</b></a>
-        <a href="/empresas/" style="display:block;padding:25px 22px;border-radius:14px;background:#26282a;color:#fff;text-decoration:none"><small style="color:#d5aab4;font-weight:700;text-transform:uppercase">Para equipos</small><h3 style="font-family:Lora,serif;font-size:22px;margin:18px 0 8px">Una ocasión corporativa</h3><p style="color:#c9cccd;font-size:13px;line-height:1.5">Juntas, networking, inauguraciones y regalos de empresa.</p><b style="display:block;margin-top:18px;font-size:13px">Ver empresas →</b></a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Catering y eventos: segundo camino de la portada -->
-  <section id="catering" style="background:#fbfcfc;border-top:1px solid #d3d5d4">
-    <div class="revealable pt-2col pt-pad" style="max-width:1200px;margin:0 auto;padding:60px 32px;display:grid;grid-template-columns:1fr 1.1fr;gap:48px;align-items:center">
-      <figure><img src="/img/evento-individual-referencia.png" alt="Referencia de presentación individual con quesos, carnes, frutas y crujientes" width="2172" height="724" loading="lazy" style="width:100%;height:340px;object-fit:cover;object-position:90% center;border-radius:16px"><figcaption style="font-size:12px;color:#75797a;margin-top:8px">Imagen de referencia; contenido según la opción elegida.</figcaption></figure>
+  <!-- Servicio de vinos -->
+  <section id="vinos" class="rd-section" style="background:#fff">
+    <div class="rd-wrap rd-2col revealable">
       <div>
-        <div style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#7c2d3e;font-weight:600;margin-bottom:12px">Catering y eventos</div>
-        <h2 style="font-family:Lora,serif;font-size:clamp(28px,3.6vw,34px);line-height:1.15;font-weight:600;margin:0 0 14px;color:#26282a">Un detalle para cada invitado.</h2>
-        <p style="font-size:15.5px;line-height:1.65;color:#55585a;margin:0 0 16px">Quesos, carnes, frutas y crujientes en porciones individuales o en presentación para evento. Elige Clásica, Premium o Reserva para tu encuentro de empresa, recepción o celebración.</p>
-        <p style="font-family:Lora,serif;font-size:26px;color:#7c2d3e;font-weight:600;margin:0 0 18px">Desde $200 MXN por persona</p>
-        <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:22px;font-size:14.5px;color:#55585a">
-          <span><b style="color:#7c2d3e">✓</b> Eventos privados, recepciones y celebraciones</span>
-          <span><b style="color:#7c2d3e">✓</b> Juntas, networking y eventos de marca</span>
-          <span><b style="color:#7c2d3e">✓</b> Catas y maridajes alrededor de tus vinos</span>
+        <div class="rd-eyebrow">Nuevo servicio</div>
+        <h2 class="rd-h2" style="margin-top:6px">¿También buscas los vinos?<br>Selección y coordinación de vinos.</h2>
+        <p class="rd-p">Si lo pides, elegimos los vinos para tu evento, maridados con tu tabla, y coordinamos su compra y entrega. Tú nos dices cuánto quieres invertir y <strong>nos adaptamos a tu presupuesto</strong> — desde etiquetas honestas de todos los días hasta botellas para una ocasión que importa.</p>
+        <p class="rd-p" style="font-size:13.5px;color:var(--texto-3)">Los vinos no forman parte de las tablas: se cotizan aparte, según la selección que apruebes.</p>
+        <div class="rd-links">
+          <button type="button" class="rd-btn rd-btn--carbon" onclick="waVinos()"><span class="rd-dot"></span>Quiero mis vinos resueltos</button>
+          <a class="rd-link" href="/vinos/">Explorar vinos y maridajes →</a>
+          <a class="rd-link" href="/blog/maridaje-queso-vino-principiantes.html">Leer la guía de quesos y vino</a>
+          <span class="rd-pill">Se cotiza aparte</span>
         </div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap">
-          <a href="/eventos/" class="ptbtn" style="display:inline-flex;align-items:center;background:#26282a;color:#fff;padding:13px 24px;border-radius:999px;font-weight:600;font-size:15px;text-decoration:none">Ver los tres niveles</a>
-          <a href="/eventos/#solicitud" class="ptbtn" style="display:inline-flex;align-items:center;background:transparent;color:#7c2d3e;padding:12px 22px;border-radius:999px;font-weight:600;font-size:15px;text-decoration:none;border:1.5px solid #7c2d3e">Solicitar propuesta</a>
-        </div>
-        <p style="font-size:12.5px;line-height:1.5;color:#75797a;margin:14px 0 0">Desde 10 personas. Referencia de alimentos; entrega y servicios adicionales se cotizan según el evento.</p>
+      </div>
+      <div class="rd-lista">
+        <div class="rd-item"><b>1 · Nos cuentas tu evento</b><span>Cuántos son, qué celebras y tu presupuesto para vino.</span></div>
+        <div class="rd-item"><b>2 · Te proponemos la selección</b><span>Etiquetas elegidas para tu tabla y tu ocasión, dentro de lo que definiste.</span></div>
+        <div class="rd-item"><b>3 · Coordinamos compra y entrega</b><span>Con la selección aprobada, coordinamos que los vinos lleguen junto con tu tabla.</span></div>
       </div>
     </div>
   </section>
 
-  <!-- Servicio de vinos -->
-  <div id="vinos" style="background:#7c2d3e;color:#fff">
-    <div class="revealable pt-pad" style="max-width:1200px;margin:0 auto;padding:56px 32px">
-      <div class="pt-2col" style="display:grid;grid-template-columns:1.2fr 1fr;gap:44px;align-items:center">
-        <div>
-          <div style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#e8c9d0;font-weight:600;margin-bottom:14px">Nuevo servicio</div>
-          <h2 style="font-family:Lora,serif;font-size:clamp(26px,3.6vw,34px);line-height:1.15;font-weight:600;margin:0 0 14px;color:#fff">¿También buscas los vinos?<br>Selección y coordinación de vinos.</h2>
-          <p style="font-size:15px;line-height:1.65;color:#f0dfe3;margin:0 0 10px">Si lo pides, elegimos los vinos para tu evento, maridados con tu tabla, y coordinamos su compra y entrega. Tú nos dices cuánto quieres invertir y <strong>nos adaptamos a tu presupuesto</strong> — desde etiquetas honestas de todos los días hasta botellas para una ocasión que importa.</p>
-          <p style="font-size:14px;line-height:1.6;color:#e8c9d0;margin:0 0 22px">Los vinos no forman parte de las tablas: se cotizan aparte, según la selección que apruebes.</p>
-          <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
-            <button class="ptbtn" onclick="waVinos()" style="display:inline-flex;align-items:center;gap:10px;background:#fff;color:#7c2d3e;padding:14px 26px;border-radius:999px;font-weight:600;font-size:15px;border:none;cursor:pointer">
-              <span style="width:16px;height:16px;border-radius:50%;background:#25D366;display:inline-block"></span>Quiero mis vinos resueltos</button>
-            <a href="/vinos/" style="color:#fff;font-size:15px;font-weight:700;text-decoration:underline;text-underline-offset:4px">Explorar vinos y maridajes →</a>
-            <a href="/blog/maridaje-queso-vino-principiantes.html" style="color:#fff;font-size:14px;text-decoration:underline;text-underline-offset:4px">Leer la guía de quesos y vino</a>
-            <span style="font-size:14px;color:#f0dfe3"><span style="font-family:Lora,serif;font-size:20px;color:#fff">Se cotiza aparte</span></span>
-          </div>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:12px">
-          <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:16px 20px"><div style="font-weight:600;font-size:15px;margin-bottom:3px">1 · Nos cuentas tu evento</div><div style="font-size:13.5px;color:#f0dfe3;line-height:1.5">Cuántos son, qué celebras y tu presupuesto para vino.</div></div>
-          <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:16px 20px"><div style="font-weight:600;font-size:15px;margin-bottom:3px">2 · Te proponemos la selección</div><div style="font-size:13.5px;color:#f0dfe3;line-height:1.5">Etiquetas elegidas para tu tabla y tu ocasión, dentro de lo que definiste.</div></div>
-          <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:16px 20px"><div style="font-weight:600;font-size:15px;margin-bottom:3px">3 · Coordinamos compra y entrega</div><div style="font-size:13.5px;color:#f0dfe3;line-height:1.5">Con la selección aprobada, coordinamos que los vinos lleguen junto con tu tabla.</div></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- Curaduría -->
-  <div id="curaduria" style="background:#26282a;color:#e9eaea">
-    <div class="revealable pt-pad" style="max-width:1200px;margin:0 auto;padding:64px 32px">
-      <div class="pt-2col" style="display:grid;grid-template-columns:1fr 1.4fr;gap:48px;align-items:start">
-        <div>
-          <div style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#b06a78;font-weight:600;margin-bottom:14px">Curaduría</div>
-          <h2 style="font-family:Lora,serif;font-size:34px;line-height:1.15;font-weight:600;margin:0 0 16px;color:#e9eaea">Nunca la misma tabla dos veces.</h2>
-          <p style="font-size:15px;line-height:1.65;color:#9a9ea0;margin:0 0 22px">Escogemos personalmente cada producto según la temporada —sabores y marcas que probamos una por una— para armarte una experiencia, no algo repetitivo. Cada tabla llega con una tarjeta que te dice qué probar primero y en qué orden.</p>
-          <button class="ptbtn" onclick="waCuraduria()" style="display:inline-flex;align-items:center;gap:9px;background:#e9eaea;color:#26282a;padding:12px 22px;border-radius:999px;font-weight:600;font-size:14px;border:none;cursor:pointer">
-            <span style="width:15px;height:15px;border-radius:50%;background:#25D366;display:inline-block"></span>Pide tu tabla de temporada</button>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-          <div style="background:#2d3033;border:1px solid #3a3d40;border-radius:12px;padding:20px 22px"><div style="font-family:Lora,serif;font-size:18px;font-weight:600;color:#e9eaea;margin-bottom:4px">Quesos de temporada</div><div style="font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#b06a78;font-weight:600;margin-bottom:8px">Elegidos a mano</div><div style="font-size:13.5px;line-height:1.55;color:#9a9ea0">Frescos y curados según la época; texturas que se complementan.</div></div>
-          <div style="background:#2d3033;border:1px solid #3a3d40;border-radius:12px;padding:20px 22px"><div style="font-family:Lora,serif;font-size:18px;font-weight:600;color:#e9eaea;margin-bottom:4px">Charcutería seleccionada</div><div style="font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#b06a78;font-weight:600;margin-bottom:8px">Cortes y marcas que rotamos</div><div style="font-size:13.5px;line-height:1.55;color:#9a9ea0">Nada de lo mismo siempre: variamos según lo mejor de cada semana.</div></div>
-          <div style="background:#2d3033;border:1px solid #3a3d40;border-radius:12px;padding:20px 22px"><div style="font-family:Lora,serif;font-size:18px;font-weight:600;color:#e9eaea;margin-bottom:4px">Frutos secos seleccionados</div><div style="font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#b06a78;font-weight:600;margin-bottom:8px">Textura y contraste</div><div style="font-size:13.5px;line-height:1.55;color:#9a9ea0">Crujientes que equilibran los quesos y la charcutería.</div></div>
-          <div style="background:#2d3033;border:1px solid #3a3d40;border-radius:12px;padding:20px 22px"><div style="font-family:Lora,serif;font-size:18px;font-weight:600;color:#e9eaea;margin-bottom:4px">Fruta y crujientes del día</div><div style="font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#b06a78;font-weight:600;margin-bottom:8px">En su punto</div><div style="font-size:13.5px;line-height:1.55;color:#9a9ea0">Lo que está en su mejor momento, para que cada bocado sume.</div></div>
-        </div>
+  <section id="curaduria" class="rd-section">
+    <div class="rd-wrap rd-2col revealable">
+      <div>
+        <div class="rd-eyebrow">Curaduría</div>
+        <h2 class="rd-h2" style="margin-top:6px">Nunca la misma tabla dos veces.</h2>
+        <p class="rd-p">Escogemos personalmente cada producto según la temporada —sabores y marcas que probamos una por una— para armarte una experiencia, no algo repetitivo. Cada tabla llega con una tarjeta que te dice qué probar primero y en qué orden.</p>
+        <div class="rd-links"><button type="button" class="rd-btn rd-btn--carbon" onclick="waCuraduria()"><span class="rd-dot"></span>Pide tu tabla de temporada</button></div>
+      </div>
+      <div class="rd-lista">
+        <div class="rd-item"><b>Quesos de temporada</b><em>Elegidos a mano</em><span>Frescos y curados según la época; texturas que se complementan.</span></div>
+        <div class="rd-item"><b>Charcutería seleccionada</b><em>Cortes y marcas que rotamos</em><span>Nada de lo mismo siempre: variamos según lo mejor de cada semana.</span></div>
+        <div class="rd-item"><b>Frutos secos seleccionados</b><em>Textura y contraste</em><span>Crujientes que equilibran los quesos y la charcutería.</span></div>
+        <div class="rd-item"><b>Fruta y crujientes del día</b><em>En su punto</em><span>Lo que está en su mejor momento, para que cada bocado sume.</span></div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- Cómo funciona + zonas -->
-  <div id="zonas" class="pt-2col pt-pad" style="max-width:1200px;margin:0 auto;padding:56px 32px;display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center">
-    <div class="revealable">
-      <h2 style="font-family:Lora,serif;font-size:27px;font-weight:600;margin:0 0 18px;color:#26282a">Pedir es así de fácil</h2>
-      <div style="display:flex;flex-direction:column;gap:16px">
-        <div style="display:flex;gap:14px;align-items:flex-start;background:#fbfcfc;border:1px solid #d3d5d4;border-radius:12px;padding:18px 22px">
-          <span style="font-family:Lora,serif;font-size:22px;color:#7c2d3e;font-weight:700;flex:none">1</span>
-          <div><div style="font-weight:600;font-size:15px;color:#26282a">Eliges tu tabla y tu día</div><div style="font-size:13.5px;color:#55585a;line-height:1.5">Eliges el día de entrega y pagas en línea. ¿Algo a la medida o un evento? Cuéntanos por WhatsApp.</div></div>
-        </div>
-        <div style="display:flex;gap:14px;align-items:flex-start;background:#fbfcfc;border:1px solid #d3d5d4;border-radius:12px;padding:18px 22px">
-          <span style="font-family:Lora,serif;font-size:22px;color:#7c2d3e;font-weight:700;flex:none">2</span>
-          <div><div style="font-weight:600;font-size:15px;color:#26282a">Confirmas con tu pago</div>
-          <!-- POND_CATALOG:HOME_PAYMENT_STEP:START -->
-          <div style="font-size:13.5px;color:#55585a;line-height:1.5">Pagas en línea con Mercado Pago (tarjeta, OXXO o transferencia) y tú eliges: completo, con tarjeta de crédito hasta 12 meses con intereses, o un anticipo del 50 % para apartar tu fecha y el resto a más tardar 1 día antes de la entrega.</div>
-          <!-- POND_CATALOG:HOME_PAYMENT_STEP:END -->
-          </div>
-        </div>
-        <div style="display:flex;gap:14px;align-items:flex-start;background:#fbfcfc;border:1px solid #d3d5d4;border-radius:12px;padding:18px 22px">
-          <span style="font-family:Lora,serif;font-size:22px;color:#7c2d3e;font-weight:700;flex:none">3</span>
-          <div><div style="font-weight:600;font-size:15px;color:#26282a">La armamos y te llega</div><div style="font-size:13.5px;color:#55585a;line-height:1.5">Fresca, hecha a mano el mismo día y entregada en tu colonia.</div></div>
-        </div>
+  <!-- Cotización: tabla a la medida -->
+  <section id="cotizar" class="rd-section" style="padding-top:0">
+    <div class="rd-wrap rd-2col revealable">
+      <div>
+        <div class="rd-eyebrow">Tabla a tu medida</div>
+        <h2 class="rd-h2" style="margin-top:6px">Armamos tu tabla a tu medida</h2>
+        <p class="rd-p">Cuéntanos de tu reunión y te cotizamos por WhatsApp. Curaduría de temporada, para el número de personas y la ocasión. Si es un evento con propuesta completa, usa el <a href="/eventos/#solicitud">formulario de catering</a>.</p>
       </div>
-    </div>
-    <div class="revealable">
-      <h3 style="font-family:Lora,serif;font-size:21px;font-weight:600;margin:0 0 14px;color:#26282a">Entregamos en</h3>
-      <div style="display:flex;flex-wrap:wrap;gap:8px">
-        <span style="background:#fbfcfc;border:1px solid #d3d5d4;border-radius:999px;padding:7px 16px;font-size:13px;color:#55585a">Condesa</span>
-        <span style="background:#fbfcfc;border:1px solid #d3d5d4;border-radius:999px;padding:7px 16px;font-size:13px;color:#55585a">Roma</span>
-        <span style="background:#fbfcfc;border:1px solid #d3d5d4;border-radius:999px;padding:7px 16px;font-size:13px;color:#55585a">Del Valle</span>
-        <span style="background:#fbfcfc;border:1px solid #d3d5d4;border-radius:999px;padding:7px 16px;font-size:13px;color:#55585a">Coyoacán</span>
-        <span style="background:#fbfcfc;border:1px solid #d3d5d4;border-radius:999px;padding:7px 16px;font-size:13px;color:#55585a">San Ángel</span>
-        <span style="background:#fbfcfc;border:1px solid #d3d5d4;border-radius:999px;padding:7px 16px;font-size:13px;color:#55585a">Polanco</span>
-        <span style="background:#fbfcfc;border:1px solid #d3d5d4;border-radius:999px;padding:7px 16px;font-size:13px;color:#55585a">Nápoles</span>
-        <span style="background:#fbfcfc;border:1px solid #d3d5d4;border-radius:999px;padding:7px 16px;font-size:13px;color:#55585a">Lindavista</span>
-        <button onclick="waZona()" style="background:#fbfcfc;border:1px solid #7c2d3e;border-radius:999px;padding:7px 16px;font-size:13px;color:#7c2d3e;font-weight:600;cursor:pointer">¿Tu colonia? Pregúntanos →</button>
-      </div>
-      <div style="font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:#75797a;font-weight:600;margin:16px 0 8px">Zona oriente · Estado de México</div>
-      <div style="display:flex;flex-wrap:wrap;gap:8px">
-        <span style="background:#fbfcfc;border:1px solid #d3d5d4;border-radius:999px;padding:7px 16px;font-size:13px;color:#55585a">Nezahualcóyotl</span>
-        <span style="background:#fbfcfc;border:1px solid #d3d5d4;border-radius:999px;padding:7px 16px;font-size:13px;color:#55585a">La Paz</span>
-        <span style="background:#fbfcfc;border:1px solid #d3d5d4;border-radius:999px;padding:7px 16px;font-size:13px;color:#55585a">Chimalhuacán</span>
-        <span style="background:#fbfcfc;border:1px solid #d3d5d4;border-radius:999px;padding:7px 16px;font-size:13px;color:#55585a">Ixtapaluca</span>
-        <span style="background:#fbfcfc;border:1px solid #d3d5d4;border-radius:999px;padding:7px 16px;font-size:13px;color:#55585a">Chalco</span>
-        <span style="background:#fbfcfc;border:1px solid #d3d5d4;border-radius:999px;padding:7px 16px;font-size:13px;color:#55585a">Valle de Chalco</span>
-        <span style="background:#fbfcfc;border:1px solid #d3d5d4;border-radius:999px;padding:7px 16px;font-size:13px;color:#55585a">Texcoco</span>
-        <span style="background:#fbfcfc;border:1px solid #d3d5d4;border-radius:999px;padding:7px 16px;font-size:13px;color:#55585a">Chicoloapan</span>
-      </div>
-      <!-- POND_CATALOG:HOME_DELIVERY_SUMMARY:START -->
-      <p style="font-size:13px;color:#75797a;margin:16px 0 0">Pide con al menos 3 días de anticipación; tablas de evento (Fiesta y Celebración): 7 días. Entregamos todos los días. Mensajería $120 a toda la CDMX y la zona oriente.</p>
-      <!-- POND_CATALOG:HOME_DELIVERY_SUMMARY:END -->
-    </div>
-  </div>
-
-  <!-- Cotización -->
-  <div id="cotizar" style="background:#fbfcfc;border-top:1px solid #d3d5d4">
-    <div class="revealable pt-pad" style="max-width:760px;margin:0 auto;padding:60px 32px">
-      <div style="text-align:center;margin-bottom:26px">
-        <div style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#7c2d3e;font-weight:600;margin-bottom:12px">Tabla a tu medida</div>
-        <h2 style="font-family:Lora,serif;font-size:30px;font-weight:600;margin:0 0 10px;color:#26282a">Armamos tu tabla a tu medida</h2>
-        <p style="font-size:15px;color:#55585a;margin:0;line-height:1.6">Cuéntanos de tu reunión y te cotizamos por WhatsApp. Curaduría de temporada, para el número de personas y la ocasión. Si es un evento con propuesta completa, usa el <a href="/eventos/#solicitud" style="color:#7c2d3e;font-weight:600">formulario de catering</a>.</p>
-      </div>
-      <div style="background:#fff;border:1px solid #d3d5d4;border-radius:16px;padding:28px">
-        <div class="pt-qgrid" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-          <div style="grid-column:1/-1"><label class="q-lbl" for="q_nombre">Nombre</label><input id="q_nombre" class="q-in" placeholder="Tu nombre"></div>
-          <div><label class="q-lbl" for="q_personas">¿Para cuántas personas?</label><input id="q_personas" class="q-in" placeholder="Ej. 10"></div>
-          <div><label class="q-lbl" for="q_fecha">Fecha del evento</label><input id="q_fecha" class="q-in" placeholder="Ej. 19 de septiembre"></div>
-          <div><label class="q-lbl" for="q_zona">Colonia (CDMX)</label><input id="q_zona" class="q-in" placeholder="Ej. Del Valle"></div>
-          <div><label class="q-lbl" for="q_wa">Tu WhatsApp</label><input id="q_wa" class="q-in" placeholder="55 0000 0000"></div>
-          <div style="grid-column:1/-1"><label class="q-lbl" for="q_msg">Detalles (ocasión, sabores, sin cerdo...)</label><textarea id="q_msg" class="q-in" rows="3" style="resize:vertical" placeholder="Cuéntanos qué necesitas"></textarea></div>
-        </div>
-        <button onclick="enviarCotizacion()" class="ptbtn" style="margin-top:18px;width:100%;display:inline-flex;align-items:center;justify-content:center;gap:10px;background:#26282a;color:#fff;padding:15px;border-radius:999px;font-weight:600;font-size:16px;border:none;cursor:pointer">
-          <span style="width:18px;height:18px;border-radius:50%;background:#25D366;display:inline-block"></span>Enviar cotización por WhatsApp</button>
+      <div class="rd-form">
+        <div><label class="q-lbl" for="q_nombre">Nombre</label><input id="q_nombre" class="q-in" placeholder="Tu nombre"></div>
+        <div><label class="q-lbl" for="q_personas">¿Para cuántas personas?</label><input id="q_personas" class="q-in" placeholder="Ej. 10"></div>
+        <div><label class="q-lbl" for="q_fecha">Fecha del evento</label><input id="q_fecha" class="q-in" placeholder="Ej. 19 de septiembre"></div>
+        <div><label class="q-lbl" for="q_zona">Colonia (CDMX)</label><input id="q_zona" class="q-in" placeholder="Ej. Del Valle"></div>
+        <div class="rd-full"><label class="q-lbl" for="q_wa">Tu WhatsApp</label><input id="q_wa" class="q-in" placeholder="55 0000 0000"></div>
+        <div class="rd-full"><label class="q-lbl" for="q_msg">Detalles (ocasión, sabores, sin cerdo...)</label><textarea id="q_msg" class="q-in" rows="3" placeholder="Cuéntanos qué necesitas"></textarea></div>
+        <div class="rd-full"><button type="button" onclick="enviarCotizacion()" class="rd-btn rd-btn--carbon"><span class="rd-dot"></span>Enviar cotización por WhatsApp</button>
         <!-- POND_CATALOG:HOME_QUOTE_NOTE:START -->
-        <p style="text-align:center;font-size:12.5px;color:#75797a;margin:14px 0 0">Te respondemos por WhatsApp con el precio y la disponibilidad. Mensajería $120 a toda la CDMX y la zona oriente.</p>
+        <p class="rd-note">Te respondemos por WhatsApp con el precio y la disponibilidad. Mensajería $120 a toda la CDMX y la zona oriente.</p>
         <!-- POND_CATALOG:HOME_QUOTE_NOTE:END -->
+        </div>
       </div>
     </div>
-  </div>
+  </section>
 
   <!-- Nosotros -->
-  <div id="nosotros" class="pt-2col pt-pad" style="max-width:1200px;margin:0 auto;padding:60px 32px;display:grid;grid-template-columns:1fr 1.2fr;gap:48px;align-items:center">
-    <div class="revealable" style="height:320px;border-radius:14px;background:#d3d5d4 url('img/6.jpg') center/cover no-repeat"></div>
-    <div class="revealable">
-      <div style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#7c2d3e;font-weight:600;margin-bottom:14px">Nosotros</div>
-      <h2 style="font-family:Lora,serif;font-size:30px;line-height:1.2;font-weight:600;margin:0 0 16px;color:#26282a">Un servicio para que recibir en casa sea fácil.</h2>
-      <p style="font-size:15px;line-height:1.65;color:#55585a;margin:0 0 14px">En Picando Tabla armamos a mano cada tabla el mismo día, con quesos y carnes de temporada que seleccionamos nosotros mismos. Nos encargamos de la mesa para que tú te encargues de recibir.</p>
-      <p style="font-size:15px;line-height:1.65;color:#55585a;margin:0">De nuestra cocina a tu mesa, en cualquier punto de la CDMX.</p>
+  <section id="nosotros" class="rd-section" style="background:#fff">
+    <div class="rd-wrap revealable" style="max-width:760px">
+      <div class="rd-eyebrow">Nosotros</div>
+      <h2 class="rd-h2" style="margin-top:6px">Un servicio para que recibir en casa sea fácil.</h2>
+      <p class="rd-p">En Picando Tabla armamos a mano cada tabla el mismo día, con quesos y carnes de temporada que seleccionamos nosotros mismos. Nos encargamos de la mesa para que tú te encargues de recibir.</p>
+      <p class="rd-p" style="font-family:var(--serif);font-size:22px;color:var(--texto)">De nuestra cocina a tu mesa, en cualquier punto de la CDMX.</p>
     </div>
-  </div>
+  </section>
 
   <!-- PT_COMMUNITY:START -->
 <section class="pt-community" aria-labelledby="pt-community-heading">
@@ -492,25 +706,30 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"
 </section>
 <!-- PT_COMMUNITY:END -->
 <!-- Footer CTA -->
-  <div style="background:#26282a;color:#e9eaea">
-    <div style="max-width:1200px;margin:0 auto;padding:44px 32px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap">
+  <footer class="rd-footer">
+    <div class="rd-footer-in">
       <div>
-        <div style="font-family:Lora,serif;font-size:26px;font-weight:600;margin-bottom:4px">¿Tienes una reunión próxima?</div>
-        <div style="font-size:14px;color:#9a9ea0">Elige tu tabla y tu día, y paga en línea con Mercado Pago.</div>
+        <h2>¿Tienes una reunión próxima?</h2>
+        <p style="margin-top:6px">Elige tu tabla y tu día, y paga en línea con Mercado Pago.</p>
+        <div class="rd-footer-links" style="margin-top:14px">
+          <a href="/tablas/">Tablas</a><a href="/reuniones/">Reuniones</a><a href="/regalos/">Regalos</a><a href="/eventos/">Catering y eventos</a><a href="/empresas/">Empresas</a><a href="/vinos/">Vinos</a><a href="/blog/">Blog</a>
+        </div>
       </div>
-      <div style="display:flex;align-items:center;gap:18px;flex-wrap:wrap">
-        <a href="/#tablas" class="ptbtn" style="display:inline-flex;align-items:center;background:#e9eaea;color:#26282a;padding:15px 28px;border-radius:999px;font-weight:600;font-size:16px;text-decoration:none">Elegir y pagar con Mercado Pago</a>
-        <button onclick="waGeneral('footer')" style="background:none;border:none;padding:0;color:#e9eaea;font-weight:600;font-size:14px;cursor:pointer;text-decoration:underline">¿Dudas? WhatsApp</button>
+      <div class="rd-ctas">
+        <a href="/#tablas" class="rd-btn rd-btn--vino">Ir a la tienda</a>
+        <button type="button" class="rd-btn rd-btn--claro" onclick="waGeneral('footer')">¿Dudas? WhatsApp</button>
       </div>
     </div>
     <!-- POND_CATALOG:HOME_FOOTER_NOTE:START -->
-    <div style="border-top:1px solid #3a3d40;text-align:center;padding:18px;font-size:12.5px;color:#75797a">Picando Tabla · CDMX · Tablas de evento bajo agenda · Mensajería $120 a toda la CDMX y la zona oriente</div>
-    <!-- POND_CATALOG:HOME_FOOTER_NOTE:END --><small style="display:block;width:100%;box-sizing:border-box;text-align:center;font-size:12px;padding:16px 24px;grid-column:1/-1;flex-basis:100%;line-height:1.5;letter-spacing:normal;color:inherit"><a href="https://patologicos.com/sitio-web/?utm_source=picandotabla&amp;utm_medium=referral&amp;utm_campaign=credito-desarrollo" rel="nofollow" style="color:inherit;font:inherit;letter-spacing:normal;text-transform:none;text-decoration:underline;text-underline-offset:3px">Desarrollo web por Patológicos</a></small>
-  </div>
+    <div class="rd-footer-note">Picando Tabla · CDMX · Tablas de evento bajo agenda · Mensajería $120 a toda la CDMX y la zona oriente</div>
+    <!-- POND_CATALOG:HOME_FOOTER_NOTE:END --><small class="rd-credit"><a href="https://patologicos.com/sitio-web/?utm_source=picandotabla&amp;utm_medium=referral&amp;utm_campaign=credito-desarrollo" rel="nofollow">Desarrollo web por Patológicos</a></small>
+  </footer>
 
-  <!-- FAB WhatsApp -->
-  <button id="ptFab" onclick="waGeneral('fab')" style="position:fixed;bottom:28px;right:28px;z-index:60;display:inline-flex;align-items:center;gap:10px;background:#26282a;color:#fff;padding:14px 24px;border-radius:999px;font-weight:600;font-size:14px;border:none;cursor:pointer;animation:pt-pulse 2.5s ease-in-out infinite;transition:opacity .3s,transform .3s;opacity:0;transform:translateY(16px);pointer-events:none">
-    <span style="width:16px;height:16px;border-radius:50%;background:#25D366;display:inline-block"></span>¿Dudas? WhatsApp</button>
+  <!-- Barra inferior fija en móvil -->
+  <div class="rd-barra" id="rdBarra"><a href="/#tablas"><span>Tienda · elegir mi tabla</span><span id="rdBarraDesde">→</span></a></div>
+
+  <!-- FAB WhatsApp (escritorio) -->
+  <button id="ptFab" type="button" onclick="waGeneral('fab')"><span class="rd-dot" style="background:#25D366"></span>¿Dudas? WhatsApp</button>
 
 </div>
 
@@ -558,13 +777,56 @@ src="https://www.facebook.com/tr?id=2506529536509128&ev=PageView&noscript=1"
     try{if(window.fbq)fbq('track','Lead',{origen:'cotizacion'});}catch(e){}
   };
 
-  // --- Header shadow + FAB al hacer scroll ---
-  var header=document.getElementById('ptHeader'), fab=document.getElementById('ptFab');
+  // --- Menú móvil ---
+  var menuBtn=document.getElementById('rdMenuBtn'), menu=document.getElementById('rdMenu');
+  menuBtn.addEventListener('click',function(){
+    var abierto=menu.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded',abierto?'true':'false');
+    menuBtn.textContent=abierto?'✕':'☰';
+  });
+  menu.addEventListener('click',function(e){ if(e.target.closest('a')){ menu.classList.remove('open'); menuBtn.setAttribute('aria-expanded','false'); menuBtn.textContent='☰'; } });
+
+  // --- Datos del catálogo en la portada (sin precios escritos a mano). catalogo.js es defer: corre antes de DOMContentLoaded. ---
+  document.addEventListener('DOMContentLoaded',function(){
+  var CAT=window.PICANDO_CATALOGO_V1, fmt=function(v){ return '$'+v.toLocaleString('en-US'); };
+  var QUOTE=CAT&&CAT.event_quote;
+  if(CAT){
+    var desde=Math.min.apply(null,CAT.products.filter(function(p){ return !p.per_person&&!p.quote; }).map(function(p){ return p.price_mxn; }));
+    document.getElementById('rdBarraDesde').textContent='desde '+fmt(desde)+' →';
+  }
+  // --- Cotizador de eventos: personas × nivel, manda a /eventos/ con los datos precargados ---
+  if(QUOTE){
+    var minP=QUOTE.min_people, nP=minP, nivel=QUOTE.tiers[0];
+    document.querySelectorAll('[data-rd-min-personas]').forEach(function(el){ el.textContent='desde '+minP+' personas'; });
+    document.querySelectorAll('[data-rd-desde-pp]').forEach(function(el){ el.textContent='desde '+fmt(Math.min.apply(null,QUOTE.tiers.map(function(t){ return t.price_per_person_from_mxn; }))); });
+    var cont=document.getElementById('rdNiveles');
+    cont.innerHTML=QUOTE.tiers.map(function(t){ return '<button type="button" class="rd-nivel" data-nivel="'+t.key+'" aria-pressed="false"><b>'+t.title+'</b><span>desde '+fmt(t.price_per_person_from_mxn)+' p/p</span></button>'; }).join('');
+    function pinta(){
+      document.getElementById('rdPersonas').textContent=nP;
+      document.getElementById('rdMenos').disabled=nP<=minP;
+      cont.querySelectorAll('.rd-nivel').forEach(function(b){ var on=b.dataset.nivel===nivel.key; b.classList.toggle('on',on); b.setAttribute('aria-pressed',on?'true':'false'); });
+      document.getElementById('rdDetalle').innerHTML=nivel.title+' · desde '+fmt(nivel.price_per_person_from_mxn)+' por persona.<br>Alimentos; entrega y servicios adicionales se cotizan según el evento.';
+      document.getElementById('rdTotal').textContent=fmt(nivel.price_per_person_from_mxn*nP);
+      document.getElementById('rdCotizar').href='/eventos/?personas='+nP+'&nivel='+nivel.key+'#solicitud';
+    }
+    document.getElementById('rdMenos').addEventListener('click',function(){ nP=Math.max(minP,nP-(nP>30?5:1)); pinta(); });
+    document.getElementById('rdMas').addEventListener('click',function(){ nP=Math.min(500,nP+(nP>=30?5:1)); pinta(); });
+    cont.addEventListener('click',function(e){ var b=e.target.closest('.rd-nivel'); if(!b) return; nivel=QUOTE.tiers.filter(function(t){ return t.key===b.dataset.nivel; })[0]; pinta(); track('select_quote_tier',{nivel:nivel.key}); });
+    document.getElementById('rdCotizar').addEventListener('click',function(){ track('select_quote',{origen:'cotizador_home', personas:nP, nivel:nivel.key, value:nivel.price_per_person_from_mxn*nP, currency:'MXN'}); });
+    pinta();
+  }
+  });
+
+  // --- Header shadow, FAB y barra inferior al hacer scroll ---
+  var header=document.getElementById('ptHeader'), fab=document.getElementById('ptFab'), barra=document.getElementById('rdBarra'), tienda=document.getElementById('tablas');
   function onScroll(){
     var y=window.scrollY||0;
-    header.style.boxShadow = y>10 ? '0 4px 18px rgba(38,40,42,.12)' : 'none';
+    header.style.boxShadow = y>10 ? '0 4px 18px rgba(38,40,42,.25)' : 'none';
     if(y>500){ fab.style.opacity='1'; fab.style.transform='translateY(0)'; fab.style.pointerEvents='auto'; }
     else { fab.style.opacity='0'; fab.style.transform='translateY(16px)'; fab.style.pointerEvents='none'; }
+    // La barra «Tienda» se esconde mientras ya estás viendo las tablas.
+    var r=tienda.getBoundingClientRect();
+    barra.classList.toggle('oculta', r.top<window.innerHeight*0.6&&r.bottom>window.innerHeight*0.4);
   }
   window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
 

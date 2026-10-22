@@ -1,11 +1,84 @@
-/* Componente único de compra: todas las páginas comparten este panel y el catálogo. */
+/* Componente único de compra: todas las páginas comparten este panel y el catálogo.
+   Rediseño 2026-10-21: la tarjeta abre el detalle y «Elegir y pedir» recorre 3 pasos
+   (fecha · complementos · entrega y pago). Lo que se manda a pago/pedido.php no cambia. */
 (function(){
   'use strict';
   if(!window.PICANDO_CATALOGO_V1) return;
   var WA='525623632404';
   function open(msg){ window.open('https://wa.me/'+WA+'?text='+encodeURIComponent(msg),'_blank','noopener'); }
   function track(ev,params){try{if(window.gtag) window.gtag('event',ev,params||{});}catch(e){}}
-  document.body.insertAdjacentHTML('beforeend', "  <!-- Modal de detalles de producto -->\n  <dialog id=\"ptModalBg\" aria-labelledby=\"ptmNombre\" onclick=\"if(event.target===this)cerrarDetalles()\">\n    <div id=\"ptModal\"><header class=\"pt-sheet-header\"><span>Tu tabla, a tu gusto</span><button type=\"button\" id=\"ptmClose\" onclick=\"cerrarDetalles()\" aria-label=\"Cerrar pedido\">×</button></header>\n      <div id=\"ptmImg\" style=\"height:190px;background:#d3d5d4 center/cover no-repeat;border-radius:16px 16px 0 0;position:relative\">\n        \n      </div>\n      <div class=\"pt-sheet-body\">\n        <div id=\"ptmTag\" style=\"font-size:11px;letter-spacing:1.5px;color:#7c2d3e;font-weight:600;text-transform:uppercase;margin-bottom:6px\"></div>\n        <div style=\"display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:10px\">\n          <h2 id=\"ptmNombre\" style=\"font-family:Lora,serif;font-size:24px;font-weight:600;color:#26282a\"></h2>\n          <div id=\"ptmPrecio\" style=\"font-family:Lora,serif;font-size:22px;color:#26282a;flex:none\"></div>\n        </div>\n<details class=\"pt-includes\"><summary>Qué incluye tu tabla</summary>        <p id=\"ptmDesc\" style=\"font-size:14.5px;line-height:1.6;color:#55585a;margin:0 0 14px\"></p>\n        <div style=\"font-size:12px;letter-spacing:1.5px;color:#75797a;font-weight:600;text-transform:uppercase;margin-bottom:8px\">¿Qué lleva?</div>\n        <ul id=\"ptmInc\" style=\"margin:0 0 18px;padding:0 0 0 18px;font-size:13.5px;line-height:1.7;color:#55585a\"></ul>\n\n</details><div id=\"ptmPersonasBox\" style=\"display:none;margin:0 0 16px\"><label class=\"q-lbl\" for=\"ptmPersonas\">¿Para cuántas personas?</label><input id=\"ptmPersonas\" class=\"q-in\" type=\"number\" inputmode=\"numeric\" step=\"1\" oninput=\"ptmRecalc()\" onchange=\"ptmRecalc()\"><div id=\"ptmPersonasNota\" style=\"font-size:12px;color:#75797a;margin-top:6px\"></div></div><h3 class=\"pt-step\" id=\"ptmToque\">1. Dale tu toque <small>Opcional</small></h3>        <label class=\"pt-up\" id=\"ptmPremBox\" style=\"margin-bottom:16px;background:#fdf9f4;border-color:#c9a44a\">\n          <input type=\"checkbox\" id=\"ptmPrem\" onchange=\"ptmRecalc()\">\n          <div>\n            <div style=\"font-weight:600;font-size:14.5px;color:#26282a\"><span id=\"ptmPremTitulo\">Hazla Premium</span> <span id=\"ptmPremPrecio\" style=\"color:#7c2d3e\"></span> <span style=\"background:#c9a44a;color:#fff;font-size:10px;font-weight:700;letter-spacing:1px;padding:2px 8px;border-radius:999px;text-transform:uppercase;vertical-align:2px\">Premium</span></div>\n            <div id=\"ptmPremDesc\" style=\"font-size:13px;color:#75797a;line-height:1.5\">La misma cantidad con una selección de mayor categoría (por ejemplo, quesos importados o charcutería de reserva, según disponibilidad). No es una tabla más grande.</div>\n          </div>\n        </label>\n\n        <div id=\"ptmUpsBox\"><div style=\"font-size:12px;letter-spacing:1.5px;color:#75797a;font-weight:600;text-transform:uppercase;margin-bottom:8px\">Complétala <span style=\"letter-spacing:0;text-transform:none;font-weight:500\">· si quieres algo extra</span></div>\n        <div id=\"ptmUps\" style=\"display:flex;flex-direction:column;gap:10px;margin-bottom:18px\"></div></div>\n\n        <div style=\"font-size:12px;letter-spacing:1.5px;color:#75797a;font-weight:600;text-transform:uppercase;margin:2px 0 10px\">2. Entrega y contacto</div>\n        <p id=\"ptmIntro\" style=\"font-size:13px;line-height:1.5;color:#75797a;margin:0 0 14px\">Déjanos tus datos y abriremos WhatsApp con la tabla y el total listos para confirmar.</p>\n        <div class=\"ptm-intake-grid\" style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px\">\n          <div>\n            <label class=\"q-lbl\" for=\"ptmCliente\">Nombre</label>\n            <input id=\"ptmCliente\" class=\"q-in\" autocomplete=\"name\" maxlength=\"120\" placeholder=\"Tu nombre\">\n          </div>\n          <div>\n            <label class=\"q-lbl\" for=\"ptmWhatsapp\">Tu WhatsApp</label>\n            <input id=\"ptmWhatsapp\" class=\"q-in\" type=\"tel\" inputmode=\"tel\" autocomplete=\"tel\" maxlength=\"25\" placeholder=\"55 0000 0000\">\n          </div>\n        </div>\n        <div class=\"ptm-intake-grid\" style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px\">\n          <div>\n            <label class=\"q-lbl\" for=\"ptmZona\">Colonia o municipio</label>\n            <input id=\"ptmZona\" class=\"q-in\" autocomplete=\"address-level3\" maxlength=\"160\" placeholder=\"Ej. Del Valle\">\n          </div>\n          <div>\n            <label class=\"q-lbl\" for=\"ptmFecha\">¿Qué día la entregamos?</label>\n            <input id=\"ptmFecha\" class=\"q-in\" type=\"date\" onchange=\"ptmRecalc()\" aria-describedby=\"ptmRegla\">\n          </div>\n        </div>\n        <div style=\"margin-bottom:14px\">\n          <label class=\"q-lbl\" for=\"ptmNotas\">Notas <span style=\"font-weight:400;color:#9a9ea0\">(opcional)</span></label>\n          <textarea id=\"ptmNotas\" class=\"q-in\" rows=\"2\" maxlength=\"600\" placeholder=\"Ocasión, restricciones o sabores que prefieres\" style=\"resize:vertical\"></textarea>\n        </div>\n        <div style=\"margin-bottom:14px\">\n          <div id=\"ptmRegla\" style=\"font-size:12px;color:#75797a;margin-top:6px;line-height:1.5\"></div>\n        </div>\n        <div style=\"display:flex;align-items:center;justify-content:space-between;border-top:1px solid #d3d5d4;padding-top:12px;margin-bottom:4px\">\n          <span style=\"font-size:13px;color:#75797a\">Mensajería a toda la CDMX y la zona oriente</span>\n          <span style=\"font-family:Lora,serif;font-size:15px;color:#55585a\" id=\"ptmEnvio\"></span>\n        </div>\n        <div id=\"ptmModo\" role=\"radiogroup\" aria-label=\"¿Cómo quieres pagar?\" style=\"display:none;flex-direction:column;gap:10px;margin:0 0 16px\">\n          <div style=\"font-size:12px;letter-spacing:1.5px;color:#75797a;font-weight:600;text-transform:uppercase\">¿Cómo quieres pagar?</div>\n          <label class=\"pt-up on\" id=\"ptmModoCompleto\"><input type=\"radio\" name=\"ptmModo\" value=\"completo\" checked onchange=\"ptmRecalc()\">\n            <div><div style=\"font-weight:600;font-size:14.5px;color:#26282a\">Pago completo <span id=\"ptmModoCompletoMonto\" style=\"color:#7c2d3e\"></span></div>\n            <div id=\"ptmModoCompletoTxt\" style=\"font-size:13px;color:#75797a;line-height:1.5\"></div></div></label>\n          <label class=\"pt-up\" id=\"ptmModoAnticipo\"><input type=\"radio\" name=\"ptmModo\" value=\"anticipo\" onchange=\"ptmRecalc()\">\n            <div><div style=\"font-weight:600;font-size:14.5px;color:#26282a\">Anticipo <span id=\"ptmModoAnticipoMonto\" style=\"color:#7c2d3e\"></span></div>\n            <div id=\"ptmModoAnticipoTxt\" style=\"font-size:13px;color:#75797a;line-height:1.5\"></div></div></label>\n        </div>\n</div><footer class=\"pt-sheet-footer\">        <div class=\"pt-total-line\" style=\"display:flex;align-items:center;justify-content:space-between;margin-bottom:14px\">\n          <span style=\"font-size:14px;color:#55585a;font-weight:600\">Total con envío</span>\n          <span id=\"ptmTotal\" aria-live=\"polite\" style=\"font-family:Lora,serif;font-size:24px;color:#26282a\"></span>\n        </div>\n        <button id=\"ptmPagar\" class=\"ptbtn\" onclick=\"pagarDetalles()\" style=\"display:none;width:100%;align-items:center;justify-content:center;gap:10px;background:#26282a;color:#fff;padding:15px;border-radius:999px;font-weight:600;font-size:16px;border:none;cursor:pointer;margin-bottom:10px\">Pagar con Mercado Pago</button>\n        <button id=\"ptmWaBtn\" class=\"ptbtn\" onclick=\"pedirDetalles()\" style=\"width:100%;display:inline-flex;align-items:center;justify-content:center;gap:10px;background:#26282a;color:#fff;padding:15px;border-radius:999px;font-weight:600;font-size:16px;border:none;cursor:pointer\">\n          <span style=\"width:18px;height:18px;border-radius:50%;background:#25D366;display:inline-block\"></span><span id=\"ptmWaTxt\">Pedirla por WhatsApp</span></button>\n        <p id=\"ptmError\" role=\"alert\" aria-live=\"polite\" style=\"display:none;text-align:center;font-size:12.5px;color:#7c2d3e;font-weight:600;margin:10px 0 0\"></p>\n        <p id=\"ptmNota\" style=\"text-align:center;font-size:12px;color:#75797a;margin:12px 0 0;line-height:1.5\"></p>\n      </footer>\n    </div>\n  </dialog>");
+  document.body.insertAdjacentHTML('beforeend', [
+  '<dialog id="ptModalBg" aria-labelledby="ptmNombre" onclick="if(event.target===this)cerrarDetalles()">',
+  ' <div id="ptModal">',
+  '  <header class="pt-sheet-header"><div class="pt-grip" aria-hidden="true"></div>',
+  '   <div class="pt-sheet-top"><div><p class="pt-sheet-step" id="ptmPaso">Detalle</p><h2 id="ptmNombre"></h2></div>',
+  '    <button type="button" id="ptmClose" onclick="cerrarDetalles()" aria-label="Cerrar pedido">✕</button></div>',
+  '   <div class="pt-dots" id="ptmDots" aria-hidden="true"><span></span><span></span><span></span></div>',
+  '  </header>',
+  '  <div class="pt-sheet-body">',
+  // Detalle
+  '   <section class="pt-paso" data-paso="0">',
+  '    <div class="pt-foto"><img id="ptmImg" alt=""><span class="pt-card-badge" id="ptmBadge"></span></div>',
+  '    <div class="pt-fila"><div class="pt-meta" id="ptmMeta"></div><div class="pt-precio"><div id="ptmPrecio"></div><small id="ptmPrecioNota"></small></div></div>',
+  '    <p id="ptmDesc"></p>',
+  '    <div class="pt-incluye"><div class="pt-incluye-t">Incluye</div><ul id="ptmInc"></ul></div>',
+  '    <div class="pt-pronta" id="ptmPronta"></div>',
+  '   </section>',
+  // Paso 1: fecha
+  '   <section class="pt-paso" data-paso="1" hidden>',
+  '    <div class="pt-mini"><img id="ptmMiniImg" alt=""><div><b id="ptmMiniNombre"></b><span id="ptmMiniMeta"></span></div><strong id="ptmMiniPrecio"></strong></div>',
+  '    <div id="ptmPersonasBox" style="display:none"><label class="q-lbl" for="ptmPersonas">¿Para cuántas personas?</label><input id="ptmPersonas" class="q-in" type="number" inputmode="numeric" step="1" oninput="ptmRecalc()" onchange="ptmRecalc()"><div id="ptmPersonasNota" class="pt-ayuda" style="margin-top:6px"></div></div>',
+  '    <div style="display:flex;flex-direction:column;gap:8px">',
+  '     <div class="pt-q">¿Qué día la quieres?</div>',
+  '     <div class="pt-ayuda" id="ptmRegla"></div>',
+  '     <div class="pt-dias" id="ptmDias" role="group" aria-label="Días de entrega disponibles"></div>',
+  '     <label class="pt-calendario" for="ptmFecha"><span>Otra fecha · abrir calendario</span><input id="ptmFecha" type="date" onchange="ptmRecalc()" aria-describedby="ptmRegla"></label>',
+  '    </div>',
+  '   </section>',
+  // Paso 2: complementos
+  '   <section class="pt-paso" data-paso="2" hidden>',
+  '    <div class="pt-ayuda" id="ptmToque" style="font-size:13px"></div>',
+  '    <label class="pt-up" id="ptmPremBox"><input type="checkbox" id="ptmPrem" onchange="ptmRecalc()">',
+  '     <div class="pt-up-txt"><div class="pt-up-t"><span id="ptmPremTitulo">Hazla Premium</span></div>',
+  '      <div class="pt-up-d" id="ptmPremDesc">La misma cantidad con una selección de mayor categoría (por ejemplo, quesos importados o charcutería de reserva, según disponibilidad). No es una tabla más grande.</div></div>',
+  '     <span class="pt-up-p" id="ptmPremPrecio"></span></label>',
+  '    <div id="ptmUpsBox"><div id="ptmUps" style="display:flex;flex-direction:column;gap:10px"></div></div>',
+  '    <div><label class="q-lbl" for="ptmNotas">Ajustes <span style="font-weight:400;color:#6b645b">(opcional)</span></label>',
+  '     <textarea id="ptmNotas" class="q-in" rows="2" maxlength="600" placeholder="Ocasión, restricciones o sabores que prefieres"></textarea></div>',
+  '   </section>',
+  // Paso 3: entrega y pago
+  '   <section class="pt-paso" data-paso="3" hidden>',
+  '    <p class="pt-ayuda" id="ptmIntro" style="margin:0;font-size:13px"></p>',
+  '    <div class="pt-grid2">',
+  '     <div class="pt-full"><label class="q-lbl" for="ptmCliente">Nombre</label><input id="ptmCliente" class="q-in" autocomplete="name" maxlength="120" placeholder="Tu nombre"></div>',
+  '     <div><label class="q-lbl" for="ptmWhatsapp">Tu WhatsApp</label><input id="ptmWhatsapp" class="q-in" type="tel" inputmode="tel" autocomplete="tel" maxlength="25" placeholder="55 0000 0000"></div>',
+  '     <div><label class="q-lbl" for="ptmZona">Colonia o municipio</label><input id="ptmZona" class="q-in" autocomplete="address-level3" maxlength="160" placeholder="Ej. Del Valle"></div>',
+  '    </div>',
+  '    <div id="ptmModo" role="radiogroup" aria-label="¿Cómo quieres pagar?">',
+  '     <div class="pt-q">¿Cómo quieres pagar?</div>',
+  '     <label class="pt-up on" id="ptmModoCompleto"><input type="radio" name="ptmModo" value="completo" checked onchange="ptmRecalc()">',
+  '      <div class="pt-up-txt"><div class="pt-up-t">Pago completo</div><div class="pt-up-d" id="ptmModoCompletoTxt"></div></div><span class="pt-up-p" id="ptmModoCompletoMonto"></span></label>',
+  '     <label class="pt-up" id="ptmModoAnticipo"><input type="radio" name="ptmModo" value="anticipo" onchange="ptmRecalc()">',
+  '      <div class="pt-up-txt"><div class="pt-up-t">Aparta con anticipo</div><div class="pt-up-d" id="ptmModoAnticipoTxt"></div></div><span class="pt-up-p" id="ptmModoAnticipoMonto"></span></label>',
+  '    </div>',
+  '    <div class="pt-resumen"><div id="ptmLineas" style="display:flex;flex-direction:column;gap:8px"></div>',
+  '     <div class="pt-l pt-tot"><span>Total</span><span id="ptmResumenTotal"></span></div>',
+  '     <div class="pt-ayuda" id="ptmEntregaTxt"></div></div>',
+  '   </section>',
+  '  </div>',
+  '  <footer class="pt-sheet-footer">',
+  '   <div class="pt-total-line" id="ptmTotalLine"><span>Total con envío <span id="ptmEnvio"></span></span><span id="ptmTotal" aria-live="polite"></span></div>',
+  '   <div class="pt-botones">',
+  '    <button type="button" id="ptmAtras" class="pt-btn pt-btn-borde" onclick="ptmPaso(-1)">Atrás</button>',
+  '    <button type="button" id="ptmSig" class="pt-btn pt-btn-vino" onclick="ptmPaso(1)">Elegir y pedir</button>',
+  '    <button type="button" id="ptmPagar" class="pt-btn pt-btn-vino" onclick="pagarDetalles()" style="display:none">Pagar con Mercado Pago</button>',
+  '   </div>',
+  '   <button type="button" id="ptmWaBtn" onclick="pedirDetalles()"><span id="ptmWaTxt">Pedirla por WhatsApp</span></button>',
+  '   <p id="ptmError" role="alert" aria-live="polite"></p>',
+  '   <p id="ptmNota"></p>',
+  '  </footer>',
+  ' </div>',
+  '</dialog>'].join('\n'));
   function lockPayment(locked){
     document.querySelectorAll('#ptModalBg input,#ptModalBg textarea,#ptModalBg button').forEach(function(el){el.disabled=locked;});
   }
@@ -20,6 +93,7 @@
   var LOGISTICA=CATALOGO.logistics;
   var TABLAS={};
   CATALOGO.products.forEach(function(product){
+    var comp=product.composition_text||(product.composition?product.composition.cheeses+' quesos · '+product.composition.meats+' carnes':'');
     TABLAS[product.key]={
       id:product.id,
       n:product.title,
@@ -34,8 +108,10 @@
       premText:product.premium_text||null,
       addons:product.addons!==false&&!product.bundle,
       people:product.presentation.people_text||'',
+      comp:comp,
       img:'/'+product.media.image.replace(/^\//,''),
       tag:product.presentation.tag,
+      badge:(product.package||product.bundle)?(product.package||product.bundle).card_label:(product.presentation.featured?'La favorita':product.presentation.tag),
       ev:product.is_event,
       d:product.description,
       inc:product.included,
@@ -48,11 +124,12 @@
     return {id:extra.key,n:extra.title,v:extra.price_mxn,d:extra.description,c:extra.choice||null};
   });
   var fmt=function(v){ return '$'+v.toLocaleString('en-US'); };
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
   // Extras con choice (mermelada o dip): opción elegida, o '' si falta.
   function opcionDe(u){ var r=document.querySelector('input[name="ptmCh_'+u.id+'"]:checked'); return r?r.value:''; }
   function marcado(u){ var cb=document.querySelector('input[data-up="'+u.id+'"]'); return !!(cb&&cb.checked); }
   function nombreExtra(u){ var op=u.c?opcionDe(u):''; return u.n+(op?': '+op:''); }
-  var modalId=null, returnFocus=null;
+  var modalId=null, returnFocus=null, paso=0;
   var drafts={};
   // --- Pago en línea (Mercado Pago): se enciende solo si el servidor tiene la llave (pago/estado.php) ---
   var PAGO_ONLINE=false, pagando=false;
@@ -73,6 +150,7 @@
     return d;
   }
   function fechaLarga(iso){ var d=fechaDe(iso); return d&&!isNaN(d)?d.toLocaleDateString('es-MX',{weekday:'long',day:'numeric',month:'long'}):String(iso||''); }
+  function fechaCorta(d){ return d.toLocaleDateString('es-MX',{weekday:'short',day:'numeric',month:'short'}).replace(/\./g,''); }
   function errorFecha(t, iso){
     var d=fechaDe(iso);
     if(!d||isNaN(d)||isoLocal(d)!==iso) return 'Elige el día de entrega.';
@@ -99,25 +177,27 @@
     UPSELLS.forEach(function(u){ var cb=document.querySelector('input[data-up="'+u.id+'"]'); if(cb&&cb.checked) total+=u.v; });
     return total;
   }
-  // Datos del formulario ya validados, o null (y muestra el error).
-  function leerDatos(t){
+  // Datos del formulario ya validados, o null (lleva al paso del campo que falta y muestra el error).
+  // soloPaso valida únicamente los campos de ese paso (botón «Continuar»).
+  function leerDatos(t, soloPaso){
     var v=function(id){ return document.getElementById(id).value.trim(); };
     var d={prem:document.getElementById('ptmPrem').checked, personas:personas(), nombre:v('ptmCliente'), whatsapp:v('ptmWhatsapp'),
            zona:v('ptmZona'), fecha:v('ptmFecha'), notas:v('ptmNotas')};
     var checks=[
-      {bad:!!t.pp&&d.personas<t.pp.min_people,id:'ptmPersonas',message:t.pp?'El '+t.n+' se pide desde '+t.pp.min_people+' personas.':''},
-      {bad:!d.nombre,id:'ptmCliente',message:'Escribe tu nombre para continuar.'},
-      {bad:d.whatsapp.replace(/\D/g,'').length<10||d.whatsapp.replace(/\D/g,'').length>15,id:'ptmWhatsapp',message:'Escribe tu WhatsApp (10 dígitos) para continuar.'},
-      {bad:!d.zona,id:'ptmZona',message:'Escribe tu colonia para confirmar la entrega.'},
-      {bad:!!errorFecha(t,d.fecha),id:'ptmFecha',message:errorFecha(t,d.fecha)}
+      {paso:1,bad:!!t.pp&&d.personas<t.pp.min_people,id:'ptmPersonas',message:t.pp?'El '+t.n+' se pide desde '+t.pp.min_people+' personas.':''},
+      {paso:1,bad:!!errorFecha(t,d.fecha),id:'ptmFecha',message:errorFecha(t,d.fecha)},
+      {paso:3,bad:!d.nombre,id:'ptmCliente',message:'Escribe tu nombre para continuar.'},
+      {paso:3,bad:d.whatsapp.replace(/\D/g,'').length<10||d.whatsapp.replace(/\D/g,'').length>15,id:'ptmWhatsapp',message:'Escribe tu WhatsApp (10 dígitos) para continuar.'},
+      {paso:3,bad:!d.zona,id:'ptmZona',message:'Escribe tu colonia para confirmar la entrega.'}
     ];
     UPSELLS.forEach(function(u){
-      if(u.c&&marcado(u)) checks.unshift({bad:!opcionDe(u),id:'ptmCh_'+u.id+'_0',
+      if(u.c&&marcado(u)) checks.splice(2,0,{paso:2,bad:!opcionDe(u),id:'ptmCh_'+u.id+'_0',
         message:'Elige si quieres '+u.c.options.join(' o ').toLowerCase()+' en '+u.n+'.'});
     });
-    var missing=checks.filter(function(c){ return c.bad; })[0];
+    var missing=checks.filter(function(c){ return c.bad&&(soloPaso==null||c.paso===soloPaso); })[0];
     var error=document.getElementById('ptmError');
     if(missing){
+      if(missing.paso!==paso) irPaso(missing.paso);
       error.textContent=missing.message;
       error.style.display='block';
       document.getElementById(missing.id).focus();
@@ -126,6 +206,43 @@
     error.style.display='none';
     return d;
   }
+  var ETIQUETAS=['Detalle','Paso 1 de 3 · Fecha','Paso 2 de 3 · Complementos','Paso 3 de 3 · Entrega y pago'];
+  function irPaso(n){
+    var t=TABLAS[modalId]; if(!t) return;
+    paso=Math.max(0,Math.min(3,n));
+    document.querySelectorAll('#ptModalBg .pt-paso').forEach(function(s){ s.hidden=+s.dataset.paso!==paso; });
+    document.getElementById('ptmPaso').textContent=ETIQUETAS[paso];
+    var dots=document.getElementById('ptmDots');
+    dots.classList.toggle('detalle',paso===0);
+    Array.prototype.forEach.call(dots.children,function(s,i){ s.classList.toggle('on',i<paso); });
+    document.getElementById('ptmError').style.display='none';
+    document.querySelector('.pt-sheet-body').scrollTop=0;
+    ptmRecalc();
+    if(paso===1) track('select_item',{item_name:t.n, value:t.v, currency:'MXN'});
+    track('pt_paso',{paso:paso, tabla:modalId});
+  }
+  window.ptmPaso=function(delta){
+    if(pagando) return;
+    var t=TABLAS[modalId]; if(!t) return;
+    if(delta>0&&paso>0&&!leerDatos(t,paso)) return;
+    irPaso(paso+delta);
+  };
+  function pintarDias(t){
+    var cont=document.getElementById('ptmDias'), d=primeraFecha(t), html=[];
+    for(var i=0;html.length<7&&i<30;i++){
+      if(LOGISTICA.delivery_days_iso.indexOf(diaIso(d))>-1){
+        var iso=isoLocal(d);
+        html.push('<button type="button" class="pt-dia" data-fecha="'+iso+'" aria-label="'+esc(fechaLarga(iso))+'">'+
+          '<small>'+esc(d.toLocaleDateString('es-MX',{weekday:'short'}).replace(/\./g,''))+'</small><b>'+d.getDate()+'</b></button>');
+      }
+      d.setDate(d.getDate()+1);
+    }
+    cont.innerHTML=html.join('');
+  }
+  document.addEventListener('click',function(e){
+    var b=e.target.closest&&e.target.closest('#ptmDias .pt-dia'); if(!b) return;
+    document.getElementById('ptmFecha').value=b.dataset.fecha; ptmRecalc();
+  });
   window.verDetalles=function(id,preset){
     var t=TABLAS[id]; if(!t) return;
     if(t.quote){ track('select_quote',{tabla:id}); window.location.href=t.quote.url; return; }
@@ -134,13 +251,21 @@
     modalId=id;
     returnFocus=document.activeElement;
     var draft=drafts[id];
-    document.getElementById('ptmImg').style.background='#d3d5d4 url(\''+t.img+'\') center/cover no-repeat';
-    document.getElementById('ptmTag').textContent=t.tag+(t.people?' · '+t.people:'');
+    var meta=[t.people,t.comp].filter(Boolean).join(' · ');
+    document.getElementById('ptmImg').src=t.img;
+    document.getElementById('ptmMiniImg').src=t.img;
+    document.getElementById('ptmBadge').textContent=t.badge;
+    document.getElementById('ptmMeta').textContent=meta;
+    document.getElementById('ptmMiniMeta').textContent=meta;
     document.getElementById('ptmNombre').textContent=t.n;
-    document.getElementById('ptmPrecio').textContent=t.pp?fmt(t.v)+' por persona':fmt(t.v);
+    document.getElementById('ptmMiniNombre').textContent=t.n;
+    document.getElementById('ptmPrecioNota').textContent=t.pp?'por persona · + envío '+fmt(MENSAJERIA):'+ envío '+fmt(MENSAJERIA);
     document.getElementById('ptmDesc').textContent=t.d;
-    document.getElementById('ptmInc').innerHTML=t.inc.map(function(i){return '<li>'+i+'</li>';}).join('')+
-      (t.regalo?'<li><strong style="color:#7c2d3e">'+REGALO.title+' incluida sin costo</strong></li>':'');
+    document.getElementById('ptmInc').innerHTML=t.inc.map(function(i){return '<li>'+esc(i)+'</li>';}).join('')+
+      (t.regalo?'<li><strong style="color:#7a2434">'+esc(REGALO.title)+' incluida sin costo</strong></li>':'');
+    document.getElementById('ptmPronta').innerHTML='<div><strong>Entrega más pronta: '+esc(fechaLarga(isoLocal(primeraFecha(t))))+'</strong><br>'+
+      (LOGISTICA.delivery_days_iso.length===7?'Entregamos todos los días':'Entregamos '+esc(LOGISTICA.delivery_days_labels.join(', ')))+
+      ', con '+minDias(t)+' días de anticipación'+(t.ev?' (tabla de evento)':'')+'.</div>';
     document.getElementById('ptmPrem').checked=!!(t.premAvail&&draft&&draft.premium);
     document.getElementById('ptmPremBox').style.display=t.premAvail?'':'none';
     // Mejora con texto propio (Tabla de Quesos: quesos raros); las demás usan el Premium genérico.
@@ -148,27 +273,26 @@
     if(!premDesc.dataset.base) premDesc.dataset.base=premDesc.textContent;
     premTit.textContent=t.premText?t.premText.title:'Hazla Premium';
     premDesc.textContent=t.premText?t.premText.description:premDesc.dataset.base;
-    // Paquete cerrado (Celebración): sin Premium ni extras; lo incluido ya va en el precio.
     // Sin complementos: paquete cerrado (Celebración) o producto que ya incluye todo (Tabla de Quesos).
     document.getElementById('ptmUpsBox').style.display=t.addons?'':'none';
-    document.getElementById('ptmToque').style.display=t.bundle?'none':'';
+    document.getElementById('ptmToque').textContent=t.bundle
+      ?'Paquete cerrado: ya incluye '+t.bundle.card_items.join(', ').toLowerCase()+'. Si necesitas un ajuste, escríbelo abajo.'
+      :(t.premAvail||t.addons?'Tu tabla ya incluye '+(t.comp||'lo de la tarjeta')+'. Suma lo que quieras:':'Si necesitas un ajuste, escríbelo abajo.');
     document.getElementById('ptmPersonasBox').style.display=t.pp?'block':'none';
     if(t.pp){
       var pin=document.getElementById('ptmPersonas');
       pin.min=t.pp.min_people; pin.value=(draft&&draft.personas)||t.pp.min_people;
       document.getElementById('ptmPersonasNota').textContent=fmt(t.v)+' por persona · desde '+t.pp.min_people+' personas.';
     }
-    document.getElementById('ptmEnvio').textContent=fmt(MENSAJERIA);
+    document.getElementById('ptmEnvio').textContent='('+fmt(MENSAJERIA)+')';
     document.getElementById('ptmPremBox').classList.remove('on');
-    if(t.premAvail) document.getElementById('ptmPremPrecio').textContent='+'+fmt(t.prem)+' · queda en '+fmt(t.v+t.prem)+(t.premOk?'':' (se confirma por WhatsApp)');
+    if(t.premAvail) document.getElementById('ptmPremPrecio').textContent='+'+fmt(t.prem)+(t.premOk?'':' *');
     document.getElementById('ptmUps').innerHTML=UPSELLS.map(function(u){
       return '<label class="pt-up" id="ptmUp_'+u.id+'"><input type="checkbox" data-up="'+u.id+'" onchange="ptmRecalc()">'+
-        '<div><div style="font-weight:600;font-size:14.5px;color:#26282a">'+u.n+' <span style="color:#7c2d3e">+'+fmt(u.v)+'</span></div>'+
-        '<div style="font-size:13px;color:#75797a;line-height:1.5">'+u.d+'</div></div></label>'+
-        (u.c?'<div id="ptmCh_'+u.id+'" role="radiogroup" aria-label="'+u.c.label+'" style="display:none;flex-wrap:wrap;align-items:center;gap:8px;margin:-2px 0 2px 34px">'+
-          '<span style="font-size:13px;color:#55585a;font-weight:600">'+u.c.label+'</span>'+
-          u.c.options.map(function(o,i){ return '<label style="display:inline-flex;align-items:center;gap:6px;font-size:13.5px;color:#26282a;background:#fff;border:1px solid #d3d5d4;border-radius:999px;padding:6px 14px;cursor:pointer">'+
-            '<input type="radio" id="ptmCh_'+u.id+'_'+i+'" name="ptmCh_'+u.id+'" value="'+o+'" onchange="ptmRecalc()"> '+o+'</label>'; }).join('')+
+        '<div class="pt-up-txt"><div class="pt-up-t">'+esc(u.n)+'</div><div class="pt-up-d">'+esc(u.d)+'</div></div><span class="pt-up-p">+'+fmt(u.v)+'</span></label>'+
+        (u.c?'<div id="ptmCh_'+u.id+'" class="pt-elige" role="radiogroup" aria-label="'+esc(u.c.label)+'">'+
+          '<span>'+esc(u.c.label)+'</span>'+
+          u.c.options.map(function(o,i){ return '<label><input type="radio" id="ptmCh_'+u.id+'_'+i+'" name="ptmCh_'+u.id+'" value="'+esc(o)+'" onchange="ptmRecalc()"> '+esc(o)+'</label>'; }).join('')+
           '</div>':'');
     }).join('');
     ['ptmCliente','ptmWhatsapp','ptmZona','ptmFecha','ptmNotas'].forEach(function(field){ document.getElementById(field).value=(draft&&draft.fields[field])||''; });
@@ -177,9 +301,10 @@
     tope.setDate(tope.getDate()+120);
     fechaIn.min=isoLocal(primeraFecha(t));
     fechaIn.max=isoLocal(tope);
+    pintarDias(t);
     var todos=LOGISTICA.delivery_days_iso.length===7;
-    document.getElementById('ptmRegla').textContent = (todos?'Entregamos todos los días':'Entregamos '+LOGISTICA.delivery_days_labels.join(', '))
-      +', con al menos '+minDias(t)+' días de anticipación'+(t.ev?' (tabla de evento).':'.');
+    document.getElementById('ptmRegla').innerHTML=esc((todos?'Entregamos todos los días':'Entregamos '+LOGISTICA.delivery_days_labels.join(', '))
+      +', con al menos '+minDias(t)+' días de anticipación'+(t.ev?' (tabla de evento).':'.'))+' La más pronta es <strong style="color:#26282a">'+esc(fechaLarga(isoLocal(primeraFecha(t))))+'</strong>.';
     var completo=document.querySelector('input[name="ptmModo"][value="completo"]'); if(completo) completo.checked=true;
     if(draft){
       UPSELLS.forEach(function(u){
@@ -194,11 +319,10 @@
       UPSELLS.forEach(function(u){ if(t.pkg.extra_keys.indexOf(u.id)>-1) document.querySelector('input[data-up="'+u.id+'"]').checked=true; });
     }
     if(preset&&preset.premium&&t.premAvail) document.getElementById('ptmPrem').checked=true;
-    ptmRecalc();
     var dialog=document.getElementById('ptModalBg');
     if(!dialog.open) dialog.showModal();
     document.body.classList.add('pt-order-open');
-    document.querySelector('.pt-sheet-body').scrollTop=0;
+    irPaso(preset&&preset.paso?preset.paso:0);
     document.getElementById('ptmClose').focus();
     track('view_product',{item_name:t.n, value:t.v, currency:'MXN'});
     track('view_item',{item_name:t.n, value:t.v, currency:'MXN'});
@@ -226,41 +350,58 @@
     var prem=document.getElementById('ptmPrem');
     document.getElementById('ptmPremBox').classList.toggle('on', prem.checked);
     if(prem.checked) total+=t.prem;
-    document.getElementById('ptmPrecio').textContent=t.pp?fmt(t.v)+' por persona':fmt(t.v+(prem.checked?t.prem:0));
+    var precioTabla=t.pp?fmt(t.v)+' por persona':fmt(t.v+(prem.checked?t.prem:0));
+    document.getElementById('ptmPrecio').textContent=t.pp?fmt(t.v):precioTabla;
+    document.getElementById('ptmMiniPrecio').textContent=precioTabla;
+    var lineas=[[t.n+(t.pp?' · '+personas()+' personas':'')+(prem.checked?' · '+(t.premText?t.premText.line:'Premium'):''), base(t)+(prem.checked?t.prem:0)]];
     UPSELLS.forEach(function(u){
       var cb=document.querySelector('input[data-up="'+u.id+'"]');
       document.getElementById('ptmUp_'+u.id).classList.toggle('on', !!(cb&&cb.checked));
       if(u.c) document.getElementById('ptmCh_'+u.id).style.display=cb&&cb.checked?'flex':'none';
-      if(cb&&cb.checked) total+=u.v;
+      if(cb&&cb.checked){ total+=u.v; lineas.push([nombreExtra(u),u.v]); }
     });
+    lineas.push(['Mensajería CDMX',MENSAJERIA]);
+    document.getElementById('ptmLineas').innerHTML=lineas.map(function(l){ return '<div class="pt-l"><span>'+esc(l[0])+'</span><span>'+fmt(l[1])+'</span></div>'; }).join('');
     document.getElementById('ptmTotal').textContent=fmt(total);
+    document.getElementById('ptmResumenTotal').textContent=fmt(total);
+    var fecha=document.getElementById('ptmFecha').value;
+    document.querySelectorAll('#ptmDias .pt-dia').forEach(function(b){ var on=b.dataset.fecha===fecha; b.classList.toggle('on',on); b.setAttribute('aria-pressed',on?'true':'false'); });
+    document.getElementById('ptmEntregaTxt').textContent=fecha&&!errorFecha(t,fecha)?'Entrega el '+fechaLarga(fecha)+'.':'';
     // Pago en línea: botón principal si el servidor lo tiene encendido y el precio está confirmado.
     var cobro=cobroDe(total);
     var premPend=prem.checked&&!t.premOk;
     var online=PAGO_ONLINE&&!premPend;
-    var pagar=document.getElementById('ptmPagar'), waBtn=document.getElementById('ptmWaBtn');
-    pagar.style.display=online?'inline-flex':'none';
-    if(!pagando) pagar.textContent='Pagar '+fmt(cobro.monto)+' con Mercado Pago';
+    var pagar=document.getElementById('ptmPagar'), waBtn=document.getElementById('ptmWaBtn'), sig=document.getElementById('ptmSig');
+    var final=paso===3;
+    document.getElementById('ptmTotalLine').style.display=paso===0?'none':'flex';
+    document.getElementById('ptmAtras').style.display=paso===0?'none':'';
+    sig.style.display=final?'none':'';
+    sig.textContent=paso===0?'Elegir y pedir':'Continuar';
+    pagar.style.display=final&&online?'inline-flex':'none';
+    if(!pagando) pagar.textContent='Pagar '+fmt(cobro.monto)+' →';
     var PAGO=LOGISTICA.payment, pct=PAGO.deposit.pct, anticipo=Math.round(total*pct/100);
     document.getElementById('ptmModo').style.display=online?'flex':'none';
     document.getElementById('ptmModoCompleto').classList.toggle('on', cobro.tipo==='total');
     document.getElementById('ptmModoAnticipo').classList.toggle('on', cobro.tipo==='anticipo');
     document.getElementById('ptmModoCompletoMonto').textContent=fmt(total);
-    document.getElementById('ptmModoCompletoTxt').textContent='Con tarjeta de crédito puedes pagarlo hasta en '+PAGO.full.installments_max+' meses (con intereses). También tarjeta de débito, OXXO o transferencia.';
-    document.getElementById('ptmModoAnticipoMonto').textContent=fmt(anticipo)+' hoy ('+pct+' %)';
-    document.getElementById('ptmModoAnticipoTxt').textContent='Apartas tu fecha y el resto, '+fmt(total-anticipo)+', lo liquidas '+restoTexto()+'.';
-    waBtn.style.background=online?'transparent':'#26282a';
-    waBtn.style.color=online?'#26282a':'#fff';
-    waBtn.style.border=online?'1.5px solid #26282a':'none';
-    document.getElementById('ptmWaTxt').textContent=online?'¿Dudas? Escríbenos por WhatsApp':'Pedirla por WhatsApp';
+    document.getElementById('ptmModoCompletoTxt').textContent='Tarjeta, OXXO o transferencia. Con tarjeta de crédito, hasta '+PAGO.full.installments_max+' meses (con intereses).';
+    document.getElementById('ptmModoAnticipoMonto').textContent=fmt(anticipo);
+    document.getElementById('ptmModoAnticipoTxt').textContent='Pagas el '+pct+' % hoy y el resto, '+fmt(total-anticipo)+', '+restoTexto()+'.';
+    // WhatsApp: en el último paso es el pedido completo (principal si no hay pago en línea); antes, solo dudas.
+    waBtn.style.display=final||paso===0?'':'none';
+    waBtn.className=final&&!online?'pt-btn':'';
+    var fila=document.querySelector('#ptModalBg .pt-botones');
+    if(final&&!online){ if(waBtn.parentNode!==fila) fila.appendChild(waBtn); }
+    else if(waBtn.parentNode===fila) fila.parentNode.insertBefore(waBtn,fila.nextSibling);
+    document.getElementById('ptmWaTxt').textContent=final&&!online?'Pedirla por WhatsApp':'¿Dudas? Escríbenos por WhatsApp';
     document.getElementById('ptmIntro').textContent=online
       ?'Déjanos tus datos y paga en línea con Mercado Pago: tarjeta, OXXO o transferencia. Te escribimos por WhatsApp para confirmar tu entrega.'
       :(PAGO_ONLINE&&premPend
         ?'La versión Premium de esta tabla se confirma por WhatsApp: te abrimos el chat con tu pedido listo.'
         :'Déjanos tus datos y abriremos WhatsApp con la tabla y el total listos para confirmar.');
-    document.getElementById('ptmNota').textContent=online
-      ?'Si no tenemos tu fecha, te devolvemos lo que hayas pagado.'
-      :'Pago completo o anticipo del '+pct+' % al confirmar tu pedido.';
+    document.getElementById('ptmNota').textContent=!final?'':(online
+      ?'Pagas en Mercado Pago. Si no tenemos tu fecha, te devolvemos lo que hayas pagado.'
+      :'Pago completo o anticipo del '+pct+' % al confirmar tu pedido.');
   };
   window.pagarDetalles=function(){
     var t=TABLAS[modalId]; if(!t||pagando||!PAGO_ONLINE||(document.getElementById('ptmPrem').checked&&!t.premOk)) return;
@@ -298,6 +439,13 @@
   };
   window.pedirDetalles=function(){
     var t=TABLAS[modalId]; if(!t||pagando) return;
+    // Antes del último paso el botón es solo para dudas: abre el chat sin mandar un pedido.
+    if(paso!==3){
+      open('¡Hola! Tengo una duda sobre '+(t.pp?'el ':'la ')+t.n+'.');
+      track('whatsapp_click',{origen:'detalles_duda', tabla:modalId});
+      try{ if(window.fbq) fbq('track','Contact',{content_name:t.n}); }catch(e){}
+      return;
+    }
     var d=leerDatos(t); if(!d) return;
     var prem=d.prem, nombre=d.nombre, whatsapp=d.whatsapp, zona=d.zona, fecha=fechaLarga(d.fecha), notas=d.notas;
     var total=base(t)+(prem?t.prem:0);
@@ -335,14 +483,14 @@
 
   document.getElementById('ptModalBg').addEventListener('cancel',function(e){e.preventDefault();cerrarDetalles();});
   function productLink(el){
-    if(el.dataset.ptBuy) return {key:el.dataset.ptBuy};
+    if(el.dataset.ptBuy) return {key:el.dataset.ptBuy,paso:1};
     if(el.tagName!=='A') return null;
     var url=new URL(el.href,location.href);
     if(url.origin!==location.origin) return null;
     var key=url.searchParams.get('tabla');
-    if(key&&TABLAS[key]) return {key:key,premium:url.searchParams.get('premium')==='1'};
+    if(key&&TABLAS[key]) return {key:key,premium:url.searchParams.get('premium')==='1',paso:1};
     var match=url.pathname.match(/^\/tablas\/(para-dos|anfitriona|fiesta|celebracion)\/$/);
-    if(match&&!el.closest('.crumbs,.nav-links,footer,.site-header')) return {key:match[1]==='para-dos'?'dos':match[1],premium:url.hash==='#premium'};
+    if(match&&!el.closest('.crumbs,.nav-links,footer,.site-header')) return {key:match[1]==='para-dos'?'dos':match[1],premium:url.hash==='#premium',paso:1};
     return null;
   }
   document.querySelectorAll('a[href],button[data-pt-buy]').forEach(function(el){
@@ -352,11 +500,22 @@
   });
   document.addEventListener('click',function(event){
     if(event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey) return;
-    var trigger=event.target.closest('[data-pt-buy],a[href]'); if(!trigger) return;
+    var trigger=event.target.closest('[data-pt-buy],a[href]');
+    if(!trigger){
+      // Tocar la tarjeta (fuera de sus botones) abre el detalle de esa tabla.
+      var card=event.target.closest('.pt-product-card[data-pt-product]');
+      if(card&&TABLAS[card.dataset.ptProduct]&&!TABLAS[card.dataset.ptProduct].quote){ verDetalles(card.dataset.ptProduct,{paso:0}); }
+      return;
+    }
     var product=productLink(trigger); if(!product) return;
     event.preventDefault(); event.stopImmediatePropagation();
     verDetalles(product.key,product);
   },true);
+  // «Entrega más pronta» en cada tarjeta, con las mismas reglas del pedido.
+  document.querySelectorAll('.pt-product-card[data-pt-product] [data-pt-lead]').forEach(function(el){
+    var t=TABLAS[el.closest('[data-pt-product]').dataset.ptProduct]; if(!t) return;
+    el.innerHTML='Entrega más pronta: <strong>'+esc(fechaCorta(primeraFecha(t)))+'</strong>';
+  });
   var requested=new URLSearchParams(window.location.search).get('tabla');
   if(requested&&TABLAS[requested]) verDetalles(requested,{premium:new URLSearchParams(window.location.search).get('premium')==='1'});
 })();
