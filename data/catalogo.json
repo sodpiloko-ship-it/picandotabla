@@ -245,7 +245,7 @@
       "status": "active",
       "availability": "confirmation_required",
       "title": "Pop-up de Almuerzo",
-      "description": "Un almuerzo especial en porción individual: quesos, carnes frías, fruta y crujiente para cada invitado, listo para servir.",
+      "description": "Nueva propuesta: desayunos nutritivos con sabores distintivos y producto natural, en porción individual para cada invitado, listos para servir.",
       "price_mxn": 220,
       "is_event": false,
       "per_person": {
@@ -265,14 +265,15 @@
       ],
       "modifier_ids": [],
       "media": {
-        "image": "img/evento-individual-referencia.png"
+        "image": "img/evento-individual.jpg"
       },
       "presentation": {
-        "tag": "Pop-up especial · Porción individual",
-        "card_description": "Un almuerzo para cada invitado, en porción individual. Desde 10 personas.",
+        "tag": "Nueva propuesta · Porción individual",
+        "card_description": "Desayunos nutritivos con sabores distintivos y producto natural. Desde 10 personas.",
         "featured": false,
         "order_subtitle": "Por persona · desde 10 personas",
-        "scale_3d": 0.9
+        "scale_3d": 0.9,
+        "home_float": true
       }
     }
   ],

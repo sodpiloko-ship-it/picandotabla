@@ -186,6 +186,8 @@ def load_and_validate() -> dict:
             fail(f"presentation.featured debe ser booleano en {product['key']}")
         if not isinstance(presentation.get("special", False), bool):
             fail(f"presentation.special debe ser booleano en {product['key']}")
+        if not isinstance(presentation.get("home_float", False), bool):
+            fail(f"presentation.home_float debe ser booleano en {product['key']}")
         if not isinstance(presentation.get("scale_3d"), (int, float)) or presentation["scale_3d"] <= 0:
             fail(f"presentation.scale_3d inválido en {product['key']}")
         if not isinstance(product.get("media", {}).get("image"), str):

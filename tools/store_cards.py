@@ -153,8 +153,12 @@ def render_product_card(catalog: dict, product: dict, *, home: bool = False) -> 
 
 
 def home_order(catalog: dict) -> tuple[str, ...]:
-    """Portada: los especiales (marco vino) primero; el resto en orden de catálogo."""
-    products = catalog["products"]
+    """Portada: los especiales (marco vino) primero; el resto en orden de catálogo.
+
+    presentation.home_float saca el producto de la cuadrícula: en la portada se
+    anuncia con el flotante informativo (index.html) y se pide desde ahí.
+    """
+    products = [p for p in catalog["products"] if not p["presentation"].get("home_float")]
     return tuple(p["key"] for p in products if p["presentation"].get("special")) + tuple(
         p["key"] for p in products if not p["presentation"].get("special")
     )
