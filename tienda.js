@@ -1,6 +1,8 @@
 /* Componente único de compra: todas las páginas comparten este panel y el catálogo.
-   Rediseño 2026-10-21: la tarjeta abre el detalle y «Elegir y pedir» recorre 3 pasos
-   (fecha · complementos · entrega y pago). Lo que se manda a pago/pedido.php no cambia. */
+   Intake de UNA sola hoja (2026-10-27, pedido de Jessica): la tarjeta abre el pedido completo
+   en una sola página desplazable — tu tabla · complementos (Premium y extras, a la vista) ·
+   entrega · fecha y pago (la fecha se elige al final, justo antes de pagar).
+   Lo que se manda a pago/pedido.php no cambia. */
 (function(){
   'use strict';
   if(!window.PICANDO_CATALOGO_V1) return;
@@ -11,49 +13,47 @@
   '<dialog id="ptModalBg" aria-labelledby="ptmNombre" onclick="if(event.target===this)cerrarDetalles()">',
   ' <div id="ptModal">',
   '  <header class="pt-sheet-header"><div class="pt-grip" aria-hidden="true"></div>',
-  '   <div class="pt-sheet-top"><div><p class="pt-sheet-step" id="ptmPaso">Detalle</p><h2 id="ptmNombre"></h2></div>',
+  '   <div class="pt-sheet-top"><div><p class="pt-sheet-step" id="ptmPaso">Tu pedido</p><h2 id="ptmNombre"></h2></div>',
   '    <button type="button" id="ptmClose" onclick="cerrarDetalles()" aria-label="Cerrar pedido">✕</button></div>',
-  '   <div class="pt-dots" id="ptmDots" aria-hidden="true"><span></span><span></span><span></span></div>',
   '  </header>',
   '  <div class="pt-sheet-body">',
-  // Detalle
-  '   <section class="pt-paso" data-paso="0">',
-  '    <div class="pt-foto"><img id="ptmImg" alt=""><span class="pt-card-badge" id="ptmBadge"></span></div>',
-  '    <div class="pt-fila"><div class="pt-meta" id="ptmMeta"></div><div class="pt-precio"><div id="ptmPrecio"></div><small id="ptmPrecioNota"></small></div></div>',
-  '    <p id="ptmDesc"></p>',
-  '    <div class="pt-incluye"><div class="pt-incluye-t">Incluye</div><ul id="ptmInc"></ul></div>',
-  '    <div class="pt-pronta" id="ptmPronta"></div>',
-  '   </section>',
-  // Paso 1: fecha
-  '   <section class="pt-paso" data-paso="1" hidden>',
-  '    <div class="pt-mini"><img id="ptmMiniImg" alt=""><div><b id="ptmMiniNombre"></b><span id="ptmMiniMeta"></span></div><strong id="ptmMiniPrecio"></strong></div>',
+  // 1. Tu tabla
+  '   <section class="pt-bloque">',
+  '    <div class="pt-mini"><img id="ptmMiniImg" alt=""><div><b id="ptmMiniNombre"></b><span id="ptmMiniMeta"></span></div><div class="pt-mini-precio"><strong id="ptmMiniPrecio"></strong><small id="ptmPrecioNota"></small></div></div>',
+  '    <details class="pt-detalle" id="ptmDetalle"><summary>Qué incluye</summary>',
+  '     <p id="ptmDesc"></p>',
+  '     <div class="pt-incluye"><ul id="ptmInc"></ul></div>',
+  '     <div class="pt-pronta" id="ptmPronta"></div>',
+  '    </details>',
   '    <div id="ptmPersonasBox" style="display:none"><label class="q-lbl" for="ptmPersonas">¿Para cuántas personas?</label><input id="ptmPersonas" class="q-in" type="number" inputmode="numeric" step="1" oninput="ptmRecalc()" onchange="ptmRecalc()"><div id="ptmPersonasNota" class="pt-ayuda" style="margin-top:6px"></div></div>',
-  '    <div style="display:flex;flex-direction:column;gap:8px">',
-  '     <div class="pt-q">¿Qué día la quieres?</div>',
-  '     <div class="pt-ayuda" id="ptmRegla"></div>',
-  '     <div class="pt-dias" id="ptmDias" role="group" aria-label="Días de entrega disponibles"></div>',
-  '     <label class="pt-calendario" for="ptmFecha"><span>Otra fecha · abrir calendario</span><input id="ptmFecha" type="date" onchange="ptmRecalc()" aria-describedby="ptmRegla"></label>',
-  '    </div>',
   '   </section>',
-  // Paso 2: complementos
-  '   <section class="pt-paso" data-paso="2" hidden>',
-  '    <div class="pt-ayuda" id="ptmToque" style="font-size:13px"></div>',
+  // 2. Complementos (a la vista, sin pasos)
+  '   <section class="pt-bloque" id="ptmBloqueUps">',
+  '    <div class="pt-q">Súmale algo</div>',
+  '    <div class="pt-ayuda" id="ptmToque"></div>',
   '    <label class="pt-up" id="ptmPremBox"><input type="checkbox" id="ptmPrem" onchange="ptmRecalc()">',
   '     <div class="pt-up-txt"><div class="pt-up-t"><span id="ptmPremTitulo">Hazla Premium</span></div>',
   '      <div class="pt-up-d" id="ptmPremDesc">La misma cantidad con una selección de mayor categoría (por ejemplo, quesos importados o charcutería de reserva, según disponibilidad). No es una tabla más grande.</div></div>',
   '     <span class="pt-up-p" id="ptmPremPrecio"></span></label>',
   '    <div id="ptmUpsBox"><div id="ptmUps" style="display:flex;flex-direction:column;gap:10px"></div></div>',
-  '    <div><label class="q-lbl" for="ptmNotas">Ajustes <span style="font-weight:400;color:#6b645b">(opcional)</span></label>',
-  '     <textarea id="ptmNotas" class="q-in" rows="2" maxlength="600" placeholder="Ocasión, restricciones o sabores que prefieres"></textarea></div>',
   '   </section>',
-  // Paso 3: entrega y pago
-  '   <section class="pt-paso" data-paso="3" hidden>',
-  '    <p class="pt-ayuda" id="ptmIntro" style="margin:0;font-size:13px"></p>',
+  // 3. Entrega
+  '   <section class="pt-bloque">',
+  '    <div class="pt-q">¿A quién y a dónde?</div>',
   '    <div class="pt-grid2">',
   '     <div class="pt-full"><label class="q-lbl" for="ptmCliente">Nombre</label><input id="ptmCliente" class="q-in" autocomplete="name" maxlength="120" placeholder="Tu nombre"></div>',
   '     <div><label class="q-lbl" for="ptmWhatsapp">Tu WhatsApp</label><input id="ptmWhatsapp" class="q-in" type="tel" inputmode="tel" autocomplete="tel" maxlength="25" placeholder="55 0000 0000"></div>',
   '     <div><label class="q-lbl" for="ptmZona">Colonia o municipio</label><input id="ptmZona" class="q-in" autocomplete="address-level3" maxlength="160" placeholder="Ej. Del Valle"></div>',
+  '     <div class="pt-full"><label class="q-lbl" for="ptmNotas">Ajustes <span style="font-weight:400;color:#6b645b">(opcional)</span></label>',
+  '      <textarea id="ptmNotas" class="q-in" rows="2" maxlength="600" placeholder="Ocasión, restricciones o sabores que prefieres"></textarea></div>',
   '    </div>',
+  '   </section>',
+  // 4. Fecha y pago (la fecha va al final, junto al pago)
+  '   <section class="pt-bloque" id="ptmBloquePago">',
+  '    <div class="pt-q">¿Qué día la quieres?</div>',
+  '    <div class="pt-ayuda" id="ptmRegla"></div>',
+  '    <div class="pt-dias" id="ptmDias" role="group" aria-label="Días de entrega disponibles"></div>',
+  '    <label class="pt-calendario" for="ptmFecha"><span>Otra fecha · abrir calendario</span><input id="ptmFecha" type="date" onchange="ptmRecalc()" aria-describedby="ptmRegla"></label>',
   '    <div id="ptmModo" role="radiogroup" aria-label="¿Cómo quieres pagar?">',
   '     <div class="pt-q">¿Cómo quieres pagar?</div>',
   '     <label class="pt-up on" id="ptmModoCompleto"><input type="radio" name="ptmModo" value="completo" checked onchange="ptmRecalc()">',
@@ -64,13 +64,12 @@
   '    <div class="pt-resumen"><div id="ptmLineas" style="display:flex;flex-direction:column;gap:8px"></div>',
   '     <div class="pt-l pt-tot"><span>Total</span><span id="ptmResumenTotal"></span></div>',
   '     <div class="pt-ayuda" id="ptmEntregaTxt"></div></div>',
+  '    <p class="pt-ayuda" id="ptmIntro" style="margin:0;font-size:13px"></p>',
   '   </section>',
   '  </div>',
   '  <footer class="pt-sheet-footer">',
   '   <div class="pt-total-line" id="ptmTotalLine"><span>Total con envío <span id="ptmEnvio"></span></span><span id="ptmTotal" aria-live="polite"></span></div>',
   '   <div class="pt-botones">',
-  '    <button type="button" id="ptmAtras" class="pt-btn pt-btn-borde" onclick="ptmPaso(-1)">Atrás</button>',
-  '    <button type="button" id="ptmSig" class="pt-btn pt-btn-vino" onclick="ptmPaso(1)">Elegir y pedir</button>',
   '    <button type="button" id="ptmPagar" class="pt-btn pt-btn-vino" onclick="pagarDetalles()" style="display:none">Pagar con Mercado Pago</button>',
   '   </div>',
   '   <button type="button" id="ptmWaBtn" onclick="pedirDetalles()"><span id="ptmWaTxt">Pedirla por WhatsApp</span></button>',
@@ -129,7 +128,7 @@
   function opcionDe(u){ var r=document.querySelector('input[name="ptmCh_'+u.id+'"]:checked'); return r?r.value:''; }
   function marcado(u){ var cb=document.querySelector('input[data-up="'+u.id+'"]'); return !!(cb&&cb.checked); }
   function nombreExtra(u){ var op=u.c?opcionDe(u):''; return u.n+(op?': '+op:''); }
-  var modalId=null, returnFocus=null, paso=0;
+  var modalId=null, returnFocus=null;
   var drafts={};
   // --- Pago en línea (Mercado Pago): se enciende solo si el servidor tiene la llave (pago/estado.php) ---
   var PAGO_ONLINE=false, pagando=false;
@@ -177,56 +176,42 @@
     UPSELLS.forEach(function(u){ var cb=document.querySelector('input[data-up="'+u.id+'"]'); if(cb&&cb.checked) total+=u.v; });
     return total;
   }
-  // Datos del formulario ya validados, o null (lleva al paso del campo que falta y muestra el error).
-  // soloPaso valida únicamente los campos de ese paso (botón «Continuar»).
-  function leerDatos(t, soloPaso){
+  // Lee el formulario. Devuelve los datos validados o null; con silencioso=true no marca el error
+  // (sirve para saber si el pedido ya está completo sin molestar al cliente).
+  function leerDatos(t, silencioso){
     var v=function(id){ return document.getElementById(id).value.trim(); };
     var d={prem:document.getElementById('ptmPrem').checked, personas:personas(), nombre:v('ptmCliente'), whatsapp:v('ptmWhatsapp'),
            zona:v('ptmZona'), fecha:v('ptmFecha'), notas:v('ptmNotas')};
+    // Mismo orden que la hoja: tabla → complementos → entrega → fecha.
     var checks=[
-      {paso:1,bad:!!t.pp&&d.personas<t.pp.min_people,id:'ptmPersonas',message:t.pp?'El '+t.n+' se pide desde '+t.pp.min_people+' personas.':''},
-      {paso:1,bad:!!errorFecha(t,d.fecha),id:'ptmFecha',message:errorFecha(t,d.fecha)},
-      {paso:3,bad:!d.nombre,id:'ptmCliente',message:'Escribe tu nombre para continuar.'},
-      {paso:3,bad:d.whatsapp.replace(/\D/g,'').length<10||d.whatsapp.replace(/\D/g,'').length>15,id:'ptmWhatsapp',message:'Escribe tu WhatsApp (10 dígitos) para continuar.'},
-      {paso:3,bad:!d.zona,id:'ptmZona',message:'Escribe tu colonia para confirmar la entrega.'}
+      {bad:!!t.pp&&d.personas<t.pp.min_people,id:'ptmPersonas',message:t.pp?'El '+t.n+' se pide desde '+t.pp.min_people+' personas.':''}
     ];
     UPSELLS.forEach(function(u){
-      if(u.c&&marcado(u)) checks.splice(2,0,{paso:2,bad:!opcionDe(u),id:'ptmCh_'+u.id+'_0',
+      if(u.c&&marcado(u)) checks.push({bad:!opcionDe(u),id:'ptmCh_'+u.id+'_0',
         message:'Elige si quieres '+u.c.options.join(' o ').toLowerCase()+' en '+u.n+'.'});
     });
-    var missing=checks.filter(function(c){ return c.bad&&(soloPaso==null||c.paso===soloPaso); })[0];
+    checks.push(
+      {bad:!d.nombre,id:'ptmCliente',message:'Escribe tu nombre para continuar.'},
+      {bad:d.whatsapp.replace(/\D/g,'').length<10||d.whatsapp.replace(/\D/g,'').length>15,id:'ptmWhatsapp',message:'Escribe tu WhatsApp (10 dígitos) para continuar.'},
+      {bad:!d.zona,id:'ptmZona',message:'Escribe tu colonia para confirmar la entrega.'},
+      {bad:!!errorFecha(t,d.fecha),id:'ptmFecha',message:errorFecha(t,d.fecha)}
+    );
+    var missing=checks.filter(function(c){ return c.bad; })[0];
     var error=document.getElementById('ptmError');
     if(missing){
-      if(missing.paso!==paso) irPaso(missing.paso);
+      if(silencioso) return null;
       error.textContent=missing.message;
       error.style.display='block';
-      document.getElementById(missing.id).focus();
+      var el=document.getElementById(missing.id);
+      // La fecha se elige en la tira de días: llevamos la vista ahí, no al input oculto del calendario.
+      var target=missing.id==='ptmFecha'?document.getElementById('ptmBloquePago'):el;
+      if(target&&target.scrollIntoView) target.scrollIntoView({block:'start',behavior:'smooth'});
+      if(missing.id!=='ptmFecha') el.focus({preventScroll:true});
       return null;
     }
     error.style.display='none';
     return d;
   }
-  var ETIQUETAS=['Detalle','Paso 1 de 3 · Fecha','Paso 2 de 3 · Complementos','Paso 3 de 3 · Entrega y pago'];
-  function irPaso(n){
-    var t=TABLAS[modalId]; if(!t) return;
-    paso=Math.max(0,Math.min(3,n));
-    document.querySelectorAll('#ptModalBg .pt-paso').forEach(function(s){ s.hidden=+s.dataset.paso!==paso; });
-    document.getElementById('ptmPaso').textContent=ETIQUETAS[paso];
-    var dots=document.getElementById('ptmDots');
-    dots.classList.toggle('detalle',paso===0);
-    Array.prototype.forEach.call(dots.children,function(s,i){ s.classList.toggle('on',i<paso); });
-    document.getElementById('ptmError').style.display='none';
-    document.querySelector('.pt-sheet-body').scrollTop=0;
-    ptmRecalc();
-    if(paso===1) track('select_item',{item_name:t.n, value:t.v, currency:'MXN'});
-    track('pt_paso',{paso:paso, tabla:modalId});
-  }
-  window.ptmPaso=function(delta){
-    if(pagando) return;
-    var t=TABLAS[modalId]; if(!t) return;
-    if(delta>0&&paso>0&&!leerDatos(t,paso)) return;
-    irPaso(paso+delta);
-  };
   function pintarDias(t){
     var cont=document.getElementById('ptmDias'), d=primeraFecha(t), html=[];
     for(var i=0;html.length<7&&i<30;i++){
@@ -243,6 +228,8 @@
     var b=e.target.closest&&e.target.closest('#ptmDias .pt-dia'); if(!b) return;
     document.getElementById('ptmFecha').value=b.dataset.fecha; ptmRecalc();
   });
+  // Abre la hoja de pedido. preset: {premium, paso} — paso 0 (tocar la tarjeta) deja «Qué incluye» abierto;
+  // «Elegir y pedir» lo deja plegado para que los complementos queden a la vista.
   window.verDetalles=function(id,preset){
     var t=TABLAS[id]; if(!t) return;
     if(t.quote){ track('select_quote',{tabla:id}); window.location.href=t.quote.url; return; }
@@ -252,13 +239,11 @@
     returnFocus=document.activeElement;
     var draft=drafts[id];
     var meta=[t.people,t.comp].filter(Boolean).join(' · ');
-    document.getElementById('ptmImg').src=t.img;
     document.getElementById('ptmMiniImg').src=t.img;
-    document.getElementById('ptmBadge').textContent=t.badge;
-    document.getElementById('ptmMeta').textContent=meta;
+    document.getElementById('ptmMiniImg').alt=t.n;
     document.getElementById('ptmMiniMeta').textContent=meta;
     document.getElementById('ptmNombre').textContent=t.n;
-    document.getElementById('ptmMiniNombre').textContent=t.n;
+    document.getElementById('ptmMiniNombre').textContent=t.badge||t.tag||'';
     document.getElementById('ptmPrecioNota').textContent=t.pp?'por persona · + envío '+fmt(MENSAJERIA):'+ envío '+fmt(MENSAJERIA);
     document.getElementById('ptmDesc').textContent=t.d;
     document.getElementById('ptmInc').innerHTML=t.inc.map(function(i){return '<li>'+esc(i)+'</li>';}).join('')+
@@ -266,6 +251,7 @@
     document.getElementById('ptmPronta').innerHTML='<div><strong>Entrega más pronta: '+esc(fechaLarga(isoLocal(primeraFecha(t))))+'</strong><br>'+
       (LOGISTICA.delivery_days_iso.length===7?'Entregamos todos los días':'Entregamos '+esc(LOGISTICA.delivery_days_labels.join(', ')))+
       ', con '+minDias(t)+' días de anticipación'+(t.ev?' (tabla de evento)':'')+'.</div>';
+    document.getElementById('ptmDetalle').open=!!(preset&&preset.paso===0);
     document.getElementById('ptmPrem').checked=!!(t.premAvail&&draft&&draft.premium);
     document.getElementById('ptmPremBox').style.display=t.premAvail?'':'none';
     // Mejora con texto propio (Tabla de Quesos: quesos raros); las demás usan el Premium genérico.
@@ -275,9 +261,10 @@
     premDesc.textContent=t.premText?t.premText.description:premDesc.dataset.base;
     // Sin complementos: paquete cerrado (Celebración) o producto que ya incluye todo (Tabla de Quesos).
     document.getElementById('ptmUpsBox').style.display=t.addons?'':'none';
+    document.getElementById('ptmBloqueUps').style.display=(t.premAvail||t.addons||t.bundle)?'':'none';
     document.getElementById('ptmToque').textContent=t.bundle
-      ?'Paquete cerrado: ya incluye '+t.bundle.card_items.join(', ').toLowerCase()+'. Si necesitas un ajuste, escríbelo abajo.'
-      :(t.premAvail||t.addons?'Tu tabla ya incluye '+(t.comp||'lo de la tarjeta')+'. Suma lo que quieras:':'Si necesitas un ajuste, escríbelo abajo.');
+      ?'Paquete cerrado: ya incluye '+t.bundle.card_items.join(', ').toLowerCase()+'. Si necesitas un ajuste, escríbelo más abajo.'
+      :(t.premAvail||t.addons?'Tu tabla ya incluye '+(t.comp||'lo de la tarjeta')+'. Marca lo que quieras sumar:':'');
     document.getElementById('ptmPersonasBox').style.display=t.pp?'block':'none';
     if(t.pp){
       var pin=document.getElementById('ptmPersonas');
@@ -322,10 +309,12 @@
     var dialog=document.getElementById('ptModalBg');
     if(!dialog.open) dialog.showModal();
     document.body.classList.add('pt-order-open');
-    irPaso(preset&&preset.paso?preset.paso:0);
+    document.querySelector('.pt-sheet-body').scrollTop=0;
+    ptmRecalc();
     document.getElementById('ptmClose').focus();
     track('view_product',{item_name:t.n, value:t.v, currency:'MXN'});
     track('view_item',{item_name:t.n, value:t.v, currency:'MXN'});
+    if(!(preset&&preset.paso===0)) track('select_item',{item_name:t.n, value:t.v, currency:'MXN'});
     try{ if(window.fbq) fbq('track','ViewContent',{content_name:t.n, value:t.v, currency:'MXN'}); }catch(e){}
   };
   function rememberDraft(){
@@ -351,7 +340,6 @@
     document.getElementById('ptmPremBox').classList.toggle('on', prem.checked);
     if(prem.checked) total+=t.prem;
     var precioTabla=t.pp?fmt(t.v)+' por persona':fmt(t.v+(prem.checked?t.prem:0));
-    document.getElementById('ptmPrecio').textContent=t.pp?fmt(t.v):precioTabla;
     document.getElementById('ptmMiniPrecio').textContent=precioTabla;
     var lineas=[[t.n+(t.pp?' · '+personas()+' personas':'')+(prem.checked?' · '+(t.premText?t.premText.line:'Premium'):''), base(t)+(prem.checked?t.prem:0)]];
     UPSELLS.forEach(function(u){
@@ -366,18 +354,14 @@
     document.getElementById('ptmResumenTotal').textContent=fmt(total);
     var fecha=document.getElementById('ptmFecha').value;
     document.querySelectorAll('#ptmDias .pt-dia').forEach(function(b){ var on=b.dataset.fecha===fecha; b.classList.toggle('on',on); b.setAttribute('aria-pressed',on?'true':'false'); });
-    document.getElementById('ptmEntregaTxt').textContent=fecha&&!errorFecha(t,fecha)?'Entrega el '+fechaLarga(fecha)+'.':'';
+    var fechaOk=!!fecha&&!errorFecha(t,fecha);
+    document.getElementById('ptmEntregaTxt').textContent=fechaOk?'Entrega el '+fechaLarga(fecha)+'.':'Elige arriba el día de entrega.';
     // Pago en línea: botón principal si el servidor lo tiene encendido y el precio está confirmado.
     var cobro=cobroDe(total);
     var premPend=prem.checked&&!t.premOk;
     var online=PAGO_ONLINE&&!premPend;
-    var pagar=document.getElementById('ptmPagar'), waBtn=document.getElementById('ptmWaBtn'), sig=document.getElementById('ptmSig');
-    var final=paso===3;
-    document.getElementById('ptmTotalLine').style.display=paso===0?'none':'flex';
-    document.getElementById('ptmAtras').style.display=paso===0?'none':'';
-    sig.style.display=final?'none':'';
-    sig.textContent=paso===0?'Elegir y pedir':'Continuar';
-    pagar.style.display=final&&online?'inline-flex':'none';
+    var pagar=document.getElementById('ptmPagar'), waBtn=document.getElementById('ptmWaBtn');
+    pagar.style.display=online?'inline-flex':'none';
     if(!pagando) pagar.textContent='Pagar '+fmt(cobro.monto)+' →';
     var PAGO=LOGISTICA.payment, pct=PAGO.deposit.pct, anticipo=Math.round(total*pct/100);
     document.getElementById('ptmModo').style.display=online?'flex':'none';
@@ -387,21 +371,20 @@
     document.getElementById('ptmModoCompletoTxt').textContent='Tarjeta, OXXO o transferencia. Con tarjeta de crédito, hasta '+PAGO.full.installments_max+' meses (con intereses).';
     document.getElementById('ptmModoAnticipoMonto').textContent=fmt(anticipo);
     document.getElementById('ptmModoAnticipoTxt').textContent='Pagas el '+pct+' % hoy y el resto, '+fmt(total-anticipo)+', '+restoTexto()+'.';
-    // WhatsApp: en el último paso es el pedido completo (principal si no hay pago en línea); antes, solo dudas.
-    waBtn.style.display=final||paso===0?'':'none';
-    waBtn.className=final&&!online?'pt-btn':'';
+    // WhatsApp: principal si no hay pago en línea; si lo hay, queda como alternativa (pedido completo o dudas).
+    waBtn.className=online?'':'pt-btn';
     var fila=document.querySelector('#ptModalBg .pt-botones');
-    if(final&&!online){ if(waBtn.parentNode!==fila) fila.appendChild(waBtn); }
+    if(!online){ if(waBtn.parentNode!==fila) fila.appendChild(waBtn); }
     else if(waBtn.parentNode===fila) fila.parentNode.insertBefore(waBtn,fila.nextSibling);
-    document.getElementById('ptmWaTxt').textContent=final&&!online?'Pedirla por WhatsApp':'¿Dudas? Escríbenos por WhatsApp';
+    document.getElementById('ptmWaTxt').textContent=online?'¿Dudas o prefieres WhatsApp? Escríbenos':'Pedirla por WhatsApp';
     document.getElementById('ptmIntro').textContent=online
-      ?'Déjanos tus datos y paga en línea con Mercado Pago: tarjeta, OXXO o transferencia. Te escribimos por WhatsApp para confirmar tu entrega.'
+      ?'Pagas en línea con Mercado Pago: tarjeta, OXXO o transferencia. Te escribimos por WhatsApp para confirmar tu entrega.'
       :(PAGO_ONLINE&&premPend
         ?'La versión Premium de esta tabla se confirma por WhatsApp: te abrimos el chat con tu pedido listo.'
-        :'Déjanos tus datos y abriremos WhatsApp con la tabla y el total listos para confirmar.');
-    document.getElementById('ptmNota').textContent=!final?'':(online
+        :'Al pedir abrimos WhatsApp con la tabla y el total listos para confirmar.');
+    document.getElementById('ptmNota').textContent=online
       ?'Pagas en Mercado Pago. Si no tenemos tu fecha, te devolvemos lo que hayas pagado.'
-      :'Pago completo o anticipo del '+pct+' % al confirmar tu pedido.');
+      :'Pago completo o anticipo del '+pct+' % al confirmar tu pedido.';
   };
   window.pagarDetalles=function(){
     var t=TABLAS[modalId]; if(!t||pagando||!PAGO_ONLINE||(document.getElementById('ptmPrem').checked&&!t.premOk)) return;
@@ -439,15 +422,19 @@
   };
   window.pedirDetalles=function(){
     var t=TABLAS[modalId]; if(!t||pagando) return;
-    // Antes del último paso el botón es solo para dudas: abre el chat sin mandar un pedido.
-    if(paso!==3){
+    var prem=document.getElementById('ptmPrem').checked;
+    var online=PAGO_ONLINE&&!(prem&&!t.premOk);
+    // Con pago en línea, WhatsApp es la alternativa: si el pedido ya está completo lo mandamos armado;
+    // si no, abrimos el chat para dudas sin pedirle nada al cliente.
+    var d=online?leerDatos(t,true):leerDatos(t);
+    if(!d){
+      if(!online) return;
       open('¡Hola! Tengo una duda sobre '+(t.pp?'el ':'la ')+t.n+'.');
       track('whatsapp_click',{origen:'detalles_duda', tabla:modalId});
       try{ if(window.fbq) fbq('track','Contact',{content_name:t.n}); }catch(e){}
       return;
     }
-    var d=leerDatos(t); if(!d) return;
-    var prem=d.prem, nombre=d.nombre, whatsapp=d.whatsapp, zona=d.zona, fecha=fechaLarga(d.fecha), notas=d.notas;
+    var nombre=d.nombre, whatsapp=d.whatsapp, zona=d.zona, fecha=fechaLarga(d.fecha), notas=d.notas;
     var total=base(t)+(prem?t.prem:0);
     var premLinea=t.premText?t.premText.line:'Premium';
     var nombreTabla=t.n+(t.pp?' · '+d.personas+' personas':'')+(prem?' ('+premLinea+')':'');
@@ -482,6 +469,8 @@
   };
 
   document.getElementById('ptModalBg').addEventListener('cancel',function(e){e.preventDefault();cerrarDetalles();});
+  // En cuanto el cliente corrige algo, el aviso de «falta X» desaparece.
+  document.getElementById('ptModalBg').addEventListener('input',function(){ document.getElementById('ptmError').style.display='none'; });
   function productLink(el){
     if(el.dataset.ptBuy) return {key:el.dataset.ptBuy,paso:1};
     if(el.tagName!=='A') return null;
@@ -502,7 +491,7 @@
     if(event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey) return;
     var trigger=event.target.closest('[data-pt-buy],a[href]');
     if(!trigger){
-      // Tocar la tarjeta (fuera de sus botones) abre el detalle de esa tabla.
+      // Tocar la tarjeta (fuera de sus botones) abre el pedido con «Qué incluye» desplegado.
       var card=event.target.closest('.pt-product-card[data-pt-product]');
       if(card&&TABLAS[card.dataset.ptProduct]&&!TABLAS[card.dataset.ptProduct].quote){ verDetalles(card.dataset.ptProduct,{paso:0}); }
       return;

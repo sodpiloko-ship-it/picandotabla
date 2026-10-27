@@ -224,9 +224,9 @@ def page(title: str, description: str, path: str, body: str, schemas: list[dict]
   <script defer src="/seo.js"></script>
   <script defer src="/vinos/vinos.js?v=1"></script>
   {''.join(ld(s) for s in schemas)}
-<link rel="stylesheet" href="/tienda.css?v=20261021c">
+<link rel="stylesheet" href="/tienda.css?v=20261027">
 <script defer src="/catalogo.js?v={catalog_version}"></script>
-<script defer src="/tienda.js?v=20261021c"></script>
+<script defer src="/tienda.js?v=20261027"></script>
 </head>
 {MARKER}
 <body class="wine-site" data-wine-page="{kind}" data-wine-slug="{esc(slug)}">

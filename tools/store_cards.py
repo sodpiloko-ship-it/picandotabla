@@ -6,7 +6,7 @@ Contrato de la interfaz (los estilos viven en /tienda.css):
   .pt-card-price, .pt-card-delivery, .pt-card-description, .pt-card-includes
   («Incluye» con palomitas), .pt-card-lead (tienda.js escribe ahí la entrega
   más pronta) y .pt-card-buy[data-pt-buy]. Tocar la tarjeta abre el detalle; el
-  botón «Elegir y pedir» abre directo el pedido en tres pasos (tienda.js).
+  botón «Elegir y pedir» abre directo el pedido en una sola hoja (tienda.js).
   presentation.special pone el marco vino de los especiales y los manda
   primero en la portada (home_order). .pt-card-regular-price, .pt-card-gift y
   .pt-card-note son opcionales. .pt-card-grid usa data-pt-columns="3" en las
