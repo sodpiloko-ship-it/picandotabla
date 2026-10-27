@@ -1,7 +1,8 @@
 /* Componente único de compra: todas las páginas comparten este panel y el catálogo.
    Intake de UNA sola hoja (2026-10-27, pedido de Jessica): la tarjeta abre el pedido completo
-   en una sola página desplazable — tu tabla · complementos (Premium y extras, a la vista) ·
-   entrega · fecha y pago (la fecha se elige al final, justo antes de pagar).
+   en una sola página desplazable — tu tabla · complementos PRIMERO (Premium y extras, a la vista
+   nada más abrir) · qué incluye (plegable) · entrega · fecha y pago (la fecha se elige al final,
+   justo antes de pagar).
    Lo que se manda a pago/pedido.php no cambia. */
 (function(){
   'use strict';
@@ -20,14 +21,9 @@
   // 1. Tu tabla
   '   <section class="pt-bloque">',
   '    <div class="pt-mini"><img id="ptmMiniImg" alt=""><div><b id="ptmMiniNombre"></b><span id="ptmMiniMeta"></span></div><div class="pt-mini-precio"><strong id="ptmMiniPrecio"></strong><small id="ptmPrecioNota"></small></div></div>',
-  '    <details class="pt-detalle" id="ptmDetalle"><summary>Qué incluye</summary>',
-  '     <p id="ptmDesc"></p>',
-  '     <div class="pt-incluye"><ul id="ptmInc"></ul></div>',
-  '     <div class="pt-pronta" id="ptmPronta"></div>',
-  '    </details>',
   '    <div id="ptmPersonasBox" style="display:none"><label class="q-lbl" for="ptmPersonas">¿Para cuántas personas?</label><input id="ptmPersonas" class="q-in" type="number" inputmode="numeric" step="1" oninput="ptmRecalc()" onchange="ptmRecalc()"><div id="ptmPersonasNota" class="pt-ayuda" style="margin-top:6px"></div></div>',
   '   </section>',
-  // 2. Complementos (a la vista, sin pasos)
+  // 2. Complementos: lo PRIMERO que se ve al abrir, justo debajo de la tabla (David, 2026-10-27).
   '   <section class="pt-bloque" id="ptmBloqueUps">',
   '    <div class="pt-q">Súmale algo</div>',
   '    <div class="pt-ayuda" id="ptmToque"></div>',
@@ -36,6 +32,14 @@
   '      <div class="pt-up-d" id="ptmPremDesc">La misma cantidad con una selección de mayor categoría (por ejemplo, quesos importados o charcutería de reserva, según disponibilidad). No es una tabla más grande.</div></div>',
   '     <span class="pt-up-p" id="ptmPremPrecio"></span></label>',
   '    <div id="ptmUpsBox"><div id="ptmUps" style="display:flex;flex-direction:column;gap:10px"></div></div>',
+  '   </section>',
+  // Qué incluye: plegable, después de los complementos (abierto solo al tocar la tarjeta).
+  '   <section class="pt-bloque">',
+  '    <details class="pt-detalle" id="ptmDetalle"><summary>Qué incluye tu tabla</summary>',
+  '     <p id="ptmDesc"></p>',
+  '     <div class="pt-incluye"><ul id="ptmInc"></ul></div>',
+  '     <div class="pt-pronta" id="ptmPronta"></div>',
+  '    </details>',
   '   </section>',
   // 3. Entrega
   '   <section class="pt-bloque">',

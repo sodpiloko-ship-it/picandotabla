@@ -54,6 +54,7 @@ CATALOG_SCRIPT_EXCLUDED_DIRS = {
 CATALOG_SCRIPT_PATTERN = re.compile(
     r'(<script\b[^>]*\bsrc="(?:/|\.\./)?catalogo\.js)(?:\?v=[a-f0-9]+)?("[^>]*>\s*</script>)'
 )
+QUOTE_FROM_PRICE = re.compile(r"(<[^>]*\bdata-rd-desde-pp\b[^>]*>)[^<]*(</)")
 PRICE_LITERAL = re.compile(
     r"(?:\$\s*([0-9][0-9.,]*)|\b([0-9][0-9.,]*)\s*(?:MXN|pesos?)\b)",
     re.IGNORECASE,
@@ -654,6 +655,9 @@ def validate_no_unmanaged_catalog_prices(
         if path in blocks_by_path:
             for name in blocks_by_path[path]:
                 text = replace_generated_block(text, name, "", path)
+        # «desde $X por persona» del cotizador de eventos: el script de la página lo rellena desde
+        # event_quote.tiers del catálogo; el literal es solo el fallback sin JS.
+        text = QUOTE_FROM_PRICE.sub(r"\1\2", text)
         for match in PRICE_LITERAL.finditer(text):
             raw = match.group(1) or match.group(2)
             value = int(re.sub(r"[^0-9]", "", raw))
