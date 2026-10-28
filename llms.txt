@@ -7,7 +7,7 @@ La disponibilidad siempre se confirma antes del pago. Los precios están expresa
 ## Información principal
 
 - [Información completa para asistentes](https://picandotabla.com/llms-full.txt): Productos, precios, promociones, cobertura, proceso de pedido y políticas operativas.
-- [Inicio y pedidos](https://picandotabla.com/): Landing oficial para elegir una tabla y comenzar el pedido por WhatsApp.
+- [Inicio y pedidos](https://picandotabla.com/): Landing oficial para elegir una tabla, armar el pedido y pagar en línea con Mercado Pago o continuarlo por WhatsApp.
 - [Catálogo de tablas](https://picandotabla.com/tablas/): Comparación de tamaños, precios y opciones.
 - [Reuniones en casa](https://picandotabla.com/reuniones/): Opciones para recibir invitados en CDMX.
 - [Regalos gourmet](https://picandotabla.com/regalos/): Tablas para regalar.
@@ -16,10 +16,11 @@ La disponibilidad siempre se confirma antes del pago. Los precios están expresa
 
 ## Productos
 
-- [Para Dos](https://picandotabla.com/tablas/para-dos/): para dos; $650.
+- [Para Dos](https://picandotabla.com/tablas/para-dos/): para dos; $650 la tabla base, más mensajería. Paquete Para Dos: $1,550 con envío incluido (versión premium, mermelada o dip con pan y fresas con chocolate Turín).
 - [Tabla de la Anfitriona](https://picandotabla.com/tablas/anfitriona/): para aprox. 5 personas; $950 estándar o $1,300 premium (mismo gramaje, selección de mayor categoría).
-- [Tabla de Fiesta](https://picandotabla.com/tablas/fiesta/): para aprox. 9 personas; $1,600.
+- [Tabla de Fiesta](https://picandotabla.com/tablas/fiesta/): para aprox. 9 personas (de 8 a 10); $1,600.
 - [Tabla de Celebración](https://picandotabla.com/tablas/celebracion/): para aprox. 15 personas, paquete con pan, dip y mermelada de la casa para que rinda más; $3,200 (no se modifica).
+- [Tabla de Quesos](https://picandotabla.com/): solo quesos (4 clásicos y 3 raros, con fruta, semillas y crocante; incluye la tabla para servir); $1,900, o $2,800 en premium (3 clásicos y 7 raros). Se pide desde el catálogo de la página de inicio.
 
 ## Contenido editorial
 
@@ -33,6 +34,7 @@ La disponibilidad siempre se confirma antes del pago. Los precios están expresa
 - [Tabla de quesos para cumpleaños](https://picandotabla.com/blog/tabla-quesos-cumpleanos-cdmx.html): Formatos y consejos para celebrar en CDMX.
 - [Tabla de quesos y vino](https://picandotabla.com/blog/maridaje-queso-vino-principiantes.html): Guía para equilibrar sabores e intensidades.
 - [Charcutería para eventos](https://picandotabla.com/blog/tablas-charcuteria-eventos-cdmx.html): Opciones clásicas, premium y de temporada para eventos en CDMX.
+- [Alternativa a Tablas Pintas en CDMX](https://picandotabla.com/blog/alternativa-tablas-pintas-cdmx.html): Formatos, precios, entrega y catering de Picando Tabla para quien busca otra opción; Picando Tabla es una marca independiente.
 
 ## Presentaciones individuales para eventos
 

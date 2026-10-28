@@ -3,6 +3,11 @@
 # El HTML se revalida siempre; los assets con hash de contenido pueden cachearse largo.
 <IfModule mod_rewrite.c>
   RewriteEngine On
+  # www -> host canónico (SEO TEC-08, 2026-10-28). Solo GET/HEAD: un POST (webhook de pago,
+  # formularios) no se redirige para no perder el cuerpo ni cambiar el método.
+  RewriteCond %{HTTP_HOST} ^www\.picandotabla\.com$ [NC]
+  RewriteCond %{REQUEST_METHOD} ^(GET|HEAD)$
+  RewriteRule ^(.*)$ https://picandotabla.com/$1 [R=301,L]
   # El catálogo editorial fuente puede incluir borradores; solo se sirven sus HTML.
   RewriteRule ^data/vinos\.json$ - [F,L,NC]
   # /orden deja de ser una ruta pública: conserva ?tabla= y vuelve al landing.
