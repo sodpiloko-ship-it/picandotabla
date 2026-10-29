@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4BMCS7P6DQ"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-4BMCS7P6DQ");</script>
+  <title>Pagar con tarjeta | Picando Tabla</title>
+  <meta name="description" content="Paga tu presupuesto de Picando Tabla en línea con Mercado Pago: tarjeta, OXXO o transferencia.">
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="canonical" href="https://picandotabla.com/pagar/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <meta name="theme-color" content="#26282a">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@600;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}body{background:#e9eaea;color:#26282a;font-family:"Work Sans",system-ui,sans-serif;line-height:1.6}a{color:#7c2d3e}
+    .hdr{border-bottom:1px solid #d3d5d4;background:#e9eaeaf2}.hdr .w{max-width:640px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .logo{font-family:"Lora",serif;font-weight:700;font-size:21px;color:#26282a;text-decoration:none;line-height:1.1}.logo small{display:block;font-family:"Work Sans",sans-serif;font-size:10px;letter-spacing:2.5px;color:#75797a;text-transform:uppercase;font-weight:600}
+    main{max-width:640px;margin:0 auto;padding:28px 20px 56px}h1{font-family:"Lora",serif;font-size:clamp(28px,6vw,38px);line-height:1.15;margin-bottom:8px}.lead{color:#55585a;margin-bottom:22px}
+    .card{background:#fbfcfc;border:1px solid #d3d5d4;border-radius:18px;padding:22px}
+    label{display:block;font-weight:600;font-size:14px;margin:16px 0 6px}label:first-child{margin-top:0}label small{font-weight:400;color:#75797a}
+    input,textarea{width:100%;font:inherit;font-size:16px;padding:12px 14px;border:1.5px solid #c9cbca;border-radius:12px;background:#fff;color:#26282a}textarea{min-height:76px;resize:vertical}
+    input:focus,textarea:focus{outline:3px solid #7c2d3e33;border-color:#7c2d3e}
+    .money{position:relative}.money span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#55585a;font-weight:600}.money input{padding-left:28px;font-size:22px;font-weight:700}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}@media(max-width:520px){.row{grid-template-columns:1fr}}
+    .honey{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+    .btn{display:block;width:100%;margin-top:22px;border:0;border-radius:999px;background:#26282a;color:#fff;font:inherit;font-weight:700;font-size:17px;padding:15px 20px;cursor:pointer;text-align:center;text-decoration:none}
+    .btn:hover{background:#3a3c3e}.btn:disabled{opacity:.6;cursor:wait}.btn:focus-visible{outline:3px solid #7c2d3e;outline-offset:3px}
+    .btn.alt{background:transparent;color:#7c2d3e;border:1.5px solid #7c2d3e;margin-top:12px}
+    .err{color:#9b1c1c;font-weight:600;margin-top:14px;min-height:1px}
+    .fine{font-size:13px;color:#75797a;margin-top:14px}
+    .ok h2{font-family:"Lora",serif;font-size:24px;margin-bottom:6px}.amount{font-size:34px;font-weight:700;font-family:"Lora",serif;margin:6px 0}
+    .link{display:flex;gap:8px;margin-top:14px}.link input{font-size:13px;color:#55585a}
+    .link button{flex:none;border:1.5px solid #26282a;background:#fff;border-radius:12px;padding:0 14px;font:inherit;font-weight:600;cursor:pointer}
+    footer{text-align:center;color:#75797a;font-size:13px;padding:0 20px 30px}
+  </style>
+</head>
+<body>
+  <header class="hdr"><div class="w"><a class="logo" href="/">Picando Tabla<small>Quesos · Charcutería · CDMX</small></a><a href="https://wa.me/525623632404" target="_blank" rel="noopener">WhatsApp</a></div></header>
+  <main>
+    <h1>Paga tu presupuesto</h1>
+    <p class="lead">Escribe los datos de tu pedido y la cantidad que acordamos por WhatsApp. Te generamos tu liga de Mercado Pago para pagar con tarjeta de crédito o débito, OXXO o transferencia.</p>
+
+    <form class="card" id="form" novalidate>
+      <label for="monto">Cantidad a pagar (MXN)</label>
+      <div class="money"><span>$</span><input id="monto" name="monto" type="number" inputmode="decimal" min="50" max="50000" step="0.01" required placeholder="0"></div>
+      <label for="concepto">Concepto <small>(lo que acordamos)</small></label>
+      <input id="concepto" name="concepto" maxlength="120" required placeholder="Ej. Catering para 25 personas, anticipo">
+      <div class="row">
+        <div><label for="nombre">Tu nombre</label><input id="nombre" name="nombre" maxlength="120" autocomplete="name" required></div>
+        <div><label for="whatsapp">Tu WhatsApp</label><input id="whatsapp" name="whatsapp" type="tel" inputmode="tel" maxlength="20" autocomplete="tel" required placeholder="10 dígitos"></div>
+      </div>
+      <div class="row">
+        <div><label for="fecha">Fecha de entrega o del evento</label><input id="fecha" name="fecha" type="date" required></div>
+        <div><label for="zona">Colonia <small>(opcional)</small></label><input id="zona" name="zona" maxlength="160" autocomplete="address-level3"></div>
+      </div>
+      <label for="notas">Notas <small>(opcional)</small></label>
+      <textarea id="notas" name="notas" maxlength="600"></textarea>
+      <div class="honey" aria-hidden="true"><label>Sitio<input name="sitio" tabindex="-1" autocomplete="off"></label></div>
+      <p class="err" id="err" role="alert"></p>
+      <button class="btn" id="enviar" type="submit">Generar mi liga de pago</button>
+      <p class="fine">Con tarjeta de crédito puedes elegir meses (los intereses los define Mercado Pago). Tu pago queda ligado a un folio y te confirmamos por WhatsApp.</p>
+    </form>
+
+    <section class="card ok" id="listo" hidden aria-live="polite">
+      <h2>Tu liga está lista</h2>
+      <p>Folio <strong id="folio"></strong></p>
+      <p class="amount" id="cobro"></p>
+      <a class="btn" id="pagar" href="#" rel="noopener">Pagar con Mercado Pago</a>
+      <div class="link"><input id="liga" readonly aria-label="Liga de pago"><button type="button" id="copiar">Copiar</button></div>
+      <p class="fine" id="vence"></p>
+      <button class="btn alt" type="button" id="otra">Generar otra liga</button>
+    </section>
+  </main>
+  <footer>Picando Tabla · CDMX · <a href="mailto:contacto@picandotabla.com">contacto@picandotabla.com</a></footer>
+  <script>
+  (function(){
+    var f=document.getElementById("form"),err=document.getElementById("err"),btn=document.getElementById("enviar");
+    var q=new URLSearchParams(location.search);
+    // Liga prellenada desde WhatsApp: /pagar/?monto=1800&concepto=Catering%2025%20personas&fecha=2026-12-14
+    ["monto","concepto","fecha","nombre"].forEach(function(k){var v=q.get(k);if(v)f.elements[k].value=v.slice(0,120)});
+    var hoy=new Date();hoy.setMinutes(hoy.getMinutes()-hoy.getTimezoneOffset());f.elements.fecha.min=hoy.toISOString().slice(0,10);
+    var mxn=new Intl.NumberFormat("es-MX",{style:"currency",currency:"MXN"});
+    function track(n,p){try{gtag("event",n,p||{})}catch(e){}}
+    f.addEventListener("submit",function(e){
+      e.preventDefault();err.textContent="";
+      var d={};["monto","concepto","nombre","whatsapp","fecha","zona","notas","sitio"].forEach(function(k){d[k]=(f.elements[k].value||"").trim()});
+      d.monto=parseFloat(String(d.monto).replace(/[$,\s]/g,""));
+      if(!d.monto||d.monto<50||d.monto>50000){err.textContent="La cantidad debe ser de $50 a $50,000.";f.elements.monto.focus();return}
+      if(!d.concepto){err.textContent="Escribe el concepto del pago.";f.elements.concepto.focus();return}
+      if(!d.nombre){err.textContent="Escribe tu nombre.";f.elements.nombre.focus();return}
+      if(d.whatsapp.replace(/\D/g,"").length<10){err.textContent="Revisa tu WhatsApp (10 dígitos).";f.elements.whatsapp.focus();return}
+      if(!d.fecha){err.textContent="Elige la fecha de entrega o del evento.";f.elements.fecha.focus();return}
+      btn.disabled=true;btn.textContent="Generando tu liga…";
+      fetch("/pago/libre.php",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(d)})
+        .then(function(r){return r.json().catch(function(){return{ok:false}})})
+        .then(function(r){
+          if(!r.ok||!r.url){err.textContent=r.error||"No pudimos generar la liga. Escríbenos por WhatsApp.";return}
+          document.getElementById("folio").textContent=r.folio;
+          document.getElementById("cobro").textContent=mxn.format(r.cobro);
+          document.getElementById("pagar").href=r.url;
+          document.getElementById("liga").value=r.url;
+          if(r.vence){var v=new Date(r.vence);document.getElementById("vence").textContent="La liga vence el "+v.toLocaleDateString("es-MX",{weekday:"long",day:"numeric",month:"long"})+", "+v.toLocaleTimeString("es-MX",{hour:"numeric",minute:"2-digit",hour12:false})+" h."}
+          f.hidden=true;document.getElementById("listo").hidden=false;
+          track("begin_checkout",{currency:"MXN",value:r.cobro,items:[{item_id:"pago-libre",item_name:d.concepto,price:r.cobro}]});
+        })
+        .catch(function(){err.textContent="No pudimos conectar. Revisa tu conexión o escríbenos por WhatsApp."})
+        .then(function(){btn.disabled=false;btn.textContent="Generar mi liga de pago"});
+    });
+    document.getElementById("copiar").addEventListener("click",function(){
+      var i=document.getElementById("liga"),b=this;i.select();
+      (navigator.clipboard?navigator.clipboard.writeText(i.value):Promise.reject()).catch(function(){document.execCommand("copy")}).then(function(){b.textContent="Copiada";setTimeout(function(){b.textContent="Copiar"},1800)});
+    });
+    document.getElementById("otra").addEventListener("click",function(){document.getElementById("listo").hidden=true;f.hidden=false});
+  })();
+  </script>
+</body>
+</html>
